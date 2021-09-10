@@ -1,8 +1,7 @@
 import React from "react";
-XMLDocument
 
-function Posts() {
-  return <div>List posts</div>;
+function ListPosts() {
+  return <div>List ListPosts</div>;
 }
 
-export default Posts;
+export default ListPosts;

@@ -1,7 +1,7 @@
 import React from "react";
 
-function Posts() {
-  return <div>Detail posts</div>;
+function DetailPost() {
+  return <div>Detail DetailPost</div>;
 }
 
-export default Posts;
+export default DetailPost;
