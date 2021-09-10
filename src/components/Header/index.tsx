@@ -114,7 +114,6 @@ export default function Header() {
           <Button
             className="header__button"
             type="primary"
-            size="large"
           >
             Search
           </Button>

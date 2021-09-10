@@ -20,12 +20,12 @@
   }
 
   &__button {
-    display: flex;
     height: 3.5rem !important;
-    width: 13rem;
+    width: 10rem;
     font-size: 30px;
     font-weight: 600 !important;
     border-radius: 5px !important;
+    
   }
 
   &__select {
@@ -56,4 +56,7 @@ option {
   background-color: white;
   color: #484848 !important;
   cursor: pointer;
+}
+.header__button.ant-btn{
+  font-size: 18px;
 }
