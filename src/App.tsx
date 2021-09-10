@@ -3,15 +3,16 @@ import "./App.css";
 import { Route, Switch } from "react-router-dom";
 import NotFound from "components/NotFound";
 import DashboardUser from "features/DashboardUser";
-import Posts from "features/posts";
+import Posts from "features/Posts";
+import LandingPage from "features/LandingPage";
 function App() {
   return (
     <div className="App">
       <Header />
       <Switch>
+        <Route path="/" component={LandingPage} />
         <Route path="/posts" component={Posts} />
-        <Route path="/dashboard/user" component={DashboardUser}  />
-
+        <Route path="/dashboard/user" component={DashboardUser} />
         <Route component={NotFound} />
       </Switch>
     </div>

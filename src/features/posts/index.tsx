@@ -1,7 +1,7 @@
 import React from "react";
 import { Route, Switch, useRouteMatch } from "react-router-dom";
 import DetailPage from "./pages/DetailPost";
-import ListSearch from "./pages/ListSearch";
+import ListSearch from "./pages/ListSearch"
 
 function Posts() {
   const match = useRouteMatch();

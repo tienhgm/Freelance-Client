@@ -81,7 +81,7 @@ export default function Header() {
       </div>
       {/* end header menu */}
       {/* menu search */}
-      <div className="flex px-10 pt-4 pb-4 shadow-lg">
+      <div className="flex px-10 pt-2 pb-2 shadow-lg">
         <div className="flex items-center">
           <img
             src={Logo}
