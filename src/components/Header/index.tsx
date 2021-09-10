@@ -6,8 +6,7 @@ import {
   DownOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import Logo from "../../assets/images/logo.png";
-import Search from "../../assets/images/search.svg";
+import Logo from "assets/images/logo.png";
 
 const login = (
   <Menu>
@@ -64,7 +63,7 @@ export default function Header() {
                 trigger={["click"]}
                 placement="bottomCenter"
               >
-                <p className="cursor-pointer hover:text-blue-400 relative">
+                <p className="relative cursor-pointer hover:text-blue-400">
                   <GlobalOutlined className="absolute left-0 top-0.5 " />
                   <span className="px-5">English</span>
                   <DownOutlined className="absolute right-0 top-0.5" />
@@ -72,7 +71,7 @@ export default function Header() {
               </Dropdown>
             </div>
             <div className="px-4">
-              <p className="font-bold text-blue-400 hover:text-blue-500 cursor-pointer relative">
+              <p className="relative font-bold text-blue-400 cursor-pointer hover:text-blue-500">
                 <PushpinOutlined className="absolute left-0 top-0.5" />
                 <span className="pl-5">Post a Listing</span>
               </p>
@@ -82,31 +81,42 @@ export default function Header() {
       </div>
       {/* end header menu */}
       {/* menu search */}
-      <div className="flex h-20 leading-20 shadow-lg">
-        <div className="my-auto flex mx-9">
-          <img src={Logo} alt="logo" className="w-14 h-14" />
-          <div className="my-auto text-3xl font-bold mx-2 text-blue-400">
+      <div className="flex px-10 pt-4 pb-4 shadow-lg">
+        <div className="flex items-center">
+          <img
+            src={Logo}
+            style={{ width: 60, height: 60 }}
+            alt="logo"
+            className=""
+          />
+          <div className="items-center mx-2 text-xl font-bold text-blue-400">
             FREELANCE
           </div>
         </div>
-        <div className="header__select"> 
-          <select className="focus:ring-1 cursor-pointer">
-            <option selected>Everythings</option>
-            <option value="1">Jobs</option>
-            <option value="2">Internships</option>
-            <option value="3">Blog</option>
-          </select>
+        <div className="ml-4">
+          <div className="header__select">
+            <select className="cursor-pointer focus:ring-1">
+              <option selected>Everythings</option>
+              <option value="1">Jobs</option>
+              <option value="2">Internships</option>
+              <option value="3">Blog</option>
+            </select>
+          </div>
         </div>
         <div>
           <Input
-            className="header__search"
+            className="w-16 header__search"
             placeholder="Search by keyword, or interest"
+            size="middle"
           />
         </div>
-        <div>
-          <Button className="header__button flex relative" type="primary">
-              <img src={Search} alt="" width={18} className="header__icon absolute top-5 left-14" /> 
-              <div className="text-xl ml-4">Search</div>
+        <div className="self-center">
+          <Button
+            className="header__button"
+            type="primary"
+            size="large"
+          >
+            Search
           </Button>
         </div>
       </div>
