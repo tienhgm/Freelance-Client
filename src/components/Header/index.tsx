@@ -103,14 +103,14 @@ export default function Header() {
             </select>
           </div>
         </div>
-        <div>
+        <div className="flex-grow">
           <Input
             className="w-16 header__search"
             placeholder="Search by keyword, or interest"
             size="middle"
           />
         </div>
-        <div className="self-center">
+        <div className="self-center ml-6">
           <Button
             className="header__button"
             type="primary"
