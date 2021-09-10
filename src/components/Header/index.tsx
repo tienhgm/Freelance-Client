@@ -4,6 +4,7 @@ import {
   GlobalOutlined,
   PushpinOutlined,
   DownOutlined,
+  SearchOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
 import Logo from "assets/images/logo.png";
@@ -116,7 +117,10 @@ export default function Header() {
         </div>
         <div className="self-center ml-6">
           <Button className="header__button" type="primary">
-            Search
+            <div className="flex items-center justify-center">
+              <SearchOutlined />
+              <div className="ml-2"> Search</div>
+            </div>
           </Button>
         </div>
       </div>
