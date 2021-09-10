@@ -1,3 +1,62 @@
-.tien{
-    color: blue
+.header{
+    &__wrapper {
+        width: 100% !important;
+        color: #717375;
+    }
+
+    &__link {
+        color: #484848;
+    }
+
+    &__search {
+        border: none !important;
+        background-color: #F8F6F6!important;
+        border-radius: 5px !important;
+        margin: 0.75rem!important;
+        width: 51rem!important;
+        height: 3.5rem;
+        font-weight: 400 !important;
+        font-size: 1.2rem !important;
+        z-index: 10;
+    }
+
+    &__button{
+        height: 3.5rem!important;
+        width: 13rem;
+        margin: 0.75rem!important;
+        font-weight: 600 !important;
+        border-radius: 5px !important;
+    }
+
+    &__select{
+        margin: 10px !important;
+        font-size: 1.25rem!important;
+        font-weight: 600;
+        cursor: pointer !important;
+    }
+    &__icon{
+        filter: invert(95%) sepia(5%) saturate(0%) hue-rotate(342deg) brightness(104%) contrast(106%);
+        font-weight: 600;
+    }
 }
+
+select {
+    // -webkit-appearance: none;
+    // -moz-appearance: none;
+    // -ms-appearance: none;
+    // appearance: none;
+    outline: 0;
+    border: 0 !important;
+    background: #F8F6F6;
+    width: 20rem;
+    height: 3.5rem;
+    padding-left: 1.1rem;
+    color: #0C70C4 !important;
+    z-index: 10;
+    border-radius: 5px;
+  }
+  option{
+    background-color: white;
+    color: #484848 !important;
+    cursor: pointer;
+  }
