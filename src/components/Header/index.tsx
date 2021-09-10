@@ -63,10 +63,14 @@ export default function Header() {
                 trigger={["click"]}
                 placement="bottomCenter"
               >
-                <p className="relative cursor-pointer hover:text-blue-400">
-                  <GlobalOutlined className="absolute left-0 top-0.5 " />
-                  <span className="px-5">English</span>
-                  <DownOutlined className="absolute right-0 top-0.5" />
+                <p className="cursor-pointer hover:text-blue-400">
+                  <div className="flex items-center">
+                    <GlobalOutlined />
+                    <div className="px-2"> English</div>
+                    <DownOutlined />
+                  </div>
+
+                  {/* <span className="px-5">English</span> */}
                 </p>
               </Dropdown>
             </div>
@@ -111,10 +115,7 @@ export default function Header() {
           />
         </div>
         <div className="self-center ml-6">
-          <Button
-            className="header__button"
-            type="primary"
-          >
+          <Button className="header__button" type="primary">
             Search
           </Button>
         </div>
