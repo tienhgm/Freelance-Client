@@ -62,16 +62,6 @@ export default function Header() {
               About Us
             </NavLink>
           </li>
-          {/* <li className="menu-item">
-            <Link to="/" className="menu__link">
-              LOG IN
-            </Link>
-          </li>
-          <li className="menu-item">
-            <Link to="/" className="menu__link">
-              SIGN UP
-            </Link>
-          </li> */}
         </ul>
       </div>
       <div className="flex items-center">
