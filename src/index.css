@@ -10,4 +10,5 @@
 body {
   font-family: "Roboto";
   font-size: 13px;
+  overflow-x: hidden;
 }
