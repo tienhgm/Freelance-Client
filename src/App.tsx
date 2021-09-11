@@ -21,8 +21,8 @@ function App() {
       <Switch>
         <Route path="/" component={LandingPage} exact />
         <Route path="/login" component={Login} exact />
-        <Route path="/posts" component={Posts} />
-        <Route path="/dashboard/user" component={DashboardUser} />
+        <Route path="/posts" component={Posts} exact/>
+        <Route path="/dashboard" component={DashboardUser} exact/>
         <Route component={NotFound} />
       </Switch>
     </div>

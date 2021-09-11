@@ -4,7 +4,7 @@ import DetailPost from "./pages/DetailPost";
 import ListPosts from "./pages/ListPosts";
 function Posts() {
   const match = useRouteMatch();
-  console.log(match);
+ 
   return (
     <Switch>
       <Route path={match.url} component={ListPosts} exact></Route>
