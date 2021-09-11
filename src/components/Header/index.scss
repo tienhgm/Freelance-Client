@@ -3,10 +3,10 @@ $blue-template: #3daafc;
   background: transparent;
   display: flex;
   justify-content: space-between;
-  position: sticky;
+  // position: sticky;
   top: 0;
   z-index: 69;
-  max-width: 100%;
+  width: 100%;
   height: 4rem;
   &__title {
     margin: auto 0;
@@ -63,15 +63,6 @@ $blue-template: #3daafc;
     }
   }
 }
-.show-header {
-  background-color: #fff;
-  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
-    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
-  transition: 0.1s;
-}
-.menu__link.active {
-  color: $blue-template;
-}
 .btn-login {
   color: black;
   font-size: 16px;
@@ -88,4 +79,14 @@ $blue-template: #3daafc;
     background-color: $blue-template;
     transition: 0.2s;
   }
+}
+.menu__link.active {
+  color: $blue-template;
+}
+// handle header after scroll
+.show-header {
+  background-color: #fff;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 6px -1px,
+    rgba(0, 0, 0, 0.06) 0px 2px 4px -1px;
+  transition: 0.1s;
 }

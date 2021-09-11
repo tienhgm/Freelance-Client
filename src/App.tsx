@@ -14,7 +14,7 @@ function App() {
     const currentRouter = pathname;
     return routerExcept.indexOf(currentRouter) !== -1;
   }, [pathname]);
-  console.log(hiddenHeader);
+  // console.log(hiddenHeader);
   return (
     <div className="App">
       {hiddenHeader ? "" : <Header />}
