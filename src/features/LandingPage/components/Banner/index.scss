@@ -1,0 +1,37 @@
+.banner {
+  background-image: url("../../../../assets/images/home-background1.jpg");
+  height: 600px;
+  background-repeat: no-repeat;
+  background-size: cover;
+  position: relative;
+  &__fulfil {
+    position: absolute;
+    background-image: linear-gradient(
+      to right,
+      rgba(250, 250, 250, 1) 20%,
+      rgba(250, 250, 250, 0.95) 40%,
+      rgba(250, 250, 250, 0.1) 80%,
+      rgba(250, 250, 250, 0) 100%
+    );
+    width: 100%;
+    height: 100%;
+    z-index: 9;
+  }
+}
+.color-blue {
+  color: #2e3fe5;
+}
+
+.statistical{
+  &__column{
+    padding: 0 20px;
+    border-right: 1px solid #e0e0e0;
+    .title{
+      color: #888;
+      font-size: 18px;
+    } 
+  }
+  &__column:last-child{
+    border-right: none;
+  }
+}
