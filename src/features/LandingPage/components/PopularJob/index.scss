@@ -1,0 +1,49 @@
+$blue-template: #2e3fe5;
+.popular {
+  background: #fff;
+  .title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+  .box {
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    padding: 10px;
+    color: $blue-template;
+    &__total {
+      padding: 1px 10px;
+      background: #e8e8e8;
+      border-radius: 4px;
+      color: black;
+    }
+    &__title {
+      color: black;
+    }
+    &__content {
+      color: #909090;
+      text-align: center;
+    }
+    &:hover {
+      background-color: $blue-template;
+      color: #fff;
+      transition: all 0.3s;
+      .box__total {
+        color: #fff;
+        background: #00008b;
+        transition: all 0.3s;
+      }
+      .box__title {
+        color: #fff;
+        transition: all 0.3s;
+      }
+      .box__content {
+        color: #DCDCDC	;
+        transition: all 0.3s;
+      }
+    }
+  }
+}

@@ -1,12 +1,12 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
-import { BellOutlined, DownOutlined } from "@ant-design/icons";
+import { DownOutlined } from "@ant-design/icons";
 import "./index.scss";
 
 export default function Header() {
   const [navbar, setNavbar] = useState(false);
   const changeBgMenu = () => {
-    if (window.scrollY >= window.innerHeight - 200) {
+    if (window.scrollY >= window.innerHeight - 700) {
       setNavbar(true);
     } else {
       setNavbar(false);

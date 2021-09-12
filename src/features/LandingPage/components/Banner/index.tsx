@@ -1,5 +1,3 @@
-import React from "react";
-import { EnvironmentOutlined } from "@ant-design/icons";
 import { Form, Select, Input, Button } from "antd";
 import "./index.scss";
 function Banner() {

@@ -21,11 +21,12 @@ $blue-template: #2e3fe5;
     align-items: center;
     margin-bottom: 0;
     .menu-item {
+      border: 3px solid transparent;
       margin: 0 1rem;
       position: relative;
       padding: 5px 4px;
       &:hover {
-        border-top: 1.5px solid $blue-template;
+        border-top: 3px solid $blue-template;
       }
       &:hover .menu__link .down {
         transform: rotate(-180deg);

@@ -17,21 +17,21 @@
     height: 100%;
     z-index: 9;
   }
-}
-.color-blue {
-  color: #2e3fe5;
-}
-
-.statistical{
-  &__column{
-    padding: 0 20px;
-    border-right: 1px solid #e0e0e0;
-    .title{
-      color: #888;
-      font-size: 18px;
-    } 
+  .color-blue {
+    color: #2e3fe5;
   }
-  &__column:last-child{
-    border-right: none;
+
+  .statistical {
+    &__column {
+      padding: 0 20px;
+      border-right: 1px solid #e0e0e0;
+      .title {
+        color: #888;
+        font-size: 18px;
+      }
+    }
+    &__column:last-child {
+      border-right: none;
+    }
   }
 }
