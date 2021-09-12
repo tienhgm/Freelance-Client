@@ -1,5 +1,5 @@
-import { Link, NavLink, useRouteMatch } from "react-router-dom";
-import { useEffect, useMemo, useState } from "react";
+import { Link, NavLink } from "react-router-dom";
+import { useState } from "react";
 import { BellOutlined, DownOutlined } from "@ant-design/icons";
 import "./index.scss";
 
@@ -14,26 +14,8 @@ export default function Header() {
   };
   window.addEventListener("scroll", changeBgMenu);
 
-  // isHomePage ? fixed : sticky
-  const pathname = window.location.pathname;
-  const match = useRouteMatch();
-  const [isHomePage, setIsHomePage] = useState(false);
-  useEffect(() => {
-    const isHomePage = () => {
-      const routerExcept = ["/"];
-      const currentRouter = pathname
-      return routerExcept.indexOf(currentRouter) !== -1;
-    };
-    setIsHomePage(isHomePage);
-  }, [pathname]);
-  console.log(isHomePage);
-  console.log(pathname);
   return (
-    <div
-      className={`px-28 header ${isHomePage ? "fixed" : "sticky"} ${
-        navbar ? "show-header" : ""
-      }`}
-    >
+    <div className={`px-28 header  ${navbar ? "show-header" : ""}`}>
       <div className="flex">
         <div className="header__title">
           <Link to="/">
