@@ -1,10 +1,14 @@
 import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
-import { DownOutlined } from "@ant-design/icons";
 import "./index.scss";
+import Dialog from "features/Auth/Dialog";
 
 export default function Header() {
   const [navbar, setNavbar] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [isLogin, setIsLogin] = useState(true);
+  const openLoginForm = () => { setShowDialog(true); setIsLogin(true); }
+  const openRegisterForm = () => { setShowDialog(true); setIsLogin(false); }
   const changeBgMenu = () => {
     if (window.scrollY >= window.innerHeight - 700) {
       setNavbar(true);
@@ -31,32 +35,22 @@ export default function Header() {
           <li className="menu-item">
             <NavLink to="/posts" className="menu__link">
               <span className="flex items-center">
-                Jobs Page &nbsp; <DownOutlined className="mt-1 down" />
+                Find Jobs
+                {/* Find Jobs &nbsp; <DownOutlined className="mt-1 down" /> */}
               </span>
             </NavLink>
-            <ul className="shadow-md menu__child">
-              <li className="menu__child-item">
-                <Link to="/" className="menu__link">
-                  Full time
-                </Link>
-              </li>
-              <li className="menu__child-item ">
-                <Link to="/" className="menu__link">
-                  Part time
-                </Link>
-              </li>
-              <li className="menu__child-item">
-                <Link to="/" className="menu__link">
-                  Freelance
-                </Link>
-              </li>
-            </ul>
+          </li>
+          <li className="menu-item">
+            <NavLink to="/freelancers" className="menu__link">
+              For Freelancers
+            </NavLink>
           </li>
           <li className="menu-item">
             <NavLink to="/dashboard" className="menu__link">
               Dashboard
             </NavLink>
           </li>
+
           <li className="menu-item">
             <NavLink to="/about-us" className="menu__link">
               About Us
@@ -65,13 +59,14 @@ export default function Header() {
         </ul>
       </div>
       <div className="flex items-center">
-        <Link to="/" className="btn-login">
+        <div className="btn-login" onClick={openLoginForm}>
           Sign In
-        </Link>
-        <Link to="/" className="btn-register">
+        </div>
+        <div className="btn-register" onClick={openRegisterForm}>
           Register
-        </Link>
+        </div>
       </div>
+      <Dialog isOpen={showDialog} isLogin={isLogin} closeDialog={() => setShowDialog(false)} />
     </div>
   );
 }

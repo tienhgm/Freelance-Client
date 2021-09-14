@@ -67,15 +67,17 @@ $blue-template: #2e3fe5;
 .btn-login {
   color: black;
   font-size: 16px;
+  cursor: pointer;
 }
 .btn-register {
+  cursor: pointer;
   margin-left: 1rem;
   border-radius: 20px;
   padding: 2px 10px;
-  border: 2px solid  $blue-template;
+  border: 2px solid $blue-template;
   color: $blue-template;
   font-size: 16px;
-  &:hover{
+  &:hover {
     color: #fff;
     background-color: $blue-template;
     transition: 0.2s;

@@ -1,4 +1,8 @@
-section.dialog {
+$color_dark: #333;
+$color_black: #000;
+$color_blue: #002fff;
+
+.dialog {
   form {
     display: flex;
     flex-direction: column;
@@ -11,16 +15,16 @@ section.dialog {
 
     h3 {
       font-weight: 700;
-      color: #333;
+      color: $color_dark;
       font-size: 24px;
     }
 
     &__sign-up {
-      color: #002fff;
+      color: $color_blue;
       cursor: pointer;
 
       &:hover {
-        color: #000;
+        color: $color_black;
       }
     }
   }
