@@ -1,0 +1,15 @@
+.dialog {
+    box-shadow: 0 0 10px #00000030;
+    min-width: 540px;
+    min-height: 500px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    width: fit-content;
+    position: fixed;
+
+    .ant-tabs-tab {
+        height: 62px;
+        padding: 0 30px !important;
+    }
+}

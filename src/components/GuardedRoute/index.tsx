@@ -3,7 +3,7 @@ import { Redirect, Route, RouteProps } from 'react-router-dom';
 
 type Props = RouteProps & {
     component: ComponentType;
-    redirect: string;
+    redirect?: string;
 };
 
 const GuardedRoute: FC<Props> = ({ component: Component, redirect = '/', ...rest }) => {

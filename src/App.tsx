@@ -5,8 +5,9 @@ import NotFound from "components/NotFound";
 import DashboardUser from "features/DashboardUser";
 import Posts from "features/Posts";
 import LandingPage from "features/LandingPage";
-import Login from "features/Auth";
+import Login from "features/Auth/LoginForm";
 import GuardedRoute from "components/GuardedRoute";
+import Dialog from "features/Auth/Dialog";
 function App() {
   return (
     <div className="App">
@@ -18,6 +19,7 @@ function App() {
         <GuardedRoute path="/dashboard/user" component={DashboardUser} redirect="/" />
         <Route component={NotFound} />
       </Switch>
+      <Dialog isOpen={true} isLogin={true} />
     </div>
   );
 }
