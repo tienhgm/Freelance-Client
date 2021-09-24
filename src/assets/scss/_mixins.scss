@@ -1,0 +1,272 @@
+@mixin prefix($property, $value) {
+  -webkit-#{$property}: #{$value};
+  -khtml-#{$property}: #{$value};
+  -moz-#{$property}: #{$value};
+  -ms-#{$property}: #{$value};
+  -o-#{$property}: #{$value};
+  #{$property}: #{$value};
+}
+
+@mixin flex($direction: row, $content: null, $items: null, $wrap: null, $gap: null) {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  gap: $gap;
+  grid-gap: $gap;
+  @include flex-direction($direction);
+  @include justify-content($content);
+  @include align-items($items);
+  @include flex-wrap($wrap);
+}
+
+@mixin flex-direction($direction) {
+  @if $direction==row-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: horizontal;
+    -moz-box-direction: reverse;
+    -moz-box-orient: horizontal;
+  }
+
+  @else if $direction==column {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: vertical;
+    -moz-box-direction: normal;
+    -moz-box-orient: vertical;
+  }
+
+  @else if $direction==column-reverse {
+    -webkit-box-direction: reverse;
+    -webkit-box-orient: vertical;
+    -moz-box-direction: reverse;
+    -moz-box-orient: vertical;
+  }
+
+  @else {
+    -webkit-box-direction: normal;
+    -webkit-box-orient: horizontal;
+    -moz-box-direction: normal;
+    -moz-box-orient: horizontal;
+  }
+
+  -webkit-flex-direction: $direction;
+  -ms-flex-direction: $direction;
+  flex-direction: $direction;
+}
+
+@mixin justify-content($content) {
+  @if $content==flex-start {
+    -webkit-box-pack: start;
+    -moz-box-pack: start;
+    -ms-flex-pack: start;
+  }
+
+  @else if $content==flex-end {
+    -webkit-box-pack: end;
+    -moz-box-pack: end;
+    -ms-flex-pack: end;
+  }
+
+  @else if $content==space-between {
+    -webkit-box-pack: justify;
+    -moz-box-pack: justify;
+    -ms-flex-pack: justify;
+  }
+
+  @else if $content==space-around {
+    -ms-flex-pack: distribute;
+  }
+
+  @else {
+    -webkit-box-pack: $content;
+    -moz-box-pack: $content;
+    -ms-flex-pack: $content;
+  }
+
+  -webkit-justify-content: $content;
+  justify-content: $content;
+}
+
+@mixin align-items($items) {
+  @if $items==flex-start {
+    -webkit-box-align: start;
+    -moz-box-align: start;
+    -ms-flex-align: start;
+  }
+
+  @else if $items==flex-end {
+    -webkit-box-align: end;
+    -moz-box-align: end;
+    -ms-flex-align: end;
+  }
+
+  @else {
+    -webkit-box-align: $items;
+    -moz-box-align: $items;
+    -ms-flex-align: $items;
+  }
+
+  -webkit-align-items: $items;
+  align-items: $items;
+}
+
+@mixin flex-wrap($wrap) {
+  -webkit-flex-wrap: $wrap;
+
+  @if $wrap==nowrap {
+    -ms-flex-wrap: none;
+  }
+
+  @else {
+    -ms-flex-wrap: $wrap;
+  }
+
+  flex-wrap: $wrap;
+}
+
+@mixin flex-basis($basis: auto) {
+  -webkit-flex-basis: $basis;
+  flex-basis: $basis;
+}
+
+@mixin flex-grow($int: 1) {
+  -webkit-box-flex: $int;
+  -moz-box-flex: $int;
+  -webkit-flex-grow: $int;
+  -ms-flex: $int;
+  flex-grow: $int;
+}
+
+@mixin box($width, $height: $width) {
+  display: inline-block;
+  box-sizing: border-box;
+  width: $width;
+  height: $height;
+}
+
+@mixin placeholder {
+  &::-webkit-input-placeholder {
+    /* Chrome/Opera/Safari */
+    @content;
+  }
+
+  &::-moz-placeholder {
+    /* Firefox 19+ */
+    @content;
+  }
+
+  &:-ms-input-placeholder {
+    /* IE 10+ */
+    @content;
+  }
+
+  &:-moz-placeholder {
+    /* Firefox 18- */
+    @content;
+  }
+}
+
+@mixin align-center {
+  margin-right: auto;
+  margin-left: auto;
+}
+
+@mixin media-query($width, $type: min) {
+  @if map_has_key($breakpoints, $width) {
+    $width: map_get($breakpoints, $width);
+
+    @if $type==max {
+      $width: $width - 1px;
+    }
+
+    @media only screen and (#{$type}-width: $width) {
+      @content;
+    }
+  }
+}
+
+@mixin pseudo($display: block, $pos: absolute, $content: "") {
+  content: $content;
+  display: $display;
+  position: $pos;
+}
+
+@mixin linear-gradient($content) {
+  background: -moz-linear-gradient($content);
+  background: -webkit-gradient($content);
+  background: -webkit-linear-gradient($content);
+  background: -o-linear-gradient($content);
+  background: -ms-linear-gradient($content);
+  background: linear-gradient($content);
+}
+
+@mixin keyframes($name) {
+  @-webkit-keyframes #{$name} {
+    @content
+  }
+
+  @-moz-keyframes #{$name} {
+    @content
+  }
+
+  @-o-keyframes #{$name} {
+    @content
+  }
+
+  @keyframes #{$name} {
+    @content
+  }
+}
+
+
+@mixin centerer($horizontal: true, $vertical: true) {
+  position: absolute;
+
+  @if ($horizontal and $vertical) {
+    top: 50%;
+    left: 50%;
+    @include prefix(transform, translate(-50%, -50%));
+  }
+
+  @else if ($horizontal) {
+    left: 50%;
+    @include prefix(transform, translate(-50%, 0));
+  }
+
+  @else if ($vertical) {
+    top: 50%;
+    @include prefix(transform, translate(0, -50%));
+  }
+}
+
+@mixin multi-line-ellipsis ($lines-to-show) {
+  display: block;
+  display: -webkit-box;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  -webkit-line-clamp: $lines-to-show;
+  -webkit-box-orient: vertical;
+}
+
+@mixin scrollbar($track-color: $color-black-pearl, $thumb-color:$color-selective-yellow) {
+  &::-webkit-scrollbar {
+    width: 5px;
+  }
+
+  &::-webkit-scrollbar:horizontal {
+    height: 5px;
+  }
+
+  &::-webkit-scrollbar-track {
+    height: 3px;
+    background-color: $track-color;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    border-radius: 2px;
+    background-color: $thumb-color;
+    @include prefix(box-shadow, inset 0 0 4px $color-black-pearl);
+  }
+
+}
