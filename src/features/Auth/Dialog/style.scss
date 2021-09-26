@@ -1,6 +1,4 @@
-$background_color: rgba(44, 44, 44, 0.74);
-$box_shadow: #00000030;
-$color_white: #ffffff;
+@import "assets/scss/variables.scss";
 
 .dialog__background {
   width: 100%;
@@ -8,13 +6,13 @@ $color_white: #ffffff;
   position: fixed;
   top: 0;
   left: 0;
-  background-color: $background_color;
+  background-color: $color_dialog_background;
   z-index: 100;
 }
 
 .dialog {
   border-radius: 4px;
-  box-shadow: 0 0 10px $box_shadow;
+  box-shadow: 0 0 10px $color_shadow;
   min-width: 540px;
   min-height: 500px;
   left: 50%;
