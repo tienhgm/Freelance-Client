@@ -1,6 +1,7 @@
 import NotFound from "components/NotFound";
 import DashboardUser from "features/DashboardUser";
 import Freelancers from "features/Freelancers";
+import FindJobs from "features/Jobs/pages/FindJobs";
 import LandingPage from "features/LandingPage";
 const routesConfiguration = {
   home: {
@@ -19,7 +20,7 @@ const routesConfiguration = {
     exact: true,
     breadcrumbs: [],
     navbar: true,
-    component: LandingPage,
+    component: FindJobs,
     routers: [],
     guarded: false
   },
