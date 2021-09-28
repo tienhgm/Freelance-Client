@@ -1,0 +1,41 @@
+@import "src/assets/scss/mixins.scss";
+@import "src/assets/scss/variables.scss";
+
+.job-item__wrapper {
+  cursor: pointer;
+  &:hover {
+    transform: translateY(-5px);
+  }
+
+  .footer__info > div {
+    flex-grow: 1;
+    flex-basis: 40%;
+
+    span {
+      white-space: nowrap;
+    }
+  }
+
+  .icon {
+    display: block;
+    width: 1rem;
+    height: 1rem;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+
+    &__location {
+      background-image: $iconLocations;
+    }
+
+    &__bag {
+      background-image: $iconBag;
+    }
+    &__wallet {
+      background-image: $iconWallet;
+    }
+    &__time {
+      background-image: $iconTime;
+    }
+  }
+}

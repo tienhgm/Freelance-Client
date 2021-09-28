@@ -1,5 +1,5 @@
+import React, { useState, useEffect } from "react";
 import { Link, NavLink } from "react-router-dom";
-import { useState } from "react";
 import "./index.scss";
 import Dialog from "features/Auth/Dialog";
 import routesConfiguration from "routers/routesConfig";
@@ -17,13 +17,16 @@ export default function Header() {
     setIsLogin(false);
   };
   const changeBgMenu = () => {
-    if (window.scrollY >= window.innerHeight - 700) {
+    if (window.scrollY >= 50) {
       setNavbar(true);
     } else {
       setNavbar(false);
     }
   };
-  window.addEventListener("scroll", changeBgMenu);
+
+  useEffect(() => {
+    window.addEventListener("scroll", changeBgMenu);
+  }, []);
 
   return (
     <div className={`px-28 header  ${navbar ? "show-header" : ""}`}>
@@ -34,7 +37,7 @@ export default function Header() {
           </Link>
         </div>
         <ul className="menu">
-          {Object.entries(routesConfiguration).map(([key,route]) => (
+          {Object.entries(routesConfiguration).map(([key, route]) => (
             <li className="menu-item" key={key}>
               <NavLink to={route.path} className="menu__link" exact>
                 {route.name}
