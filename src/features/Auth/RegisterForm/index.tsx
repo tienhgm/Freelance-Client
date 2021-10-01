@@ -19,7 +19,10 @@ function RegisterForm({ onFormFinish, onFormFinishFalse }: RegisterFormProps) {
     >
       <div className="form-title">
         <h3>Let's create your account!</h3>
-      </div>
+    </div>
+    <Form.Item name="role">
+    
+    </Form.Item>
       <Form.Item
         name="email"
         rules={[
@@ -31,7 +34,7 @@ function RegisterForm({ onFormFinish, onFormFinishFalse }: RegisterFormProps) {
         ]}
       >
         <Input
-          placeholder="Email address"
+    placeholder="Email address"
           size="large"
           autoComplete="false"
           prefix={<MailOutlined />}

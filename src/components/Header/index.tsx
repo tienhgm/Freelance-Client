@@ -2,13 +2,20 @@ import { Link, NavLink } from "react-router-dom";
 import { useState } from "react";
 import "./index.scss";
 import Dialog from "features/Auth/Dialog";
+import routesConfiguration from "routers/routesConfig";
 
 export default function Header() {
   const [navbar, setNavbar] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
-  const openLoginForm = () => { setShowDialog(true); setIsLogin(true); }
-  const openRegisterForm = () => { setShowDialog(true); setIsLogin(false); }
+  const openLoginForm = () => {
+    setShowDialog(true);
+    setIsLogin(true);
+  };
+  const openRegisterForm = () => {
+    setShowDialog(true);
+    setIsLogin(false);
+  };
   const changeBgMenu = () => {
     if (window.scrollY >= window.innerHeight - 700) {
       setNavbar(true);
@@ -27,35 +34,13 @@ export default function Header() {
           </Link>
         </div>
         <ul className="menu">
-          <li className="menu-item">
-            <NavLink to="/" className="menu__link" exact>
-              Home
-            </NavLink>
-          </li>
-          <li className="menu-item">
-            <NavLink to="/posts" className="menu__link">
-              <span className="flex items-center">
-                Find Jobs
-                {/* Find Jobs &nbsp; <DownOutlined className="mt-1 down" /> */}
-              </span>
-            </NavLink>
-          </li>
-          <li className="menu-item">
-            <NavLink to="/freelancers" className="menu__link">
-              For Freelancers
-            </NavLink>
-          </li>
-          <li className="menu-item">
-            <NavLink to="/dashboard" className="menu__link">
-              Dashboard
-            </NavLink>
-          </li>
-
-          <li className="menu-item">
-            <NavLink to="/about-us" className="menu__link">
-              About Us
-            </NavLink>
-          </li>
+          {Object.entries(routesConfiguration).map(([key,route]) => (
+            <li className="menu-item" key={key}>
+              <NavLink to={route.path} className="menu__link" exact>
+                {route.name}
+              </NavLink>
+            </li>
+          ))}
         </ul>
       </div>
       <div className="flex items-center">
@@ -66,7 +51,11 @@ export default function Header() {
           Register
         </div>
       </div>
-      <Dialog isOpen={showDialog} isLogin={isLogin} closeDialog={() => setShowDialog(false)} />
+      <Dialog
+        isOpen={showDialog}
+        isLogin={isLogin}
+        closeDialog={() => setShowDialog(false)}
+      />
     </div>
   );
 }
