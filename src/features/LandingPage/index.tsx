@@ -6,7 +6,7 @@ import PopularJob from "./components/PopularJob";
 
 function LandingPage() {
   return (
-    <div className="container">
+    <div >
       <Banner />
       <PopularJob />
       <FeatureJob />
