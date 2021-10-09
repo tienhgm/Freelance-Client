@@ -8,7 +8,7 @@ type Props = RouteProps & {
   redirect?: string;
 };
 
-const GuardedRoute: FC<Props> = ({
+const GuardedRoute: React.FC<Props> = ({
   component: Component,
   guarded = true,
   redirect = routesConfiguration.home.path,
