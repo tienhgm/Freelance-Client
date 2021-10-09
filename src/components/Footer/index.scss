@@ -1,0 +1,48 @@
+.footer {
+  margin-top: 100px;
+  background-color: #303030;
+  color: white;
+  &__row-one {
+    font-size: 25px;
+    .text-logo {
+      span:first-child {
+        color: #2e3fe5;
+      }
+    }
+    a {
+      color: #fff;
+    }
+    border-bottom: 2px solid #414141;
+    .select-footer.ant-select:not(.ant-select-customize-input)
+      .ant-select-selector {
+      background-color: #444444 !important;
+      color: #fff;
+    }
+    .ant-select-arrow {
+      color: #fff !important;
+    }
+  }
+  &__row-two {
+    ul {
+      li {
+        margin: 5px 0;
+        a {
+          color: #9ba09b;
+          font-size: 15px;
+          border-bottom: 2px solid transparent;
+          &:hover {
+            border-bottom: 2px solid #2e3fe5;
+            transition: all 0.4s;
+          }
+        }
+      }
+    }
+    .right {
+      &__content {
+        margin-top: 18px;
+        color: #9ba09b;
+        font-size: 15px;
+      }
+    }
+  }
+}

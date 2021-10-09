@@ -4,6 +4,7 @@ import { Route, Switch } from "react-router-dom";
 import NotFound from "components/NotFound";
 import GuardedRoute from "components/GuardedRoute";
 import routesConfiguration from "routers/routesConfig";
+import Footer from "components/Footer";
 function App() {
   return (
     <div className="App">
@@ -20,6 +21,7 @@ function App() {
         ))}
         <Route component={NotFound} />
       </Switch>
+      <Footer />
     </div>
   );
 }
