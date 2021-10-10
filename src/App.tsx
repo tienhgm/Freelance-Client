@@ -1,4 +1,4 @@
-import "./App.css";
+import "./App.less";
 import Header from "components/Header";
 import { Route, Switch } from "react-router-dom";
 import NotFound from "components/NotFound";
