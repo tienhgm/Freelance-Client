@@ -18,7 +18,7 @@ export default function FeatureCity() {
         >
           <div className="total">
             <div className="total__location">Can Tho</div>
-            <div className="total__job">456 jobs</div>
+            <div className="total__job">456 Jobs</div>
           </div>
         </Link>
         <Link
@@ -30,7 +30,7 @@ export default function FeatureCity() {
         >
           <div className="total">
             <div className="total__location">TP Ho Chi Minh</div>
-            <div className="total__job">689 jobs</div>
+            <div className="total__job">689 Jobs</div>
           </div>
         </Link>
         <Link
@@ -42,7 +42,7 @@ export default function FeatureCity() {
         >
           <div className="total">
             <div className="total__location">Ha Noi</div>
-            <div className="total__job">852 jobs</div>
+            <div className="total__job">852 Jobs</div>
           </div>
         </Link>
         <Link
@@ -54,7 +54,7 @@ export default function FeatureCity() {
         >
           <div className="total">
             <div className="total__location">Da Nang</div>
-            <div className="total__job">123 jobs</div>
+            <div className="total__job">123 Jobs</div>
           </div>
         </Link>
       </div>
