@@ -2,11 +2,12 @@ import { useState } from "react";
 import {
   FacebookOutlined,
   MailOutlined,
+  RightOutlined,
   TwitterOutlined,
   WechatOutlined,
 } from "@ant-design/icons";
 import "./index.scss";
-import { Tooltip, Select } from "antd";
+import { Tooltip, Select, Button } from "antd";
 
 export default function Footer() {
   const { Option } = Select;
@@ -138,6 +139,11 @@ export default function Footer() {
           <div className="right__content">
             Weekly breaking news, analysis and cutting edge advices on job
             searching.
+          </div>
+          <div className="flex items-center gap-3 mt-3">
+            <input type="text" className="right__input" placeholder="Enter your email address" />
+            <Button type="primary" icon={<RightOutlined />} size="large">
+            </Button>
           </div>
         </div>
       </div>
