@@ -5,6 +5,7 @@ import NotFound from "components/NotFound";
 import GuardedRoute from "components/GuardedRoute";
 import routesConfiguration from "routers/routesConfig";
 import Footer from "components/Footer";
+import BackToTop from "components/BackTop";
 function App() {
   return (
     <div className="App">
@@ -22,6 +23,7 @@ function App() {
         <Route component={NotFound} />
       </Switch>
       <Footer />
+      <BackToTop />
     </div>
   );
 }
