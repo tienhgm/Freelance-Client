@@ -5,7 +5,7 @@ import Dialog from "features/Auth/Dialog";
 import routesConfiguration from "routers/routesConfig";
 
 export default function Header() {
-  const [navbar, setNavbar] = useState(false);
+  // const [navbar, setNavbar] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const openLoginForm = () => {
@@ -16,17 +16,17 @@ export default function Header() {
     setShowDialog(true);
     setIsLogin(false);
   };
-  const changeBgMenu = () => {
-    if (window.scrollY >= window.innerHeight - 700) {
-      setNavbar(true);
-    } else {
-      setNavbar(false);
-    }
-  };
-  window.addEventListener("scroll", changeBgMenu);
+  // const changeBgMenu = () => {
+  //   if (window.scrollY >= window.innerHeight - 700) {
+  //     setNavbar(true);
+  //   } else {
+  //     setNavbar(false);
+  //   }
+  // };
+  // window.addEventListener("scroll", changeBgMenu);
 
   return (
-    <div className={`px-28 header  ${navbar ? "show-header" : ""}`}>
+    <div className={`px-28 header show-header`}>
       <div className="flex">
         <div className="header__title">
           <Link to="/">
@@ -34,7 +34,7 @@ export default function Header() {
           </Link>
         </div>
         <ul className="menu">
-          {Object.entries(routesConfiguration).map(([key,route]) => (
+          {Object.entries(routesConfiguration).map(([key, route]) => (
             <li className="menu-item" key={key}>
               <NavLink to={route.path} className="menu__link" exact>
                 {route.name}

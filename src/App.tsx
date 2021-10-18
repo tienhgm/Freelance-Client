@@ -1,12 +1,20 @@
 import "./App.less";
+import { useMemo } from "react";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Header from "components/Header";
-import { Route, Switch } from "react-router-dom";
 import NotFound from "components/NotFound";
 import GuardedRoute from "components/GuardedRoute";
 import routesConfiguration from "routers/routesConfig";
 import Footer from "components/Footer";
 import BackToTop from "components/BackTop";
 function App() {
+  const location = useLocation();
+  const { pathname } = location;
+  const hiddenFooter = useMemo(() => {
+    const routerExcept = ["/dashboard"];
+    const currentRouter = pathname;
+    return routerExcept.indexOf(currentRouter) !== -1;
+  }, [pathname]);
   return (
     <div className="App">
       <Header />
@@ -22,7 +30,7 @@ function App() {
         ))}
         <Route component={NotFound} />
       </Switch>
-      <Footer />
+      {!hiddenFooter && <Footer />}
       <BackToTop />
     </div>
   );
