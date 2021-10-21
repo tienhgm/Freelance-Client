@@ -36,7 +36,7 @@ const routesConfiguration = {
   dashboard: {
     name: "Dashboard",
     path: "/dashboard",
-    exact: true,
+    exact: false,
     breadcrumbs: [],
     navbar: true,
     component: DashboardUser,

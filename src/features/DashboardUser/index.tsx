@@ -1,11 +1,11 @@
 import React from "react";
-import { Switch, NavLink } from "react-router-dom";
+import { Switch, Link, Route, useRouteMatch } from "react-router-dom";
 import "./index.scss";
 import { Menu, Divider, Badge } from "antd";
+import Settings from "./Components/Settings";
 import {
   AppstoreOutlined,
   BookOutlined,
-  MailOutlined,
   MessageOutlined,
   SettingOutlined,
   StarOutlined,
@@ -16,10 +16,12 @@ function DashboardUser() {
   const handleClick = (e: any) => {
     console.log("click ", e);
   };
+  const match = useRouteMatch();
+  console.log(match.url);
   return (
-    <div className="h-screen overflow-y-auto">
+    <div className="flex h-screen overflow-y-auto">
       <Menu
-        className="fixed h-screen overflow-y-auto"
+        className="h-screen grid-cols-3 overflow-x-hidden overflow-y-auto"
         onClick={handleClick}
         style={{ width: 256 }}
         defaultSelectedKeys={["1"]}
@@ -55,9 +57,14 @@ function DashboardUser() {
           Account
         </Divider>
         <Menu.Item key="9" icon={<SettingOutlined />}>
-          Settings
+          <Link to={'/dashboard/settings'}>Settings</Link>
         </Menu.Item>
       </Menu>
+      <div className="w-full m-14">
+        <Switch>
+          <Route path={`${match.url}/settings`} component={Settings}  />
+        </Switch>
+      </div>
     </div>
   );
 }
