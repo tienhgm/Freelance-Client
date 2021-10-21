@@ -2,6 +2,9 @@
   width: 120px;
   height: 120px;
 }
+.required-field {
+  color: red;
+}
 @mixin block-settings {
   background-color: white;
   box-sizing: border-box;
@@ -27,6 +30,10 @@
     @include block-settings;
     &__title {
       @include block-title;
+    }
+    &__experience {
+      padding-bottom: 3.5rem;
+      border-bottom: 2px solid #f9f9f9;
     }
   }
 }
