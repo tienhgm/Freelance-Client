@@ -6,10 +6,13 @@ import Settings from "./Components/Settings";
 import {
   AppstoreOutlined,
   BookOutlined,
+  LockOutlined,
   MessageOutlined,
   SettingOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+import ChangePassword from "./Components/ChangePassword";
+import Dashboard from "./Components/Dashboard";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
@@ -31,7 +34,7 @@ function DashboardUser() {
           Start
         </Divider>
         <Menu.Item key="1" icon={<AppstoreOutlined />}>
-          Dashboard
+          <Link to={"/dashboard"}>Dashboard</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<MessageOutlined />}>
           Message
@@ -58,10 +61,19 @@ function DashboardUser() {
         <Menu.Item key="9" icon={<SettingOutlined />}>
           <Link to={"/dashboard/settings"}>Settings</Link>
         </Menu.Item>
+        <Menu.Item key="10" icon={<LockOutlined />}>
+          <Link to={"/dashboard/password"}>Change password</Link>
+        </Menu.Item>
       </Menu>
       <div className="w-full p-6">
         <Switch>
-          <Route path={`${match.url}/settings`} component={Settings} />
+          <Route path={`${match.url}`} component={Dashboard} exact />
+          <Route path={`${match.url}/settings`} component={Settings} exact />
+          <Route
+            path={`${match.url}/password`}
+            component={ChangePassword}
+            exact
+          />
         </Switch>
       </div>
     </div>
