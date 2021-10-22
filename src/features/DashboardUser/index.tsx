@@ -1,4 +1,3 @@
-import React from "react";
 import { Switch, Link, Route, useRouteMatch } from "react-router-dom";
 import "./index.scss";
 import { Menu, Divider, Badge } from "antd";
