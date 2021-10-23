@@ -1,0 +1,30 @@
+.job-details-page {
+  min-height: calc(100vh - 351px);
+
+  .company-logo {
+    img {
+      max-width: 140px;
+    }
+  }
+
+  .header__background {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(243, 244, 246, 1) 20%,
+        rgba(243, 244, 246, 0.8) 40%,
+        rgba(255, 255, 255, 0.5) 100%,
+        rgba(243, 244, 246, 1) 100%
+      ),
+      url(../../../../assets/images/single-job.jpg) no-repeat;
+    background-size: cover;
+    background-position: left;
+  }
+
+  .ant-btn {
+    height: 55px;
+    font-size: 18px;
+    background-color: blue;
+    color: #fff;
+  }
+}
