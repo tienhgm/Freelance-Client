@@ -1,4 +1,3 @@
-import React from "react";
 import { Switch, Link, Route, useRouteMatch } from "react-router-dom";
 import "./index.scss";
 import { Menu, Divider, Badge } from "antd";
@@ -6,10 +5,13 @@ import Settings from "./Components/Settings";
 import {
   AppstoreOutlined,
   BookOutlined,
+  LockOutlined,
   MessageOutlined,
   SettingOutlined,
   StarOutlined,
 } from "@ant-design/icons";
+import ChangePassword from "./Components/ChangePassword";
+import Dashboard from "./Components/Dashboard";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
@@ -17,11 +19,10 @@ function DashboardUser() {
     console.log("click ", e);
   };
   const match = useRouteMatch();
-  console.log(match.url);
   return (
-    <div className="flex h-screen overflow-y-auto">
+    <div className="flex h-full overflow-y-hidden">
       <Menu
-        className="h-screen grid-cols-3 overflow-x-hidden overflow-y-auto"
+        className="grid-cols-3 overflow-x-hidden"
         onClick={handleClick}
         style={{ width: 256 }}
         defaultSelectedKeys={["1"]}
@@ -32,7 +33,7 @@ function DashboardUser() {
           Start
         </Divider>
         <Menu.Item key="1" icon={<AppstoreOutlined />}>
-          Dashboard
+          <Link to={"/dashboard"}>Dashboard</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<MessageOutlined />}>
           Message
@@ -57,12 +58,21 @@ function DashboardUser() {
           Account
         </Divider>
         <Menu.Item key="9" icon={<SettingOutlined />}>
-          <Link to={'/dashboard/settings'}>Settings</Link>
+          <Link to={"/dashboard/settings"}>Settings</Link>
+        </Menu.Item>
+        <Menu.Item key="10" icon={<LockOutlined />}>
+          <Link to={"/dashboard/password"}>Change password</Link>
         </Menu.Item>
       </Menu>
-      <div className="w-full m-14">
+      <div className="w-full p-6">
         <Switch>
-          <Route path={`${match.url}/settings`} component={Settings}  />
+          <Route path={`${match.url}`} component={Dashboard} exact />
+          <Route path={`${match.url}/settings`} component={Settings} exact />
+          <Route
+            path={`${match.url}/password`}
+            component={ChangePassword}
+            exact
+          />
         </Switch>
       </div>
     </div>

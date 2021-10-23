@@ -1,0 +1,20 @@
+@mixin block-password {
+  background-color: white;
+  box-sizing: border-box;
+  padding: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+@mixin block-title {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f9f9f9;
+  div:first-child {
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+.password {
+  @include block-password;
+  &__title {
+    @include block-title;
+  }
+}

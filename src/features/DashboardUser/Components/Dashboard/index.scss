@@ -1,0 +1,45 @@
+.dashboard {
+  &__block {
+    width: calc(33%);
+    height: 120px;
+    padding: 25px;
+    background-color: #fff;
+    border-radius: 4px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  &__icon1 {
+    background-color: rgba(54, 189, 120, 0.07);
+    padding: 25px;
+    svg {
+      width: 40px;
+      height: 40px;
+      color: rgb(54, 189, 120);
+    }
+  }
+  &__icon2 {
+    background-color: rgba(184, 27, 127, 0.07);
+    padding: 25px;
+    svg {
+      width: 40px;
+      height: 40px;
+      color: rgb(184, 27, 127);
+    }
+  }
+  &__icon3 {
+    background-color: rgba(239, 168, 15, 0.07);
+    padding: 25px;
+    svg {
+      width: 40px;
+      height: 40px;
+      color: rgb(239, 168, 15);
+    }
+  }
+  &__chart{
+    background-color: #fff;
+    box-sizing: border-box;
+    padding: 10px;
+    margin-top: 30px;
+  }
+}
