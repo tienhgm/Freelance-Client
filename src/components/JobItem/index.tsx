@@ -2,7 +2,9 @@ import React, { useState } from "react";
 import JobItemProps from "types/jobItemProps";
 import defaultCompanyLogo from "assets/images/company-logo-default.png";
 import Skeleton from "react-loading-skeleton";
+import { useHistory } from 'react-router-dom';
 import "./styles.scss";
+import routesConfiguration from "routers/routesConfig";
 
 
 export default function JobItem({
@@ -14,13 +16,18 @@ export default function JobItem({
   salary,
   postTime,
 }: JobItemProps) {
+  const history = useHistory();
   const [bookmark, setBookmark] = useState(false);
   const addOrRemoveBookmark = () => {
     setBookmark(!bookmark);
   };
 
+  const gotoDetailPage = () => {
+    history.push(routesConfiguration.jobDetails.cPath+'1')
+  }
+
   return (
-    <div className="job-item__wrapper transition-all shadow-md hover:shadow-xl">
+    <div className="job-item__wrapper transition-all shadow-md hover:shadow-xl" onClick={gotoDetailPage}>
       <div className="job-item">
         <div className="job-item__content flex p-8">
           <div className="content__logo mr-3 w-14 h-14 relative">

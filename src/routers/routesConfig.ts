@@ -2,6 +2,7 @@ import NotFound from "components/NotFound";
 import DashboardUser from "features/DashboardUser";
 import Freelancers from "features/Freelancers";
 import FindJobs from "features/Jobs/pages/FindJobs";
+import JobDetails from "features/Jobs/pages/JobDetails";
 import LandingPage from "features/LandingPage";
 const routesConfiguration = {
   home: {
@@ -21,6 +22,17 @@ const routesConfiguration = {
     breadcrumbs: [],
     navbar: true,
     component: FindJobs,
+    routers: [],
+    guarded: false
+  },
+  jobDetails: {
+    name: "Job Details",
+    cPath: "/find-jobs/",
+    path: "/find-jobs/:id",
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: JobDetails,
     routers: [],
     guarded: false
   },
