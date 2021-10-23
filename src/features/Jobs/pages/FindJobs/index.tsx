@@ -1,9 +1,29 @@
 import JobItem from "components/JobItem";
-import { Select } from "antd";
+import { Select, Pagination } from "antd";
 import React from "react";
 import JobItemProps from "types/jobItemProps";
 import "./styles.scss";
 const jobList: Array<JobItemProps> = [
+  {
+    company: "Hexagon",
+    companyLogo:
+      "https://www.vasterad.com/themes/hireo/images/company-logo-01.png",
+    jobTitle: "Bilingual Event Support Specialist",
+    location: "San Francisco",
+    jobType: "Full Time",
+    salary: "$35.000 - $38.000",
+    postTime: "2 days ago",
+  },
+  {
+    company: "Hexagon",
+    companyLogo:
+      "https://www.vasterad.com/themes/hireo/images/company-logo-01.png",
+    jobTitle: "Bilingual Event Support Specialist",
+    location: "San Francisco",
+    jobType: "Full Time",
+    salary: "$35.000 - $38.000",
+    postTime: "2 days ago",
+  },
   {
     company: "Hexagon",
     companyLogo:
@@ -127,9 +147,12 @@ export default function FindJobs() {
           </div>
         </div>
         <div className="transition-all grid-cols-1 content__list-items flex-grow grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {jobList.map((job) => (
-            <JobItem {...job} />
+          {jobList.map((job, index) => (
+            <JobItem {...job} key={index} />
           ))}
+        </div>
+        <div className="find-job-page__paginate flex justify-center mt-8">
+          <Pagination defaultCurrent={1} total={100} responsive={true} />
         </div>
       </div>
     </div>

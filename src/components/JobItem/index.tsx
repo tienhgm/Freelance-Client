@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import JobItemProps from "types/jobItemProps";
 import defaultCompanyLogo from "assets/images/company-logo-default.png";
+import Skeleton from "react-loading-skeleton";
 import "./styles.scss";
 
 
@@ -22,12 +23,14 @@ export default function JobItem({
     <div className="job-item__wrapper transition-all shadow-md hover:shadow-xl">
       <div className="job-item">
         <div className="job-item__content flex p-8">
-          <div className="content__logo mr-3">
+          <div className="content__logo mr-3 w-14 h-14 relative">
+            <Skeleton height={56} />
             <img
               src={companyLogo || defaultCompanyLogo}
               alt="company logo"
               width="56"
               height="56"
+              className="absolute top-0 z-50"
             />
           </div>
           <div className="content__text">
