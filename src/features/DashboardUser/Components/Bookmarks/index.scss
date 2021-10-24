@@ -1,0 +1,76 @@
+@mixin block-settings {
+  background-color: white;
+  box-sizing: border-box;
+  padding: 20px;
+  box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+}
+@mixin block-title {
+  padding-bottom: 10px;
+  border-bottom: 2px solid #f9f9f9;
+  div:first-child {
+    font-weight: 500;
+    font-size: 16px;
+  }
+}
+.bookmarks {
+  .jobs {
+    @include block-settings;
+    &__title {
+      @include block-title;
+    }
+  }
+  .freelancers {
+    @include block-settings;
+    &__title {
+      @include block-title;
+    }
+  }
+  .box {
+    box-sizing: border-box;
+    border-radius: 4px;
+
+    &__item {
+      border: 3px solid transparent;
+      border-top: 1px solid #e4e4e4;
+      border-bottom: 1px solid #e4e4e4;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      color: black;
+      background: #fff;
+      overflow: hidden;
+      &:hover {
+        border-left: 3px solid #2e3fe5;
+        transition: all 0.25s;
+      }
+      &__title {
+        font-weight: 500;
+      }
+      &__content {
+        color: #909090;
+        font-size: 16px;
+      }
+      .btn {
+        padding: 8px;
+        border-radius: 4px;
+        font-size: 24px;
+        font-weight: 500;
+        color: #666;
+        align-items: center;
+        background-color: #fafafa;
+        display: flex;
+        span{
+          align-self: center;
+        }
+        &__delete {
+          transition: all 0.3s;
+          &:hover {
+            color: white;
+            background-color: #dc3139;
+          }
+        }
+      }
+    }
+  }
+}

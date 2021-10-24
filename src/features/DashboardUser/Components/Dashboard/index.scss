@@ -8,6 +8,7 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
   &__icon1 {
     background-color: rgba(54, 189, 120, 0.07);
@@ -36,10 +37,11 @@
       color: rgb(239, 168, 15);
     }
   }
-  &__chart{
+  &__chart {
     background-color: #fff;
     box-sizing: border-box;
     padding: 10px;
     margin-top: 30px;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
   }
 }
