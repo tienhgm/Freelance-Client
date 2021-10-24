@@ -141,7 +141,7 @@ export default function JobDetails() {
         </div>
         <div className="content__sidebar w-full lg:w-1/3 flex flex-col px-8 gap-10">
           <Button>
-            Apply Now <i className="bx bx-right-arrow-alt"></i>
+            Apply Now <i className="bx bx-right-arrow-alt ml-2"></i>
           </Button>
           <div className="job-summary w-full text-base mb-12">
             <h2 className="py-5 px-6 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>

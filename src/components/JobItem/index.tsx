@@ -23,12 +23,19 @@ export default function JobItem({
   };
 
   const gotoDetailPage = () => {
-    history.push(routesConfiguration.jobDetails.cPath+'1')
+    history.push(routesConfiguration.jobDetails.cPath + '1')
   }
 
   return (
-    <div className="job-item__wrapper transition-all shadow-md hover:shadow-xl" onClick={gotoDetailPage}>
-      <div className="job-item">
+    <div className="job-item__wrapper transition-all relative shadow-md hover:shadow-xl" >
+      <div
+        className={`content__bookmark transition-all top-24 ${bookmark ? "added" : ""}`}
+        onClick={addOrRemoveBookmark}
+      >
+        <div className="bookmark__animation"></div>
+        <i className="bx bxs-star transition-all"></i>
+      </div>
+      <div className="job-item" onClick={gotoDetailPage}>
         <div className="job-item__content flex p-8">
           <div className="content__logo mr-3 w-14 h-14 relative">
             <Skeleton height={56} />
@@ -43,13 +50,6 @@ export default function JobItem({
           <div className="content__text">
             <span className="content__company-name">{company}</span>
             <h4 className="content__job-title">{jobTitle}</h4>
-          </div>
-          <div
-            className={`content__bookmark transition-all ${bookmark ? "added" : ""}`}
-            onClick={addOrRemoveBookmark}
-          >
-            <div className="bookmark__animation"></div>
-            <i className="bx bxs-star transition-all"></i>
           </div>
         </div>
         <div className="job-item__footer p-8 bg-gray-100">
