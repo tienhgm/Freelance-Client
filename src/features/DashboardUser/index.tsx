@@ -12,6 +12,7 @@ import {
 } from "@ant-design/icons";
 import ChangePassword from "./Components/ChangePassword";
 import Dashboard from "./Components/Dashboard";
+import Bookmarks from "./Components/Bookmarks";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
@@ -22,7 +23,7 @@ function DashboardUser() {
   return (
     <div className="flex h-full overflow-y-hidden">
       <Menu
-        className="grid-cols-3 overflow-x-hidden"
+        className="h-full grid-cols-3 pb-10 overflow-x-hidden"
         onClick={handleClick}
         style={{ width: 256 }}
         defaultSelectedKeys={["1"]}
@@ -39,7 +40,7 @@ function DashboardUser() {
           Message
         </Menu.Item>
         <Menu.Item key="3" icon={<StarOutlined />}>
-          Bookmarks
+          <Link to={"/dashboard/bookmarks"}>Bookmarks</Link>
         </Menu.Item>
         <Menu.Item key="4" icon={<BookOutlined />}>
           Reviews
@@ -68,6 +69,7 @@ function DashboardUser() {
         <Switch>
           <Route path={`${match.url}`} component={Dashboard} exact />
           <Route path={`${match.url}/settings`} component={Settings} exact />
+          <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
           <Route
             path={`${match.url}/password`}
             component={ChangePassword}
