@@ -1,0 +1,109 @@
+.freelancer {
+    box-shadow: 0 2px 12px #0000001f;
+    border-radius: 4px;
+    z-index: 10;
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
+    background-color: #ffffff;
+
+    &:hover {
+      transform: translateY(-3px);
+    }
+    // freelancer__overview
+    &__overview {
+      text-align: center;
+      padding: 35px 20px;
+    }
+
+    &__avatar {
+      width: 110px;
+      margin: 0 auto;
+      position: relative;
+
+      img {
+        border-radius: 50%;
+      }
+    }
+
+    &__name {
+
+      h4, a {
+        font-size: 18px;
+        font-weight: 600;
+        color: #333;
+        margin: 0;
+      }
+
+      .flag {
+        height: 15px;
+        border-radius: 3px;
+        display: inline-block;
+        position: relative;
+        top: -1px;
+      }
+
+      span {
+        color: #888888;
+        font-size: 16px;
+      }
+    }
+
+    &__rating {
+      display: inline-block;
+
+      .point {
+        padding: 4px 8px;
+        background-color: #febe42;
+        border-radius: 4px;
+        font-weight: 700;
+        color: #fff;
+        font-size: 14px;
+        position: relative;
+        top: 2px;
+      }
+
+      .star {
+        color: #febe42;
+        font-size: 20px;
+      } 
+    }
+
+    // freelancer__details
+    &__details {
+      padding: 35px;
+      background-color: #fafafa;
+      flex-grow: 0;
+
+      .info > ul {
+        list-style: none;
+        padding: 0;
+        margin: 0 0 5px 0px;
+        font-size: 14.7px;
+      }
+
+      li {
+        display: inline-block;
+        margin-right: 22px;
+        line-height: 23px;
+        color: #808080;
+        margin-bottom: 17px;
+      }
+
+      strong {
+        display: block;
+        color: #333;
+      }
+
+      .view-profile {
+        width: 100%;
+        background-color: #2a41e8;
+        text-align: center;
+        color: white;
+        padding: 10px;
+        border-radius: 4px;
+        font-size: 16px;
+      }
+    }
+
+
+}

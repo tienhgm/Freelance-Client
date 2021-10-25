@@ -1,0 +1,52 @@
+.sidebar {
+
+    h5{
+        font-size: 20px;
+        margin-bottom: 18px;
+        font-weight: 400;
+    }
+
+    &__location{
+        
+        input{
+            line-height: 48px;
+            width: 100%;
+            padding: 0 45px 0 20px;
+            outline: none;
+            font-size: 16px;
+        }
+    }
+
+    &__category{
+        .button-category{
+            background-color: #fff;
+            line-height: 48px;
+            width: 100%;
+            padding: 0 20px;
+            font-size: 16px;
+        }
+    }
+
+    &__job{
+
+        .switch{
+            margin-bottom: 10px;
+        }
+
+        span{
+            margin-left: 10px;
+            font-size: 16px;
+            color: #666666;
+            position: relative;
+            top: 3px;
+        }
+    }
+
+    &__search{
+        position: sticky;
+        bottom: 0px;
+        height: 90px;
+        z-index: 10;
+        background-color: #f3f3f3;
+    }
+}
