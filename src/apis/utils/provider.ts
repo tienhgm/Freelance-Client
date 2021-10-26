@@ -24,6 +24,7 @@ const getById = (collection: any, id: number) => {
 };
 
 const post = (collection: any, model: any) => {
+  console.log(baseUrl)
   return axios
     .post(`${baseUrl}/${collection}`, model, { headers: getAuthHeader() })
     .then(handleResponse)

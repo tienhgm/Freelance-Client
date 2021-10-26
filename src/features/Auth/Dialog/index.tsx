@@ -3,6 +3,7 @@ import LoginForm from "../LoginForm";
 import RegisterForm from "../RegisterForm";
 import { Tabs } from "antd";
 import "./style.scss";
+import apiAuth from "apis/tasks/apiAuth";
 
 type DialogProps = {
     isOpen: boolean;
@@ -15,8 +16,12 @@ const LOGIN_TAB_INDEX = "1";
 const REGISTER_TAB_INDEX = "2";
 
 function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
-    const onFinish = (values: any) => {
-        console.log("Success:", values);
+    const onFinish = async (values: any) => {
+        const res = await apiAuth.login({
+            "email": "thienkhac8@gmail.com",
+            "password": "thienkhac8"
+        });
+        console.log(res);
     };
 
     const onFinishFailed = (errorInfo: any) => {

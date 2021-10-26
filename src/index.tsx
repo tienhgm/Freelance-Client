@@ -7,13 +7,18 @@ import { Provider } from "react-redux";
 import * as serviceWorker from "./serviceWorker";
 import { BrowserRouter } from "react-router-dom";
 import 'react-loading-skeleton/dist/skeleton.css'
+import { PersistGate } from "redux-persist/integration/react";
+import persistStore from "redux-persist/es/persistStore";
+let persistor = persistStore(store);
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App />
-      </BrowserRouter>
+      <PersistGate loading={null} persistor={persistor}>
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
+      </PersistGate>
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

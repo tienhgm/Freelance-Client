@@ -1,12 +1,12 @@
 import { apiProvider } from "./provider";
 
 export class ApiCore {
-  get: Function | null = null;
-  getById: Function | null = null;
-  post: Function | null = null;
-  put: Function | null = null;
-  remove: Function | null = null;
-  upload: Function | null = null;
+  get: Function = () => {};
+  getById: Function = () => {};
+  post: Function = () => {};
+  put: Function = () => {};
+  remove: Function = () => {};
+  upload: Function = () => {};
 
   constructor(options: any) {
     if (options.get) {

@@ -9,6 +9,10 @@ class ApiAuth extends ApiCore {
       remove: true,
     });
   }
+
+  login(account: any) {
+    return this.post(account, "account/login");
+  }
 }
 
 export default new ApiAuth();
