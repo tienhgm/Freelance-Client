@@ -20,27 +20,27 @@ function Sidebar() {
     return (
         <div className="sidebar">
             {/* location */}
-            <div className="sidebar__location mb-12">
+            <div className="mb-12 sidebar__location">
                 <h5>Location</h5>
-                <div className="block relative shadow-md rounded text-gray-400">
+                <div className="relative block text-gray-400 rounded shadow-md">
                     <input
                         className="h-12"
                         type="text"
                         placeholder="Location"
                     />
-                    <EnvironmentOutlined className=" absolute top-4 right-4" />
+                    <EnvironmentOutlined className="absolute  top-4 right-4" />
                 </div>
             </div>
             {/* category */}
-            <div className="sidebar__category mb-12">
+            <div className="mb-12 sidebar__category">
                 <h5>Category</h5>
-                <div className="block relative shadow-md rounded text-gray-400 cursor-pointer">
+                <div className="relative block text-gray-400 rounded shadow-md cursor-pointer">
                     <div className="button-category">All categories</div>
-                    <CaretDownOutlined className=" absolute top-5 right-4" />
+                    <CaretDownOutlined className="absolute  top-5 right-4" />
                 </div>
             </div>
             {/* Job Type */}
-            <div className="sidebar__job mb-12">
+            <div className="mb-12 sidebar__job">
                 <h5>Job Type</h5>
                 <div className="switch-list">
                     <div className="switch">
@@ -66,7 +66,7 @@ function Sidebar() {
                 </div>
             </div>
             {/* salary */}
-            <div className="sidebar__salary mb-12">
+            <div className="mb-12 sidebar__salary">
                 <h5>Salary</h5>
                 <div className="mt-14">
                     <Slider
@@ -78,17 +78,18 @@ function Sidebar() {
                 </div>
             </div>
             {/* Tags */}
-            <div className="sidebar__tags mb-12">
+            <div className="mb-12 sidebar__tags">
                 <h5>Tags</h5>
                 <div>
                     {tagsData.map(tag => (
                     <CheckableTag
+                        className="custom-tag"
                         key={tag}
                         checked={selectedTags.indexOf(tag) > -1}
                         onChange={checked => handleChange(tag, checked)}
                         style={{marginBottom: '5px'}}
                     >
-                        <p className="text-sm m-2">{tag}</p>
+                        <p className="m-2 text-sm">{tag}</p>
                     </CheckableTag>
                     ))}
                 </div>

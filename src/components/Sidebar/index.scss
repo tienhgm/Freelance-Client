@@ -49,4 +49,14 @@
         z-index: 10;
         background-color: #f3f3f3;
     }
+    &__tags{
+        .custom-tag.ant-tag.ant-tag-checkable{
+            background-color: #fff;
+            border-radius: 4px;
+        }
+        .custom-tag.ant-tag.ant-tag-checkable-checked{
+            background-color: #2e3fe5;
+            border-radius: 4px;
+        }
+    }
 }
