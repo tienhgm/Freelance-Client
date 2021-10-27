@@ -1,6 +1,6 @@
 import { Switch, Link, Route, useRouteMatch } from "react-router-dom";
 import "./index.scss";
-import { Menu, Divider, Badge } from "antd";
+import { Menu, Divider } from "antd";
 import Settings from "./Components/Settings";
 import {
   AppstoreOutlined,
@@ -13,6 +13,8 @@ import {
 import ChangePassword from "./Components/ChangePassword";
 import Dashboard from "./Components/Dashboard";
 import Bookmarks from "./Components/Bookmarks";
+import Jobs from "./Components/JobsManage";
+import Candidates from "./Components/CandidateManage";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
@@ -50,9 +52,9 @@ function DashboardUser() {
         </Divider>
         <SubMenu key="sub2" icon={<AppstoreOutlined />} title="Jobs">
           <Menu.Item key="5">
-            Manage Jobs <Badge count={5}></Badge>
+            <Link to={"/dashboard/jobs-manage"}>Manage Jobs</Link>
           </Menu.Item>
-          <Menu.Item key="6">Manage Candidates</Menu.Item>
+          <Menu.Item key="6"> <Link to={"/dashboard/candidate-manage"}>Manage Candidates</Link></Menu.Item>
           <Menu.Item key="7">Post a job</Menu.Item>
         </SubMenu>
         <Divider orientation="left" style={{ color: "#2e3fe5" }}>
@@ -70,6 +72,8 @@ function DashboardUser() {
           <Route path={`${match.url}`} component={Dashboard} exact />
           <Route path={`${match.url}/settings`} component={Settings} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
+          <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
+          <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />
           <Route
             path={`${match.url}/password`}
             component={ChangePassword}
