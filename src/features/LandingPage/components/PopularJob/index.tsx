@@ -11,7 +11,7 @@ export default function PopularJob() {
       <div className="flex justify-center pt-4 title">
         Popular Job Categories
       </div>
-      <div className="grid gap-3 mt-6 px-36 lg:grid-cols-4 md:grid-cols-2 xs:grid-cols-1">
+      <div className="grid gap-3 mt-6 lg:px-36 md:px-32 xs:px-28 lg:grid-cols-4 md:grid-cols-2 xs:grid-cols-1">
         <div className="box">
           <div>
             <CloudOutlined className="flex text-3xl" />

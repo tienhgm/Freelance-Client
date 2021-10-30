@@ -7,7 +7,7 @@ function Banner() {
     console.log("value", values);
   };
   return (
-    <div className="banner min-w-1/2">
+    <div className="banner">
       <div className="banner__fulfil p-28">
         {/* title */}
         <div className="flex">

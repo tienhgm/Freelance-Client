@@ -6,8 +6,8 @@ $blue-template: #2e3fe5;
     font-size: 24px;
   }
   .box {
-    min-width: 230px;
-    min-height: 230px;
+    width: auto;
+    height: auto;
     cursor: pointer;
     border-radius: 4px;
     display: flex;
@@ -26,6 +26,7 @@ $blue-template: #2e3fe5;
     }
     &__title {
       color: black;
+      text-align: center;
     }
     &__content {
       color: #909090;

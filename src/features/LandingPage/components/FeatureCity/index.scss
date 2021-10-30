@@ -1,8 +1,8 @@
 .city {
   background: #fff;
   margin-top: 4rem;
-  width: 100%;
   box-sizing: border-box;
+  width: auto;
   height: auto;
   padding-bottom: 5.5rem;
   .title {
@@ -14,8 +14,9 @@
   }
   &__box {
     color: black;
-    height: 360px;
-    width: 275px;
+    display: block;
+    min-height: 360px;
+    min-width: 275px;
     position: relative;
     background-repeat: no-repeat;
     background-size: cover;

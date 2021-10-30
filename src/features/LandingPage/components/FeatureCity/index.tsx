@@ -4,7 +4,7 @@ export default function FeatureCity() {
   return (
     <div className="city">
       <div className="title">Featured Cities</div>
-      <div className="grid h-auto grid-cols-4 gap-4 mt-12 px-36">
+      <div className="flex flex-wrap justify-center gap-3 mt-6 px-36">
         <Link
           to="/"
           className="city__box"
