@@ -9,9 +9,11 @@ class ApiAuth extends ApiCore {
       remove: true,
     });
   }
-
-  login(account: any) {
+  login = (account: any) => {
     return this.post(account, "account/login");
+  }
+  register = (account: any) => {
+    return this.post(account, "account/register");
   }
 }
 

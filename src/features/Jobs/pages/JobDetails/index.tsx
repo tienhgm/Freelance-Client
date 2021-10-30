@@ -28,33 +28,33 @@ const jobList: Array<JobItemProps> = [
 export default function JobDetails() {
   return (
     <div className="job-details-page">
-      <div className="header-wrapper px-2 bg-gray-100 relative">
-        <div className="header__background absolute right-0 w-1/2"></div>
-        <div className="page__header container flex flex-col items-left lg:items-center m-auto relative justify-between lg:flex-row">
-          <div className="header__left flex flex-col items-left lg:items-center gap-5 pt-14 lg:py-14 lg:flex-row">
-            <div className="company-logo shadow-xl w-min">
+      <div className="relative px-2 bg-gray-100 header-wrapper">
+        <div className="absolute right-0 w-1/2 header__background"></div>
+        <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
+          <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
+            <div className="shadow-xl company-logo w-min">
               <img
                 src="https://www.vasterad.com/themes/hireo/images/company-logo-03a.png"
                 alt="king"
               />
             </div>
             <div className="general-info">
-              <h2 className="info__job-title text-2xl">
+              <h2 className="text-2xl info__job-title">
                 Restaurant General Manager
               </h2>
-              <p className="info__employer text-base font-semibold">
+              <p className="text-base font-semibold info__employer">
                 About the Employer
               </p>
-              <div className="info__company flex items-center gap-9 text-base">
+              <div className="flex items-center text-base info__company gap-9">
                 <div className="company__name">
-                  <i className="bx bxs-buildings mr-1"></i>
+                  <i className="mr-1 bx bxs-buildings"></i>
                   <span>King</span>
                 </div>
-                <div className="company__rate flex items-center gap-1">
-                  <div className="rate__scores px-2 font-bold bg-yellow-400 text-white rounded-sm">
+                <div className="flex items-center gap-1 company__rate">
+                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">
                     4.9
                   </div>
-                  <div className="rate__stars flex gap-1 text-yellow-400">
+                  <div className="flex gap-1 text-yellow-400 rate__stars">
                     <i className="bx bxs-star"></i>
                     <i className="bx bxs-star"></i>
                     <i className="bx bxs-star"></i>
@@ -62,7 +62,7 @@ export default function JobDetails() {
                     <i className="bx bxs-star"></i>
                   </div>
                 </div>
-                <div className="company__loca flex items-center gap-1">
+                <div className="flex items-center gap-1 company__loca">
                   <div className="loca__flag">
                     <img
                       src="https://www.vasterad.com/themes/hireo/images/flags/gb.svg"
@@ -72,8 +72,8 @@ export default function JobDetails() {
                   </div>
                   <div className="loca__text">United Kingdom</div>
                 </div>
-                <div className="company__status--verified text-white flex items-center bg-green-500 rounded-md">
-                  <div className="status__icon bg-green-400 rounded-l-md px-1">
+                <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
+                  <div className="px-1 bg-green-400 status__icon rounded-l-md">
                     <i className="bx bx-check"></i>
                   </div>
                   <span className="px-3 text-sm">Verified</span>
@@ -81,18 +81,18 @@ export default function JobDetails() {
               </div>
             </div>
           </div>
-          <div className="header_right pt-3 pb-14 lg:py-6 lg:px-12 lg:rounded-md lg:bg-white lg:shadow-lg">
+          <div className="pt-3 header_right pb-14 lg:py-6 lg:px-12 lg:rounded-md lg:bg-white lg:shadow-lg">
             <span className="text-base text-gray-400">Annual Salary</span>
             <br />
             <span className="text-2xl">$35k - $38k</span>
           </div>
         </div>
       </div>
-      <div className="content container m-auto mt-14 flex flex-col lg:flex-row">
-        <div className="content__main w-full lg:w-2/3 pr-10">
+      <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
+        <div className="w-full pr-10 content__main lg:w-2/3">
           <div className="job-description">
-            <h2 className="text-xl mt-2 mb-10">Job Description</h2>
-            <div className="job-description__content text-justify text-base mb-10">
+            <h2 className="mt-2 mb-10 text-xl">Job Description</h2>
+            <div className="mb-10 text-base text-justify job-description__content">
               <p>
                 Leverage agile frameworks to provide a robust synopsis for high
                 level overviews. Iterative approaches to corporate strategy
@@ -117,8 +117,8 @@ export default function JobDetails() {
               </p>
             </div>
           </div>
-          <div className="location  mb-10">
-            <h2 className="text-xl mt-2 mb-10">Location</h2>
+          <div className="mb-10 location">
+            <h2 className="mt-2 mb-10 text-xl">Location</h2>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.131535965436!2d105.83325081538527!3d21.02742229319891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9926e7bd67%3A0x580e078874d5df1e!2sTemple%20Of%20Literature!5e0!3m2!1sen!2s!4v1635015151319!5m2!1sen!2s"
               height="300"
@@ -130,24 +130,24 @@ export default function JobDetails() {
               className="w-full"
             />
           </div>
-          <div className="similar-jobs mb-10">
-            <h2 className="text-xl mt-2 mb-10">Similar Jobs</h2>
+          <div className="mb-10 similar-jobs">
+            <h2 className="mt-2 mb-10 text-xl">Similar Jobs</h2>
             {jobList.map((job, index) => (
-              <div className="w-1/2 inline-block p-3">
+              <div className="inline-block w-1/2 p-3">
                 <JobItem {...job} key={index} />
               </div>
             ))}
           </div>
         </div>
-        <div className="content__sidebar w-full lg:w-1/3 flex flex-col px-8 gap-10">
+        <div className="flex flex-col w-full gap-10 px-8 content__sidebar lg:w-1/3">
           <Button>
-            Apply Now <i className="bx bx-right-arrow-alt ml-2"></i>
+            Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
           </Button>
-          <div className="job-summary w-full text-base mb-12">
-            <h2 className="py-5 px-6 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
-            <div className="location py-5 px-6 flex items-center bg-gray-200">
-              <div className="icon mr-5">
-                <i className="bx bx-location-plus text-2xl" />
+          <div className="w-full mb-12 text-base job-summary">
+            <h2 className="px-6 py-5 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
+            <div className="flex items-center px-6 py-5 bg-gray-200 location">
+              <div className="mr-5 icon">
+                <i className="text-2xl bx bx-location-plus" />
               </div>
               <div className="content">
                 <span className="font-medium">Location</span>
@@ -155,9 +155,9 @@ export default function JobDetails() {
                 <span>London, United Kingdom</span>
               </div>
             </div>
-            <div className="job-type py-5 px-6 flex items-center bg-gray-200">
-              <div className="icon mr-5">
-                <i className="bx bxs-shopping-bags text-2xl"></i>
+            <div className="flex items-center px-6 py-5 bg-gray-200 job-type">
+              <div className="mr-5 icon">
+                <i className="text-2xl bx bxs-shopping-bags"></i>
               </div>
               <div className="content">
                 <span className="font-medium">Job Type</span>
@@ -165,9 +165,9 @@ export default function JobDetails() {
                 <span>Full Time</span>
               </div>
             </div>
-            <div className="salary py-5 px-6 flex items-center bg-gray-200">
-              <div className="icon mr-5">
-                <i className="bx bx-dollar-circle text-2xl"></i>
+            <div className="flex items-center px-6 py-5 bg-gray-200 salary">
+              <div className="mr-5 icon">
+                <i className="text-2xl bx bx-dollar-circle"></i>
               </div>
               <div className="content">
                 <span className="font-medium">Salary</span>
@@ -175,9 +175,9 @@ export default function JobDetails() {
                 <span>$35k - $38k</span>
               </div>
             </div>
-            <div className="date-posted py-5 px-6 flex items-center bg-gray-200">
-              <div className="icon mr-5">
-                <i className="bx bx-time-five text-2xl"></i>
+            <div className="flex items-center px-6 py-5 bg-gray-200 date-posted">
+              <div className="mr-5 icon">
+                <i className="text-2xl bx bx-time-five"></i>
               </div>
               <div className="content">
                 <span className="font-medium">Date Posted</span>

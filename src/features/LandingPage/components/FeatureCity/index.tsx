@@ -1,9 +1,6 @@
 import "./index.scss";
-import { Card } from "antd";
-import { url } from "inspector";
 import { Link } from "react-router-dom";
 
-const { Meta } = Card;
 export default function FeatureCity() {
   return (
     <div className="city">

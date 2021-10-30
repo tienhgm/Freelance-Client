@@ -18,15 +18,11 @@ import Candidates from "./Components/CandidateManage";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
-  const handleClick = (e: any) => {
-    console.log("click ", e);
-  };
   const match = useRouteMatch();
   return (
     <div className="flex h-full overflow-y-hidden">
       <Menu
         className="h-full grid-cols-3 pb-10 overflow-x-hidden"
-        onClick={handleClick}
         style={{ width: 256 }}
         defaultSelectedKeys={["1"]}
         defaultOpenKeys={["sub1"]}

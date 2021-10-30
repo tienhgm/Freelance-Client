@@ -1,6 +1,5 @@
-import React from "react";
 import { Form, Button, Input } from "antd";
-import { MailOutlined, LockOutlined } from "@ant-design/icons";
+import { MailOutlined, LockOutlined, UserAddOutlined } from "@ant-design/icons";
 import { REGEX_CHECK_EMAIL } from "constants/regex";
 
 type RegisterFormProps = {
@@ -19,10 +18,7 @@ function RegisterForm({ onFormFinish, onFormFinishFalse }: RegisterFormProps) {
     >
       <div className="form-title">
         <h3>Let's create your account!</h3>
-    </div>
-    <Form.Item name="role">
-    
-    </Form.Item>
+      </div>
       <Form.Item
         name="email"
         rules={[
@@ -34,10 +30,42 @@ function RegisterForm({ onFormFinish, onFormFinishFalse }: RegisterFormProps) {
         ]}
       >
         <Input
-    placeholder="Email address"
+          placeholder="Email address"
           size="large"
           autoComplete="false"
           prefix={<MailOutlined />}
+        />
+      </Form.Item>
+      <Form.Item
+        name="firstName"
+        rules={[
+          { required: true, message: "Please input your firstName!" },
+          {
+            message: "Name Invalid",
+          },
+        ]}
+      >
+        <Input
+          placeholder="please input first name"
+          size="large"
+          autoComplete="false"
+          prefix={<UserAddOutlined />}
+        />
+      </Form.Item>
+      <Form.Item
+        name="lastName"
+        rules={[
+          { required: true, message: "Please input your lastName!" },
+          {
+            message: "Name Invalid",
+          },
+        ]}
+      >
+        <Input
+          placeholder="please input last name"
+          size="large"
+          autoComplete="false"
+          prefix={<UserAddOutlined />}
         />
       </Form.Item>
       <Form.Item

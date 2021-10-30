@@ -6,7 +6,6 @@ import {
   HeartOutlined,
   LaptopOutlined,
 } from "@ant-design/icons";
-import { Button } from "antd";
 import { Link } from "react-router-dom";
 import "./index.scss";
 export default function FeatureJob() {
@@ -15,7 +14,7 @@ export default function FeatureJob() {
       <div className="flex justify-between mb-10">
         <div className="text-2xl font-medium">Feature Jobs</div>
         <div className="text-base">
-          <a href="#" className="flex items-center view-more">
+          <a className="flex items-center view-more">
             Browse all jobs <DoubleRightOutlined className="mt-1 ml-1" />
           </a>
         </div>

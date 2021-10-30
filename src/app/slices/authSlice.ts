@@ -1,24 +1,18 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 interface AuthState {
-  id: string;
-  email: string;
-  firstName: string;
-  lastName: string;
   accessToken: string;
   refreshToken: string;
+  user: any
 }
 
-const initialState = {
-  id: "",
-  email: "",
-  firstName: "",
-  lastName: "",
-  accessToken: "",
-  refreshToken: "",
-} as AuthState;
+const initialState:AuthState = {
+  accessToken: '',
+  refreshToken: '',
+  user: {}
+}
 
-const counterSlice = createSlice({
+const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
@@ -28,5 +22,5 @@ const counterSlice = createSlice({
   },
 });
 
-export const { login: incrementByAmount } = counterSlice.actions;
-export default counterSlice.reducer;
+export const { login } = authSlice.actions;
+export default authSlice.reducer;
