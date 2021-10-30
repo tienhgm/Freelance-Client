@@ -3,10 +3,9 @@ import LoginForm from "../LoginForm";
 import RegisterForm from "../RegisterForm";
 import { Tabs } from "antd";
 import "./style.scss";
-import apiAuth from "apis/tasks/apiAuth";
 import { notify } from "utils/notification";
 import { useAppDispatch } from "app/hooks";
-import { login } from "app/slices/authSlice";
+import { login, register } from "app/slices/authSlice";
 import { handleLoading } from "app/slices/appSlice";
 import Loading from "components/Loading";
 
@@ -28,20 +27,13 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: any) => {
-    let action =
-      tabIndex === REGISTER_TAB_INDEX ? apiAuth.register : apiAuth.login;
     try {
       dispatch(handleLoading(true));
-      const res = await action({
-        ...values,
-      });
-      if (res.status === 200) {
-        await dispatch(login(res.data));
-        await dispatch(handleLoading(false));
-        notify("success", "Success", "");
-        closeDialog();
-        setIsReset(true);
-      }
+      tabIndex === REGISTER_TAB_INDEX ? await dispatch(register(values))  : await dispatch(login(values));
+      dispatch(handleLoading(false));
+      notify("success", "Success", "");
+      closeDialog();
+      setIsReset(true);
     } catch (error) {}
   };
   const onFinishFailed = (errorInfo: any) => {};

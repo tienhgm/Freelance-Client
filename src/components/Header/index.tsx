@@ -32,19 +32,24 @@ export default function Header() {
     <Menu>
       <Menu.Item key="1">
         <div>
+            {"Hi " + user.firstName + user.lastName + " !"}
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <div>
           <Link to="/dashboard" style={{ color: "black" }}>
             Dashboard
           </Link>
         </div>
       </Menu.Item>
-      <Menu.Item key="1">
+      <Menu.Item key="3">
         <div>
           <Link to="/dashboard/settings" style={{ color: "black" }}>
             Settings
           </Link>
         </div>
       </Menu.Item>
-      <Menu.Item key="2">
+      <Menu.Item key="4">
         <div style={{ color: "black" }} onClick={handleOpenDialogConfirm}>
           Logout
         </div>

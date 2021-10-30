@@ -1,4 +1,5 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
+import apiAuth from "apis/tasks/apiAuth";
 
 interface AuthState {
   accessToken: string;
@@ -12,20 +13,44 @@ const initialState: AuthState = {
   user: {}
 }
 
+export const login = createAsyncThunk("auth/login", async (payload: any) => {
+  try {
+    const res = await apiAuth.login(payload);
+    if (res.status == 200) {
+      return res.data;
+    }
+
+  } catch (error) {}
+});
+export const register = createAsyncThunk("auth/register", async (payload: any) => {
+  try {
+    const res = await apiAuth.register(payload);
+    if (res.status == 1) {
+      return res.data;
+    }
+  } catch (error) {}
+});
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    login(state, action: PayloadAction<AuthState>) {
-      return action.payload;
-    },
     logout(state) {
       state.accessToken = '';
       state.refreshToken = '';
       state.user = {}
     }
   },
+  extraReducers: {
+    // @ts-ignore
+    [login.fulfilled]: (state, action: PayloadAction<AuthState>) => {
+      return action.payload;
+    },
+    // @ts-ignore
+    [register.fulfilled]: (state, action: PayloadAction<AuthState>) => {
+      return action.payload;
+    },
+  }
 });
-
-export const { login, logout } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;
