@@ -1,15 +1,14 @@
 import Sidebar from "components/Sidebar";
 import ListFreelancer from "features/Freelancers/components/ListFreelancer";
 import "./index.scss";
-import React from "react";
 
 function FindFreelancer() {
     return (
-        <div className="FindFreelancer container flex">
-            <div className="FindFreelancer__sidebar overflow-y-scroll">
+        <div className="container flex FindFreelancer">
+            <div className="overflow-y-scroll FindFreelancer__sidebar">
                 <Sidebar />
             </div>
-            <div className="FindFreelancer__list flex-1 overflow-y-scroll mr-1">
+            <div className="flex-1 mr-1 overflow-y-scroll FindFreelancer__list">
                 <ListFreelancer />
             </div>
         </div>

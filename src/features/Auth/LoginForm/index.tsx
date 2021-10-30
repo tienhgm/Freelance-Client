@@ -1,4 +1,3 @@
-import React from "react";
 import { Form, Button, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import "./style.scss";

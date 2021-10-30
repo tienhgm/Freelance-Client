@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import  { useState } from "react";
 import './index.scss'
 import { Button, message } from "antd";
 import { Upload } from "antd";

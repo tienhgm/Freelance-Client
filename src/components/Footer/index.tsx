@@ -33,7 +33,7 @@ export default function Footer() {
     },
   ];
   // email dang ky nhan thu
-  const [signUpEmail, setSignUpEmail] = useState();
+  // const [signUpEmail, setlistFile] = useState();
   return (
     <div className="px-36 footer">
       <div className="flex items-center justify-between pt-4 pb-4 footer__row-one">
@@ -50,7 +50,7 @@ export default function Footer() {
                 color="geekblue"
                 key={idx}
               >
-                <a href={item.url} target="_blank">
+                <a href={item.url} target="_blank" rel="noreferrer">
                   {item.icon}
                 </a>
               </Tooltip>

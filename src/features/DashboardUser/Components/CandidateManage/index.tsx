@@ -30,6 +30,7 @@ export default function Candidates() {
               <img
                 src={avatarDefault}
                 style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+                alt="avatar"
               />
               <div className="flex flex-col ml-4">
                 <div className="text-lg box__item__title">
@@ -77,6 +78,7 @@ export default function Candidates() {
               <img
                 src={avatarDefault}
                 style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+                alt="avatar"
               />
               <div className="flex flex-col ml-4">
                 <div className="text-lg box__item__title">
@@ -124,6 +126,7 @@ export default function Candidates() {
               <img
                 src={avatarDefault}
                 style={{ width: "80px", height: "80px", borderRadius: "50%" }}
+                alt="avatar"
               />
               <div className="flex flex-col ml-4">
                 <div className="text-lg box__item__title">

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import PropTypes from "prop-types";
 import "./index.scss";
 import { CaretDownOutlined, EnvironmentOutlined } from "@ant-design/icons";
 import { Switch, Slider, Tag, Button  } from "antd";
@@ -7,7 +6,6 @@ import { Switch, Slider, Tag, Button  } from "antd";
 const { CheckableTag } = Tag;
 const tagsData: string[] = ['front-end dev', 'angular', 'react', 'vue js', 'web apps', 'design', 'wordpress'];
 
-Sidebar.propTypes = {};
 
 function Sidebar() {
     const [selectedTags, setSelectedTags] = useState<string[]>([]);
@@ -28,7 +26,7 @@ function Sidebar() {
                         type="text"
                         placeholder="Location"
                     />
-                    <EnvironmentOutlined className="absolute  top-4 right-4" />
+                    <EnvironmentOutlined className="absolute top-4 right-4" />
                 </div>
             </div>
             {/* category */}
@@ -36,7 +34,7 @@ function Sidebar() {
                 <h5>Category</h5>
                 <div className="relative block text-gray-400 rounded shadow-md cursor-pointer">
                     <div className="button-category">All categories</div>
-                    <CaretDownOutlined className="absolute  top-5 right-4" />
+                    <CaretDownOutlined className="absolute top-5 right-4" />
                 </div>
             </div>
             {/* Job Type */}
