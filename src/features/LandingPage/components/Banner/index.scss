@@ -1,4 +1,5 @@
 .banner {
+  min-width: 600px;
   background-image: url("../../../../assets/images/home-background1.jpg");
   height: 600px;
   background-repeat: no-repeat;
@@ -6,6 +7,7 @@
   position: relative;
   &__fulfil {
     position: absolute;
+    min-width: 600px;
     background-image: linear-gradient(
       to right,
       rgba(250, 250, 250, 1) 20%,
@@ -27,7 +29,6 @@
       border-right: 1px solid #e0e0e0;
       .title {
         color: #888;
-        font-size: 18px;
       }
     }
     &__column:last-child {

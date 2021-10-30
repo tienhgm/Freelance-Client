@@ -6,8 +6,12 @@ $blue-template: #2e3fe5;
     font-size: 24px;
   }
   .box {
+    min-width: 230px;
+    min-height: 230px;
+    cursor: pointer;
     border-radius: 4px;
     display: flex;
+    flex-wrap: nowrap;
     flex-direction: column;
     justify-content: center;
     align-items: center;

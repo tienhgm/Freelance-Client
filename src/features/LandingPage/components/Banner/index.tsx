@@ -7,15 +7,15 @@ function Banner() {
     console.log("value", values);
   };
   return (
-    <div className="banner">
+    <div className="banner min-w-1/2">
       <div className="banner__fulfil p-28">
         {/* title */}
-        <div className="grid grid-cols-2">
+        <div className="flex">
           <div>
-            <div className="text-2xl font-medium">
+            <div className="font-medium lg:text-2xl md:text-xl xs:text-lg">
               Hire experts or be hired for any job, any time.
             </div>
-            <div className="text-2xl">
+            <div className="lg:text-2xl md:text-xl xs:text-lg">
               Thousands of small businesses use{" "}
               <span className="color-blue">Freelance</span> to turn their ideas
               into reality.
@@ -31,8 +31,8 @@ function Banner() {
             onFinish={onFinish}
             size="large"
           >
-            <div className="flex items-center">
-              <div style={{ minWidth: 200, width: 300 }}>
+            <div className="flex flex-wrap items-center gap-2">
+              <div style={{ width: 300 }}>
                 <Form.Item name="location">
                   <Select placeholder="Please select a location">
                     <Option value="china">Viet Nam</Option>
@@ -40,7 +40,7 @@ function Banner() {
                   </Select>
                 </Form.Item>
               </div>
-              <div style={{ minWidth: 200, width: 400 }} className="mr-2">
+              <div style={{ width: 400 }} className="">
                 <Form.Item name="job-name">
                   <Input placeholder="jobs name" />
                 </Form.Item>
@@ -57,22 +57,28 @@ function Banner() {
         </div>
         {/* end search jobs */}
         {/* statistical  */}
-        <div className="flex mt-16 statistical">
+        <div className="flex mt-16 flex-nowrap statistical">
           <div className="statistical__column">
-            <div className="text-3xl font-medium">1586</div>
-            <div className="title" style={{ color: "#888" }}>
+            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
+              1586
+            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">
               Jobs Posted
             </div>
           </div>
           <div className="statistical__column">
-            <div className="text-3xl font-medium">6969</div>
-            <div className="title" style={{ color: "#888" }}>
+            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
+              6969
+            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">
               Blogs
             </div>
           </div>
           <div className="statistical__column">
-            <div className="text-3xl font-medium">1586</div>
-            <div className="title" style={{ color: "#888" }}>
+            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
+              1586
+            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">
               Jobs Posted
             </div>
           </div>

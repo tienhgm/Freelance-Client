@@ -1,6 +1,5 @@
 import JobItem from "components/JobItem";
 import { Select, Pagination } from "antd";
-import React from "react";
 import JobItemProps from "types/jobItemProps";
 import "./styles.scss";
 const jobList: Array<JobItemProps> = [
@@ -125,11 +124,11 @@ const { Option } = Select;
 
 export default function FindJobs() {
   return (
-    <div className="find-job-page flex flex-col sm:flex-row">
-      <div className="find-job-page__sidebar w-52 md:w-60 lg:w-72 flex-shrink-0"></div>
-      <div className="find-job-page__content w-full p-6">
-        <div className="content__header flex items-center justify-between px-4 py-2 bg-gray-300 rounded-md mb-5">
-          <h2 className="header__title font-normal">Search Results</h2>
+    <div className="flex flex-col find-job-page sm:flex-row">
+      <div className="flex-shrink-0 find-job-page__sidebar w-52 md:w-60 lg:w-72"></div>
+      <div className="w-full p-6 find-job-page__content">
+        <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">
+          <h2 className="font-normal header__title">Search Results</h2>
           <div className="header__filter">
             <span>Sort by:</span>
             <Select
@@ -146,12 +145,12 @@ export default function FindJobs() {
             </Select>
           </div>
         </div>
-        <div className="transition-all grid-cols-1 content__list-items flex-grow grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items md:grid-cols-2 lg:grid-cols-3">
           {jobList.map((job, index) => (
             <JobItem {...job} key={index} />
           ))}
         </div>
-        <div className="find-job-page__paginate flex justify-center mt-8">
+        <div className="flex justify-center mt-8 find-job-page__paginate">
           <Pagination defaultCurrent={1} total={100} responsive={true} />
         </div>
       </div>
