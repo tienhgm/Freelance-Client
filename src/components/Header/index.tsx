@@ -14,7 +14,7 @@ export default function Header() {
   };
   const user = useAppSelector((state) => state.auth.user);
   return (
-    <div className="px-28 header">
+    <div className="lg:px-28 md:px-24 xs:px-16 header">
       <div className="flex">
         <div className="header__title">
           <Link to="/">
