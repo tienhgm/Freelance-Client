@@ -2,6 +2,7 @@ import JobItem from "components/JobItem";
 import { Select, Pagination } from "antd";
 import JobItemProps from "types/jobItemProps";
 import "./styles.scss";
+import Sidebar from "components/Sidebar";
 const jobList: Array<JobItemProps> = [
   {
     company: "Hexagon",
@@ -125,7 +126,9 @@ const { Option } = Select;
 export default function FindJobs() {
   return (
     <div className="flex flex-col find-job-page sm:flex-row">
-      <div className="flex-shrink-0 find-job-page__sidebar w-52 md:w-60 lg:w-72"></div>
+      <div className="flex-shrink-0 find-job-page__sidebar w-52 md:w-60 lg:w-72">
+        <Sidebar />
+      </div>
       <div className="w-full p-6 find-job-page__content">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">
           <h2 className="font-normal header__title">Search Results</h2>

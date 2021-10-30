@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import { Link, NavLink, useHistory } from "react-router-dom";
 import "./index.scss";
 import Dialog from "features/Auth/Dialog";
 import { Menu, Dropdown, Avatar } from "antd";
@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "app/hooks";
 import SideBar from "./Components/SideBar";
 import { UserOutlined } from "@ant-design/icons";
 import { logout } from "app/slices/authSlice";
+import Popup from "components/Popup";
 export default function Header() {
   const [showDialog, setShowDialog] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -17,9 +18,15 @@ export default function Header() {
   };
   const user = useAppSelector((state) => state.auth.user);
   const dispatch = useAppDispatch();
-  const handleLogout = (e: any) => {
-    e.preventDefault();
+
+  const history = useHistory();
+  const handleLogout = () => {
     dispatch(logout());
+    history.push("/");
+  };
+  const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
+  const handleOpenDialogConfirm = () => {
+    setOpenDialogConfirm(true);
   };
   const menu = (
     <Menu>
@@ -30,10 +37,17 @@ export default function Header() {
           </Link>
         </div>
       </Menu.Item>
+      <Menu.Item key="1">
+        <div>
+          <Link to="/dashboard/settings" style={{ color: "black" }}>
+            Settings
+          </Link>
+        </div>
+      </Menu.Item>
       <Menu.Item key="2">
-        <Link to="/" style={{ color: "black" }} onClick={handleLogout}>
+        <div style={{ color: "black" }} onClick={handleOpenDialogConfirm}>
           Logout
-        </Link>
+        </div>
       </Menu.Item>
     </Menu>
   );
@@ -77,6 +91,13 @@ export default function Header() {
         isOpen={showDialog}
         isLogin={isLogin}
         closeDialog={() => setShowDialog(false)}
+      />
+      <Popup
+        title="Logout"
+        isVisible={openDialogConfirm}
+        popupText="Logout?"
+        handleConfirm={handleLogout}
+        handleCancelConfirm={() => setOpenDialogConfirm(false)}
       />
     </div>
   );
