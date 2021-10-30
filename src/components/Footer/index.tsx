@@ -1,4 +1,3 @@
-import { useState } from "react";
 import {
   FacebookOutlined,
   MailOutlined,
@@ -50,7 +49,7 @@ export default function Footer() {
                 color="geekblue"
                 key={idx}
               >
-                <a href={item.url} target="_blank" rel="noreferrer">
+                <a href={item.url} target="_blank" rel="noopener noreferrer">
                   {item.icon}
                 </a>
               </Tooltip>

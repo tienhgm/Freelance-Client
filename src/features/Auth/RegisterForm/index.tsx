@@ -1,15 +1,29 @@
 import { Form, Button, Input } from "antd";
 import { MailOutlined, LockOutlined, UserAddOutlined } from "@ant-design/icons";
 import { REGEX_CHECK_EMAIL } from "constants/regex";
+import { useEffect } from "react";
 
 type RegisterFormProps = {
   onFormFinish: (values: any) => void;
   onFormFinishFalse: (values: any) => void;
+  isReset: boolean;
 };
 
-function RegisterForm({ onFormFinish, onFormFinishFalse }: RegisterFormProps) {
+function RegisterForm({
+  onFormFinish,
+  onFormFinishFalse,
+  isReset,
+}: RegisterFormProps) {
+  const [form] = Form.useForm();
+  useEffect(() => {
+    onReset();
+  }, [isReset]);
+  const onReset = () => {
+    form.resetFields();
+  };
   return (
     <Form
+      form={form}
       name="login"
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}

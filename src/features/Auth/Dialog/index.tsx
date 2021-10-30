@@ -7,7 +7,8 @@ import apiAuth from "apis/tasks/apiAuth";
 import { notify } from "utils/notification";
 import { useAppDispatch } from "app/hooks";
 import { login } from "app/slices/authSlice";
-import LoadingComp from "components/Loading";
+import { handleLoading } from "app/slices/appSlice";
+import Loading from "components/Loading";
 
 type DialogProps = {
   isOpen: boolean;
@@ -23,29 +24,31 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
   const [tabIndex, setTabIndex] = useState(() =>
     isLogin ? LOGIN_TAB_INDEX : REGISTER_TAB_INDEX
   );
+  const [isReset, setIsReset] = useState(false);
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: any) => {
     let action =
       tabIndex === REGISTER_TAB_INDEX ? apiAuth.register : apiAuth.login;
     try {
+      dispatch(handleLoading(true));
       const res = await action({
         ...values,
       });
       if (res.status === 200) {
-        // dispatch(login(res.data));
+        await dispatch(login(res.data));
+        await dispatch(handleLoading(false));
         notify("success", "Success", "");
-        // closeDialog();
+        closeDialog();
+        setIsReset(true);
       }
-    } catch (error) {
-    } finally {
-    }
+    } catch (error) {}
   };
   const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <>
-      <LoadingComp>
+      <Loading>
         {isOpen && (
           <>
             <div className="dialog__background" onClick={closeDialog}></div>
@@ -60,6 +63,7 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
               >
                 <TabPane tab="Login" key={LOGIN_TAB_INDEX}>
                   <LoginForm
+                    isReset={isReset}
                     onFormFinish={onFinish}
                     onFormFinishFalse={onFinishFailed}
                     openRegisterForm={() => setTabIndex(REGISTER_TAB_INDEX)}
@@ -67,6 +71,7 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
                 </TabPane>
                 <TabPane tab="Register" key={REGISTER_TAB_INDEX}>
                   <RegisterForm
+                    isReset={isReset}
                     onFormFinish={onFinish}
                     onFormFinishFalse={onFinishFailed}
                   />
@@ -75,7 +80,7 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
             </div>
           </>
         )}
-      </LoadingComp>
+      </Loading>
     </>
   );
 }

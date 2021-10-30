@@ -2,9 +2,12 @@ import { useState } from "react";
 import { Link, NavLink } from "react-router-dom";
 import "./index.scss";
 import Dialog from "features/Auth/Dialog";
+import { Menu, Dropdown, Avatar } from "antd";
 import routesConfiguration from "routers/routesConfig";
-import { useAppSelector } from "app/hooks";
+import { useAppDispatch, useAppSelector } from "app/hooks";
 import SideBar from "./Components/SideBar";
+import { UserOutlined } from "@ant-design/icons";
+import { logout } from "app/slices/authSlice";
 export default function Header() {
   const [showDialog, setShowDialog] = useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -13,6 +16,27 @@ export default function Header() {
     setIsLogin(false);
   };
   const user = useAppSelector((state) => state.auth.user);
+  const dispatch = useAppDispatch();
+  const handleLogout = (e: any) => {
+    e.preventDefault();
+    dispatch(logout());
+  };
+  const menu = (
+    <Menu>
+      <Menu.Item key="1">
+        <div>
+          <Link to="/dashboard" style={{ color: "black" }}>
+            Dashboard
+          </Link>
+        </div>
+      </Menu.Item>
+      <Menu.Item key="2">
+        <Link to="/" style={{ color: "black" }} onClick={handleLogout}>
+          Logout
+        </Link>
+      </Menu.Item>
+    </Menu>
+  );
   return (
     <div className="lg:px-28 md:px-24 xs:px-16 header">
       <div className="flex">
@@ -33,7 +57,13 @@ export default function Header() {
       </div>
       <div className="flex items-center gap-4">
         {user.lastName ? (
-          <div>{`${user.lastName + user.firstName}`}</div>
+          <Dropdown overlay={menu} trigger={["click"]}>
+            <Avatar
+              size="large"
+              className="cursor-pointer"
+              icon={<UserOutlined />}
+            ></Avatar>
+          </Dropdown>
         ) : (
           <div className="btn-register" onClick={openRegisterForm}>
             Login

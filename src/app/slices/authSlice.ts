@@ -6,7 +6,7 @@ interface AuthState {
   user: any
 }
 
-const initialState:AuthState = {
+const initialState: AuthState = {
   accessToken: '',
   refreshToken: '',
   user: {}
@@ -19,8 +19,13 @@ const authSlice = createSlice({
     login(state, action: PayloadAction<AuthState>) {
       return action.payload;
     },
+    logout(state) {
+      state.accessToken = '';
+      state.refreshToken = '';
+      state.user = {}
+    }
   },
 });
 
-export const { login } = authSlice.actions;
+export const { login, logout } = authSlice.actions;
 export default authSlice.reducer;
