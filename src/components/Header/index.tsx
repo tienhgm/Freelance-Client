@@ -32,7 +32,7 @@ export default function Header() {
     <Menu>
       <Menu.Item key="1">
         <div>
-            {"Hi " + user.firstName + user.lastName + " !"}
+            {"Hi " + user?.firstName + user?.lastName + " !"}
         </div>
       </Menu.Item>
       <Menu.Item key="2">
@@ -66,7 +66,7 @@ export default function Header() {
         </div>
         <ul className="menu">
           {Object.entries(routesConfiguration).map(([key, route]) => (
-            <li className="menu-item" key={key}>
+            route.navbar && <li className="menu-item" key={key}>
               <NavLink to={route.path} className="menu__link" exact>
                 {route.name}
               </NavLink>
@@ -75,7 +75,7 @@ export default function Header() {
         </ul>
       </div>
       <div className="flex items-center gap-4">
-        {user.lastName ? (
+        {user?.lastName ? (
           <Dropdown overlay={menu} trigger={["click"]}>
             <Avatar
               size="large"

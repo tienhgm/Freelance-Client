@@ -4,7 +4,7 @@ import "./index.scss";
 
 function FindFreelancer() {
     return (
-        <div className="container flex FindFreelancer">
+        <div className="flex FindFreelancer">
             <div className="overflow-y-scroll FindFreelancer__sidebar">
                 <Sidebar />
             </div>

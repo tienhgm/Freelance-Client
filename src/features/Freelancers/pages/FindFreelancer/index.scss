@@ -1,6 +1,7 @@
 .FindFreelancer{
     background-color: #fbfbfb;
-    height: 689px;
+    min-height: calc(100vh - 351px);
+    height: calc(100vh - 56px);
 
     &__sidebar{
         background-color: #f3f3f3;

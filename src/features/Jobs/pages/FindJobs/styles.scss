@@ -17,10 +17,23 @@
       box-shadow: none;
     }
   }
+  &__sidebar,
+  &__content {
+    max-height: calc(100vh - 56px);
+  }
 
   .ant-pagination-item-link {
     display: flex;
     justify-content: center;
     align-items: center;
+  }
+
+  ::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background-color: #d8d8d8;
+    border-radius: 7px;
   }
 }

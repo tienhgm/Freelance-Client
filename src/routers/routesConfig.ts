@@ -31,7 +31,7 @@ const routesConfiguration = {
     path: "/find-jobs/:id",
     exact: true,
     breadcrumbs: [],
-    navbar: true,
+    navbar: false,
     component: JobDetails,
     routers: [],
     guarded: false
