@@ -5,7 +5,7 @@ export default function Dashboard() {
   return (
     <div className="h-full dashboard">
       <h1 className="mb-8 text-2xl">Hi Tien!</h1>
-      <div className="flex w-full gap-6">
+      <div className="flex flex-wrap w-full gap-6">
         <div className="dashboard__block">
           <div className="flex flex-col text-xl">
             <div className="mb-1">Task Bids Won</div>

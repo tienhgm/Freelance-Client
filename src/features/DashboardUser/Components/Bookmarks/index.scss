@@ -28,8 +28,8 @@
   .box {
     box-sizing: border-box;
     border-radius: 4px;
-
     &__item {
+      min-width: 392px;
       border: 3px solid transparent;
       border-top: 1px solid #e4e4e4;
       border-bottom: 1px solid #e4e4e4;
@@ -60,7 +60,7 @@
         align-items: center;
         background-color: #fafafa;
         display: flex;
-        span{
+        span {
           align-self: center;
         }
         &__delete {

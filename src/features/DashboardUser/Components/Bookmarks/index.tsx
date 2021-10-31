@@ -25,7 +25,7 @@ export default function Bookmarks() {
             />
             Bookmarked Jobs
           </div>
-          <Link to="/" className="h-28 box__item">
+          <Link to="/" className="h-36 box__item">
             {/* left */}
             <div className="flex items-center">
               <AccountBookOutlined style={{ fontSize: 45 }} />
@@ -33,7 +33,7 @@ export default function Bookmarks() {
                 <div className="text-lg box__item__title">
                   Bilingual Event Support Speciallist
                 </div>
-                <div className="flex gap-4 box__item__content">
+                <div className="flex flex-wrap gap-4 box__item__content">
                   <div className="flex items-center">
                     <EnvironmentOutlined className="mt-1" />
                     <div className="ml-1">Ha Noi</div>
@@ -59,7 +59,7 @@ export default function Bookmarks() {
             </div>
             {/* end right */}
           </Link>
-          <Link to="/" className="h-28 box__item">
+          <Link to="/" className="h-36 box__item">
             {/* left */}
             <div className="flex items-center">
               <AccountBookOutlined style={{ fontSize: 45 }} />
@@ -67,7 +67,7 @@ export default function Bookmarks() {
                 <div className="text-lg box__item__title">
                   Bilingual Event Support Speciallist
                 </div>
-                <div className="flex gap-4 box__item__content">
+                <div className="flex flex-wrap gap-4 box__item__content">
                   <div className="flex items-center">
                     <EnvironmentOutlined className="mt-1" />
                     <div className="ml-1">Ha Noi</div>
@@ -94,7 +94,7 @@ export default function Bookmarks() {
 
             {/* end right */}
           </Link>
-          <Link to="/" className="h-28 box__item">
+          <Link to="/" className="h-36 box__item">
             {/* left */}
             <div className="flex items-center">
               <AccountBookOutlined style={{ fontSize: 45 }} />
@@ -102,7 +102,7 @@ export default function Bookmarks() {
                 <div className="text-lg box__item__title">
                   Bilingual Event Support Speciallist
                 </div>
-                <div className="flex gap-4 box__item__content">
+                <div className="flex flex-wrap gap-4 box__item__content">
                   <div className="flex items-center">
                     <EnvironmentOutlined className="mt-1" />
                     <div className="ml-1">Ha Noi</div>
@@ -137,7 +137,7 @@ export default function Bookmarks() {
             <SmileOutlined style={{ color: "#2e3fe5" }} className="mt-1 mr-4" />
             Bookmarked Freelancers
           </div>
-          <Link to="/" className="h-28 box__item">
+          <Link to="/" className="h-36 box__item">
             {/* left */}
             <div className="flex items-center">
               <img
@@ -165,7 +165,7 @@ export default function Bookmarks() {
             </div>
             {/* end right */}
           </Link>
-          <Link to="/" className="h-28 box__item">
+          <Link to="/" className="h-36 box__item">
             {/* left */}
             <div className="flex items-center">
               <img

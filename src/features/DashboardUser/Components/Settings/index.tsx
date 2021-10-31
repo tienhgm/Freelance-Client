@@ -32,7 +32,7 @@ export default function Settings() {
             account
           </div>
         </div>
-        <div className="grid grid-cols-12 my-4">
+        <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
           <div className="self-center col-span-2 mt-4">
             <UploadAvatar />
           </div>
@@ -71,7 +71,7 @@ export default function Settings() {
             My Profile
           </div>
         </div>
-        <div className="grid grid-cols-12 my-4 profile__experience">
+        <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
           <div className="col-span-3">
             <div className="mb-1 text-xl font-bold">
               Set your minimal hourly rate
@@ -79,7 +79,7 @@ export default function Settings() {
             <div className="text-lg font-medium">${payHourly}</div>
             <Slider max={150} value={payHourly} onChange={handleSetPayHourly} />
           </div>
-          <div className="col-span-5 ml-10">
+          <div className="col-span-5 lg:ml-10">
             <div className="mb-3 text-xl font-bold">
               Skills <span className="required-field">*</span>
             </div>
@@ -94,17 +94,17 @@ export default function Settings() {
               {children}
             </Select>
           </div>
-          <div className="col-span-3 ml-10">
+          <div className="col-span-3 lg:ml-10">
             <div className="mb-3 text-xl font-bold">Attachments</div>
             <UploadFile disabled={false} />
           </div>
         </div>
-        <div className="grid grid-cols-12 my-4">
+        <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
           <div className="col-span-6">
             <div className="mb-3 text-xl font-bold">Tagline</div>
             <Input placeholder="tag line" size="large" />
           </div>
-          <div className="col-span-5 ml-10">
+          <div className="col-span-5 lg:ml-10">
             <div className="mb-3 text-xl font-bold">City</div>
             <Select
               size="large"

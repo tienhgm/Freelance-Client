@@ -1,6 +1,7 @@
 .dashboard {
   &__block {
-    width: calc(33%);
+    width: calc(31%);
+    min-width: 230px;
     height: 120px;
     padding: 25px;
     background-color: #fff;
