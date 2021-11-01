@@ -18,6 +18,7 @@ function App() {
       "/dashboard/message",
       "/dashboard/bookmarks",
       "/dashboard/jobs-manage",
+      "/dashboard/post-jobs",
       "/dashboard/candidate-manage",
     ];
     const currentRouter = pathname;

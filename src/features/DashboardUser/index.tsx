@@ -15,6 +15,7 @@ import Dashboard from "./Components/Dashboard";
 import Bookmarks from "./Components/Bookmarks";
 import Jobs from "./Components/JobsManage";
 import Candidates from "./Components/CandidateManage";
+
 import Message from "./Components/Message";
 import "./index.scss";
 
@@ -53,7 +54,7 @@ function DashboardUser() {
             <Link to={"/dashboard/jobs-manage"}>Manage Jobs</Link>
           </Menu.Item>
           <Menu.Item key="6"> <Link to={"/dashboard/candidate-manage"}>Manage Candidates</Link></Menu.Item>
-          <Menu.Item key="7">Post a job</Menu.Item>
+          <Menu.Item key="7"> <Link to={"/dashboard/post-jobs"}>Post a Jobs</Link> </Menu.Item>
         </SubMenu>
         <Divider orientation="left" style={{ color: "#2e3fe5" }}>
           Account
@@ -65,13 +66,14 @@ function DashboardUser() {
           <Link to={"/dashboard/password"}>Change password</Link>
         </Menu.Item>
       </Menu>
-      <div className="dashboard-content w-full p-6 overflow-y-auto">
+      <div className="w-full p-6 overflow-y-auto dashboard-content">
         <Switch>
           <Route path={`${match.url}`} component={Dashboard} exact />
           <Route path={`${match.url}/settings`} component={Settings} exact />
           <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
           <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
+          <Route path={`${match.url}/post-jobs`} component={PostJob} exact />
           <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />
           <Route
             path={`${match.url}/password`}
