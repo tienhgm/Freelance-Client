@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import React, { useMemo } from "react";
+import React, { useEffect } from "react";
 type Popup = {
   popupText: string;
   title: string;
@@ -10,7 +10,7 @@ type Popup = {
 export default function Popup({ popupText, isVisible, handleConfirm, handleCancelConfirm, title }: Popup) {
   const [visible, setVisible] = React.useState(false);
   const [confirmLoading, setConfirmLoading] = React.useState(false);
-  useMemo(() => setVisible(isVisible), [isVisible]);
+  useEffect(() => setVisible(isVisible), [isVisible]);
   const handleOk = () => {
     setConfirmLoading(true);
     setVisible(false);
