@@ -33,7 +33,7 @@ export const register = createAsyncThunk("auth/register", async (payload: any , 
     dispatch(handleLoading(true));
     const res = await apiAuth.register(payload);
     dispatch(handleLoading(false));
-    if (res.status == 1) {
+    if (res.status === 1) {
       notify("success", "Register success", "");
       return res.data;
     } else {

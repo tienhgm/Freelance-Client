@@ -7,18 +7,23 @@ type Popup = {
   handleConfirm: () => any;
   handleCancelConfirm: () => any;
 };
-export default function Popup({ popupText, isVisible, handleConfirm, handleCancelConfirm, title }: Popup) {
+export default function Popup({
+  popupText,
+  isVisible,
+  handleConfirm,
+  handleCancelConfirm,
+  title,
+}: Popup) {
   const [visible, setVisible] = React.useState(false);
-  const [confirmLoading, setConfirmLoading] = React.useState(false);
+
   useEffect(() => setVisible(isVisible), [isVisible]);
   const handleOk = () => {
-    setConfirmLoading(true);
     setVisible(false);
     handleConfirm();
   };
 
   const handleCancel = () => {
-    handleCancelConfirm()
+    handleCancelConfirm();
     setVisible(false);
   };
 
@@ -28,7 +33,6 @@ export default function Popup({ popupText, isVisible, handleConfirm, handleCance
         title={title}
         visible={visible}
         onOk={handleOk}
-        confirmLoading={confirmLoading}
         onCancel={handleCancel}
       >
         <p>{popupText}</p>

@@ -15,9 +15,10 @@ import Dashboard from "./Components/Dashboard";
 import Bookmarks from "./Components/Bookmarks";
 import Jobs from "./Components/JobsManage";
 import Candidates from "./Components/CandidateManage";
-
+import PostJob from "./Components/PostJob";
 import Message from "./Components/Message";
 import "./index.scss";
+
 
 function DashboardUser() {
   const { SubMenu } = Menu;
