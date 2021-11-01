@@ -23,6 +23,8 @@ export default function Header() {
   const handleLogout = () => {
     dispatch(logout());
     history.push("/");
+    setOpenDialogConfirm(false);
+
   };
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
   const handleOpenDialogConfirm = () => {
