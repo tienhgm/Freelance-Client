@@ -28,10 +28,7 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
 
   const onFinish = async (values: any) => {
     try {
-      dispatch(handleLoading(true));
       tabIndex === REGISTER_TAB_INDEX ? await dispatch(register(values))  : await dispatch(login(values));
-      dispatch(handleLoading(false));
-      notify("success", "Success", "");
       closeDialog();
       setIsReset(true);
     } catch (error) {}

@@ -7,11 +7,11 @@ export default function ChangePassword() {
       <h1 className="text-2xl">Password</h1>
       <div className="h-full password">
         <div className="password__title">
-          <div className="flex items-center ">
+          <div className="flex flex-wrap items-center ">
             <LockOutlined style={{ color: "#2e3fe5" }} className="mr-4" />
             Password and Security
           </div>
-          <div className="flex flex-col w-1/3 my-4">
+          <div className="flex flex-col my-4 lg:w-1/2 md:w-2/3 xs:w-full">
             <div className="">
               <div className="mb-3 text-xl font-bold">Current Password</div>
               <Input placeholder="current password" size="large" />

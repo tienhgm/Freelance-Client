@@ -25,8 +25,8 @@ export class ApiCore {
       };
     }
     if (options.put) {
-      this.put = (id: number, model: any) => {
-        return apiProvider.put(options.collection, id, model);
+      this.put = (id: number, model: any, collection:any) => {
+        return apiProvider.put(collection || options.collection, id, model);
       };
     }
     if (options.remove) {

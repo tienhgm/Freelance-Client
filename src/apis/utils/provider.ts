@@ -33,7 +33,7 @@ const post = (collection: any, model: any) => {
 
 const put = (collection: any, id: number, model: any) => {
   return axios
-    .put(`${baseUrl}/${collection}/${id}`, model, { headers: getAuthHeader() })
+    .put(`${baseUrl}/${collection}${id ? "/" + id : ""}`, model, { headers: getAuthHeader() })
     .then(handleResponse)
     .catch(handleError);
 };
