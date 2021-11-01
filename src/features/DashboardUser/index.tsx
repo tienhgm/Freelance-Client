@@ -15,6 +15,8 @@ import Dashboard from "./Components/Dashboard";
 import Bookmarks from "./Components/Bookmarks";
 import Jobs from "./Components/JobsManage";
 import Candidates from "./Components/CandidateManage";
+import Message from "./Components/Message";
+import "./index.scss";
 
 function DashboardUser() {
   const { SubMenu } = Menu;
@@ -35,7 +37,7 @@ function DashboardUser() {
           <Link to={"/dashboard"}>Dashboard</Link>
         </Menu.Item>
         <Menu.Item key="2" icon={<MessageOutlined />}>
-          Message
+          <Link to={"/dashboard/message"}>Message</Link>
         </Menu.Item>
         <Menu.Item key="3" icon={<StarOutlined />}>
           <Link to={"/dashboard/bookmarks"}>Bookmarks</Link>
@@ -63,10 +65,11 @@ function DashboardUser() {
           <Link to={"/dashboard/password"}>Change password</Link>
         </Menu.Item>
       </Menu>
-      <div className="w-full p-6">
+      <div className="dashboard-content w-full p-6 overflow-y-auto">
         <Switch>
           <Route path={`${match.url}`} component={Dashboard} exact />
           <Route path={`${match.url}/settings`} component={Settings} exact />
+          <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
           <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
           <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />

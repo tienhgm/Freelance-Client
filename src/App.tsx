@@ -15,6 +15,7 @@ function App() {
       "/dashboard",
       "/dashboard/settings",
       "/dashboard/password",
+      "/dashboard/message",
       "/dashboard/bookmarks",
       "/dashboard/jobs-manage",
       "/dashboard/candidate-manage",

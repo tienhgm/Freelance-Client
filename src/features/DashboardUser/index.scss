@@ -1,3 +1,7 @@
 .ant-badge-count {
     background-color: #2e3fe5 !important;
 }
+
+.dashboard-content {
+    max-height: calc(100vh - 56px);
+}

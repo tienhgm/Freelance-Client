@@ -1,14 +1,19 @@
-import { persistReducer } from 'redux-persist'
-import { configureStore, ThunkAction, Action, combineReducers } from '@reduxjs/toolkit';
+import { persistReducer } from "redux-persist";
+import {
+  configureStore,
+  ThunkAction,
+  Action,
+  combineReducers,
+} from "@reduxjs/toolkit";
 import storage from "redux-persist/lib/storage";
 
-import authReducer from './slices/authSlice';
-import appReducer from './slices/appSlice';
+import authReducer from "./slices/authSlice";
+import appReducer from "./slices/appSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
-  app: appReducer
-})
+  app: appReducer,
+});
 const persistConfig = {
   key: "root",
   storage,
@@ -16,9 +21,12 @@ const persistConfig = {
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 
-
 export const store = configureStore({
   reducer: persistedReducer,
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 });
 
 export type AppDispatch = typeof store.dispatch;

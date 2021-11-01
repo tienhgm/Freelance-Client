@@ -1,0 +1,40 @@
+.message_page {
+  .message-list {
+    height: calc(100vh - 296px);
+  }
+
+  .contact-list {
+    height: calc(100vh - 200px);
+  }
+
+  .message__submit,
+  .message__emoji {
+    button {
+      font-size: 30px;
+
+      &:active i {
+        transform: scale(1.2);
+      }
+    }
+  }
+
+  .border-2 {
+    border-width: 1px;
+  }
+
+  .border-b-0 {
+    border-bottom-width: 0;
+  }
+
+  .border-r-0 {
+    border-right-width: 0;
+  }
+
+  .border-l-0 {
+    border-left-width: 0;
+  }
+
+  .border-t-0 {
+    border-top-width: 0;
+  }
+}
