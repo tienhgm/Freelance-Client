@@ -1,8 +1,23 @@
 import "./index.scss";
-import { BranchesOutlined, FolderOpenOutlined } from "@ant-design/icons";
-import { Input, Select } from "antd";
+import { EnvironmentOutlined, FolderOpenOutlined } from "@ant-design/icons";
+import { Input, Select, Slider } from "antd";
+import { useState } from "react";
 const { Option } = Select;
 export default function PostJob() {
+  const [jobSalary, setJobSalary] = useState(0);
+  const handleSetJobSalary = (value: number) => {
+    setJobSalary(value);
+  };
+  const [tagChoose, setTagChoose] = useState([]);
+  const listTag = [
+    { id: 0, tagName: "Vuejs" },
+    { id: 1, tagName: "ReactJs" },
+    { id: 2, tagName: "nodeJs" },
+  ];
+
+  const handleChange = (value: any) => {
+    setTagChoose(value);
+  };
   return (
     <div className="h-full job-block">
       <h1 className="text-2xl">Manage Candidates</h1>
@@ -40,13 +55,49 @@ export default function PostJob() {
             </div>
           </div>
           <div className="flex flex-wrap w-full gap-4">
-              <div className="input-job">
-                  <h2>Location</h2>
-                  <Input size="large" placeholder="Type Address" prefix={<BranchesOutlined />}/>
-              </div>
+            <div className="input-job">
+              <h2>Location</h2>
+
+              <Input
+                size="large"
+                placeholder="Input Address"
+                prefix={<EnvironmentOutlined />}
+              />
+            </div>
+            <div className="input-job">
+              <h2>Salary</h2>
+              <div className="text-base font-medium">${jobSalary}</div>
+              <Slider
+                max={1500}
+                value={jobSalary}
+                onChange={handleSetJobSalary}
+              />
+            </div>
+            <div className="input-job">
+              <h2>Tags</h2>
+              <Select
+                mode="multiple"
+                allowClear
+                size="large"
+                style={{ width: "100%" }}
+                placeholder="Choose Tags"
+                onChange={handleChange}
+              >
+                {listTag.map((tag) => (
+                  <Option key={tag.id} value={tag.tagName}>
+                    {tag.tagName}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+          </div>
+          <div className="flex flex-wrap w-full">
+            <div >
+              <h2>Editor</h2>
+              
+            </div>
           </div>
         </div>
-
       </div>
     </div>
   );
