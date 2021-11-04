@@ -6,16 +6,18 @@ import { handleLoading } from './appSlice';
 interface AuthState {
   accessToken: string;
   refreshToken: string;
-  user: any
+  user: any,
+  isChangePassword: boolean
 }
 
 const initialState: AuthState = {
   accessToken: '',
   refreshToken: '',
-  user: {}
+  user: {},
+  isChangePassword: false
 }
 
-export const login = createAsyncThunk("auth/login", async (payload: any, {dispatch}) => {
+export const login = createAsyncThunk("auth/login", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
     const res = await apiAuth.login(payload);
@@ -28,20 +30,22 @@ export const login = createAsyncThunk("auth/login", async (payload: any, {dispat
     }
   } catch (error) { }
 });
-export const register = createAsyncThunk("auth/register", async (payload: any , {dispatch}) => {
+export const register = createAsyncThunk("auth/register", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const res = await apiAuth.register(payload);
-    dispatch(handleLoading(false));
-    if (res.status === 1) {
+    const { data, status } = await apiAuth.register(payload);
+
+    if (status && status === 201) {
       notify("success", "Register success", "");
-      return res.data;
+      return data;
     } else {
-      notify("error", "Error!", "");
+      notify("error", "Error", "");
     }
-  } catch (error) { }
+  } catch (error) { } finally {
+    dispatch(handleLoading(false));
+  }
 });
-export const activate = createAsyncThunk("auth/activate", async (payload: any, {dispatch}) => {
+export const activate = createAsyncThunk("auth/activate", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
     const res = await apiAuth.activate(payload);
@@ -54,7 +58,20 @@ export const activate = createAsyncThunk("auth/activate", async (payload: any, {
     }
   } catch (error) { }
 });
-
+export const handleChangePassword = createAsyncThunk("auth/changePassword", async (payload: any, { dispatch }) => {
+  try {
+    dispatch(handleLoading(true));
+    const res = await apiAuth.changePassword(payload);
+    dispatch(handleLoading(false));
+    if (res.status == 200) {
+      notify("success", "Password change!", "");
+      return res.data.status;
+    } else {
+      notify("error", "Error!", "");
+      return false;
+    }
+  } catch (error) { }
+});
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -63,7 +80,7 @@ const authSlice = createSlice({
       state.accessToken = '';
       state.refreshToken = '';
       state.user = {}
-    }
+    },
   },
   extraReducers: {
     // @ts-ignore
@@ -77,6 +94,11 @@ const authSlice = createSlice({
     // @ts-ignore
     [activate.fulfilled]: (state, action: PayloadAction<AuthState>) => {
       return action.payload;
+    },
+    // @ts-ignore
+    [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<AuthState>) => {
+      // console.log("fullfiled", action);
+       state.isChangePassword = action.payload;
     },
   }
 });

@@ -1,13 +1,13 @@
-import { useState } from "react";
-import LoginForm from "../LoginForm";
-import RegisterForm from "../RegisterForm";
-import { Tabs } from "antd";
-import "./style.scss";
-import { notify } from "utils/notification";
-import { useAppDispatch } from "app/hooks";
-import { login, register } from "app/slices/authSlice";
-import { handleLoading } from "app/slices/appSlice";
-import Loading from "components/Loading";
+import { useState } from 'react';
+import LoginForm from '../LoginForm';
+import RegisterForm from '../RegisterForm';
+import { Tabs } from 'antd';
+import './style.scss';
+import { notify } from 'utils/notification';
+import { useAppDispatch } from 'app/hooks';
+import { login, register } from 'app/slices/authSlice';
+import { handleLoading } from 'app/slices/appSlice';
+import Loading from 'components/Loading';
 
 type DialogProps = {
   isOpen: boolean;
@@ -16,24 +16,27 @@ type DialogProps = {
 };
 
 const { TabPane } = Tabs;
-const LOGIN_TAB_INDEX = "1";
-const REGISTER_TAB_INDEX = "2";
+const LOGIN_TAB_INDEX = '1';
+const REGISTER_TAB_INDEX = '2';
 
 function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
-  const [tabIndex, setTabIndex] = useState(() =>
-    isLogin ? LOGIN_TAB_INDEX : REGISTER_TAB_INDEX
-  );
+  const [tabIndex, setTabIndex] = useState(() => (isLogin ? LOGIN_TAB_INDEX : REGISTER_TAB_INDEX));
   const [isReset, setIsReset] = useState(false);
   const dispatch = useAppDispatch();
 
   const onFinish = async (values: any) => {
     try {
-      tabIndex === REGISTER_TAB_INDEX ? await dispatch(register(values))  : await dispatch(login(values));
+      // if(values.password == values.re_password){
+      //   delete values.re_password
+      // }
+      tabIndex === REGISTER_TAB_INDEX ? await dispatch(register(values)) : await dispatch(login(values));
       closeDialog();
       setIsReset(true);
     } catch (error) {}
   };
-  const onFinishFailed = (errorInfo: any) => {};
+  const onFinishFailed = (errorInfo: any) => {
+   
+  };
 
   return (
     <>
@@ -59,11 +62,7 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
                   />
                 </TabPane>
                 <TabPane tab="Register" key={REGISTER_TAB_INDEX}>
-                  <RegisterForm
-                    isReset={isReset}
-                    onFormFinish={onFinish}
-                    onFormFinishFalse={onFinishFailed}
-                  />
+                  <RegisterForm isReset={isReset} onFormFinish={onFinish} onFormFinishFalse={onFinishFailed} />
                 </TabPane>
               </Tabs>
             </div>

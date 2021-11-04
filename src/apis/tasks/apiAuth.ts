@@ -15,8 +15,11 @@ class ApiAuth extends ApiCore {
   register = (account: any) => {
     return this.post(account, "account/register");
   }
-  activate = (account: any) => {
-    return this.put(null, {token: account}, "account/activate")
+  activate = (token: any) => {
+    return this.put(null, {token: token}, "account/activate")
+  }
+  changePassword = (password: any) => {
+    return this.put(null, password, "user/change-password")
   }
 }
 

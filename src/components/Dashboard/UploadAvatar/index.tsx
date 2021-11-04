@@ -17,7 +17,6 @@ export default function UploadFile() {
     return isJpgOrPng && isLt2M;
   }
   const handleUploadImg = () => {
-    console.log("123");
   };
   const uploadButton = (
     <div>

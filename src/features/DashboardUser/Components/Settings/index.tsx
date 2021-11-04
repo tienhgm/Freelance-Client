@@ -19,7 +19,6 @@ export default function Settings() {
     setPayHourly(value);
   };
   const handleChange = (value: any) => {
-    console.log(`selected ${value}`);
   };
   return (
     <div className="h-full overflow-auto settings">
