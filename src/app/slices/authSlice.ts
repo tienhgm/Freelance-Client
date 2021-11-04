@@ -97,7 +97,6 @@ const authSlice = createSlice({
     },
     // @ts-ignore
     [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<AuthState>) => {
-      // console.log("fullfiled", action);
        state.isChangePassword = action.payload;
     },
   }

@@ -46,11 +46,12 @@ const remove = (collection: any, id: number) => {
 
 const upload = (collection: any, files: any) => {
   let formData = new FormData();
-  for (let index = 0; index < files.length; index++) {
-    formData.append(collection, files[index]);
-  }
+  // for (let index = 0; index < files.length; index++) {
+  //   formData.append(collection, files[index]);
+  // }
+  formData.append("file",files)
   return axios
-    .post(`${baseUrl}/${collection}`, formData, {
+    .put(`${baseUrl}/${collection}`, formData, {
       headers: {
         ...getAuthHeader(),
         "Content-Type": "multipart/form-data",
