@@ -35,7 +35,7 @@ export class ApiCore {
       };
     }
     if (options.upload) {
-      this.upload = (files: any, collection:any) => {
+      this.upload = (files: File, collection:any) => {
         return apiProvider.upload(collection || options.collection, files);
       };
     }

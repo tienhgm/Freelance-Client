@@ -44,7 +44,7 @@ const remove = (collection: any, id: number) => {
     .catch(handleError);
 };
 
-const upload = (collection: any, files: any) => {
+const upload = (collection: any, files: File) => {
   let formData = new FormData();
   // for (let index = 0; index < files.length; index++) {
   //   formData.append(collection, files[index]);
