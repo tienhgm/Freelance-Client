@@ -121,7 +121,7 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="col-span-3">
-              <div className="mb-3 text-xl font-bold">Attachments</div>
+              <div className="mb-3 text-xl font-bold">Work Experience</div>
               <UploadFile disabled={false} />
             </div>
           </div>
