@@ -22,7 +22,7 @@ function LandingPage() {
         } catch (error) {}
       }
     })();
-  }, [token]);
+  }, [token,dispatch]);
   return (
     <div>
       <Banner />

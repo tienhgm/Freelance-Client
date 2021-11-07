@@ -29,7 +29,7 @@ export const handleChangePassword = createAsyncThunk("auth/changePassword", asyn
         dispatch(handleLoading(true));
         const res = await apiUser.changePassword(payload);
         dispatch(handleLoading(false));
-        if (res.status == 200) {
+        if (res.status === 200) {
             notify("success", "Password change!", "");
             return res.data.status;
         } else {
@@ -54,5 +54,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { } = userSlice.actions;
+// export const { } = userSlice.actions;
 export default userSlice.reducer;

@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import { Link, NavLink, useHistory } from "react-router-dom";
 import "./index.scss";
 import Dialog from "features/Auth/Dialog";
@@ -10,7 +10,7 @@ import { UserOutlined } from "@ant-design/icons";
 import { logout } from "app/slices/authSlice";
 import Popup from "components/Popup";
 export default function Header() {
-  const [showDialog, setShowDialog] = useState(false);
+  const [showDialog, setShowDialog] = React.useState(false);
   const [isLogin, setIsLogin] = useState(true);
   const openRegisterForm = () => {
     setShowDialog(true);

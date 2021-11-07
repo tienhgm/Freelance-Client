@@ -18,20 +18,19 @@ const REGISTER_TAB_INDEX = '2';
 
 function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
   const [tabIndex, setTabIndex] = useState(() => (isLogin ? LOGIN_TAB_INDEX : REGISTER_TAB_INDEX));
-  const [isReset, setIsReset] = useState(false);
   const dispatch = useAppDispatch();
-
-  const onFinish = async (values: any) => {
+  const newDispatch = (values: any) => {
+    if (tabIndex === REGISTER_TAB_INDEX) {
+      dispatch(register(values));
+    } else {
+      dispatch(login(values));
+    }
+  };
+  const onFinish = (values: any) => {
     try {
-      // if(values.password == values.re_password){
-      //   delete values.re_password
-      // }
-      tabIndex === REGISTER_TAB_INDEX ? await dispatch(register(values)) : await dispatch(login(values));
-      closeDialog();
-      setIsReset(true);
+      newDispatch(values);
     } catch (error) {}
   };
-  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <>
@@ -48,15 +47,10 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
               size="large"
             >
               <TabPane tab="Login" key={LOGIN_TAB_INDEX}>
-                <LoginForm
-                  isReset={isReset}
-                  onFormFinish={onFinish}
-                  onFormFinishFalse={onFinishFailed}
-                  openRegisterForm={() => setTabIndex(REGISTER_TAB_INDEX)}
-                />
+                <LoginForm onFormFinish={onFinish} openRegisterForm={() => setTabIndex(REGISTER_TAB_INDEX)} />
               </TabPane>
               <TabPane tab="Register" key={REGISTER_TAB_INDEX}>
-                <RegisterForm isReset={isReset} onFormFinish={onFinish} onFormFinishFalse={onFinishFailed} />
+                <RegisterForm onFormFinish={onFinish} />
               </TabPane>
             </Tabs>
           </div>

@@ -1,10 +1,15 @@
 import { Upload } from 'antd';
 import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from 'app/hooks';
 import { uploadAvt } from 'app/slices/userSlice';
 import { notify } from "utils/notification";
-export default function UploadFile() {
+interface Iprops {
+  disabled: boolean;
+  previewImg: string;
+}
+export default function UploadFile(props: Iprops) {
+  const {disabled, previewImg} = props;
   const [loading, setLoading] = useState(false);
 
   const [imageUrl, setImageUrl] = useState('');
@@ -16,7 +21,7 @@ export default function UploadFile() {
     return isLt2M;
   }
   const dispatch = useAppDispatch();
-  const previewImg = useAppSelector((state) => state.user.img);
+  // const previewImg = useAppSelector((state) => state.auth.user.avatar);
   const handleUploadImg = async (info: any) => {
     setLoading(true);
     
@@ -44,6 +49,7 @@ export default function UploadFile() {
         showUploadList={false}
         customRequest={handleUploadImg}
         beforeUpload={beforeUpload}
+        disabled={disabled}
       >
         {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </Upload>

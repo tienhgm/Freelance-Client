@@ -21,7 +21,7 @@ export const login = createAsyncThunk("auth/login", async (payload: any, { dispa
     dispatch(handleLoading(true));
     const res = await apiAuth.login(payload);
     dispatch(handleLoading(false));
-    if (res.status == 200) {
+    if (res.status === 200) {
       notify("success", "Success", "");
       return res.data;
     } else {
@@ -49,7 +49,7 @@ export const activate = createAsyncThunk("auth/activate", async (payload: any, {
     dispatch(handleLoading(true));
     const res = await apiAuth.activate(payload);
     dispatch(handleLoading(false));
-    if (res.status == 200) {
+    if (res.status === 200) {
       notify("success", "Activated!", "");
       return res.data;
     } else {
