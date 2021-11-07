@@ -3,11 +3,8 @@ import LoginForm from '../LoginForm';
 import RegisterForm from '../RegisterForm';
 import { Tabs } from 'antd';
 import './style.scss';
-import { notify } from 'utils/notification';
 import { useAppDispatch } from 'app/hooks';
 import { login, register } from 'app/slices/authSlice';
-import { handleLoading } from 'app/slices/appSlice';
-import Loading from 'components/Loading';
 
 type DialogProps = {
   isOpen: boolean;
@@ -34,41 +31,37 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
       setIsReset(true);
     } catch (error) {}
   };
-  const onFinishFailed = (errorInfo: any) => {
-   
-  };
+  const onFinishFailed = (errorInfo: any) => {};
 
   return (
     <>
-      <Loading>
-        {isOpen && (
-          <>
-            <div className="dialog__background" onClick={closeDialog}></div>
-            <div className="dialog">
-              <Tabs
-                activeKey={tabIndex}
-                onChange={(value) => {
-                  setTabIndex(value);
-                }}
-                type="card"
-                size="large"
-              >
-                <TabPane tab="Login" key={LOGIN_TAB_INDEX}>
-                  <LoginForm
-                    isReset={isReset}
-                    onFormFinish={onFinish}
-                    onFormFinishFalse={onFinishFailed}
-                    openRegisterForm={() => setTabIndex(REGISTER_TAB_INDEX)}
-                  />
-                </TabPane>
-                <TabPane tab="Register" key={REGISTER_TAB_INDEX}>
-                  <RegisterForm isReset={isReset} onFormFinish={onFinish} onFormFinishFalse={onFinishFailed} />
-                </TabPane>
-              </Tabs>
-            </div>
-          </>
-        )}
-      </Loading>
+      {isOpen && (
+        <>
+          <div className="dialog__background" onClick={closeDialog}></div>
+          <div className="dialog">
+            <Tabs
+              activeKey={tabIndex}
+              onChange={(value) => {
+                setTabIndex(value);
+              }}
+              type="card"
+              size="large"
+            >
+              <TabPane tab="Login" key={LOGIN_TAB_INDEX}>
+                <LoginForm
+                  isReset={isReset}
+                  onFormFinish={onFinish}
+                  onFormFinishFalse={onFinishFailed}
+                  openRegisterForm={() => setTabIndex(REGISTER_TAB_INDEX)}
+                />
+              </TabPane>
+              <TabPane tab="Register" key={REGISTER_TAB_INDEX}>
+                <RegisterForm isReset={isReset} onFormFinish={onFinish} onFormFinishFalse={onFinishFailed} />
+              </TabPane>
+            </Tabs>
+          </div>
+        </>
+      )}
     </>
   );
 }

@@ -1,7 +1,7 @@
 import { LockOutlined } from '@ant-design/icons';
 import { Button, Input, Form } from 'antd';
 import { useAppDispatch } from 'app/hooks';
-import { handleChangePassword } from 'app/slices/authSlice';
+import { handleChangePassword } from 'app/slices/userSlice';
 import './index.scss';
 export default function ChangePassword() {
   const [form] = Form.useForm();

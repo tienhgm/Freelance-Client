@@ -7,14 +7,13 @@ interface AuthState {
   accessToken: string;
   refreshToken: string;
   user: any,
-  isChangePassword: boolean
+ 
 }
 
 const initialState: AuthState = {
   accessToken: '',
   refreshToken: '',
   user: {},
-  isChangePassword: false
 }
 
 export const login = createAsyncThunk("auth/login", async (payload: any, { dispatch }) => {
@@ -58,20 +57,7 @@ export const activate = createAsyncThunk("auth/activate", async (payload: any, {
     }
   } catch (error) { }
 });
-export const handleChangePassword = createAsyncThunk("auth/changePassword", async (payload: any, { dispatch }) => {
-  try {
-    dispatch(handleLoading(true));
-    const res = await apiAuth.changePassword(payload);
-    dispatch(handleLoading(false));
-    if (res.status == 200) {
-      notify("success", "Password change!", "");
-      return res.data.status;
-    } else {
-      notify("error", "Error!", "");
-      return false;
-    }
-  } catch (error) { }
-});
+
 const authSlice = createSlice({
   name: "auth",
   initialState,
@@ -94,10 +80,6 @@ const authSlice = createSlice({
     // @ts-ignore
     [activate.fulfilled]: (state, action: PayloadAction<AuthState>) => {
       return action.payload;
-    },
-    // @ts-ignore
-    [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<AuthState>) => {
-       state.isChangePassword = action.payload;
     },
   }
 });

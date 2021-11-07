@@ -13,7 +13,9 @@ class ApiUser extends ApiCore {
   uploadAvt(file:any){
     return this.upload(file,"user/avatar");
   }
-
+  changePassword = (password: any) => {
+    return this.put(null, password, "user/change-password")
+  }
 }
 
 export default new ApiUser();
