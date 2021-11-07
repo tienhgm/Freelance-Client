@@ -31,7 +31,22 @@
     "react-scripts": "4.0.3",
     "recharts": "^2.1.5",
     "redux-persist": "^6.0.0",
-    "typescript": "~4.1.5"
+    "typescript": "~4.1.5",
+    "@progress/kendo-licensing": "1.2.1",
+    "@progress/kendo-drawing": "1.15.0",
+    "@progress/kendo-react-buttons": "4.10.0",
+    "@progress/kendo-react-dialogs": "4.10.0",
+    "@progress/kendo-react-intl": "4.10.0",
+    "@progress/kendo-react-editor": "4.10.0",
+    "@progress/kendo-react-animation": "4.10.0",
+    "@progress/kendo-react-treeview": "4.10.0",
+    "@progress/kendo-react-dropdowns": "4.10.0",
+    "@progress/kendo-react-inputs": "4.10.0",
+    "@progress/kendo-react-progressbars": "4.10.0",
+    "@progress/kendo-react-layout": "4.10.0",
+    "@progress/kendo-react-pdf": "4.10.0",
+    "@progress/kendo-react-popup": "4.10.0",
+    "prop-types": "15.7.2"
   },
   "scripts": {
     "start": "craco start",

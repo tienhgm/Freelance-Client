@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Input, Button, Slider, Select, Form } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
-import UploadFile from 'components/Dashboard/UploadFileCv';
+import MyEditor from 'components/Editor';
 import './index.scss';
 import { useAppSelector } from 'app/hooks';
 import { nationality, skills } from 'utils/enum';
@@ -11,6 +11,10 @@ const { TextArea } = Input;
 export default function Settings() {
   const [form] = Form.useForm();
   const [minimalHourlyRate, setMinimalHourlyRate] = useState(0);
+  const [workExp, setWorkExp] = useState('');
+  const watchWorkExp = (value: any) => {
+    setWorkExp(value);
+  }
   const [listSkills, setListSkills] = useState([]);
   const handleSetPayHourly = (value: number) => {
     setMinimalHourlyRate(value);
@@ -120,9 +124,9 @@ export default function Settings() {
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-            <div className="col-span-3">
+            <div className="col-span-11">
               <div className="mb-3 text-xl font-bold">Work Experience</div>
-              <UploadFile disabled={false} />
+                <MyEditor valueWorkExp={''} watchWorkExp={watchWorkExp} />
             </div>
           </div>
         </div>
