@@ -14,14 +14,16 @@ function App() {
   const { pathname } = location;
   const hiddenFooter = useMemo(() => {
     const routerExcept = [
-      '/dashboard',
-      '/dashboard/settings',
-      '/dashboard/password',
-      '/dashboard/message',
-      '/dashboard/bookmarks',
-      '/dashboard/jobs-manage',
-      '/dashboard/post-jobs',
-      '/dashboard/candidate-manage',
+      "/find-freelancers",
+      "/dashboard",
+      "/dashboard/settings",
+      "/dashboard/password",
+      "/dashboard/message",
+      "/dashboard/bookmarks",
+      "/dashboard/jobs-manage",
+      "/dashboard/post-jobs",
+      "/dashboard/candidate-manage",
+
     ];
     const currentRouter = pathname;
     return routerExcept.indexOf(currentRouter) !== -1;

@@ -126,7 +126,7 @@ const { Option } = Select;
 export default function FindJobs() {
   return (
     <div className="flex flex-col find-job-page sm:flex-row">
-      <div className="flex-shrink-0 overflow-y-auto find-job-page__sidebar p-6 pb-0 w-52 md:w-60 lg:w-80">
+      <div className="flex-shrink-0 overflow-y-auto find-job-page__sidebar p-8 pb-0 w-52 md:w-60 lg:w-80">
         <Sidebar />
       </div>
       <div className="w-full overflow-y-auto p-6 find-job-page__content">

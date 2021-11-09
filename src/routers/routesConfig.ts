@@ -1,6 +1,7 @@
 import NotFound from "components/NotFound";
 import DashboardUser from "features/DashboardUser";
-import Freelancers from "features/Freelancers";
+import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
+import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
 import FindJobs from "features/Jobs/pages/FindJobs";
 import JobDetails from "features/Jobs/pages/JobDetails";
 import LandingPage from "features/LandingPage";
@@ -42,7 +43,18 @@ const routesConfiguration = {
     exact: true,
     breadcrumbs: [],
     navbar: true,
-    component: Freelancers,
+    component: FindFreelancer,
+    routers: [],
+    guarded: false
+  },
+  freelancerDetails: {
+    name: "Freelancer Profile",
+    cPath: "/find-freelancers/",
+    path: "/find-freelancers/:id",
+    exact: true,
+    breadcrumbs: [],
+    navbar: false,
+    component: FreelancerProfile,
     routers: [],
     guarded: false
   },
