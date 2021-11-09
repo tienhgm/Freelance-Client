@@ -14,7 +14,8 @@ const routesConfiguration = {
     navbar: true,
     component: LandingPage,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
   findJobs: {
     name: "Find Jobs",
@@ -24,7 +25,8 @@ const routesConfiguration = {
     navbar: true,
     component: FindJobs,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
   jobDetails: {
     name: "Job Details",
@@ -35,7 +37,8 @@ const routesConfiguration = {
     navbar: false,
     component: JobDetails,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
   findFreelancers: {
     name: "Find Freelancers",
@@ -45,7 +48,8 @@ const routesConfiguration = {
     navbar: true,
     component: FindFreelancer,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
   freelancerDetails: {
     name: "Freelancer Profile",
@@ -56,7 +60,8 @@ const routesConfiguration = {
     navbar: false,
     component: FreelancerProfile,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
   dashboard: {
     name: "Dashboard",
@@ -66,7 +71,8 @@ const routesConfiguration = {
     navbar: true,
     component: DashboardUser,
     routers: [],
-    guarded: false
+    guarded: true,
+    role: null
   },
   aboutUs: {
     name: "About Us",
@@ -76,7 +82,8 @@ const routesConfiguration = {
     navbar: true,
     component: NotFound,
     routers: [],
-    guarded: false
+    guarded: false,
+    role: null
   },
 };
 

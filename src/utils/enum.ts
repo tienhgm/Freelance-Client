@@ -12,3 +12,7 @@ export const nationality = [
     { value: 1, name: 'TP.HCM' },
 ]
 
+export const role = [
+    { freelancer: 2 },
+    { recruiter: 1 }
+]

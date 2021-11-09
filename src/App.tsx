@@ -44,6 +44,7 @@ function App() {
                 component={route.component}
                 guarded={route.guarded}
                 exact={route.exact}
+                role={route.role}
               />
             ))}
             <Route component={NotFound} />

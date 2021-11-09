@@ -17,7 +17,7 @@ class ApiUser extends ApiCore {
     return this.put(null, password, "user/change-password")
   }
   getProfile(){
-    return this.get(null,"user/profile")
+    return this.get(null,"user/cv")
   }
 }
 

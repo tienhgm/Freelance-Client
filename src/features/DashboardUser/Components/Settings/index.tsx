@@ -36,9 +36,10 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetProfile());
 
     form.setFieldsValue({
-      firstName: payload.user.firstName,
-      lastName: payload.user.lastName,
-    })
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      minimalHourlyRate: payload.minimalHourlyRate
+    });
   };
   useEffect(() => {
     getProfile();
@@ -75,7 +76,7 @@ export default function Settings() {
                   <div className="mb-1 text-xl font-bold">
                     First Name <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="firstName" rules={[{ required: true }]} initialValue={fullName.firstName}>
+                  <Form.Item name="firstName" rules={[{ required: true }]}>
                     <Input size="large" placeholder="First name" />
                   </Form.Item>
                 </div>
@@ -84,7 +85,7 @@ export default function Settings() {
                     Last Name <span className="required-field">*</span>
                   </div>
                   <Form.Item name="lastName" rules={[{ required: true }]}>
-                    <Input size="large" placeholder="Last name" value={fullName.lastName} />
+                    <Input size="large" placeholder="Last name" />
                   </Form.Item>
                 </div>
               </div>
@@ -103,7 +104,7 @@ export default function Settings() {
             <div className="col-span-3">
               <div className="mb-1 text-xl font-bold">Set your minimal hourly rate</div>
               <div className="text-lg font-medium">${minimalHourlyRate}</div>
-              <Form.Item name="minimalHourlyRate" initialValue={minimalHourlyRate ? minimalHourlyRate : 0}>
+              <Form.Item name="minimalHourlyRate">
                 <Slider max={150} onChange={handleSetPayHourly} />
               </Form.Item>
             </div>

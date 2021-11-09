@@ -1,7 +1,5 @@
-import { message } from 'antd';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import apiAuth from "apis/tasks/apiAuth";
-import { error } from "console";
 import { notify } from "utils/notification";
 import { handleLoading } from './appSlice';
 
@@ -28,7 +26,7 @@ export const login = createAsyncThunk("auth/login", async (payload: any, { dispa
       return res.data;
     } 
   } catch (error:any) {
-    notify("error", error.data.validationErrors[0], "");
+    notify("error", error.data.message, "");
   } finally {
     dispatch(handleLoading(false));
   }
@@ -43,7 +41,7 @@ export const register = createAsyncThunk("auth/register", async (payload: any, {
       return data;
     }
   } catch (error:any) {
-    notify("error", error.data.validationErrors[0], "");
+    notify("error", error.data.message, "");
   } finally {
     dispatch(handleLoading(false));
   }
