@@ -12,7 +12,7 @@ function Banner() {
     <div className="banner">
       <div className="banner__fulfil p-28">
         {/* title */}
-        <div className="flex">
+        <div className="flex banner__fulfil__title">
           <div>
             <div className="font-medium lg:text-2xl md:text-xl xs:text-lg">
               Hire experts or be hired for any job, any time.
@@ -25,7 +25,7 @@ function Banner() {
         </div>
         {/* end title */}
         {/* search jobs */}
-        <div className="mt-24">
+        <div className="mt-24 banner__fulfil__form">
           <Form form={form} name="horizontal_login" onFinish={onFinish} size="large">
             <div className="flex flex-wrap items-center gap-2">
               <div style={{ width: 300 }}>

@@ -1,11 +1,17 @@
 .banner {
   min-width: 600px;
-  background-image: url("../../../../assets/images/home-background1.jpg");
+  background-image: url('../../../../assets/images/home-background1.jpg');
   height: 600px;
   background-repeat: no-repeat;
   background-size: cover;
   position: relative;
   &__fulfil {
+    &__title {
+      animation: dropdown-animation 0.4s linear;
+    }
+    &__form {
+      animation: up-animation 0.4s linear;
+    }
     position: absolute;
     min-width: 600px;
     background-image: linear-gradient(
@@ -34,5 +40,21 @@
     &__column:last-child {
       border-right: none;
     }
+  }
+}
+@keyframes dropdown-animation {
+  from {
+    transform: translateY(-10px);
+  }
+  to {
+    transform: translateY(0);
+  }
+}
+@keyframes up-animation {
+  from {
+    transform: translateY(10px);
+  }
+  to {
+    transform: translateY(0);
   }
 }
