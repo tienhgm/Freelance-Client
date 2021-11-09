@@ -1,52 +1,59 @@
+import { message } from 'antd';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import apiAuth from "apis/tasks/apiAuth";
+import { error } from "console";
 import { notify } from "utils/notification";
 import { handleLoading } from './appSlice';
 
 interface AuthState {
   accessToken: string;
   refreshToken: string;
-  user: any
+  user: any,
+ 
 }
 
 const initialState: AuthState = {
   accessToken: '',
   refreshToken: '',
-  user: {}
+  user: {},
 }
 
-export const login = createAsyncThunk("auth/login", async (payload: any, {dispatch}) => {
+export const login = createAsyncThunk("auth/login", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
     const res = await apiAuth.login(payload);
     dispatch(handleLoading(false));
-    if (res.status == 200) {
+    if (res.status === 200) {
       notify("success", "Success", "");
       return res.data;
-    } else {
-      notify("error", "Error!", "");
-    }
-  } catch (error) { }
+    } 
+  } catch (error:any) {
+    notify("error", error.data.validationErrors[0], "");
+  } finally {
+    dispatch(handleLoading(false));
+  }
 });
-export const register = createAsyncThunk("auth/register", async (payload: any , {dispatch}) => {
+export const register = createAsyncThunk("auth/register", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const res = await apiAuth.register(payload);
-    dispatch(handleLoading(false));
-    if (res.status === 1) {
+    const {status , data } = await apiAuth.register(payload);
+
+    if (status && status === 201) {
       notify("success", "Register success", "");
-      return res.data;
-    } else {
-      notify("error", "Error!", "");
+      return data;
     }
-  } catch (error) { }
+  } catch (error:any) {
+    notify("error", error.data.validationErrors[0], "");
+  } finally {
+    dispatch(handleLoading(false));
+  }
 });
-export const activate = createAsyncThunk("auth/activate", async (payload: any, {dispatch}) => {
+export const activate = createAsyncThunk("auth/activate", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
     const res = await apiAuth.activate(payload);
     dispatch(handleLoading(false));
-    if (res.status == 200) {
+    if (res.status === 200) {
       notify("success", "Activated!", "");
       return res.data;
     } else {
@@ -63,7 +70,7 @@ const authSlice = createSlice({
       state.accessToken = '';
       state.refreshToken = '';
       state.user = {}
-    }
+    },
   },
   extraReducers: {
     // @ts-ignore

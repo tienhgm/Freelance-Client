@@ -2,28 +2,18 @@ import { Form, Button, Input } from "antd";
 import { MailOutlined, LockOutlined } from "@ant-design/icons";
 import "./style.scss";
 import { REGEX_CHECK_EMAIL } from "constants/regex";
-import { useEffect } from "react";
 
 type LoginFormProps = {
   onFormFinish: (values: any) => void;
-  onFormFinishFalse: (values: any) => void;
   openRegisterForm: () => void;
-  isReset: boolean;
 };
 
 function LoginForm({
   onFormFinish,
-  onFormFinishFalse,
   openRegisterForm,
-  isReset,
 }: LoginFormProps) {
   const [form] = Form.useForm();
-  useEffect(() => {
-    onReset();
-  }, [isReset]);
-  const onReset = () => {
-    form.resetFields();
-  };
+ 
   return (
     <Form
       form={form}
@@ -31,7 +21,6 @@ function LoginForm({
       labelCol={{ span: 8 }}
       wrapperCol={{ span: 16 }}
       onFinish={onFormFinish}
-      onFinishFailed={onFormFinishFalse}
     >
       <div className="form-title">
         <h3>We're glad to see you again!</h3>
@@ -62,7 +51,7 @@ function LoginForm({
         name="password"
         rules={[
           { required: true, message: "Please input your password!" },
-          { min: 8, message: "Password must be minimum 5 characters." },
+          { min: 8, message: "Password must be minimum 8 characters." },
         ]}
       >
         <Input.Password

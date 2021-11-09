@@ -24,7 +24,6 @@ const getById = (collection: any, id: number) => {
 };
 
 const post = (collection: any, model: any) => {
-  console.log(baseUrl)
   return axios
     .post(`${baseUrl}/${collection}`, model, { headers: getAuthHeader() })
     .then(handleResponse)
@@ -45,13 +44,14 @@ const remove = (collection: any, id: number) => {
     .catch(handleError);
 };
 
-const upload = (collection: any, files: any) => {
+const upload = (collection: any, files: File) => {
   let formData = new FormData();
-  for (let index = 0; index < files.length; index++) {
-    formData.append(collection, files[index]);
-  }
+  // for (let index = 0; index < files.length; index++) {
+  //   formData.append(collection, files[index]);
+  // }
+  formData.append("file",files)
   return axios
-    .post(`${baseUrl}/${collection}`, formData, {
+    .put(`${baseUrl}/${collection}`, formData, {
       headers: {
         ...getAuthHeader(),
         "Content-Type": "multipart/form-data",

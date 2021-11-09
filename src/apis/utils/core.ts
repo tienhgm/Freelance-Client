@@ -10,8 +10,8 @@ export class ApiCore {
 
   constructor(options: any) {
     if (options.get) {
-      this.get = (filter: any) => {
-        return apiProvider.get(options.collection, filter);
+      this.get = (filter: any, collection:any) => {
+        return apiProvider.get(collection || options.collection, filter);
       };
     }
     if (options.getById) {
@@ -35,8 +35,8 @@ export class ApiCore {
       };
     }
     if (options.upload) {
-      this.upload = (files: File) => {
-        return apiProvider.upload(options.collection, files);
+      this.upload = (files: File, collection:any) => {
+        return apiProvider.upload(collection || options.collection, files);
       };
     }
   }

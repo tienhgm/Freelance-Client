@@ -94,7 +94,6 @@ export default function PostJob() {
           <div className="flex flex-wrap w-full">
             <div >
               <h2>Editor</h2>
-              
             </div>
           </div>
         </div>

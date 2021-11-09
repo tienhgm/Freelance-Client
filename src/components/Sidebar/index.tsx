@@ -13,7 +13,6 @@ function Sidebar() {
         const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
         setSelectedTags(nextSelectedTags);
     }
-    console.log(selectedTags);
 
     return (
         <div className="sidebar">

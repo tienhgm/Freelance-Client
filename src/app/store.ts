@@ -9,15 +9,17 @@ import storage from "redux-persist/lib/storage";
 
 import authReducer from "./slices/authSlice";
 import appReducer from "./slices/appSlice";
+import userReducer from "./slices/userSlice";
 
 const reducers = combineReducers({
   auth: authReducer,
   app: appReducer,
+  user: userReducer,
 });
 const persistConfig = {
   key: "root",
   storage,
-  whitelist: ["auth", "app"],
+  whitelist: ["auth"],
 };
 const persistedReducer = persistReducer(persistConfig, reducers);
 

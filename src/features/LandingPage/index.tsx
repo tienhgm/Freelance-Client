@@ -6,7 +6,6 @@ import FeatureCity from './components/FeatureCity';
 import FeatureJob from './components/FeatureJob';
 import PopularJob from './components/PopularJob';
 import { activate } from 'app/slices/authSlice';
-import { handleLoading } from 'app/slices/appSlice';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -23,7 +22,7 @@ function LandingPage() {
         } catch (error) {}
       }
     })();
-  }, [token]);
+  }, [token,dispatch]);
   return (
     <div>
       <Banner />
