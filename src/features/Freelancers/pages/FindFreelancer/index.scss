@@ -1,19 +1,15 @@
 .FindFreelancer{
     background-color: #fbfbfb;
     min-height: calc(100vh - 351px);
-    height: calc(100vh - 56px);
+    height: calc(100vh - 64px);
 
     &__sidebar{
         background-color: #f3f3f3;
-        width: 336px;
-        padding: 35px;
-        padding-bottom: 0px;
-        height: 100%,;
+        max-height: calc(100vh - 56px);
     }
 
     &__list{
-        padding: 40px;
-        height: 100%;
+        max-height: calc(100vh - 56px);
     }
 
     ::-webkit-scrollbar{
