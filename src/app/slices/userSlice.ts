@@ -5,12 +5,12 @@ import { handleLoading } from "./appSlice";
 
 interface UserSlice {
     img: string;
-    isChangePassword: boolean
+    isChangePassword: boolean;
 }
 
 const initialState: UserSlice = {
     img: "",
-    isChangePassword: false
+    isChangePassword: false,
 }
 export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any) => {
     try {
@@ -24,7 +24,7 @@ export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any)
         }
     } catch (error) { }
 });
-export const handleChangePassword = createAsyncThunk("auth/changePassword", async (payload: any, { dispatch }) => {
+export const handleChangePassword = createAsyncThunk("user/changePassword", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
         const res = await apiUser.changePassword(payload);
@@ -38,18 +38,32 @@ export const handleChangePassword = createAsyncThunk("auth/changePassword", asyn
         }
     } catch (error) { }
 });
+export const handleGetProfile = createAsyncThunk("user/profile", async () => {
+    try {
+        const res = await apiUser.getProfile();
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
 const userSlice = createSlice({
     name: "user",
     initialState,
     reducers: {},
     extraReducers: {
         // @ts-ignore
-        [uploadAvt.fulfilled]: (state: any, action: PayloadAction<AuthState>) => {
+        [uploadAvt.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             state.img = action.payload;
         },
         // @ts-ignore
-        [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<AuthState>) => {
+        [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             state.isChangePassword = action.payload;
+        },
+        // @ts-ignore
+        [handleGetProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
         },
     }
 });

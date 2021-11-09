@@ -1,5 +1,7 @@
+import { message } from 'antd';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import apiAuth from "apis/tasks/apiAuth";
+import { error } from "console";
 import { notify } from "utils/notification";
 import { handleLoading } from './appSlice';
 
@@ -24,23 +26,25 @@ export const login = createAsyncThunk("auth/login", async (payload: any, { dispa
     if (res.status === 200) {
       notify("success", "Success", "");
       return res.data;
-    } else {
-      notify("error", "Error!", "");
-    }
-  } catch (error) { }
+    } 
+  } catch (error:any) {
+    notify("error", error.data.validationErrors[0], "");
+  } finally {
+    dispatch(handleLoading(false));
+  }
 });
 export const register = createAsyncThunk("auth/register", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const { data, status } = await apiAuth.register(payload);
+    const {status , data } = await apiAuth.register(payload);
 
     if (status && status === 201) {
       notify("success", "Register success", "");
       return data;
-    } else {
-      notify("error", "Error", "");
     }
-  } catch (error) { } finally {
+  } catch (error:any) {
+    notify("error", error.data.validationErrors[0], "");
+  } finally {
     dispatch(handleLoading(false));
   }
 });

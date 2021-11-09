@@ -16,6 +16,9 @@ class ApiUser extends ApiCore {
   changePassword = (password: any) => {
     return this.put(null, password, "user/change-password")
   }
+  getProfile(){
+    return this.get(null,"user/profile")
+  }
 }
 
 export default new ApiUser();

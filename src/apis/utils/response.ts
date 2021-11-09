@@ -11,7 +11,7 @@ export function handleResponse(response: any) {
 
 export function handleError(error: any) {
   if (error.response) {
-    return error.response;
+    return Promise.reject(error.response)
   }
-  return error;
+  return Promise.reject(error);
 }

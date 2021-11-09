@@ -26,9 +26,9 @@ function Dialog({ isOpen, isLogin, closeDialog }: DialogProps) {
       dispatch(login(values));
     }
   };
-  const onFinish = (values: any) => {
+  const onFinish = async(values: any) => {
     try {
-      newDispatch(values);
+      await newDispatch(values);
     } catch (error) {}
   };
 

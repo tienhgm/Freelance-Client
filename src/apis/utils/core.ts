@@ -10,8 +10,8 @@ export class ApiCore {
 
   constructor(options: any) {
     if (options.get) {
-      this.get = (filter: any) => {
-        return apiProvider.get(options.collection, filter);
+      this.get = (filter: any, collection:any) => {
+        return apiProvider.get(collection || options.collection, filter);
       };
     }
     if (options.getById) {

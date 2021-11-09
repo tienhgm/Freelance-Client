@@ -1,20 +1,25 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Input, Button, Slider, Select, Form } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
 import MyEditor from 'components/Editor';
 import './index.scss';
-import { useAppSelector } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { nationality, skills } from 'utils/enum';
+import { handleGetProfile } from 'app/slices/userSlice';
 const { Option } = Select;
 const { TextArea } = Input;
 export default function Settings() {
   const [form] = Form.useForm();
   const [minimalHourlyRate, setMinimalHourlyRate] = useState(0);
   const [workExp, setWorkExp] = useState('');
+  const [fullName, setFullName] = useState({
+    firstName: '',
+    lastName: '',
+  });
   const watchWorkExp = (value: any) => {
     setWorkExp(value);
-  }
+  };
   const [listSkills, setListSkills] = useState([]);
   const handleSetPayHourly = (value: number) => {
     setMinimalHourlyRate(value);
@@ -26,6 +31,21 @@ export default function Settings() {
   const onFinish = async (values: any) => {
     console.log(values);
   };
+  const dispatch = useAppDispatch();
+  const getProfile = async () => {
+    const { payload } = await dispatch(handleGetProfile());
+
+    form.setFieldsValue({
+      firstName: payload.user.firstName,
+      lastName: payload.user.lastName,
+    })
+  };
+  useEffect(() => {
+    getProfile();
+    // return () => {
+
+    // }
+  }, []);
   return (
     <Form form={form} onFinish={onFinish}>
       <div className="h-full overflow-auto settings">
@@ -55,7 +75,7 @@ export default function Settings() {
                   <div className="mb-1 text-xl font-bold">
                     First Name <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="firstName" rules={[{ required: true }]} initialValue={currentUser.firstName}>
+                  <Form.Item name="firstName" rules={[{ required: true }]} initialValue={fullName.firstName}>
                     <Input size="large" placeholder="First name" />
                   </Form.Item>
                 </div>
@@ -63,8 +83,8 @@ export default function Settings() {
                   <div className="mb-1 text-xl font-bold">
                     Last Name <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="lastName" rules={[{ required: true }]} initialValue={currentUser.lastName}>
-                    <Input size="large" placeholder="Last name" />
+                  <Form.Item name="lastName" rules={[{ required: true }]}>
+                    <Input size="large" placeholder="Last name" value={fullName.lastName} />
                   </Form.Item>
                 </div>
               </div>
@@ -126,7 +146,7 @@ export default function Settings() {
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="col-span-11">
               <div className="mb-3 text-xl font-bold">Work Experience</div>
-                <MyEditor valueWorkExp={''} watchWorkExp={watchWorkExp} />
+              <MyEditor valueWorkExp={''} watchWorkExp={watchWorkExp} />
             </div>
           </div>
         </div>
