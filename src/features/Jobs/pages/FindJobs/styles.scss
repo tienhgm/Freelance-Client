@@ -17,6 +17,10 @@
       box-shadow: none;
     }
   }
+  &__sidebar {
+    background-color: #f3f3f3;
+  }
+
   &__sidebar,
   &__content {
     max-height: calc(100vh - 56px);

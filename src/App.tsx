@@ -12,6 +12,7 @@ function App() {
   const { pathname } = location;
   const hiddenFooter = useMemo(() => {
     const routerExcept = [
+      "/find-freelancers",
       "/dashboard",
       "/dashboard/settings",
       "/dashboard/password",
