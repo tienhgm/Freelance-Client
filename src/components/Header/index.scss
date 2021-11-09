@@ -17,7 +17,7 @@ $blue-template: #2e3fe5;
     span {
       color: black;
     }
-    animation: show-header 0.5s 1 linear forwards;
+    animation: show-header 0.3s 1 linear forwards;
   }
   .side-bar {
     display: none;
@@ -32,7 +32,7 @@ $blue-template: #2e3fe5;
     align-items: center;
     margin-bottom: 0;
     flex-wrap: wrap;
-    animation: show-header 0.5s 1 linear forwards;
+    animation: show-header 0.3s 1 linear forwards;
     @media (max-width: 1120px) {
       display: none;
     }
@@ -87,7 +87,7 @@ $blue-template: #2e3fe5;
   cursor: pointer;
 }
 .btn-register {
-  animation: show-header 0.5s 1 linear forwards;
+  animation: show-header 0.3s 1 linear forwards;
   cursor: pointer;
   margin-left: 1rem;
   border-radius: 20px;

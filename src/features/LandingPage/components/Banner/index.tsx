@@ -1,10 +1,12 @@
-import { Form, Select, Input, Button } from "antd";
-import "./index.scss";
+import { Form, Select, Input, Button } from 'antd';
+import { useEffect } from 'react';
+import CountUp from 'react-countup';
+import './index.scss';
 function Banner() {
   const { Option } = Select;
   const [form] = Form.useForm();
   const onFinish = (values: any) => {
-    console.log("value", values);
+    console.log('value', values);
   };
   return (
     <div className="banner">
@@ -16,21 +18,15 @@ function Banner() {
               Hire experts or be hired for any job, any time.
             </div>
             <div className="lg:text-2xl md:text-xl xs:text-lg">
-              Thousands of small businesses use{" "}
-              <span className="color-blue">Freelance</span> to turn their ideas
-              into reality.
+              Thousands of small businesses use <span className="color-blue">Freelance</span> to turn their ideas into
+              reality.
             </div>
           </div>
         </div>
         {/* end title */}
         {/* search jobs */}
         <div className="mt-24">
-          <Form
-            form={form}
-            name="horizontal_login"
-            onFinish={onFinish}
-            size="large"
-          >
+          <Form form={form} name="horizontal_login" onFinish={onFinish} size="large">
             <div className="flex flex-wrap items-center gap-2">
               <div style={{ width: 300 }}>
                 <Form.Item name="location">
@@ -60,27 +56,21 @@ function Banner() {
         <div className="flex mt-16 flex-nowrap statistical">
           <div className="statistical__column">
             <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
-              1586
+              <CountUp end={1586} start={100} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm">
-              Jobs Posted
-            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">Jobs Posted</div>
           </div>
           <div className="statistical__column">
-            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
-              6969
+            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg statistical__column__counter">
+              <CountUp end={6869} start={300} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm">
-              Blogs
-            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">Blogs</div>
           </div>
           <div className="statistical__column">
-            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
-              1586
+            <div className="font-medium lg:text-3xl md:text-xl xs:text-lg statistical__column__counter">
+              <CountUp end={1482} start={200} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm">
-              Jobs Posted
-            </div>
+            <div className="title lg:text-lg md:text-base xs:text-sm statistical__column__counter">Jobs Posted</div>
           </div>
         </div>
         {/* end statistical  */}
