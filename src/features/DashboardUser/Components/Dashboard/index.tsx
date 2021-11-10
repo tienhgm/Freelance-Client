@@ -1,6 +1,8 @@
-import { ShoppingOutlined, ToolOutlined } from "@ant-design/icons";
-import Chart from "./Components/Chart";
-import "./index.scss";
+import { ShoppingOutlined, ToolOutlined } from '@ant-design/icons';
+import { Badge } from 'antd';
+import Chart from './Components/Chart';
+import ChartRadialBar from './Components/RadioChart';
+import './index.scss';
 export default function Dashboard() {
   return (
     <div className="h-full dashboard">
@@ -35,8 +37,32 @@ export default function Dashboard() {
         </div>
       </div>
       <div className="dashboard__chart">
-        <div className="mb-3 text-xl font-medium"> Your Profile Views</div>
-        <Chart />
+        <div className="dashboard__chart__left">
+          <div className="m-3 text-xl font-medium"> Your Profile Views</div>
+          <Chart />
+        </div>
+        <div className="dashboard__chart__right">
+          <div className="m-3 text-xl font-medium">Static Analytics</div>
+          <ChartRadialBar />
+          <div className="flex flex-col justify-center">
+            <div className="flex justify-between px-4 mt-4 text-lg">
+              <div className="flex gap-2"><Badge color="#36c361" size="default" /> <p>Applied Jobs</p></div>
+              <div className="font-bold">123</div>
+            </div>
+            <div className="flex justify-between px-4 text-lg">
+              <div className="flex gap-2"><Badge color="#2194ff" size="default" /> <p>Bookmarked Projects</p></div>
+              <div className="font-bold">123</div>
+            </div>
+            <div className="flex justify-between px-4 text-lg">
+              <div className="flex gap-2"><Badge color="#FA6CA4" size="default" /> <p>Jobs Done</p></div>
+              <div className="font-bold">123</div>
+            </div>
+            <div className="flex justify-between px-4 text-lg">
+              <div className="flex gap-2"><Badge color="#7B46BE" size="default" /> <p>Total Jobs</p></div>
+              <div className="font-bold">123</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );

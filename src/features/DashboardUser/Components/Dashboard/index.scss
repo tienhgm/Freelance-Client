@@ -10,6 +10,13 @@
     justify-content: space-between;
     align-items: center;
     box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    transition: .3s;
+    &:hover{
+      transform: translateY(-10px);
+      transition: .3s ;
+      transition-timing-function: linear;
+      cursor: pointer;
+    }
   }
   &__icon1 {
     background-color: rgba(54, 189, 120, 0.07);
@@ -39,10 +46,16 @@
     }
   }
   &__chart {
-    background-color: #fff;
-    box-sizing: border-box;
-    padding: 10px;
+    display: flex;
     margin-top: 30px;
-    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    &__left{
+      width: calc(64%);
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
+    &__right{
+      margin-left: 23px;
+      width: calc(31% );
+      box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    }
   }
 }

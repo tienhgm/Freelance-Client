@@ -38,7 +38,7 @@ export default function Settings() {
     form.setFieldsValue({
       firstName: payload.firstName,
       lastName: payload.lastName,
-      minimalHourlyRate: payload.minimalHourlyRate
+      minimalHourlyRate: payload.minimalHourlyRate,
     });
   };
   useEffect(() => {
@@ -63,12 +63,18 @@ export default function Settings() {
               <UploadAvatar disabled={false} previewImg={currentUser.previewImg} />
             </div>
             <div className="col-span-9">
-              <div className="grid-cols-9 mt-1 mb-3">
-                <div className="col-span-6">
+              <div className="grid grid-cols-10 mt-1 mb-3">
+                <div className="col-span-5">
                   <div className="mb-1 text-xl font-bold">
                     Email <span className="required-field">*</span>
                   </div>
                   <Input size="large" value={currentUser.email} placeholder="Email" disabled />
+                </div>
+                <div className="col-span-5 ml-6">
+                  <div className="mb-1 text-xl font-bold">Phone number</div>
+                  <Form.Item name="phoneNumber">
+                    <Input size="large" placeholder="Phone number"  />
+                  </Form.Item>
                 </div>
               </div>
               <div className="grid grid-cols-12">

@@ -4,45 +4,37 @@ import { Line } from "@ant-design/charts";
 const Chart: React.FC = () => {
   const data = [
     {
-      year: "1991",
+      Date: "2020-09",
       value: 3,
     },
     {
-      year: "1992",
+      Date: "2020-10",
       value: 4,
     },
     {
-      year: "1993",
-      value: 3.5,
+      Date: "2020-11",
+      value: 8,
     },
     {
-      year: "1994",
-      value: 5,
+      Date: "2020-12",
+      value: 11,
     },
     {
-      year: "1995",
-      value: 4.9,
+      Date: "2021-01",
+      value: 16,
     },
     {
-      year: "1996",
-      value: 6,
+      Date: "2021-02",
+      value: 20,
     },
     {
-      year: "1997",
-      value: 7,
-    },
-    {
-      year: "1998",
-      value: 9,
-    },
-    {
-      year: "1999",
-      value: 13,
+      Date: "2021-03",
+      value: 36,
     },
   ];
   var config = {
     data: data,
-    xField: "year",
+    xField: "Date",
     yField: "value",
     label: {},
     point: {
