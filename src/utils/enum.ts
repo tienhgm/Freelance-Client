@@ -22,3 +22,17 @@ export const statusEarning = {
     Doned: 3,
     Cancel: 4
 }
+export const gender = [
+    { value: 1, name: 'Male' },
+    { value: 2, name: 'Female' },
+    { value: 3, name: 'Other' },
+]
+export const roleWork = [
+    'Developer',
+    'Comtor',
+    'Brse',
+    'Tester',
+    'Project Manager',
+]
+
+

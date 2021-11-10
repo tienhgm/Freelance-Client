@@ -64,5 +64,5 @@ export default function TableEarning() {
       payment: 0,
     },
   ];
-  return <Table columns={columns} dataSource={data} />;
+  return <Table columns={columns} dataSource={data}  />;
 }

@@ -25,14 +25,15 @@ const {
   InsertTable,
 } = EditorTools;
 interface IProps {
-  valueWorkExp: any;
-  watchWorkExp: (value: any) => void;
+  valueChange: any;
+  handleChange: (value: any) => void;
+  height?: number;
 }
-export default function MyEditor({ valueWorkExp, watchWorkExp }: IProps) {
-  const [value, setValue] = useState(valueWorkExp);
+export default function MyEditor({ valueChange, handleChange, height = 300 }: IProps) {
+  const [value, setValue] = useState(valueChange);
   const onChange = (event: EditorChangeEvent) => {
-    setValue(event.html)
-    watchWorkExp(event.html);
+    setValue(event.html);
+    handleChange(event.html);
   };
   return (
     <Editor
@@ -48,9 +49,9 @@ export default function MyEditor({ valueWorkExp, watchWorkExp }: IProps) {
         FormatBlock,
         [Undo, Redo],
         [Link, Unlink, InsertImage, ViewHtml],
-        [InsertTable],
+        // [InsertTable],
       ]}
-      contentStyle={{ height: 330 }}
+      contentStyle={{ height: height }}
     />
   );
 }

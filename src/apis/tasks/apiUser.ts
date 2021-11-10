@@ -10,14 +10,14 @@ class ApiUser extends ApiCore {
       upload: true
     });
   }
-  uploadAvt(file:any){
-    return this.upload(file,"user/avatar");
+  uploadAvt(file: any) {
+    return this.upload(file, "user/avatar");
   }
   changePassword = (password: any) => {
     return this.put(null, password, "user/change-password")
   }
-  getProfile(){
-    return this.get(null,"user/cv")
+  getProfile() {
+    return this.get(null, "user/cv")
   }
 }
 

@@ -35,7 +35,7 @@ const GuardedRoute: FC<Props> = ({
   return (
     <Route
       render={(props) =>
-        isAuthenticated === true || guarded === false ? <Component {...props} /> : <Redirect to={redirect} />
+        isAuthenticated === false || guarded === false ? <Component {...props} /> : <Redirect to={redirect} />
       }
       {...rest}
     />

@@ -41,9 +41,9 @@ export default function Dashboard() {
           </div>
         </div>
       </div>
-      <div className="dashboard__chart">
+      <div className="flex-wrap dashboard__chart">
         <div className="dashboard__chart__left">
-          <div className="m-3 text-xl font-medium"> Your Profile Views</div>
+          <div className="m-3 text-xl font-medium">Your Profile Views</div>
           <Chart />
         </div>
         <div className="dashboard__chart__right">
@@ -81,7 +81,7 @@ export default function Dashboard() {
         <div className="flex items-center justify-between">
           <div className="m-3 text-xl font-medium">Detail</div>
           <div>
-            <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleSelect} placeholder="Status" allowClear>
+            <Select style={{ width: 120 }} onChange={handleSelect} placeholder="Status" allowClear>
               <Option value="Applied">Applied</Option>
               <Option value="Pending">Pending</Option>
               <Option value="Doned">Doned</Option>
