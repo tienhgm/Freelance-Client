@@ -16,3 +16,9 @@ export const role = [
     { freelancer: 2 },
     { recruiter: 1 }
 ]
+export const statusEarning = {
+    Applied: 1,
+    Pending: 2,
+    Doned: 3,
+    Cancel: 4
+}

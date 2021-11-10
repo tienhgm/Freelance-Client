@@ -1,9 +1,14 @@
 import { ShoppingOutlined, ToolOutlined } from '@ant-design/icons';
-import { Badge } from 'antd';
+import { Badge, Select } from 'antd';
 import Chart from './Components/Chart';
 import ChartRadialBar from './Components/RadioChart';
+import TableEarning from './Components/TableEarning';
 import './index.scss';
 export default function Dashboard() {
+  const { Option } = Select;
+  function handleSelect(value: any) {
+    console.log(`selected ${value}`);
+  }
   return (
     <div className="h-full dashboard">
       <h1 className="mb-8 text-2xl">Hi Tien!</h1>
@@ -46,23 +51,45 @@ export default function Dashboard() {
           <ChartRadialBar />
           <div className="flex flex-col justify-center">
             <div className="flex justify-between px-4 mt-4 text-lg">
-              <div className="flex gap-2"><Badge color="#36c361" size="default" /> <p>Applied Jobs</p></div>
+              <div className="flex gap-2">
+                <Badge color="#36c361" size="default" /> <p>Applied Jobs</p>
+              </div>
               <div className="font-bold">123</div>
             </div>
             <div className="flex justify-between px-4 text-lg">
-              <div className="flex gap-2"><Badge color="#2194ff" size="default" /> <p>Bookmarked Projects</p></div>
+              <div className="flex gap-2">
+                <Badge color="#2194ff" size="default" /> <p>Bookmarked Projects</p>
+              </div>
               <div className="font-bold">123</div>
             </div>
             <div className="flex justify-between px-4 text-lg">
-              <div className="flex gap-2"><Badge color="#FA6CA4" size="default" /> <p>Jobs Done</p></div>
+              <div className="flex gap-2">
+                <Badge color="#FA6CA4" size="default" /> <p>Jobs Done</p>
+              </div>
               <div className="font-bold">123</div>
             </div>
             <div className="flex justify-between px-4 text-lg">
-              <div className="flex gap-2"><Badge color="#7B46BE" size="default" /> <p>Total Jobs</p></div>
+              <div className="flex gap-2">
+                <Badge color="#7B46BE" size="default" /> <p>Total Jobs</p>
+              </div>
               <div className="font-bold">123</div>
             </div>
           </div>
         </div>
+      </div>
+      <div className="dashboard__earning">
+        <div className="flex items-center justify-between">
+          <div className="m-3 text-xl font-medium">Detail</div>
+          <div>
+            <Select defaultValue="lucy" style={{ width: 120 }} onChange={handleSelect} placeholder="Status" allowClear>
+              <Option value="Applied">Applied</Option>
+              <Option value="Pending">Pending</Option>
+              <Option value="Doned">Doned</Option>
+              <Option value="Cancel">Cancel</Option>
+            </Select>
+          </div>
+        </div>
+        <TableEarning />
       </div>
     </div>
   );
