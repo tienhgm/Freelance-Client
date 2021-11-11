@@ -23,6 +23,7 @@ function App() {
       "/dashboard/jobs-manage",
       "/dashboard/post-jobs",
       "/dashboard/candidate-manage",
+      "/dashboard/my-jobs",
 
     ];
     const currentRouter = pathname;

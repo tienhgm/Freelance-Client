@@ -2,7 +2,6 @@ import { ShoppingOutlined, ToolOutlined } from '@ant-design/icons';
 import { Badge, Select } from 'antd';
 import Chart from './Components/Chart';
 import ChartRadialBar from './Components/RadioChart';
-import TableEarning from './Components/TableEarning';
 import './index.scss';
 export default function Dashboard() {
   const { Option } = Select;
@@ -76,20 +75,6 @@ export default function Dashboard() {
             </div>
           </div>
         </div>
-      </div>
-      <div className="dashboard__earning">
-        <div className="flex items-center justify-between">
-          <div className="m-3 text-xl font-medium">Detail</div>
-          <div>
-            <Select style={{ width: 120 }} onChange={handleSelect} placeholder="Status" allowClear>
-              <Option value="Applied">Applied</Option>
-              <Option value="Pending">Pending</Option>
-              <Option value="Doned">Doned</Option>
-              <Option value="Cancel">Cancel</Option>
-            </Select>
-          </div>
-        </div>
-        <TableEarning />
       </div>
     </div>
   );

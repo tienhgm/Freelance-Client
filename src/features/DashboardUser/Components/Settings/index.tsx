@@ -9,6 +9,8 @@ import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetCities } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
+import { convertDateToString } from 'utils/generate';
+import moment from 'moment';
 import './index.scss';
 
 const { Option } = Select;
@@ -23,7 +25,7 @@ export default function Settings() {
   const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
   const [listCities, setListCities] = useState([]);
-
+  const [previewImg, setPreviewImg] = useState('');
   const watchEducation = (value: any) => {
     setEducations(value);
   };
@@ -52,8 +54,16 @@ export default function Settings() {
       minimalHourlyRate: payload.minimalHourlyRate,
       phoneNumber: payload.phoneNumber,
       gender: payload.gender,
+      hobbies: payload.hobbies,
+      address: payload.address,
+      dateOfBirth: moment(payload.dateOfBirth),
+      skills: payload.skills,
+      nationality: payload.nationality,
     });
+    setIntroduce(payload.introduce);
+    setEducations(payload.educations);
     setMinimalHourlyRate(payload.minimalHourlyRate);
+    setPreviewImg(payload.avatar);
   };
   useEffect(() => {
     getProfile();
@@ -61,18 +71,22 @@ export default function Settings() {
     getCities();
   }, []);
   const onFinish = async (values: any) => {
-    // console.log(values);
-    values.skills = 'vuejs';
-    values.introduce = introduce;
-    values.nationality = 23;
-    values.educations = educations;
-    values.languages = 'vuejs';
     delete values.email;
+    values.introduce = introduce;
+    values.educations = educations;
+    values.languages = ['vi'];
+    !!!values.dateOfBirth
+      ? (values.dateOfBirth = '')
+      : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
+    values.hobbies = [...values.hobbies];
+    values.experiences = [];
+
     const result = await dispatch(handleUpdateProfile(values));
-    console.log(result);
-    // console.log(values);
   };
   const dateFormat = 'YYYY/MM/DD';
+  const handleUpdateImg = (img: any) => {
+    setPreviewImg(img);
+  };
   return (
     <Form form={form} onFinish={onFinish}>
       <div className="h-full overflow-auto settings">
@@ -86,10 +100,7 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="self-center col-span-2 mt-4">
-              <UploadAvatar
-                disabled={false}
-                previewImg={'f14.225.192.239:4000/public/avatars/5cbdc414-6c78-4120-8110-00ee34cb8001.png'}
-              />
+              <UploadAvatar disabled={false} previewImg={previewImg} handleUpdateImg={handleUpdateImg} />
             </div>
             <div className="col-span-9">
               <div className="grid mt-1 mb-3 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
@@ -155,16 +166,15 @@ export default function Settings() {
                   <div className="mb-1 text-xl font-bold">
                     Hobbies <span className="required-field">*</span>
                   </div>
-                  <Form.Item
-                    name="hobbies"
-                    rules={[{ required: true, message: 'Please input hobbies like: movie | swimming...' }]}
-                  >
+                  <Form.Item name="hobbies" rules={[{ required: true, message: 'Please input hobbies' }]}>
                     <Input size="large" placeholder="Hobbies" />
                   </Form.Item>
                 </div>
                 <div className="col-span-6 lg:ml-6">
-                  <div className="mb-1 text-xl font-bold">Date of birth</div>
-                  <Form.Item name="dateOfBirth">
+                  <div className="mb-1 text-xl font-bold">
+                    Date of birth <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="dateOfBirth" rules={[{ required: true, message: 'Please input...' }]}>
                     <DatePicker style={{ width: 'calc(100%)' }} size="large" format={dateFormat} />
                   </Form.Item>
                 </div>
@@ -203,9 +213,9 @@ export default function Settings() {
                   style={{ width: '100%' }}
                   placeholder="Choose your skill"
                 >
-                  {listSkills.map((item, idx) => (
-                    <Option value={item} key={idx}>
-                      {item}
+                  {listSkills.map((item: any) => (
+                    <Option value={item.name} key={item.id}>
+                      {item.name}
                     </Option>
                   ))}
                 </Select>
@@ -215,11 +225,11 @@ export default function Settings() {
               <div className="mb-3 text-xl font-bold">
                 City <span className="required-field">*</span>
               </div>
-              <Form.Item name="nationality" >
+              <Form.Item name="nationality">
                 <Select size="large" style={{ width: '100%' }} placeholder="Select a city">
-                  {listCities.map((item, idx) => (
-                    <Option value={item} key={idx}>
-                      {item}
+                  {listCities.map((item: any) => (
+                    <Option value={item.id} key={item.id}>
+                      {item.name}
                     </Option>
                   ))}
                 </Select>
@@ -231,13 +241,15 @@ export default function Settings() {
               Introduce yourself <span className="required-field">*</span>
             </div>
             <div className="col-span-11">
-              <CkEditor valueChange={''} handleChange={watchIntroduce} />
+              <CkEditor valueChange={introduce} handleChange={watchIntroduce} />
             </div>
           </div>
           <div className="grid mt-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-            <div className="col-span-5 mb-3 text-lg font-bold">Educations <span className="required-field">*</span></div>
+            <div className="col-span-5 mb-3 text-lg font-bold">
+              Educations <span className="required-field">*</span>
+            </div>
             <div className="col-span-11">
-              <CkEditor valueChange={''} handleChange={watchEducation} />
+              <CkEditor valueChange={educations} handleChange={watchEducation} />
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">

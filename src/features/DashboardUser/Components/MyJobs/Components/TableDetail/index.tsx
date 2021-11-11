@@ -1,6 +1,16 @@
-import { Table, Tag } from 'antd';
+import { Space, Table, Tag, Button } from 'antd';
 import { handleGetStatusEarning } from 'utils/Dashboard';
-export default function TableEarning() {
+import { statusEarning } from 'utils/enum';
+interface IProps {
+  data: any | null;
+}
+export default function TableDetail({ data }: IProps) {
+  const handleDetail = (e: any) => {
+    console.log(e);
+  };
+  const handleDelete = (e: any) => {
+    console.log(e);
+  };
   const columns = [
     {
       title: 'Job Name',
@@ -19,6 +29,7 @@ export default function TableEarning() {
       key: 'status',
       render: (status: number) => (
         <>
+          {status === 0 && <Tag color="#FF00FF">{handleGetStatusEarning(status)}</Tag>}
           {status === 1 && <Tag color="#00BFFF">{handleGetStatusEarning(status)}</Tag>}
           {status === 2 && <Tag color="#FFA500">{handleGetStatusEarning(status)}</Tag>}
           {status === 3 && <Tag color="#87d068">{handleGetStatusEarning(status)}</Tag>}
@@ -32,37 +43,23 @@ export default function TableEarning() {
       key: 'payment',
       render: (payment: number) => <div className="font-medium"> {payment > 0 && '$ ' + payment}</div>,
     },
+    {
+      title: 'Action',
+      key: 'action',
+      render: (record: any) => (
+        <Space size="middle">
+          <Button size="small" onClick={() => handleDetail(record)}>
+            Detail
+          </Button>
+          {[statusEarning.Waiting, statusEarning.Pending, statusEarning.Cancel].includes(record.status) && (
+            <Button danger size="small" onClick={() => handleDelete(record)}>
+              Delete
+            </Button>
+          )}
+        </Space>
+      ),
+    },
   ];
 
-  const data = [
-    {
-      key: '1',
-      job_name: 'Service organization',
-      company_name: 'Josh Etc',
-      status: 1,
-      payment: 100,
-    },
-    {
-      key: '2',
-      job_name: 'Work numui',
-      company_name: 'Anemia',
-      status: 2,
-      payment: 0,
-    },
-    {
-      key: '3',
-      job_name: 'Chat application',
-      company_name: 'SuTek Co',
-      status: 3,
-      payment: 300,
-    },
-    {
-      key: '4',
-      job_name: 'Bot fake auth',
-      company_name: 'Memi Co',
-      status: 4,
-      payment: 0,
-    },
-  ];
-  return <Table columns={columns} dataSource={data}  />;
+  return <Table columns={columns} dataSource={data} />;
 }

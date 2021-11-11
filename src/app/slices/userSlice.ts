@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiUser from "apis/tasks/apiUser";
+import handleErrorMessage from "utils/handleErrorMessage";
 import { notify } from "utils/notification";
 import { handleLoading } from "./appSlice";
 
@@ -28,15 +29,15 @@ export const handleChangePassword = createAsyncThunk("user/changePassword", asyn
     try {
         dispatch(handleLoading(true));
         const res = await apiUser.changePassword(payload);
-        dispatch(handleLoading(false));
         if (res.status === 200) {
             notify("success", "Password change!", "");
             return res.data.status;
-        } else {
-            notify("error", "Error!", "");
-            return false;
         }
-    } catch (error) { }
+    } catch (error: any) {
+        handleErrorMessage(error.data.errors);
+    } finally {
+        dispatch(handleLoading(false));
+    }
 });
 export const handleGetProfile = createAsyncThunk("user/profile", async () => {
     try {
@@ -48,15 +49,19 @@ export const handleGetProfile = createAsyncThunk("user/profile", async () => {
         }
     } catch (error) { }
 });
-export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async (payload: any) => {
+export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async (payload: any, { dispatch }) => {
     try {
+        dispatch(handleLoading(true));
         const res = await apiUser.updateProfile(payload);
         if (res.status === 200) {
+            notify("success", "Update Success!", "")
             return res.data;
         } else {
             return;
         }
-    } catch (error) { }
+    } catch (error) { } finally {
+        dispatch(handleLoading(false));
+    }
 });
 const userSlice = createSlice({
     name: "user",
