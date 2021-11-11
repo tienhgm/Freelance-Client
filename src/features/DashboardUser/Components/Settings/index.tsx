@@ -3,13 +3,12 @@ import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
 import UploadFile from 'components/Dashboard/UploadFileCv';
-import MyEditor from 'components/Editor';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from 'app/hooks';
+import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetCities } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
-// import DatePicker  from 'components/DatePicker';
 import './index.scss';
 
 const { Option } = Select;
@@ -34,7 +33,6 @@ export default function Settings() {
   const handleSetPayHourly = (value: number) => {
     setMinimalHourlyRate(value);
   };
-  const currentUser = useAppSelector((state) => state.auth.user);
 
   const getSkill = async () => {
     const { payload } = await dispatch(handleGetSkills());
@@ -64,13 +62,15 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     // console.log(values);
-    values.skills = "vuejs";
-    values.introduce  = introduce;
-    values.nationality  = 23;
-    values.educations   = educations;
-    values.languages   = "vuejs";
+    values.skills = 'vuejs';
+    values.introduce = introduce;
+    values.nationality = 23;
+    values.educations = educations;
+    values.languages = 'vuejs';
+    delete values.email;
     const result = await dispatch(handleUpdateProfile(values));
     console.log(result);
+    // console.log(values);
   };
   const dateFormat = 'YYYY/MM/DD';
   return (
@@ -86,7 +86,10 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="self-center col-span-2 mt-4">
-              <UploadAvatar disabled={false} previewImg={'http://14.225.192.239:4000/public/avatars/5cbdc414-6c78-4120-8110-00ee34cb8001.png'} />
+              <UploadAvatar
+                disabled={false}
+                previewImg={'f14.225.192.239:4000/public/avatars/5cbdc414-6c78-4120-8110-00ee34cb8001.png'}
+              />
             </div>
             <div className="col-span-9">
               <div className="grid mt-1 mb-3 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
@@ -133,8 +136,10 @@ export default function Settings() {
               </div>
               <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
                 <div className="col-span-6">
-                  <div className="mb-1 text-xl font-bold">Phone number</div>
-                  <Form.Item name="phoneNumber">
+                  <div className="mb-1 text-xl font-bold">
+                    Phone number <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="phoneNumber" rules={[{ required: true, message: 'Please input your phone number' }]}>
                     <Input type="number" size="large" placeholder="Phone number" />
                   </Form.Item>
                 </div>
@@ -147,8 +152,13 @@ export default function Settings() {
               </div>
               <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
                 <div className="col-span-6">
-                  <div className="mb-1 text-xl font-bold">Hobbies</div>
-                  <Form.Item name="hobbies">
+                  <div className="mb-1 text-xl font-bold">
+                    Hobbies <span className="required-field">*</span>
+                  </div>
+                  <Form.Item
+                    name="hobbies"
+                    rules={[{ required: true, message: 'Please input hobbies like: movie | swimming...' }]}
+                  >
                     <Input size="large" placeholder="Hobbies" />
                   </Form.Item>
                 </div>
@@ -173,9 +183,11 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
             <div className="col-span-3">
-              <div className="mb-1 text-xl font-bold">Set your minimal hourly rate</div>
+              <div className="mb-1 text-xl font-bold">
+                Set your minimal hourly rate <span className="required-field">*</span>
+              </div>
               <div className="text-lg font-medium">${minimalHourlyRate}</div>
-              <Form.Item name="minimalHourlyRate">
+              <Form.Item name="minimalHourlyRate" rules={[{ required: true, message: 'Please input more than 0' }]}>
                 <Slider max={150} onChange={handleSetPayHourly} />
               </Form.Item>
             </div>
@@ -200,8 +212,10 @@ export default function Settings() {
               </Form.Item>
             </div>
             <div className="col-span-4 lg:ml-4">
-              <div className="mb-3 text-xl font-bold">City</div>
-              <Form.Item name="nationality">
+              <div className="mb-3 text-xl font-bold">
+                City <span className="required-field">*</span>
+              </div>
+              <Form.Item name="nationality" >
                 <Select size="large" style={{ width: '100%' }} placeholder="Select a city">
                   {listCities.map((item, idx) => (
                     <Option value={item} key={idx}>
@@ -212,16 +226,18 @@ export default function Settings() {
               </Form.Item>
             </div>
           </div>
-          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 ">
-            <div className="col-span-5 mb-3 text-lg font-bold">Introduce yourself</div>
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5 mb-3 text-lg font-bold">
+              Introduce yourself <span className="required-field">*</span>
+            </div>
             <div className="col-span-11">
-              <MyEditor valueChange={''} height={200} handleChange={watchIntroduce} />
+              <CkEditor valueChange={''} handleChange={watchIntroduce} />
             </div>
           </div>
-          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 ">
-            <div className="col-span-5 mb-3 text-lg font-bold">Educations</div>
+          <div className="grid mt-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5 mb-3 text-lg font-bold">Educations <span className="required-field">*</span></div>
             <div className="col-span-11">
-              <MyEditor valueChange={''} height={150} handleChange={watchEducation} />
+              <CkEditor valueChange={''} handleChange={watchEducation} />
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
@@ -297,7 +313,6 @@ export default function Settings() {
                             </Form.Item>
                           </div>
                         </div>
-
                         <img
                           src={iconMinus}
                           width="24"
