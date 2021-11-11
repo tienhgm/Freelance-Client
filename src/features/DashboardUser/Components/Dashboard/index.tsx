@@ -15,8 +15,8 @@ export default function Dashboard() {
       <div className="flex flex-wrap w-full gap-6">
         <div className="dashboard__block">
           <div className="flex flex-col text-xl">
-            <div className="mb-1">Task Bids Won</div>
-            <div className="text-2xl font-bold ">22</div>
+            <div className="mb-1">Total Earning</div>
+            <div className="text-2xl font-bold ">$ 12321</div>
           </div>
           <div className="dashboard__icon1">
             <ToolOutlined />

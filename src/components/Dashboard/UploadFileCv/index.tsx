@@ -25,7 +25,7 @@ function UploadFile(props: Iprops) {
       onChange={(e: any) => handleChangeFile(e)}
       disabled={disabled}
     >
-      <Button className="uploadBtn">Push your CV</Button>
+      <Button className="uploadBtn">Push your Certification</Button>
     </Upload>
   );
 }

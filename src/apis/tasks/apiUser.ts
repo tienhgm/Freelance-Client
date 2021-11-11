@@ -19,6 +19,9 @@ class ApiUser extends ApiCore {
   getProfile() {
     return this.get(null, "user/cv")
   }
+  updateProfile(data: any) {
+    return this.put(null, data, "user/cv")
+  }
 }
 
 export default new ApiUser();

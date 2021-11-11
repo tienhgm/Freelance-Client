@@ -48,6 +48,16 @@ export const handleGetProfile = createAsyncThunk("user/profile", async () => {
         }
     } catch (error) { }
 });
+export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async (payload: any) => {
+    try {
+        const res = await apiUser.updateProfile(payload);
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -63,6 +73,10 @@ const userSlice = createSlice({
         },
         // @ts-ignore
         [handleGetProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
+        },
+        // @ts-ignore
+        [handleUpdateProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             return action.payload;
         },
     }

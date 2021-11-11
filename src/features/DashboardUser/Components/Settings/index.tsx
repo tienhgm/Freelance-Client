@@ -2,10 +2,11 @@ import { useEffect, useState } from 'react';
 import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
 import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
+import UploadFile from 'components/Dashboard/UploadFileCv';
 import MyEditor from 'components/Editor';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { gender, roleWork } from 'utils/enum';
-import { handleGetProfile } from 'app/slices/userSlice';
+import { gender, roleWork, typeWork } from 'utils/enum';
+import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetCities } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
 // import DatePicker  from 'components/DatePicker';
@@ -52,7 +53,9 @@ export default function Settings() {
       lastName: payload.lastName,
       minimalHourlyRate: payload.minimalHourlyRate,
       phoneNumber: payload.phoneNumber,
+      gender: payload.gender,
     });
+    setMinimalHourlyRate(payload.minimalHourlyRate);
   };
   useEffect(() => {
     getProfile();
@@ -60,7 +63,14 @@ export default function Settings() {
     getCities();
   }, []);
   const onFinish = async (values: any) => {
-    console.log(values);
+    // console.log(values);
+    values.skills = "vuejs";
+    values.introduce  = introduce;
+    values.nationality  = 23;
+    values.educations   = educations;
+    values.languages   = "vuejs";
+    const result = await dispatch(handleUpdateProfile(values));
+    console.log(result);
   };
   const dateFormat = 'YYYY/MM/DD';
   return (
@@ -76,7 +86,7 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="self-center col-span-2 mt-4">
-              <UploadAvatar disabled={false} previewImg={currentUser.previewImg} />
+              <UploadAvatar disabled={false} previewImg={'http://14.225.192.239:4000/public/avatars/5cbdc414-6c78-4120-8110-00ee34cb8001.png'} />
             </div>
             <div className="col-span-9">
               <div className="grid mt-1 mb-3 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
@@ -145,7 +155,7 @@ export default function Settings() {
                 <div className="col-span-6 lg:ml-6">
                   <div className="mb-1 text-xl font-bold">Date of birth</div>
                   <Form.Item name="dateOfBirth">
-                    <DatePicker size="large" format={dateFormat} />
+                    <DatePicker style={{ width: 'calc(100%)' }} size="large" format={dateFormat} />
                   </Form.Item>
                 </div>
               </div>
@@ -202,13 +212,13 @@ export default function Settings() {
               </Form.Item>
             </div>
           </div>
-          <div className="grid grid-cols-12 ">
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 ">
             <div className="col-span-5 mb-3 text-lg font-bold">Introduce yourself</div>
             <div className="col-span-11">
               <MyEditor valueChange={''} height={200} handleChange={watchIntroduce} />
             </div>
           </div>
-          <div className="grid grid-cols-12 ">
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 ">
             <div className="col-span-5 mb-3 text-lg font-bold">Educations</div>
             <div className="col-span-11">
               <MyEditor valueChange={''} height={150} handleChange={watchEducation} />
@@ -221,8 +231,8 @@ export default function Settings() {
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, fieldKey, ...restField }) => (
-                      <div className="flex items-center gap-2 mt-3">
-                        <div>
+                      <div className="flex items-center gap-2 my-3">
+                        <div className="pb-2" style={{ borderBottom: '1px solid #999', width: 'calc(97%)' }}>
                           <div className="flex gap-4">
                             <Form.Item
                               {...restField}
@@ -242,6 +252,21 @@ export default function Settings() {
                             >
                               <Select style={{ width: '200px' }} placeholder="Select your role">
                                 {roleWork.map((item, idx) => (
+                                  <Option value={item} key={idx}>
+                                    {item}
+                                  </Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'type']}
+                              label="Type"
+                              fieldKey={[fieldKey, 'type']}
+                              rules={[{ required: true, message: 'Missing type name' }]}
+                            >
+                              <Select style={{ width: '200px' }} placeholder="Select your type">
+                                {typeWork.map((item, idx) => (
                                   <Option value={item} key={idx}>
                                     {item}
                                   </Option>
@@ -268,7 +293,7 @@ export default function Settings() {
                               fieldKey={[fieldKey, 'description']}
                               rules={[{ required: true, message: 'Missing Description' }]}
                             >
-                             <TextArea showCount maxLength={100} />
+                              <TextArea showCount maxLength={100} />
                             </Form.Item>
                           </div>
                         </div>
@@ -297,6 +322,12 @@ export default function Settings() {
                   </>
                 )}
               </Form.List>
+            </div>
+          </div>
+          <div>
+            <div className="mb-3 text-lg font-bold">Certifications</div>
+            <div style={{ width: 'calc(20%)' }}>
+              <UploadFile disabled={false} />
             </div>
           </div>
         </div>

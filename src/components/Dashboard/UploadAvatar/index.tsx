@@ -51,7 +51,7 @@ export default function UploadFile(props: Iprops) {
         beforeUpload={beforeUpload}
         disabled={disabled}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        {imageUrl ? <img src={`http://${imageUrl}`} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </Upload>
     </div>
   );
