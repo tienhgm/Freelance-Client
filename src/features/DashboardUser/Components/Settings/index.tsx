@@ -7,7 +7,7 @@ import { useAppDispatch } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
-import { handleGetSkills, handleGetCities } from 'app/slices/resourceSlice';
+import { handleGetSkills, handleGetCities, handleGetLanguages } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
 import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
@@ -27,6 +27,7 @@ export default function Settings() {
   const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
   const [listCities, setListCities] = useState([]);
+  const [listLanguages, setListLanguages] = useState([]);
   const [previewImg, setPreviewImg] = useState('');
   const watchEducation = (value: any) => {
     setEducations(value);
@@ -45,6 +46,10 @@ export default function Settings() {
   const getCities = async () => {
     const { payload } = await dispatch(handleGetCities());
     setListCities(payload);
+  };
+  const getLanguages = async () => {
+    const { payload } = await dispatch(handleGetLanguages());
+    setListLanguages(payload);
   };
   const getProfile = async () => {
     const { payload } = await dispatch(handleGetProfile());
@@ -70,6 +75,7 @@ export default function Settings() {
       skills: payload.skills,
       nationality: payload.nationality,
       experiences: experiencesPayload,
+      languages: payload.languages,
     });
     setIntroduce(payload.introduce);
     setEducations(payload.educations);
@@ -80,12 +86,12 @@ export default function Settings() {
     getProfile();
     getSkill();
     getCities();
+    getLanguages();
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
     values.introduce = introduce;
     values.educations = educations;
-    values.languages = ['vi'];
     !!!values.dateOfBirth
       ? (values.dateOfBirth = '')
       : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
@@ -246,7 +252,7 @@ export default function Settings() {
               <div className="mb-3 text-xl font-bold">
                 Skills <span className="required-field">*</span>
               </div>
-              <Form.Item name="skills">
+              <Form.Item name="skills" rules={[{ required: true, message: 'Please select skills' }]}>
                 <Select
                   mode="multiple"
                   allowClear
@@ -255,6 +261,26 @@ export default function Settings() {
                   placeholder="Choose your skill"
                 >
                   {listSkills.map((item: any) => (
+                    <Option value={item.name} key={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
+            </div>
+            <div className="col-span-4">
+              <div className="mb-2 text-xl font-bold ">
+                Languages <span className="required-field">*</span>
+              </div>
+              <Form.Item name="languages" rules={[{ required: true, message: 'Please select your languages' }]}>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  size="large"
+                  style={{ width: '100%' }}
+                  placeholder="Select your languages"
+                >
+                  {listLanguages.map((item: any) => (
                     <Option value={item.name} key={item.id}>
                       {item.name}
                     </Option>

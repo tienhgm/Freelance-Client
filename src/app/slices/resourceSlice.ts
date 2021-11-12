@@ -28,6 +28,16 @@ export const handleGetCities = createAsyncThunk("resource/cities", async () => {
         }
     } catch (error) { }
 });
+export const handleGetLanguages = createAsyncThunk("resource/languages", async () => {
+    try {
+        const res = await apiResources.getLanguages();
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
 const resourceSlice = createSlice({
     name: "resources",
     initialState,

@@ -15,6 +15,9 @@ class ApiResources extends ApiCore {
     getCities() {
         return this.get(null, "resources/nationnalities")
     }
+    getLanguages() {
+        return this.get(null, "resources/languages")
+    }
 }
 
 export default new ApiResources();
