@@ -12,6 +12,8 @@ import iconMinus from 'assets/images/minus.svg';
 import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
 import './index.scss';
+import { REGEX_CHECK_EMAIL } from 'constants/regex';
+import { values } from '@antv/util';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -46,7 +48,15 @@ export default function Settings() {
   };
   const getProfile = async () => {
     const { payload } = await dispatch(handleGetProfile());
-
+    let experiencesPayload = payload.experiences;
+    if (!!experiencesPayload) {
+      experiencesPayload = experiencesPayload.map((item: any) => {
+        return {
+          ...item,
+          rangePicker: [moment(item.startDate), moment(item.endDate)],
+        };
+      });
+    }
     form.setFieldsValue({
       email: payload.email,
       firstName: payload.firstName,
@@ -59,6 +69,7 @@ export default function Settings() {
       dateOfBirth: moment(payload.dateOfBirth),
       skills: payload.skills,
       nationality: payload.nationality,
+      experiences: experiencesPayload,
     });
     setIntroduce(payload.introduce);
     setEducations(payload.educations);
@@ -78,15 +89,30 @@ export default function Settings() {
     !!!values.dateOfBirth
       ? (values.dateOfBirth = '')
       : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
-    values.hobbies = [...values.hobbies];
-    values.experiences = [];
-
-    const result = await dispatch(handleUpdateProfile(values));
+    values.hobbies = [''];
+    // handler experiences
+    let experiences = values.experiences;
+    if (!!experiences) {
+      experiences = experiences.map((item: any) => {
+        return {
+          ...item,
+          startDate: convertDateToString(item.rangePicker[0]._d),
+          endDate: convertDateToString(item.rangePicker[1]._d),
+          type: [item.type],
+        };
+      });
+      experiences.forEach((item: any) => {
+        delete item.rangePicker;
+      });
+      values.experiences = experiences;
+    }
+    await dispatch(handleUpdateProfile(values));
   };
   const dateFormat = 'YYYY/MM/DD';
   const handleUpdateImg = (img: any) => {
     setPreviewImg(img);
   };
+
   return (
     <Form form={form} onFinish={onFinish}>
       <div className="h-full overflow-auto settings">
@@ -109,7 +135,7 @@ export default function Settings() {
                     Email <span className="required-field">*</span>
                   </div>
                   <Form.Item name="email">
-                    <Input size="large" placeholder="Email" disabled />
+                    <Input placeholder="Email" disabled />
                   </Form.Item>
                 </div>
                 <div className="col-span-6 lg:ml-6">
@@ -117,7 +143,7 @@ export default function Settings() {
                     Gender <span className="required-field">*</span>
                   </div>
                   <Form.Item name="gender" rules={[{ required: true, message: 'Please select your gender' }]}>
-                    <Select size="large">
+                    <Select>
                       {gender.map((item, idx) => (
                         <Option value={item.value} key={idx}>
                           {item.name}
@@ -133,7 +159,7 @@ export default function Settings() {
                     First Name <span className="required-field">*</span>
                   </div>
                   <Form.Item name="firstName" rules={[{ required: true, message: 'Please input your first name' }]}>
-                    <Input size="large" placeholder="First name" />
+                    <Input placeholder="First name" />
                   </Form.Item>
                 </div>
                 <div className="col-span-6 lg:ml-6">
@@ -141,7 +167,7 @@ export default function Settings() {
                     Last Name <span className="required-field">*</span>
                   </div>
                   <Form.Item name="lastName" rules={[{ required: true, message: 'Please input your last name' }]}>
-                    <Input size="large" placeholder="Last name" />
+                    <Input placeholder="Last name" />
                   </Form.Item>
                 </div>
               </div>
@@ -150,38 +176,53 @@ export default function Settings() {
                   <div className="mb-1 text-xl font-bold">
                     Phone number <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="phoneNumber" rules={[{ required: true, message: 'Please input your phone number' }]}>
-                    <Input type="number" size="large" placeholder="Phone number" />
+                  <Form.Item name="phoneNumber" rules={[{ required: true, message: 'Please input your Phone number' }]}>
+                    <Input type="number" placeholder="Phone number" />
                   </Form.Item>
                 </div>
                 <div className="col-span-6 lg:ml-6">
-                  <div className="mb-1 text-xl font-bold">Address</div>
-                  <Form.Item name="address">
-                    <Input size="large" placeholder="Address" />
+                  <div className="mb-1 text-xl font-bold">
+                    Address <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="address" rules={[{ required: true, message: 'Please input your Address' }]}>
+                    <Input placeholder="Address" />
                   </Form.Item>
                 </div>
               </div>
               <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-                <div className="col-span-6">
+                {/* <div className="col-span-6">
                   <div className="mb-1 text-xl font-bold">
                     Hobbies <span className="required-field">*</span>
                   </div>
                   <Form.Item name="hobbies" rules={[{ required: true, message: 'Please input hobbies' }]}>
-                    <Input size="large" placeholder="Hobbies" />
+                    <Input placeholder="Hobbies" />
                   </Form.Item>
-                </div>
-                <div className="col-span-6 lg:ml-6">
+                </div> */}
+                <div className="col-span-6 ">
                   <div className="mb-1 text-xl font-bold">
                     Date of birth <span className="required-field">*</span>
                   </div>
                   <Form.Item name="dateOfBirth" rules={[{ required: true, message: 'Please input...' }]}>
-                    <DatePicker style={{ width: 'calc(100%)' }} size="large" format={dateFormat} />
+                    <DatePicker style={{ width: 'calc(100%)' }} format={dateFormat} />
+                  </Form.Item>
+                </div>
+                <div className="col-span-6 lg:ml-6">
+                  <div className="mb-1 text-xl font-bold ">
+                    City <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="nationality">
+                    <Select style={{ width: '100%' }} placeholder="Select a city">
+                      {listCities.map((item: any) => (
+                        <Option value={item.id} key={item.id}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                 </div>
               </div>
             </div>
           </div>
-          <div></div>
         </div>
         {/* /info basic */}
         {/* profile */}
@@ -192,7 +233,7 @@ export default function Settings() {
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
-            <div className="col-span-3">
+            <div className="col-span-4">
               <div className="mb-1 text-xl font-bold">
                 Set your minimal hourly rate <span className="required-field">*</span>
               </div>
@@ -201,7 +242,7 @@ export default function Settings() {
                 <Slider max={150} onChange={handleSetPayHourly} />
               </Form.Item>
             </div>
-            <div className="col-span-4 lg:ml-10">
+            <div className="col-span-7 lg:ml-10">
               <div className="mb-3 text-xl font-bold">
                 Skills <span className="required-field">*</span>
               </div>
@@ -215,20 +256,6 @@ export default function Settings() {
                 >
                   {listSkills.map((item: any) => (
                     <Option value={item.name} key={item.id}>
-                      {item.name}
-                    </Option>
-                  ))}
-                </Select>
-              </Form.Item>
-            </div>
-            <div className="col-span-4 lg:ml-4">
-              <div className="mb-3 text-xl font-bold">
-                City <span className="required-field">*</span>
-              </div>
-              <Form.Item name="nationality">
-                <Select size="large" style={{ width: '100%' }} placeholder="Select a city">
-                  {listCities.map((item: any) => (
-                    <Option value={item.id} key={item.id}>
                       {item.name}
                     </Option>
                   ))}
@@ -259,7 +286,7 @@ export default function Settings() {
                 {(fields, { add, remove }) => (
                   <>
                     {fields.map(({ key, name, fieldKey, ...restField }) => (
-                      <div className="flex items-center gap-2 my-3">
+                      <div key={key} className="flex items-center gap-2 my-3">
                         <div className="pb-2" style={{ borderBottom: '1px solid #999', width: 'calc(97%)' }}>
                           <div className="flex gap-4">
                             <Form.Item
@@ -267,31 +294,31 @@ export default function Settings() {
                               name={[name, 'companyName']}
                               label="Company name"
                               fieldKey={[fieldKey, 'companyName']}
-                              rules={[{ required: true, message: 'Missing company name' }]}
+                              rules={[{ required: true, message: 'Missing Company Name' }]}
                             >
-                              <Input placeholder="Company Name" />
+                              <Input style={{ width: '287px' }} placeholder="Company Name" />
                             </Form.Item>
                             <Form.Item
                               {...restField}
-                              name={[name, 'role']}
-                              label="Role"
-                              fieldKey={[fieldKey, 'role']}
-                              rules={[{ required: true, message: 'Missing role name' }]}
+                              name={[name, 'companyEmail']}
+                              label="Company Email"
+                              fieldKey={[fieldKey, 'companyEmail']}
+                              rules={[
+                                { required: true, message: 'Missing Company Email' },
+                                {
+                                  pattern: REGEX_CHECK_EMAIL,
+                                  message: 'Email Invalid',
+                                },
+                              ]}
                             >
-                              <Select style={{ width: '200px' }} placeholder="Select your role">
-                                {roleWork.map((item, idx) => (
-                                  <Option value={item} key={idx}>
-                                    {item}
-                                  </Option>
-                                ))}
-                              </Select>
+                              <Input style={{ width: '200px' }} placeholder="Company email" />
                             </Form.Item>
                             <Form.Item
                               {...restField}
                               name={[name, 'type']}
                               label="Type"
                               fieldKey={[fieldKey, 'type']}
-                              rules={[{ required: true, message: 'Missing type name' }]}
+                              rules={[{ required: true, message: 'Missing Type' }]}
                             >
                               <Select style={{ width: '200px' }} placeholder="Select your type">
                                 {typeWork.map((item, idx) => (
@@ -302,15 +329,30 @@ export default function Settings() {
                               </Select>
                             </Form.Item>
                           </div>
-                          <div>
+                          <div className="flex gap-6">
                             <Form.Item
                               {...restField}
-                              name={[name, 'range-picker']}
+                              name={[name, 'rangePicker']}
                               label="Start - End date"
-                              fieldKey={[fieldKey, 'range-picker']}
-                              rules={[{ required: true, message: 'Missing range-picker' }]}
+                              fieldKey={[fieldKey, 'rangePicker']}
+                              rules={[{ required: true, message: 'Missing Range Picker' }]}
                             >
                               <RangePicker />
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'role']}
+                              label="Role"
+                              fieldKey={[fieldKey, 'role']}
+                              rules={[{ required: true, message: 'Missing Role Name' }]}
+                            >
+                              <Select style={{ width: '200px' }} placeholder="Select your role">
+                                {roleWork.map((item, idx) => (
+                                  <Option value={item} key={idx}>
+                                    {item}
+                                  </Option>
+                                ))}
+                              </Select>
                             </Form.Item>
                           </div>
                           <div>

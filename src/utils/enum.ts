@@ -36,8 +36,8 @@ export const roleWork = [
     'Project Manager',
 ]
 export const typeWork = [
-    'Work',
-    'Volunteer',
+    'work',
+    'volunteer',
 ]
 
 

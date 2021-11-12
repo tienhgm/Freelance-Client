@@ -13,7 +13,7 @@ export default function BackToTop() {
   //   fontSize: 14,
   // };
   return (
-    <BackTop visibilityHeight={1800}>
+    <BackTop visibilityHeight={1500}>
       {/* @ts-ignore */}
       <div className="flex items-center justify-center style-back">
         <UpOutlined />
