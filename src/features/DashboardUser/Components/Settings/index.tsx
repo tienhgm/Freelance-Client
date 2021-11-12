@@ -13,7 +13,6 @@ import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
 import './index.scss';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
-import { values } from '@antv/util';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
