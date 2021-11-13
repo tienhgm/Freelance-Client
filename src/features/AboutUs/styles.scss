@@ -1,0 +1,36 @@
+.about {
+    &__breadcrumb {
+        background: url("https://kofejob.dreamguystech.com/template/assets/img/inner-banner.jpg");
+        background-size: cover;
+        padding-top: 30px;
+        background-repeat: no-repeat;
+        min-height: 220px;
+
+        .breadcrumb-title {
+            font-size: 44px;
+        }
+    }
+
+
+    &__content {
+
+        .job-counter {
+            .container {
+                max-width: 1440px;
+            }
+            
+            h2 {
+                color: #fff;
+                font-weight: 600;
+                font-size: 36px;
+            }
+
+            h4 {
+                color: #fff;
+                font-weight: 500;
+                font-size: 20px;
+            }
+        }
+    }
+
+}
