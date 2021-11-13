@@ -1,16 +1,24 @@
-import { LikeOutlined, CalendarOutlined, InsertRowRightOutlined, ArrowRightOutlined } from "@ant-design/icons";
-import { Button, Col, Pagination, Progress, Row, Tag } from "antd";
-import { useState } from "react";
-import "./styles.scss";
+import {
+  LikeOutlined,
+  CalendarOutlined,
+  InsertRowRightOutlined,
+  ArrowRightOutlined,
+  CommentOutlined,
+  HomeOutlined,
+} from '@ant-design/icons';
+import { Comment, Tooltip, Avatar, Col, Pagination, Progress, Row, Tag, Breadcrumb } from 'antd';
+import { useState } from 'react';
+import './styles.scss';
+import moment from 'moment';
 
 const { CheckableTag } = Tag;
 
 function FreelancerProfile() {
   const [bookmarkTag, setBookmarkTag] = useState(false);
   const handleChange = () => {
-    setBookmarkTag(i => i = !i);
-  }
-  
+    setBookmarkTag((i) => (i = !i));
+  };
+
   return (
     <div className="freelancer-profile">
       <div className="relative px-2 bg-gray-100 header-wrapper">
@@ -41,7 +49,6 @@ function FreelancerProfile() {
                       alt="United Kingdom"
                       width="25"
                       className="rounded"
-
                     />
                   </div>
                   <div className="loca__text">United Kingdom</div>
@@ -57,6 +64,18 @@ function FreelancerProfile() {
           </div>
         </div>
       </div>
+      {/* Breadcrumb */}
+      <div className="container mt-4 ml-40 font-semibold">
+        <Breadcrumb>
+          <Breadcrumb.Item>
+            <a href="/"><HomeOutlined className="relative -top-1" /> Home</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a href="/find-freelancers">Find Freelancers</a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>David Peterson</Breadcrumb.Item>
+        </Breadcrumb>
+      </div>
       {/* content */}
       <div className="content flex-1 w-full mt-10">
         <Row justify="center" gutter={{ md: 16, lg: 24 }}>
@@ -64,7 +83,11 @@ function FreelancerProfile() {
             {/* About Me */}
             <div className="about mb-14">
               <h3 className="text-xl mb-5">About Me</h3>
-              <p className="text-base leading-7">Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to corporate strategy foster collaborative thinking to further the overall value proposition. Organically grow the holistic world view of disruptive innovation via workplace diversity and empowerment.</p>
+              <p className="text-base leading-7">
+                Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to
+                corporate strategy foster collaborative thinking to further the overall value proposition. Organically
+                grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
+              </p>
             </div>
             {/* Work History and Feedback */}
             <div className="work-history mb-16">
@@ -124,7 +147,7 @@ function FreelancerProfile() {
                     <div className="item-description text-base mt-4">
                       <p>Excellent programmer - fully carried out my project in a very professional manner.</p>
                     </div>
-                  </div>  
+                  </div>
                 </li>
               </ul>
               <div className="pagination">
@@ -132,7 +155,7 @@ function FreelancerProfile() {
               </div>
             </div>
             {/* Employment History */}
-            <div className="employment-history mb-16">
+            <div className="employment-history mb-14">
               <div className="headline">
                 <h3 className="text-lg m-0">
                   <InsertRowRightOutlined className="like relative -top-1.5 mr-2" /> Employment History
@@ -142,7 +165,11 @@ function FreelancerProfile() {
                 <li>
                   <div className="list__item flex">
                     <div className="avatar p-2 flex">
-                      <img className="self-center" src="https://www.vasterad.com/themes/hireo/images/browse-companies-03.png" alt="Acodia" />
+                      <img
+                        className="self-center"
+                        src="https://www.vasterad.com/themes/hireo/images/browse-companies-03.png"
+                        alt="Acodia"
+                      />
                     </div>
                     <div className="ml-6">
                       <h4 className="text-lg font-medium">Development Team Leader</h4>
@@ -162,7 +189,32 @@ function FreelancerProfile() {
                 </li>
               </ul>
             </div>
-          </Col>  
+            {/* comment */}
+            <div className="comment mb-16">
+              <div className="headline mb-3">
+                <h3 className="text-lg m-0">
+                  <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+                </h3>
+              </div>
+              <Comment
+                author={<span className="font-semibold text-sm">Đặng Tuấn</span>}
+                avatar={
+                  <Avatar src="https://www.vasterad.com/themes/hireo/images/user-avatar-big-02.jpg" alt="Đặng Tuấn" />
+                }
+                content={
+                  <p>
+                    We supply a series of design principles, practical patterns and high quality design resources
+                    (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
+                  </p>
+                }
+                datetime={
+                  <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                    <span>{moment().fromNow()}</span>
+                  </Tooltip>
+                }
+              />
+            </div>
+          </Col>
           <Col className="content__right" md={24} lg={12} xl={6}>
             {/* Overview */}
             <div className="overview flex items-center mb-6 leading-6">
@@ -182,7 +234,7 @@ function FreelancerProfile() {
             {/* make an offer */}
             <div className="button-make mt-6">
               <a href="/" className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
-                Make an Offer 
+                Make an Offer
                 <ArrowRightOutlined className="relative -top-1 ml-3" />
               </a>
             </div>
@@ -221,21 +273,19 @@ function FreelancerProfile() {
                 <span>Flask</span>
                 <span>PHP</span>
                 <span>WordPress</span>
-					    </div>
+              </div>
             </div>
             {/* Bookmark  */}
             <div className="bookmark mt-8 transition">
               <h4 className="text-xl font-normal mb-8">Bookmark</h4>
-              <CheckableTag
-                checked={bookmarkTag}
-                onChange={handleChange}
-                className="bookmark-tag custom-tag"
-              >
-                <span className="bookmark-icon rounded-l bg-gray-600 px-4 py-3"><i className="bx bxs-star"></i></span>
-                <span className="bookmark-text rounded-r ml-2 px-4 py-3 bg-gray-700">Bookmark</span>  
+              <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+                <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                  <i className="bx bxs-star"></i>
+                </span>
+                <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
               </CheckableTag>
             </div>
-          </Col>   
+          </Col>
         </Row>
       </div>
     </div>
