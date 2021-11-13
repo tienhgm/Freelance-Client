@@ -39,9 +39,9 @@ export const handleChangePassword = createAsyncThunk("user/changePassword", asyn
         dispatch(handleLoading(false));
     }
 });
-export const handleGetProfile = createAsyncThunk("user/profile", async () => {
+export const handleGetProfile = createAsyncThunk("user/profile", async (payload: any) => {
     try {
-        const res = await apiUser.getProfile();
+        const res = await apiUser.getProfile(payload);
         if (res.status === 200) {
             return res.data;
         } else {

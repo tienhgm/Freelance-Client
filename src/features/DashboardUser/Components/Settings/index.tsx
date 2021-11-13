@@ -3,7 +3,7 @@ import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons'
 import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
 import UploadFile from 'components/Dashboard/UploadFileCv';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
@@ -50,36 +50,41 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetLanguages());
     setListLanguages(payload);
   };
+  const userId = useAppSelector(state => state.auth.user.id);
   const getProfile = async () => {
-    const { payload } = await dispatch(handleGetProfile());
-    let experiencesPayload = payload.experiences;
-    if (!!experiencesPayload) {
-      experiencesPayload = experiencesPayload.map((item: any) => {
-        return {
-          ...item,
-          rangePicker: [moment(item.startDate), moment(item.endDate)],
-        };
+
+    const { payload } = await dispatch(handleGetProfile(userId));
+
+    if (payload) {
+      let experiencesPayload = payload.experiences;
+      if (!!experiencesPayload) {
+        experiencesPayload = experiencesPayload.map((item: any) => {
+          return {
+            ...item,
+            rangePicker: [moment(item.startDate), moment(item.endDate)],
+          };
+        });
+      }
+      form.setFieldsValue({
+        email: payload.email,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        minimalHourlyRate: payload.minimalHourlyRate,
+        phoneNumber: payload.phoneNumber,
+        gender: payload.gender,
+        hobbies: payload.hobbies,
+        address: payload.address,
+        dateOfBirth: moment(payload.dateOfBirth),
+        skills: payload.skills,
+        nationality: payload.nationality,
+        experiences: experiencesPayload,
+        languages: payload.languages,
       });
+      setIntroduce(payload.introduce);
+      setEducations(payload.educations);
+      setMinimalHourlyRate(payload.minimalHourlyRate);
+      setPreviewImg(payload.avatar);
     }
-    form.setFieldsValue({
-      email: payload.email,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-      minimalHourlyRate: payload.minimalHourlyRate,
-      phoneNumber: payload.phoneNumber,
-      gender: payload.gender,
-      hobbies: payload.hobbies,
-      address: payload.address,
-      dateOfBirth: moment(payload.dateOfBirth),
-      skills: payload.skills,
-      nationality: payload.nationality,
-      experiences: experiencesPayload,
-      languages: payload.languages,
-    });
-    setIntroduce(payload.introduce);
-    setEducations(payload.educations);
-    setMinimalHourlyRate(payload.minimalHourlyRate);
-    setPreviewImg(payload.avatar);
   };
   useEffect(() => {
     getProfile();

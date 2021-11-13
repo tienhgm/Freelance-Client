@@ -7,16 +7,20 @@ class ApiResources extends ApiCore {
             post: true,
             put: true,
             remove: true,
+            getCustom: true
         });
     }
     getSkills() {
         return this.get(null, "resources/languages")
     }
     getCities() {
-        return this.get(null, "resources/nationnalities")
+        return this.getCustom(`resources/states`, {countryId: 240})
     }
     getLanguages() {
         return this.get(null, "resources/languages")
+    }
+    getCountries() {
+        return this.get(null, "resources/countries")
     }
 }
 

@@ -38,6 +38,16 @@ export const handleGetLanguages = createAsyncThunk("resource/languages", async (
         }
     } catch (error) { }
 });
+export const handleGetCountries = createAsyncThunk("resource/countries", async () => {
+    try {
+        const res = await apiResources.getCountries();
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
 const resourceSlice = createSlice({
     name: "resources",
     initialState,
@@ -50,6 +60,10 @@ const resourceSlice = createSlice({
         },
         // @ts-ignore
         [handleGetCities.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
+        },
+        // @ts-ignore
+        [handleGetCountries.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             return action.payload;
         },
     }
