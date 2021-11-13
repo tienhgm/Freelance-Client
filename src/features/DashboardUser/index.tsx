@@ -22,6 +22,7 @@ import Message from './Components/Message';
 import { useAppSelector } from 'app/hooks';
 import MyJobs from './Components/MyJobs';
 import './index.scss';
+import Reviews from './Components/Reviews';
 
 function DashboardUser() {
   const userRole = useAppSelector((state) => state.auth.user.role);
@@ -33,7 +34,7 @@ function DashboardUser() {
     { key: 2, icon: <FolderOpenOutlined />, link: '/dashboard/my-jobs', name: 'My Jobs', role: 2 },
     { key: 3, icon: <StarOutlined />, link: '/dashboard/bookmarks', name: 'Bookmarks' },
     { key: 4, icon: <MessageOutlined />, link: '/dashboard/message', name: 'Message' },
-    { key: 5, icon: <BookOutlined />, link: '', name: 'Reviews' },
+    { key: 5, icon: <BookOutlined />, link: '/dashboard/reviews', name: 'Reviews' },
     { key: 6, icon: <SettingOutlined />, link: '/dashboard/settings', name: 'Settings' },
     { key: 7, icon: <LockOutlined />, link: '/dashboard/password', name: 'Change password' },
   ];
@@ -75,6 +76,7 @@ function DashboardUser() {
           <Route path={`${match.url}/settings`} component={Settings} exact />
           <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
+          <Route path={`${match.url}/reviews`} component={Reviews} exact />
           <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
           <Route path={`${match.url}/post-jobs`} component={PostJob} exact />
           <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />

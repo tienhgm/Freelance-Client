@@ -24,7 +24,7 @@ function App() {
       "/dashboard/post-jobs",
       "/dashboard/candidate-manage",
       "/dashboard/my-jobs",
-
+      "/dashboard/reviews",
     ];
     const currentRouter = pathname;
     return routerExcept.indexOf(currentRouter) !== -1;

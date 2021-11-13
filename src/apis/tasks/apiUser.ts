@@ -7,7 +7,8 @@ class ApiUser extends ApiCore {
       post: true,
       put: true,
       remove: true,
-      upload: true
+      upload: true,
+      getCustom: true
     });
   }
   uploadAvt(file: any) {
@@ -21,6 +22,12 @@ class ApiUser extends ApiCore {
   }
   updateProfile(data: any) {
     return this.put(null, data, "user/cv")
+  }
+  // getReviews(filters:any) {
+  //   return this.get(filters, "user/reviews")
+  // }
+  getReviewsById(id: any, filters: any) {
+    return this.getCustom(`users/${id}/reviews`, filters)
   }
 }
 
