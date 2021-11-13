@@ -4,7 +4,7 @@ type Popup = {
   popupText: string;
   title: string;
   isVisible: boolean;
-  handleConfirm: () => any;
+  handleConfirm: (id?:any) => any;
   handleCancelConfirm: () => any;
 };
 export default function Popup({

@@ -63,6 +63,17 @@ export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async 
         dispatch(handleLoading(false));
     }
 });
+export const handleGetReviews = createAsyncThunk("user/reviews", async (payload: any) => {
+    try {
+        let { userId, filters } = payload;
+        const res = await apiUser.getReviewsById(userId, filters);
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -82,6 +93,10 @@ const userSlice = createSlice({
         },
         // @ts-ignore
         [handleUpdateProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
+        },
+        // @ts-ignore
+        [handleGetReviews.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             return action.payload;
         },
     }

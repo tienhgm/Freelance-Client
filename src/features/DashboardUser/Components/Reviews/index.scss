@@ -1,0 +1,62 @@
+.reviews {
+  &__title {
+    font-size: 24px;
+    font-weight: 700;
+  }
+  &__left,
+  &__right {
+    box-sizing: border-box;
+    width: calc(45%);
+    background-color: #fff;
+    box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+    .title {
+      padding: 8px 14px;
+      font-weight: 700;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+    }
+    .block {
+      border-top: 2px solid #e4e4e4;
+      border-bottom: 2px solid #e4e4e4;
+      padding: 10px 15px;
+      max-height: 14rem;
+      min-height: 10rem;
+      .btn {
+        padding: 4px 10px;
+        border-radius: 4px;
+        font-weight: 500;
+        cursor: pointer;
+        transition: all 0.4s;
+        &__edit {
+          background-color: #eee;
+          color: #666;
+          &:hover {
+            color: #fff;
+            background-color: black;
+            transition: all 0.4s;
+          }
+        }
+        &__delete {
+          background-color: #eee;
+          color: #666;
+          &:hover {
+            color: #fff;
+            background-color: red;
+            transition: all 0.4s;
+          }
+        }
+      }
+      &__label {
+        font-size: 18px;
+        font-weight: bold;
+      }
+      &__date {
+        display: flex;
+        align-items: center;
+        column-gap: 10px;
+        margin-top: 5px;
+      }
+    }
+  }
+}
