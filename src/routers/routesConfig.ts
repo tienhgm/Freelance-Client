@@ -1,4 +1,5 @@
 import NotFound from "components/NotFound";
+import AboutUs from "features/AboutUs";
 import DashboardUser from "features/DashboardUser";
 import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
 import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
@@ -74,7 +75,7 @@ const routesConfiguration = {
     exact: true,
     breadcrumbs: [],
     navbar: true,
-    component: NotFound,
+    component: AboutUs,
     routers: [],
     guarded: false
   },
