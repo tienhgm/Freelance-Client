@@ -1,56 +1,16 @@
-import { Editor, EditorTools, EditorChangeEvent } from '@progress/kendo-react-editor';
-import React, { useState } from 'react';
-
-const {
-  Bold,
-  Italic,
-  Underline,
-  AlignLeft,
-  AlignCenter,
-  AlignRight,
-  AlignJustify,
-  Indent,
-  Outdent,
-  OrderedList,
-  UnorderedList,
-  Undo,
-  Redo,
-  FontSize,
-  FontName,
-  FormatBlock,
-  Link,
-  Unlink,
-  InsertImage,
-  ViewHtml,
-  InsertTable,
-} = EditorTools;
+// @ts-ignore
+import { CKEditor } from '@ckeditor/ckeditor5-react';
+// @ts-ignore
+import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 interface IProps {
-  valueWorkExp: any;
-  watchWorkExp: (value: any) => void;
+  valueChange: any;
+  handleChange: (value: any) => void;
 }
-export default function MyEditor({ valueWorkExp, watchWorkExp }: IProps) {
-  const [value, setValue] = useState(valueWorkExp);
-  const onChange = (event: EditorChangeEvent) => {
-    setValue(event.html)
-    watchWorkExp(event.html);
+
+export default function CkEditor({ valueChange, handleChange }: IProps) {
+  const onChange = (e: any, editor: any) => {
+    const getData = editor.getData();
+    handleChange(getData);
   };
-  return (
-    <Editor
-      value={value}
-      onChange={onChange}
-      tools={[
-        [Bold, Italic, Underline],
-        [AlignLeft, AlignCenter, AlignRight, AlignJustify],
-        [Indent, Outdent],
-        [OrderedList, UnorderedList],
-        FontSize,
-        FontName,
-        FormatBlock,
-        [Undo, Redo],
-        [Link, Unlink, InsertImage, ViewHtml],
-        [InsertTable],
-      ]}
-      contentStyle={{ height: 330 }}
-    />
-  );
+  return <CKEditor editor={ClassicEditor} data={valueChange} onChange={onChange} />;
 }

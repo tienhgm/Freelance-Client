@@ -1,51 +1,123 @@
 import { useEffect, useState } from 'react';
-import { ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Input, Button, Slider, Select, Form } from 'antd';
+import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
+import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
-import MyEditor from 'components/Editor';
+import UploadFile from 'components/Dashboard/UploadFileCv';
+import { useAppDispatch } from 'app/hooks';
+import CkEditor from 'components/Editor';
+import { gender, roleWork, typeWork } from 'utils/enum';
+import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
+import { handleGetSkills, handleGetCities, handleGetLanguages } from 'app/slices/resourceSlice';
+import iconMinus from 'assets/images/minus.svg';
+import { convertDateToString } from 'utils/generate';
+import moment from 'moment';
 import './index.scss';
-import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { nationality, skills } from 'utils/enum';
-import { handleGetProfile } from 'app/slices/userSlice';
+import { REGEX_CHECK_EMAIL } from 'constants/regex';
+
 const { Option } = Select;
+const { RangePicker } = DatePicker;
 const { TextArea } = Input;
+
 export default function Settings() {
   const [form] = Form.useForm();
+  const dispatch = useAppDispatch();
   const [minimalHourlyRate, setMinimalHourlyRate] = useState(0);
-  const [workExp, setWorkExp] = useState('');
-  const [fullName, setFullName] = useState({
-    firstName: '',
-    lastName: '',
-  });
-  const watchWorkExp = (value: any) => {
-    setWorkExp(value);
-  };
+  const [educations, setEducations] = useState('');
+  const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
+  const [listCities, setListCities] = useState([]);
+  const [listLanguages, setListLanguages] = useState([]);
+  const [previewImg, setPreviewImg] = useState('');
+  const watchEducation = (value: any) => {
+    setEducations(value);
+  };
+  const watchIntroduce = (value: any) => {
+    setIntroduce(value);
+  };
   const handleSetPayHourly = (value: number) => {
     setMinimalHourlyRate(value);
   };
-  const handleChange = (value: any) => {
-    setListSkills(value);
+
+  const getSkill = async () => {
+    const { payload } = await dispatch(handleGetSkills());
+    setListSkills(payload);
   };
-  const currentUser = useAppSelector((state) => state.auth.user);
-  const onFinish = async (values: any) => {
-    console.log(values);
+  const getCities = async () => {
+    const { payload } = await dispatch(handleGetCities());
+    setListCities(payload);
   };
-  const dispatch = useAppDispatch();
+  const getLanguages = async () => {
+    const { payload } = await dispatch(handleGetLanguages());
+    setListLanguages(payload);
+  };
   const getProfile = async () => {
     const { payload } = await dispatch(handleGetProfile());
-
+    let experiencesPayload = payload.experiences;
+    if (!!experiencesPayload) {
+      experiencesPayload = experiencesPayload.map((item: any) => {
+        return {
+          ...item,
+          rangePicker: [moment(item.startDate), moment(item.endDate)],
+        };
+      });
+    }
     form.setFieldsValue({
-      firstName: payload.user.firstName,
-      lastName: payload.user.lastName,
-    })
+      email: payload.email,
+      firstName: payload.firstName,
+      lastName: payload.lastName,
+      minimalHourlyRate: payload.minimalHourlyRate,
+      phoneNumber: payload.phoneNumber,
+      gender: payload.gender,
+      hobbies: payload.hobbies,
+      address: payload.address,
+      dateOfBirth: moment(payload.dateOfBirth),
+      skills: payload.skills,
+      nationality: payload.nationality,
+      experiences: experiencesPayload,
+      languages: payload.languages,
+    });
+    setIntroduce(payload.introduce);
+    setEducations(payload.educations);
+    setMinimalHourlyRate(payload.minimalHourlyRate);
+    setPreviewImg(payload.avatar);
   };
   useEffect(() => {
     getProfile();
-    // return () => {
-
-    // }
+    getSkill();
+    getCities();
+    getLanguages();
   }, []);
+  const onFinish = async (values: any) => {
+    delete values.email;
+    values.introduce = introduce;
+    values.educations = educations;
+    !!!values.dateOfBirth
+      ? (values.dateOfBirth = '')
+      : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
+    values.hobbies = [''];
+    // handler experiences
+    let experiences = values.experiences;
+    if (!!experiences) {
+      experiences = experiences.map((item: any) => {
+        return {
+          ...item,
+          startDate: convertDateToString(item.rangePicker[0]._d),
+          endDate: convertDateToString(item.rangePicker[1]._d),
+          type: [item.type],
+        };
+      });
+      experiences.forEach((item: any) => {
+        delete item.rangePicker;
+      });
+      values.experiences = experiences;
+    }
+    await dispatch(handleUpdateProfile(values));
+  };
+  const dateFormat = 'YYYY/MM/DD';
+  const handleUpdateImg = (img: any) => {
+    setPreviewImg(img);
+  };
+
   return (
     <Form form={form} onFinish={onFinish}>
       <div className="h-full overflow-auto settings">
@@ -59,32 +131,98 @@ export default function Settings() {
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="self-center col-span-2 mt-4">
-              <UploadAvatar disabled={false} previewImg={currentUser.previewImg} />
+              <UploadAvatar disabled={false} previewImg={previewImg} handleUpdateImg={handleUpdateImg} />
             </div>
             <div className="col-span-9">
-              <div className="grid-cols-9 mt-1 mb-3">
+              <div className="grid mt-1 mb-3 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
                 <div className="col-span-6">
                   <div className="mb-1 text-xl font-bold">
                     Email <span className="required-field">*</span>
                   </div>
-                  <Input size="large" value={currentUser.email} placeholder="Email" disabled />
+                  <Form.Item name="email">
+                    <Input placeholder="Email" disabled />
+                  </Form.Item>
+                </div>
+                <div className="col-span-6 lg:ml-6">
+                  <div className="mb-1 text-xl font-bold">
+                    Gender <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="gender" rules={[{ required: true, message: 'Please select your gender' }]}>
+                    <Select>
+                      {gender.map((item, idx) => (
+                        <Option value={item.value} key={idx}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
                 </div>
               </div>
-              <div className="grid grid-cols-12">
+              <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
                 <div className="col-span-6">
                   <div className="mb-1 text-xl font-bold">
                     First Name <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="firstName" rules={[{ required: true }]} initialValue={fullName.firstName}>
-                    <Input size="large" placeholder="First name" />
+                  <Form.Item name="firstName" rules={[{ required: true, message: 'Please input your first name' }]}>
+                    <Input placeholder="First name" />
                   </Form.Item>
                 </div>
-                <div className="col-span-6 ml-6">
+                <div className="col-span-6 lg:ml-6">
                   <div className="mb-1 text-xl font-bold">
                     Last Name <span className="required-field">*</span>
                   </div>
-                  <Form.Item name="lastName" rules={[{ required: true }]}>
-                    <Input size="large" placeholder="Last name" value={fullName.lastName} />
+                  <Form.Item name="lastName" rules={[{ required: true, message: 'Please input your last name' }]}>
+                    <Input placeholder="Last name" />
+                  </Form.Item>
+                </div>
+              </div>
+              <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+                <div className="col-span-6">
+                  <div className="mb-1 text-xl font-bold">
+                    Phone number <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="phoneNumber" rules={[{ required: true, message: 'Please input your Phone number' }]}>
+                    <Input type="number" placeholder="Phone number" />
+                  </Form.Item>
+                </div>
+                <div className="col-span-6 lg:ml-6">
+                  <div className="mb-1 text-xl font-bold">
+                    Address <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="address" rules={[{ required: true, message: 'Please input your Address' }]}>
+                    <Input placeholder="Address" />
+                  </Form.Item>
+                </div>
+              </div>
+              <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+                {/* <div className="col-span-6">
+                  <div className="mb-1 text-xl font-bold">
+                    Hobbies <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="hobbies" rules={[{ required: true, message: 'Please input hobbies' }]}>
+                    <Input placeholder="Hobbies" />
+                  </Form.Item>
+                </div> */}
+                <div className="col-span-6 ">
+                  <div className="mb-1 text-xl font-bold">
+                    Date of birth <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="dateOfBirth" rules={[{ required: true, message: 'Please input...' }]}>
+                    <DatePicker style={{ width: 'calc(100%)' }} format={dateFormat} />
+                  </Form.Item>
+                </div>
+                <div className="col-span-6 lg:ml-6">
+                  <div className="mb-1 text-xl font-bold ">
+                    City <span className="required-field">*</span>
+                  </div>
+                  <Form.Item name="nationality">
+                    <Select style={{ width: '100%' }} placeholder="Select a city">
+                      {listCities.map((item: any) => (
+                        <Option value={item.id} key={item.id}>
+                          {item.name}
+                        </Option>
+                      ))}
+                    </Select>
                   </Form.Item>
                 </div>
               </div>
@@ -100,53 +238,190 @@ export default function Settings() {
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
-            <div className="col-span-3">
-              <div className="mb-1 text-xl font-bold">Set your minimal hourly rate</div>
+            <div className="col-span-4">
+              <div className="mb-1 text-xl font-bold">
+                Set your minimal hourly rate <span className="required-field">*</span>
+              </div>
               <div className="text-lg font-medium">${minimalHourlyRate}</div>
-              <Form.Item name="minimalHourlyRate" initialValue={minimalHourlyRate ? minimalHourlyRate : 0}>
+              <Form.Item name="minimalHourlyRate" rules={[{ required: true, message: 'Please input more than 0' }]}>
                 <Slider max={150} onChange={handleSetPayHourly} />
               </Form.Item>
             </div>
-            <div className="col-span-4 lg:ml-10">
+            <div className="col-span-7 lg:ml-10">
               <div className="mb-3 text-xl font-bold">
                 Skills <span className="required-field">*</span>
               </div>
-              <Select
-                mode="multiple"
-                allowClear
-                size="large"
-                style={{ width: '100%' }}
-                placeholder="Choose your skill"
-                onChange={handleChange}
-              >
-                {skills.map((item, idx) => (
-                  <Option value={item} key={idx}>
-                    {item}
-                  </Option>
-                ))}
-              </Select>
+              <Form.Item name="skills" rules={[{ required: true, message: 'Please select skills' }]}>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  size="large"
+                  style={{ width: '100%' }}
+                  placeholder="Choose your skill"
+                >
+                  {listSkills.map((item: any) => (
+                    <Option value={item.name} key={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
             </div>
-            <div className="col-span-4 lg:ml-4">
-              <div className="mb-3 text-xl font-bold">City</div>
-              <Select size="large" style={{ width: '100%' }} placeholder="Select a city">
-                {nationality.map((item, idx) => (
-                  <Option value={item.value} key={idx}>
-                    {item.name}
-                  </Option>
-                ))}
-              </Select>
+            <div className="col-span-4">
+              <div className="mb-2 text-xl font-bold ">
+                Languages <span className="required-field">*</span>
+              </div>
+              <Form.Item name="languages" rules={[{ required: true, message: 'Please select your languages' }]}>
+                <Select
+                  mode="multiple"
+                  allowClear
+                  size="large"
+                  style={{ width: '100%' }}
+                  placeholder="Select your languages"
+                >
+                  {listLanguages.map((item: any) => (
+                    <Option value={item.name} key={item.id}>
+                      {item.name}
+                    </Option>
+                  ))}
+                </Select>
+              </Form.Item>
             </div>
           </div>
-          <div className="grid grid-cols-12 my-4">
-            <div className="col-span-5 mb-3 text-lg font-bold">Introduce yourself</div>
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5 mb-3 text-lg font-bold">
+              Introduce yourself <span className="required-field">*</span>
+            </div>
             <div className="col-span-11">
-              <TextArea rows={4} autoSize={{ minRows: 3, maxRows: 5 }} />
+              <CkEditor valueChange={introduce} handleChange={watchIntroduce} />
+            </div>
+          </div>
+          <div className="grid mt-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5 mb-3 text-lg font-bold">
+              Educations <span className="required-field">*</span>
+            </div>
+            <div className="col-span-11">
+              <CkEditor valueChange={educations} handleChange={watchEducation} />
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="col-span-11">
               <div className="mb-3 text-xl font-bold">Work Experience</div>
-              <MyEditor valueWorkExp={''} watchWorkExp={watchWorkExp} />
+              <Form.List name="experiences">
+                {(fields, { add, remove }) => (
+                  <>
+                    {fields.map(({ key, name, fieldKey, ...restField }) => (
+                      <div key={key} className="flex items-center gap-2 my-3">
+                        <div className="pb-2" style={{ borderBottom: '1px solid #999', width: 'calc(97%)' }}>
+                          <div className="flex gap-4">
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'companyName']}
+                              label="Company name"
+                              fieldKey={[fieldKey, 'companyName']}
+                              rules={[{ required: true, message: 'Missing Company Name' }]}
+                            >
+                              <Input style={{ width: '287px' }} placeholder="Company Name" />
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'companyEmail']}
+                              label="Company Email"
+                              fieldKey={[fieldKey, 'companyEmail']}
+                              rules={[
+                                { required: true, message: 'Missing Company Email' },
+                                {
+                                  pattern: REGEX_CHECK_EMAIL,
+                                  message: 'Email Invalid',
+                                },
+                              ]}
+                            >
+                              <Input style={{ width: '200px' }} placeholder="Company email" />
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'type']}
+                              label="Type"
+                              fieldKey={[fieldKey, 'type']}
+                              rules={[{ required: true, message: 'Missing Type' }]}
+                            >
+                              <Select style={{ width: '200px' }} placeholder="Select your type">
+                                {typeWork.map((item, idx) => (
+                                  <Option value={item} key={idx}>
+                                    {item}
+                                  </Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </div>
+                          <div className="flex gap-6">
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'rangePicker']}
+                              label="Start - End date"
+                              fieldKey={[fieldKey, 'rangePicker']}
+                              rules={[{ required: true, message: 'Missing Range Picker' }]}
+                            >
+                              <RangePicker />
+                            </Form.Item>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'role']}
+                              label="Role"
+                              fieldKey={[fieldKey, 'role']}
+                              rules={[{ required: true, message: 'Missing Role Name' }]}
+                            >
+                              <Select style={{ width: '200px' }} placeholder="Select your role">
+                                {roleWork.map((item, idx) => (
+                                  <Option value={item} key={idx}>
+                                    {item}
+                                  </Option>
+                                ))}
+                              </Select>
+                            </Form.Item>
+                          </div>
+                          <div>
+                            <Form.Item
+                              {...restField}
+                              name={[name, 'description']}
+                              label="Description"
+                              fieldKey={[fieldKey, 'description']}
+                              rules={[{ required: true, message: 'Missing Description' }]}
+                            >
+                              <TextArea showCount maxLength={100} />
+                            </Form.Item>
+                          </div>
+                        </div>
+                        <img
+                          src={iconMinus}
+                          width="24"
+                          height="24"
+                          onClick={() => remove(name)}
+                          style={{ cursor: 'pointer' }}
+                        />
+                        {/* <MinusCircleOutlined onClick={() => remove(name)} /> */}
+                      </div>
+                    ))}
+                    <Form.Item>
+                      <Button
+                        className="flex items-center"
+                        type="dashed"
+                        onClick={() => add()}
+                        block
+                        icon={<PlusOutlined />}
+                      >
+                        Add field
+                      </Button>
+                    </Form.Item>
+                  </>
+                )}
+              </Form.List>
+            </div>
+          </div>
+          <div>
+            <div className="mb-3 text-lg font-bold">Certifications</div>
+            <div style={{ width: 'calc(20%)' }}>
+              <UploadFile disabled={false} />
             </div>
           </div>
         </div>

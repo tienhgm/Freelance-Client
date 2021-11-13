@@ -23,7 +23,8 @@ function App() {
       "/dashboard/jobs-manage",
       "/dashboard/post-jobs",
       "/dashboard/candidate-manage",
-
+      "/dashboard/my-jobs",
+      "/dashboard/reviews",
     ];
     const currentRouter = pathname;
     return routerExcept.indexOf(currentRouter) !== -1;
@@ -44,6 +45,7 @@ function App() {
                 component={route.component}
                 guarded={route.guarded}
                 exact={route.exact}
+                role={route.role}
               />
             ))}
             <Route component={NotFound} />

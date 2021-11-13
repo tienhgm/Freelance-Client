@@ -14,9 +14,18 @@ const get = (collection: any, filters = {}) => {
     .catch(handleError);
 };
 
-const getById = (collection: any, id: number) => {
+const getById = (collection: any, id: any) => {
   return axios
     .get(`${baseUrl}/${collection}/${id}`, {
+      headers: getAuthHeader(),
+    })
+    .then(handleResponse)
+    .catch(handleError);
+};
+const getCustom = (collection:any, filters: any) => {
+  const queryString = getQueryString(filters);
+  return axios
+    .get(`${baseUrl}/${collection}?${queryString}`, {
       headers: getAuthHeader(),
     })
     .then(handleResponse)
@@ -61,4 +70,4 @@ const upload = (collection: any, files: File) => {
     .catch(handleError);
 };
 
-export const apiProvider = { get, getById, post, put, remove, upload };
+export const apiProvider = { get, getById, getCustom, post, put, remove, upload };

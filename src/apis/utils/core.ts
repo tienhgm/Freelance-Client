@@ -3,6 +3,7 @@ import { apiProvider } from "./provider";
 export class ApiCore {
   get: Function = () => {};
   getById: Function = () => {};
+  getCustom: Function = () => {};
   post: Function = () => {};
   put: Function = () => {};
   remove: Function = () => {};
@@ -15,8 +16,13 @@ export class ApiCore {
       };
     }
     if (options.getById) {
-      this.getById = (id: number) => {
-        return apiProvider.getById(options.collection, id);
+      this.getById = (id: any, collection:any) => {
+        return apiProvider.getById(collection || options.collection, id);
+      };
+    }
+    if (options.getCustom) {
+      this.getCustom = (collection:any, filters:any) => {
+        return apiProvider.getCustom(collection, filters);
       };
     }
     if (options.post) {
@@ -25,12 +31,12 @@ export class ApiCore {
       };
     }
     if (options.put) {
-      this.put = (id: number, model: any, collection:any) => {
+      this.put = (id: any, model: any, collection:any) => {
         return apiProvider.put(collection || options.collection, id, model);
       };
     }
     if (options.remove) {
-      this.remove = (id: number) => {
+      this.remove = (id: any) => {
         return apiProvider.remove(options.collection, id);
       };
     }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import apiUser from "apis/tasks/apiUser";
+import handleErrorMessage from "utils/handleErrorMessage";
 import { notify } from "utils/notification";
 import { handleLoading } from "./appSlice";
 
@@ -28,19 +29,44 @@ export const handleChangePassword = createAsyncThunk("user/changePassword", asyn
     try {
         dispatch(handleLoading(true));
         const res = await apiUser.changePassword(payload);
-        dispatch(handleLoading(false));
         if (res.status === 200) {
             notify("success", "Password change!", "");
             return res.data.status;
-        } else {
-            notify("error", "Error!", "");
-            return false;
         }
-    } catch (error) { }
+    } catch (error: any) {
+        handleErrorMessage(error.data.errors);
+    } finally {
+        dispatch(handleLoading(false));
+    }
 });
 export const handleGetProfile = createAsyncThunk("user/profile", async () => {
     try {
         const res = await apiUser.getProfile();
+        if (res.status === 200) {
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { }
+});
+export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res = await apiUser.updateProfile(payload);
+        if (res.status === 200) {
+            notify("success", "Update Success!", "")
+            return res.data;
+        } else {
+            return;
+        }
+    } catch (error) { } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleGetReviews = createAsyncThunk("user/reviews", async (payload: any) => {
+    try {
+        let { userId, filters } = payload;
+        const res = await apiUser.getReviewsById(userId, filters);
         if (res.status === 200) {
             return res.data;
         } else {
@@ -63,6 +89,14 @@ const userSlice = createSlice({
         },
         // @ts-ignore
         [handleGetProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
+        },
+        // @ts-ignore
+        [handleUpdateProfile.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            return action.payload;
+        },
+        // @ts-ignore
+        [handleGetReviews.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             return action.payload;
         },
     }

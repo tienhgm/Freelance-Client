@@ -7,9 +7,10 @@ import { notify } from "utils/notification";
 interface Iprops {
   disabled: boolean;
   previewImg: string;
+  handleUpdateImg: (img:any) => any;
 }
 export default function UploadFile(props: Iprops) {
-  const {disabled, previewImg} = props;
+  const {disabled, previewImg, handleUpdateImg} = props;
   const [loading, setLoading] = useState(false);
 
   const [imageUrl, setImageUrl] = useState('');
@@ -26,7 +27,8 @@ export default function UploadFile(props: Iprops) {
     setLoading(true);
     
     if (info && info.file) {
-      await dispatch(uploadAvt(info.file));
+      const result = await dispatch(uploadAvt(info.file));
+      handleUpdateImg(result.payload)
     }
     setLoading(false);
   };
@@ -51,7 +53,7 @@ export default function UploadFile(props: Iprops) {
         beforeUpload={beforeUpload}
         disabled={disabled}
       >
-        {imageUrl ? <img src={imageUrl} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
+        {imageUrl ? <img src={`http://${imageUrl}`} alt="avatar" style={{ width: '100%' }} /> : uploadButton}
       </Upload>
     </div>
   );
