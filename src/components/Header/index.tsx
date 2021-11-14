@@ -64,7 +64,7 @@ export default function Header() {
       <div className="flex">
         <div className="header__title">
           <Link to="/">
-            Free<span>lance</span>
+            Hi<span>reo</span>
           </Link>
         </div>
         <ul className="menu">

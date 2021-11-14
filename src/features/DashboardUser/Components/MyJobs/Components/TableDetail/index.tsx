@@ -1,6 +1,6 @@
 import { Space, Table, Tag, Button } from 'antd';
-import { handleGetStatusEarning } from 'utils/Dashboard';
-import { statusEarning } from 'utils/enum';
+import { handleGetStatusEarning, handleGetJobProgress } from 'utils/Dashboard';
+import { statusApply } from 'utils/enum';
 interface IProps {
   data: any | null;
 }
@@ -19,6 +19,19 @@ export default function TableDetail({ data }: IProps) {
       render: (text: string) => <div className="font-medium">{text}</div>,
     },
     {
+      title: 'Job Progress',
+      dataIndex: 'job_progress',
+      key: 'job_progress',
+      render: (job_progress: number) => (
+        <>
+          {job_progress === 0 && <Tag color="#00BFFF">{handleGetJobProgress(job_progress)}</Tag>}
+          {job_progress === 1 && <Tag color="#FFA500">{handleGetJobProgress(job_progress)}</Tag>}
+          {job_progress === 2 && <Tag color="#87d068">{handleGetJobProgress(job_progress)}</Tag>}
+          {job_progress === 3 && <Tag color="#FF0000">{handleGetJobProgress(job_progress)}</Tag>}
+        </>
+      ),
+    },
+    {
       title: 'Company',
       dataIndex: 'company_name',
       key: 'company_name',
@@ -30,10 +43,9 @@ export default function TableDetail({ data }: IProps) {
       render: (status: number) => (
         <>
           {status === 0 && <Tag color="#FF00FF">{handleGetStatusEarning(status)}</Tag>}
-          {status === 1 && <Tag color="#00BFFF">{handleGetStatusEarning(status)}</Tag>}
-          {status === 2 && <Tag color="#FFA500">{handleGetStatusEarning(status)}</Tag>}
-          {status === 3 && <Tag color="#87d068">{handleGetStatusEarning(status)}</Tag>}
-          {status === 4 && <Tag color="#FF0000">{handleGetStatusEarning(status)}</Tag>}
+          {status === 1 && <Tag color="#87d068">{handleGetStatusEarning(status)}</Tag>}
+          {status === 2 && <Tag color="#FF0000">{handleGetStatusEarning(status)}</Tag>}
+         
         </>
       ),
     },
@@ -51,7 +63,7 @@ export default function TableDetail({ data }: IProps) {
           <Button size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
-          {[statusEarning.Waiting, statusEarning.Pending, statusEarning.Cancel].includes(record.status) && (
+          {[statusApply.Waiting,statusApply.Rejected].includes(record.status) && (
             <Button danger size="small" onClick={() => handleDelete(record)}>
               Delete
             </Button>
