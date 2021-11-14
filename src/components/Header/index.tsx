@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import SideBar from './Components/SideBar';
 import { UserOutlined } from '@ant-design/icons';
 import { logout } from 'app/slices/authSlice';
-import Popup from 'components/Popup';
+import Popup from 'components/PopupConfirm';
 export default function Header() {
   const [showDialog, setShowDialog] = React.useState(false);
   const [isLogin, setIsLogin] = useState(true);

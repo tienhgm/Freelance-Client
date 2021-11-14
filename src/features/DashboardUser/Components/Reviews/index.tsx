@@ -2,15 +2,20 @@ import { DeleteOutlined, EditOutlined, FieldTimeOutlined, ProfileOutlined, TeamO
 import { Rate, Pagination, Skeleton } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { handleGetReviews } from 'app/slices/userSlice';
-import Popup from 'components/Popup';
+import Popup from 'components/PopupConfirm';
 import { useEffect, useState } from 'react';
+import PopupReview from './Components';
 import './index.scss';
 export default function Reviews() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
+  const [openDialogReview, setOpenDialogReview] = useState(false);
   const [pageIdxAboutMe, setPageIdxAboutMe] = useState(1);
   const handleDeleteReview = (id: any) => {
     console.log('delete');
+  };
+  const handleChangeReview = (values: any) => {
+    console.log('change',values);
   };
   const userId = useAppSelector((state) => state.auth.user.id);
   const dispatch = useAppDispatch();
@@ -50,7 +55,7 @@ export default function Reviews() {
                 </div>
                 <div className="mt-2 mb-2 font-medium break-words">1234</div>
                 <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-1 btn btn__edit">
+                  <div className="flex items-center gap-1 btn btn__edit"  onClick={() => setOpenDialogReview(true)}>
                     <EditOutlined /> Edit review
                   </div>
                   <div className="flex items-center gap-1 btn btn__delete" onClick={() => setOpenDialogConfirm(true)}>
@@ -59,7 +64,7 @@ export default function Reviews() {
                 </div>
               </>
             ) : (
-              <Skeleton active paragraph={{ rows: 2 }}/>
+              <Skeleton active paragraph={{ rows: 2 }} />
             )}
           </div>
           <div className="flex justify-end mt-4 mb-4 mr-4">
@@ -71,6 +76,11 @@ export default function Reviews() {
             popupText="Delete?"
             handleConfirm={handleDeleteReview}
             handleCancelConfirm={() => setOpenDialogConfirm(false)}
+          />
+          <PopupReview
+            isVisible={openDialogReview}
+            handleConfirm={handleChangeReview}
+            handleCancelConfirm={() => setOpenDialogReview(false)}
           />
         </div>
         <div className="reviews__right">

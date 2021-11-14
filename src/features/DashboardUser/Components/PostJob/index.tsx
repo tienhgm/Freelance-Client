@@ -1,14 +1,20 @@
 import "./index.scss";
 import { EnvironmentOutlined, FolderOpenOutlined } from "@ant-design/icons";
-import { Input, Select, Slider } from "antd";
+import { Input, Select, Slider, DatePicker } from "antd";
 import { useState } from "react";
+import CkEditor from "components/Editor";
 const { Option } = Select;
 export default function PostJob() {
+  const { RangePicker } = DatePicker;
   const [jobSalary, setJobSalary] = useState(0);
+  const [jobDescription, setJobDescription] = useState('');
   const handleSetJobSalary = (value: number) => {
     setJobSalary(value);
   };
   const [tagChoose, setTagChoose] = useState([]);
+  const watchJobDescription = (value: any) => {
+    setJobDescription(value);
+  }
   const listTag = [
     { id: 0, tagName: "Vuejs" },
     { id: 1, tagName: "ReactJs" },
@@ -92,8 +98,15 @@ export default function PostJob() {
             </div>
           </div>
           <div className="flex flex-wrap w-full">
-            <div >
+            <div>
+              <h2>Available Time</h2>
+              <RangePicker size="large" />
+            </div>
+          </div>
+          <div className="flex flex-wrap w-full">
+            <div style={{width: 'calc(93%)'}}>
               <h2>Editor</h2>
+              <CkEditor valueChange={jobDescription} handleChange={watchJobDescription} />
             </div>
           </div>
         </div>
