@@ -1,4 +1,4 @@
-import { Switch, Link, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, Link, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import './index.scss';
 import { Menu } from 'antd';
 import Settings from './Components/Settings';
@@ -44,11 +44,11 @@ function DashboardUser() {
     { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
     { key: 10, icon: '', link: 'post-jobs', name: 'Post A Job' },
   ];
-
+  const history = useHistory();
   useEffect(() => {
     document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.add('active');
-  }, []);
-  
+  }, [history.location.pathname]);
+
   return (
     <div className="flex h-full overflow-y-hidden">
       <Menu
