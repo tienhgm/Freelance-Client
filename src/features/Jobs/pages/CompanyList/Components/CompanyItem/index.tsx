@@ -11,7 +11,7 @@ export default function CompanyItem({
 }) {
   const ratingStar = useMemo(() => {
     let stars: string[] = [];
-    for (let i = 1; i <= 5; i++) {
+    for (let i = 0; i < 5; i++) {
       if (ratingPoint - i > 0.5) {
         stars.push('bx bxs-star');
       } else if (ratingPoint - i <= 0) {
@@ -34,7 +34,9 @@ export default function CompanyItem({
         <h4 className="text-center text-lg">{companyName} </h4>
       </div>
       <div className="company_ratting flex items-center text-sm">
-        <div className="ratting-point font-bold text-white py-1 px-2 mx-2 bg-yellow-300 rounded-md">{ratingPoint}</div>
+        <div className="ratting-point flex font-bold text-white py-1 px-2 mx-2 bg-yellow-300 rounded-md">
+          <span className="m-auto">{ratingPoint}</span>
+        </div>
         <div className="ratting-star text-lg text-yellow-300">
           {ratingStar.map((className, key) => {
             return <i key={key} className={className} />;

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import React from 'react';
 import './index.scss';
-import CompanyItem from './Components/CompanyItems';
+import CompanyItem from './Components/CompanyItem';
 const alphabet = [
   'A',
   'B',
