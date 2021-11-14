@@ -21,7 +21,6 @@ const { TextArea } = Input;
 export default function Settings() {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [minimalHourlyRate, setMinimalHourlyRate] = useState(0);
   const [educations, setEducations] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
@@ -33,9 +32,6 @@ export default function Settings() {
   };
   const watchIntroduce = (value: any) => {
     setIntroduce(value);
-  };
-  const handleSetPayHourly = (value: number) => {
-    setMinimalHourlyRate(value);
   };
 
   const getSkill = async () => {
@@ -69,7 +65,6 @@ export default function Settings() {
         email: payload.email,
         firstName: payload.firstName,
         lastName: payload.lastName,
-        minimalHourlyRate: payload.minimalHourlyRate,
         phoneNumber: payload.phoneNumber,
         gender: payload.gender,
         hobbies: payload.hobbies,
@@ -82,7 +77,6 @@ export default function Settings() {
       });
       setIntroduce(payload.introduce);
       setEducations(payload.educations);
-      setMinimalHourlyRate(payload.minimalHourlyRate);
       setPreviewImg(payload.avatar);
     }
   };
@@ -94,6 +88,7 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
+    values.minimalHourlyRate = 100
     values.introduce = introduce;
     values.educations = educations;
     !!!values.dateOfBirth
@@ -200,14 +195,6 @@ export default function Settings() {
                 </div>
               </div>
               <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-                {/* <div className="col-span-6">
-                  <div className="mb-1 text-xl font-bold">
-                    Hobbies <span className="required-field">*</span>
-                  </div>
-                  <Form.Item name="hobbies" rules={[{ required: true, message: 'Please input hobbies' }]}>
-                    <Input placeholder="Hobbies" />
-                  </Form.Item>
-                </div> */}
                 <div className="col-span-6 ">
                   <div className="mb-1 text-xl font-bold">
                     Date of birth <span className="required-field">*</span>
@@ -243,17 +230,8 @@ export default function Settings() {
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
-            <div className="col-span-4">
-              <div className="mb-1 text-xl font-bold">
-                Set your minimal hourly rate <span className="required-field">*</span>
-              </div>
-              <div className="text-lg font-medium">${minimalHourlyRate}</div>
-              <Form.Item name="minimalHourlyRate" rules={[{ required: true, message: 'Please input more than 0' }]}>
-                <Slider max={150} onChange={handleSetPayHourly} />
-              </Form.Item>
-            </div>
-            <div className="col-span-7 lg:ml-10">
-              <div className="mb-3 text-xl font-bold">
+            <div className="col-span-6 ">
+              <div className="mb-2 text-xl font-bold">
                 Skills <span className="required-field">*</span>
               </div>
               <Form.Item name="skills" rules={[{ required: true, message: 'Please select skills' }]}>
@@ -272,7 +250,7 @@ export default function Settings() {
                 </Select>
               </Form.Item>
             </div>
-            <div className="col-span-4">
+            <div className="col-span-5 lg:ml-6" >
               <div className="mb-2 text-xl font-bold ">
                 Languages <span className="required-field">*</span>
               </div>
