@@ -37,9 +37,6 @@ export default function Jobs() {
                 <div className="flex items-center gap-2 box__item__content">
                   <CalendarOutlined /> Posted on 10 July, 2021
                 </div>
-                <div className="flex items-center gap-2 box__item__content">
-                  <CalendarOutlined /> Release on 27 October, 2021
-                </div>
               </div>
               <div className="mt-4">
                 <Badge count={5}>
@@ -80,9 +77,6 @@ export default function Jobs() {
                 <div className="flex items-center gap-2 box__item__content">
                   <CalendarOutlined /> Posted on 10 July, 2021
                 </div>
-                <div className="flex items-center gap-2 box__item__content">
-                  <CalendarOutlined /> Release on 27 October, 2021
-                </div>
               </div>
               <div className="mt-4">
                 <Badge count={2}>
@@ -122,9 +116,6 @@ export default function Jobs() {
               <div className="flex gap-3 mt-2">
                 <div className="flex items-center gap-2 box__item__content">
                   <CalendarOutlined /> Posted on 10 July, 2021
-                </div>
-                <div className="flex items-center gap-2 box__item__content">
-                  <CalendarOutlined /> Release on 27 October, 2021
                 </div>
               </div>
               <div className="mt-4">
