@@ -1,5 +1,5 @@
-@import "src/assets/scss/mixins.scss";
-@import "src/assets/scss/variables.scss";
+@import 'src/assets/scss/mixins.scss';
+@import 'src/assets/scss/variables.scss';
 
 .job-item__wrapper {
   cursor: pointer;
@@ -8,7 +8,10 @@
   }
   .job-item__content {
     position: relative;
+  }
 
+  .content__logo {
+    min-width: 56px;
   }
 
   .content__bookmark {
