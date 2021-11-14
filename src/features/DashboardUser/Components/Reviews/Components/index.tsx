@@ -1,4 +1,4 @@
-import { Modal, Rate, Input, Form, Button, Radio } from 'antd';
+import { Modal, Rate, Input, Form } from 'antd';
 import React, { useEffect, useState } from 'react';
 type Popup = {
   isVisible: boolean;
@@ -42,16 +42,16 @@ const CollectionCreateForm: React.FC<CollectionCreateFormProps> = ({ visible, on
           <div>
             Your rating <span style={{ color: 'red' }}>*</span>
           </div>
-          <Form.Item name="rate" rules={[{ required: true, message: 'Please rate Star' }]} >
+          <Form.Item name="rate" rules={[{ required: true, message: 'Please rate Star' }]}>
             <Rate allowHalf />
           </Form.Item>
         </div>
-        <div className="mt-3 ">
+        <div className="mt-3">
           <div className="text-lg font-medium">
             Comment <span style={{ color: 'red' }}>*</span>
           </div>
           <Form.Item name="comment" rules={[{ required: true, message: 'Please input your Comment' }]}>
-            <TextArea showCount autoSize={{ minRows: 4, maxRows: 6 }} maxLength={200} />
+            <TextArea showCount autoSize={{ minRows: 5, maxRows: 6 }} maxLength={200} />
           </Form.Item>
         </div>
       </Form>

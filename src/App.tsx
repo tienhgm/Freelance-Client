@@ -10,25 +10,25 @@ import BackToTop from 'components/BackTop';
 import Loading from 'components/Loading';
 import { useAppSelector } from 'app/hooks';
 function App() {
-  const location = useLocation();
-  const { pathname } = location;
-  const hiddenFooter = useMemo(() => {
-    const routerExcept = [
-      "/find-freelancers",
-      "/dashboard",
-      "/dashboard/settings",
-      "/dashboard/password",
-      "/dashboard/message",
-      "/dashboard/bookmarks",
-      "/dashboard/jobs-manage",
-      "/dashboard/post-jobs",
-      "/dashboard/candidate-manage",
-      "/dashboard/my-jobs",
-      "/dashboard/reviews",
-    ];
-    const currentRouter = pathname;
-    return routerExcept.indexOf(currentRouter) !== -1;
-  }, [pathname]);
+  // const location = useLocation();
+  // const { pathname } = location;
+  // const hiddenFooter = useMemo(() => {
+  //   const routerExcept = [
+  //     "/find-freelancers",
+  //     "/dashboard",
+  //     "/dashboard/settings",
+  //     "/dashboard/password",
+  //     "/dashboard/message",
+  //     "/dashboard/bookmarks",
+  //     "/dashboard/jobs-manage",
+  //     "/dashboard/post-jobs",
+  //     "/dashboard/candidate-manage",
+  //     "/dashboard/my-jobs",
+  //     "/dashboard/reviews",
+  //   ];
+  //   const currentRouter = pathname;
+  //   return routerExcept.indexOf(currentRouter) !== -1;
+  // }, [pathname]);
   const isLoading = useAppSelector((state) => state.app.isLoading);
   return (
     <div className="App">
@@ -50,7 +50,7 @@ function App() {
             ))}
             <Route component={NotFound} />
           </Switch>
-          {!hiddenFooter && <Footer />}
+         
           <BackToTop />
         </>
       )}

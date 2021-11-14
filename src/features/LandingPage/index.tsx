@@ -6,6 +6,7 @@ import FeatureCity from './components/FeatureCity';
 import FeatureJob from './components/FeatureJob';
 import PopularJob from './components/PopularJob';
 import { activate } from 'app/slices/authSlice';
+import Footer from 'components/Footer';
 
 function useQuery() {
   return new URLSearchParams(useLocation().search);
@@ -29,6 +30,7 @@ function LandingPage() {
       <PopularJob />
       <FeatureJob />
       <FeatureCity />
+      <Footer />
     </div>
   );
 }
