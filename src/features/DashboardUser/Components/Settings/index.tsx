@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
+import { Input, Button, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
 import UploadFile from 'components/Dashboard/UploadFileCv';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -381,6 +381,7 @@ export default function Settings() {
                           height="24"
                           onClick={() => remove(name)}
                           style={{ cursor: 'pointer' }}
+                          alt="minus"
                         />
                         {/* <MinusCircleOutlined onClick={() => remove(name)} /> */}
                       </div>

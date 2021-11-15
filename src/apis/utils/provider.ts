@@ -38,6 +38,12 @@ const post = (collection: any, model: any) => {
     .then(handleResponse)
     .catch(handleError);
 };
+const getWithBody = (collection: any, body: any) => {
+  return axios
+    .get(`${baseUrl}/${collection}`, body)
+    .then(handleResponse)
+    .catch(handleError);
+};
 
 const put = (collection: any, id: number, model: any) => {
   return axios
@@ -70,4 +76,4 @@ const upload = (collection: any, files: File) => {
     .catch(handleError);
 };
 
-export const apiProvider = { get, getById, getCustom, post, put, remove, upload };
+export const apiProvider = { get, getById, getWithBody, getCustom, post, put, remove, upload };

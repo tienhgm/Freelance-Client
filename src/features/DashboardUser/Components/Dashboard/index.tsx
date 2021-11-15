@@ -1,13 +1,13 @@
 import { ShoppingOutlined, ToolOutlined } from '@ant-design/icons';
-import { Badge, Select } from 'antd';
+import { Badge } from 'antd';
 import Chart from './Components/Chart';
 import ChartRadialBar from './Components/RadioChart';
 import './index.scss';
 export default function Dashboard() {
-  const { Option } = Select;
-  function handleSelect(value: any) {
-    console.log(`selected ${value}`);
-  }
+  // const { Option } = Select;
+  // function handleSelect(value: any) {
+  //   console.log(`selected ${value}`);
+  // }
   return (
     <div className="h-full dashboard">
       <h1 className="mb-8 text-2xl">Hi Tien!</h1>

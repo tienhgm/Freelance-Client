@@ -1,4 +1,3 @@
-import NotFound from 'components/NotFound';
 import AboutUs from 'features/AboutUs';
 import DashboardUser from 'features/DashboardUser';
 import FindFreelancer from 'features/Freelancers/pages/FindFreelancer';

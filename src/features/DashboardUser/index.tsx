@@ -2,7 +2,7 @@ import { Switch, Link, Route, useRouteMatch, useHistory } from 'react-router-dom
 import './index.scss';
 import { Menu } from 'antd';
 import Settings from './Components/Settings';
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
 import {
   ApartmentOutlined,
   AppstoreOutlined,
@@ -16,8 +16,7 @@ import {
 import ChangePassword from './Components/ChangePassword';
 import Dashboard from './Components/Dashboard';
 import Bookmarks from './Components/Bookmarks';
-import Jobs from './Components/JobsManage';
-import Candidates from './Components/CandidateManage';
+import JobsManage from './Components/JobsManage';
 import PostJob from './Components/PostJob';
 import Message from './Components/Message';
 import { useAppSelector } from 'app/hooks';
@@ -41,7 +40,7 @@ function DashboardUser() {
   ];
   const menuManage = [
     { key: 8, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
-    { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
+    // { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
     { key: 10, icon: '', link: 'post-jobs', name: 'Post A Job' },
   ];
   const history = useHistory();
@@ -83,9 +82,8 @@ function DashboardUser() {
           <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
           <Route path={`${match.url}/reviews`} component={Reviews} exact />
-          <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
+          <Route path={`${match.url}/jobs-manage`} component={JobsManage} />
           <Route path={`${match.url}/post-jobs`} component={PostJob} exact />
-          <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />
           <Route path={`${match.url}/password`} component={ChangePassword} exact />
         </Switch>
       </div>

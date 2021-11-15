@@ -30,7 +30,7 @@ export default function Header() {
   const handleOpenDialogConfirm = () => {
     setOpenDialogConfirm(true);
   };
-
+  const userAvt = useAppSelector((state) => state.auth.user.avatar);
   const menu = (
     <Menu>
       <Menu.Item key="1">
@@ -83,7 +83,11 @@ export default function Header() {
       <div className="flex items-center gap-4">
         {user?.lastName ? (
           <Dropdown overlay={menu} trigger={['click']}>
-            <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />}></Avatar>
+            {userAvt ? (
+              <img src={`http://${userAvt}`} alt="avatar" style={{ width: '100%' }} />
+            ) : (
+              <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />} />
+            )}
           </Dropdown>
         ) : (
           <div className="btn-register" onClick={openRegisterForm}>

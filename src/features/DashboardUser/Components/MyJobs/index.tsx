@@ -1,4 +1,4 @@
-import { Select, Input } from 'antd';
+import { Select } from 'antd';
 import TableDetail from './Components/TableDetail';
 
 export default function MyJobs() {

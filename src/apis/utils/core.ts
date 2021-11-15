@@ -8,11 +8,17 @@ export class ApiCore {
   put: Function = () => {};
   remove: Function = () => {};
   upload: Function = () => {};
+  getWithBody: Function = () => {};
 
   constructor(options: any) {
     if (options.get) {
       this.get = (filter: any, collection:any) => {
         return apiProvider.get(collection || options.collection, filter);
+      };
+    }
+    if (options.getWithBody) {
+      this.getWithBody = (body:any, collection:any) => {
+        return apiProvider.getWithBody(collection || options.collection, body);
       };
     }
     if (options.getById) {
