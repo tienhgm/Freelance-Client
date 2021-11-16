@@ -1,5 +1,6 @@
 .sidebar {
-
+    box-sizing: border-box;
+    background-color: '#fff',
     h5{
         font-size: 20px;
         margin-bottom: 18px;
@@ -53,6 +54,7 @@
         .custom-tag.ant-tag.ant-tag-checkable{
             background-color: #fff;
             border-radius: 4px;
+            border: 1px solid #DCDCDC	
         }
         .custom-tag.ant-tag.ant-tag-checkable-checked{
             background-color: #2e3fe5;

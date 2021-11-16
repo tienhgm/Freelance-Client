@@ -4,6 +4,7 @@ import CompanyItem from './Components/CompanyItem';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetCompanies } from 'app/slices/companySlice';
 import { useHistory, useLocation } from 'react-router';
+import { Skeleton } from 'antd';
 const alphabet = [
   'A',
   'B',
@@ -36,6 +37,7 @@ const alphabet = [
 export default function BrowseCompanies() {
   const [filter, setFilter] = useState('A');
   const [listCompanies, setListCompanies] = useState([]);
+  const [loading, setLoading] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const goToDetail = (id: any) => {
@@ -44,9 +46,15 @@ export default function BrowseCompanies() {
   const dispatch = useAppDispatch();
   const getListCompanies = async () => {
     let finalFilter = { character: filter.toLowerCase(), page: 1 };
-    const { payload } = await dispatch(handleGetCompanies(finalFilter));
-    if (payload) {
-      setListCompanies(payload);
+    try {
+      setLoading(true);
+      const { payload } = await dispatch(handleGetCompanies(finalFilter));
+      if (payload) {
+        setListCompanies(payload);
+      }
+    } catch (error) {
+    } finally {
+      setTimeout(function(){ setLoading(false)}, 1000)
     }
   };
   useEffect(() => {
@@ -83,14 +91,16 @@ export default function BrowseCompanies() {
       <div className="container companies__list">
         <ul className="grid flex-grow grid-cols-1 transition-all gap-7 content__list-items lg:grid-cols-2 xl:grid-cols-3">
           {listCompanies.map((item: any) => (
-            <li className="transition-all cursor-pointer" key={item.id} onClick={() => goToDetail(item.id)}>
-              <CompanyItem
-                key={item.id}
-                ratingPoint={item.stars}
-                companyLogo={'https://www.vasterad.com/themes/hireo/images/browse-companies-02.png'}
-                companyName={item.name}
-              />
-            </li>
+            <Skeleton active loading={loading}>
+              <li className="transition-all cursor-pointer" key={item.id} onClick={() => goToDetail(item.id)}>
+                <CompanyItem
+                  key={item.id}
+                  ratingPoint={item.stars}
+                  companyLogo={'https://www.vasterad.com/themes/hireo/images/browse-companies-02.png'}
+                  companyName={item.name}
+                />
+              </li>
+            </Skeleton>
           ))}
         </ul>
       </div>

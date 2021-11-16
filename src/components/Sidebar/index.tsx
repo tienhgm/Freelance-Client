@@ -1,102 +1,94 @@
-import { useState } from "react";
-import "./index.scss";
-import { CaretDownOutlined, EnvironmentOutlined } from "@ant-design/icons";
-import { Switch, Slider, Tag, Button  } from "antd";
+import { useState } from 'react';
+import './index.scss';
+import { EnvironmentOutlined } from '@ant-design/icons';
+import { Rate, Slider, Tag, Button, Input, Checkbox } from 'antd';
 
 const { CheckableTag } = Tag;
 const tagsData: string[] = ['front-end dev', 'angular', 'react', 'vue js', 'web apps', 'design', 'wordpress'];
-
-
+const CheckboxGroup = Checkbox.Group;
 function Sidebar() {
-    const [selectedTags, setSelectedTags] = useState<string[]>([]);
-    const handleChange = (tag: string, checked: boolean) => {
-        const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter(t => t !== tag);
-        setSelectedTags(nextSelectedTags);
-    }
-
-    return (
-        <div className="sidebar">
-            {/* location */}
-            <div className="mb-12 sidebar__location">
-                <h5>Location</h5>
-                <div className="relative block text-gray-400 rounded shadow-md">
-                    <input
-                        className="h-12"
-                        type="text"
-                        placeholder="Location"
-                    />
-                    <EnvironmentOutlined className="absolute top-4 right-4" />
-                </div>
-            </div>
-            {/* category */}
-            <div className="mb-12 sidebar__category">
-                <h5>Category</h5>
-                <div className="relative block text-gray-400 rounded shadow-md cursor-pointer">
-                    <div className="button-category">All categories</div>
-                    <CaretDownOutlined className="absolute top-5 right-4" />
-                </div>
-            </div>
-            {/* Job Type */}
-            <div className="mb-12 sidebar__job">
-                <h5>Job Type</h5>
-                <div className="switch-list">
-                    <div className="switch">
-                        <Switch />
-                        <span>Freelance</span>
-                    </div>
-                    <div className="switch">
-                        <Switch />
-                        <span>Full Time</span>
-                    </div>
-                    <div className="switch">
-                        <Switch />
-                        <span>Part Time</span>
-                    </div>
-                    <div className="switch">
-                        <Switch />
-                        <span>Internship</span>
-                    </div>
-                    <div className="switch">
-                        <Switch />
-                        <span>Temporary</span>
-                    </div>
-                </div>
-            </div>
-            {/* salary */}
-            <div className="mb-12 sidebar__salary">
-                <h5>Salary</h5>
-                <div className="mt-14">
-                    <Slider
-                        range 
-                        min={1500}
-                        max={15000}
-                        defaultValue={[1500, 15000]} 
-                    />
-                </div>
-            </div>
-            {/* Tags */}
-            <div className="mb-12 sidebar__tags">
-                <h5>Tags</h5>
-                <div>
-                    {tagsData.map(tag => (
-                    <CheckableTag
-                        className="custom-tag"
-                        key={tag}
-                        checked={selectedTags.indexOf(tag) > -1}
-                        onChange={checked => handleChange(tag, checked)}
-                        style={{marginBottom: '5px'}}
-                    >
-                        <p className="m-2 text-sm">{tag}</p>
-                    </CheckableTag>
-                    ))}
-                </div>
-            </div>
-            {/* search */}
-            <div className="sidebar__search">
-                <Button className="w-full" type="primary" size="large">Search</Button>
-            </div>
+  const [selectedTags, setSelectedTags] = useState<string[]>([]);
+  const [checkedList, setCheckedList] = useState<any>();
+  const handleChange = (tag: string, checked: boolean) => {
+    const nextSelectedTags = checked ? [...selectedTags, tag] : selectedTags.filter((t) => t !== tag);
+    setSelectedTags(nextSelectedTags);
+  };
+  const handleSelect = (e: any) => {
+    console.log(e);
+  };
+  const onChangeCheckbox = (list: any) => {
+    setCheckedList(list);
+  };
+  const plainOptions = ['Apple', 'Pear', 'Orange'];
+  return (
+    <div className="sidebar ">
+      <div className="mb-8">
+        <div className="text-lg font-medium">Name</div>
+        <div>
+          <Input size="large" placeholder="Name" />
         </div>
-    );
+      </div>
+      <div className="mb-8">
+        <div className="text-lg font-medium">Location</div>
+        <div>
+          <Input size="large" placeholder="location" prefix={<EnvironmentOutlined className="pl-2 pr-1" />} suffix />
+        </div>
+      </div>
+
+      <div className="mb-8 sidebar__salary">
+        <div className="text-lg font-medium">Salary</div>
+        <div className="mt-8">
+          <Slider max={1500} />
+        </div>
+      </div>
+      <div className="mb-8 sidebar__tags">
+        <div className="text-lg font-medium">Tags</div>
+        <div>
+          {tagsData.map((tag) => (
+            <CheckableTag
+              className="custom-tag"
+              key={tag}
+              checked={selectedTags.indexOf(tag) > -1}
+              onChange={(checked) => handleChange(tag, checked)}
+              style={{ marginBottom: '5px' }}
+            >
+              <p className="m-2 text-sm">{tag}</p>
+            </CheckableTag>
+          ))}
+        </div>
+      </div>
+      <div className="mb-8">
+        <div className="text-lg font-medium">Reviews</div>
+        <CheckboxGroup value={checkedList} onChange={onChangeCheckbox}>
+          <Checkbox value="5">
+            <Rate disabled defaultValue={5} />
+          </Checkbox>
+          <br />
+          <Checkbox value="4">
+            <Rate disabled defaultValue={4} />
+          </Checkbox>
+          <br />
+          <Checkbox value="3">
+            <Rate disabled defaultValue={3} />
+          </Checkbox>
+          <br />
+          <Checkbox value="2">
+            <Rate disabled defaultValue={2} />
+          </Checkbox>
+          <br />
+          <Checkbox value="1">
+            <Rate disabled defaultValue={1} />
+          </Checkbox>
+          <br />
+        </CheckboxGroup>
+      </div>
+      <div>
+        <Button className="w-full" type="primary" size="large">
+          Search
+        </Button>
+      </div>
+    </div>
+  );
 }
 
 export default Sidebar;

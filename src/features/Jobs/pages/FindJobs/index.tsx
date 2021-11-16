@@ -124,12 +124,12 @@ const sortByItems = [
 const { Option } = Select;
 
 export default function FindJobs() {
-  return (
+  return (  
     <div className="flex flex-col find-job-page sm:flex-row">
-      <div className="flex-shrink-0 overflow-y-auto find-job-page__sidebar p-8 pb-0 w-full md:w-60 lg:w-80">
+      <div className="flex-shrink-0 w-full p-8 pb-0 overflow-y-auto find-job-page__sidebar md:w-60 lg:w-72" style={{ backgroundColor: '#fff', boxShadow: `0 0 4px rgba(0, 0, 0, 0.2)` }}>
         <Sidebar />
       </div>
-      <div className="w-full overflow-y-auto p-6 find-job-page__content">
+      <div className="w-full p-6 overflow-y-auto find-job-page__content">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">
           <h2 className="font-normal header__title">Search Results</h2>
           <div className="header__filter">
