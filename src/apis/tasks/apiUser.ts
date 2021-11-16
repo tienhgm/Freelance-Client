@@ -29,6 +29,9 @@ class ApiUser extends ApiCore {
   getReviewsById(id: any, filters: any) {
     return this.getCustom(`users/${id}/reviews`, filters)
   }
+  getReviewsByUser(id: any, filters: any){
+    return this.getCustom(`users/${id}/reviewsByUser`, filters)
+  }
 }
 
 export default new ApiUser();

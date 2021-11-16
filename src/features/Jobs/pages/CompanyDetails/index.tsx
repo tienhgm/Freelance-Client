@@ -1,7 +1,11 @@
+import { useAppDispatch } from 'app/hooks';
+import { handleGetDetailCompany } from 'app/slices/companySlice';
 import JobItem from 'components/JobItem';
-import React from 'react';
+import { useEffect } from 'react';
+import { useRouteMatch } from 'react-router';
+// import React from 'react';
 import JobItemProps from 'types/jobItemProps';
-import { Button } from 'antd';
+// import { Button } from 'antd';
 import './index.scss';
 import ReviewItem from './ReviewItem';
 const jobList: Array<JobItemProps> = [
@@ -25,9 +29,19 @@ const jobList: Array<JobItemProps> = [
   },
 ];
 export default function CompanyDetails() {
+  const route = useRouteMatch();
+  const dispatch = useAppDispatch();
+  // @ts-ignore
+  const companyId = route.params.id;
+  const getDetail = async () => {
+    dispatch(handleGetDetailCompany(companyId));
+  };
+  useEffect(() => {
+    getDetail();
+  }, [companyId]);
   return (
     <div className="job-details-page company">
-      <div className="relative px-2 bg-gray-100 header-wrapper mb-10">
+      <div className="relative px-2 mb-10 bg-gray-100 header-wrapper">
         <div className="absolute right-0 w-1/2 header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
@@ -74,7 +88,7 @@ export default function CompanyDetails() {
         </div>
       </div>
       <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
-        <div className="w-full lg:pr-10  content__main lg:w-2/3">
+        <div className="w-full lg:pr-10 content__main lg:w-2/3">
           <div className="job-description">
             <h2 className="mt-2 mb-10 text-xl">About Company</h2>
             <div className="mb-10 text-base text-justify job-description__content">
@@ -110,7 +124,7 @@ export default function CompanyDetails() {
             />
           </div>
           <div className="mb-10 similar-jobs">
-            <h2 className="mt-2 mb-10 text-xl flex flex-wrap">Open Positions</h2>
+            <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Open Positions</h2>
             {jobList.map((job, index) => (
               <div className="inline-block w-full p-3 md:w-1/2">
                 <JobItem {...job} key={index} />
@@ -121,9 +135,9 @@ export default function CompanyDetails() {
         <div className="flex flex-col w-full gap-10 px-8 content__sidebar lg:w-1/3">
           <div className="w-full mb-12 text-base job-review">
             <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">
-              <i className="bx bx-like mr-3"></i>Reviews
+              <i className="mr-3 bx bx-like"></i>Reviews
             </h2>
-            <div className="reviews-list overflow-y-auto">
+            <div className="overflow-y-auto reviews-list">
               <div className="flex items-center px-6 py-3 bg-gray-200">
                 <ReviewItem
                   ratingPoint={4.5}

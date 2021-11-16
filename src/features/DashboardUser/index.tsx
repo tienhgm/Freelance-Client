@@ -13,17 +13,26 @@ import {
   SettingOutlined,
   StarOutlined,
 } from '@ant-design/icons';
+import { useAppSelector } from 'app/hooks';
+// import { lazy } from 'react';
 import ChangePassword from './Components/ChangePassword';
 import Dashboard from './Components/Dashboard';
 import Bookmarks from './Components/Bookmarks';
 import JobsManage from './Components/JobsManage';
 import PostJob from './Components/PostJob';
 import Message from './Components/Message';
-import { useAppSelector } from 'app/hooks';
 import MyJobs from './Components/MyJobs';
-import './index.scss';
 import Reviews from './Components/Reviews';
+import './index.scss';
 
+// const ChangePassword = lazy(() => import('./Components/ChangePassword'));
+// const Dashboard = lazy(() => import('./Components/Dashboard'));
+// const Bookmarks = lazy(() => import('./Components/Bookmarks'));
+// const JobsManage = lazy(() => import('./Components/JobsManage'));
+// const PostJob = lazy(() => import('./Components/PostJob'));
+// const Message = lazy(() => import('./Components/Message'));
+// const MyJobs = lazy(() => import('./Components/MyJobs'));
+// const Reviews = lazy(() => import('./Components/Reviews'));
 function DashboardUser() {
   const userRole = useAppSelector((state) => state.auth.user.role);
 
@@ -41,7 +50,7 @@ function DashboardUser() {
   const menuManage = [
     { key: 8, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
     // { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
-    { key: 10, icon: '', link: 'post-jobs', name: 'Post A Job' },
+    { key: 10, icon: '', link: '/dashboard/post-jobs', name: 'Post A Job' },
   ];
   const history = useHistory();
   useEffect(() => {

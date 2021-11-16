@@ -1,7 +1,9 @@
-import { useState } from 'react';
-import React from 'react';
+import { useEffect, useState } from 'react';
 import './index.scss';
 import CompanyItem from './Components/CompanyItem';
+import { useAppDispatch } from 'app/hooks';
+import { handleGetCompanies } from 'app/slices/companySlice';
+import { useHistory, useLocation } from 'react-router';
 const alphabet = [
   'A',
   'B',
@@ -32,26 +34,43 @@ const alphabet = [
 ];
 
 export default function BrowseCompanies() {
-  const [filter, setFilter] = useState(1);
+  const [filter, setFilter] = useState('A');
+  const [listCompanies, setListCompanies] = useState([]);
+  const history = useHistory();
+  const location = useLocation();
+  const goToDetail = (id: any) => {
+    history.push(`${location.pathname}/${id}`);
+  };
+  const dispatch = useAppDispatch();
+  const getListCompanies = async () => {
+    let finalFilter = { character: filter.toLowerCase(), page: 1 };
+    const { payload } = await dispatch(handleGetCompanies(finalFilter));
+    if (payload) {
+      setListCompanies(payload);
+    }
+  };
+  useEffect(() => {
+    getListCompanies();
+  }, [filter]);
   return (
-    <div className="companies container">
-      <div className="companies__header mb-10">
+    <div className="container companies">
+      <div className="mb-10 companies__header">
         <div className="my-10 text-3xl">
           <h2 className="font-normal">Browse Companies</h2>
         </div>
         <div className="companies__filters">
-          <ul className="flex w-full justify-center gap-1 bg-gray-200 py-3 rounded-md flex-wrap">
+          <ul className="flex flex-wrap justify-center w-full gap-1 py-3 bg-gray-200 rounded-md">
             {alphabet.map((value, key) => (
               <li
                 key={key}
-                className="transition-all text-gray-600 hover:bg-gray-900 hover:text-white rounded-md cursor-pointer"
+                className="text-gray-600 transition-all rounded-md cursor-pointer hover:bg-gray-900 hover:text-white"
               >
                 <div
                   className={`w-12 h-12 text-xl flex transition-all rounded-md  ${
-                    key === filter ? 'bg-blue-600 text-white' : ''
+                    value === filter ? 'bg-blue-600 text-white' : ''
                   }`}
                   onClick={() => {
-                    setFilter(key);
+                    setFilter(value);
                   }}
                 >
                   <span className="m-auto">{value}</span>
@@ -61,14 +80,15 @@ export default function BrowseCompanies() {
           </ul>
         </div>
       </div>
-      <div className="companies__list container">
-        <ul className="grid flex-grow grid-cols-1 gap-7 transition-all content__list-items lg:grid-cols-2 xl:grid-cols-3">
-          {[1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1].map((i, key) => (
-            <li key={key} className="transition-all">
+      <div className="container companies__list">
+        <ul className="grid flex-grow grid-cols-1 transition-all gap-7 content__list-items lg:grid-cols-2 xl:grid-cols-3">
+          {listCompanies.map((item: any) => (
+            <li className="transition-all cursor-pointer" onClick={() => goToDetail(item.id)}>
               <CompanyItem
-                ratingPoint={3.5}
+                key={item.id}
+                ratingPoint={item.stars}
                 companyLogo={'https://www.vasterad.com/themes/hireo/images/browse-companies-02.png'}
-                companyName={'Acue'}
+                companyName={item.name}
               />
             </li>
           ))}

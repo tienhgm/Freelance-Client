@@ -1,14 +1,13 @@
 import './App.less';
-import { useMemo } from 'react';
-import { Route, Switch, useLocation } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import Header from 'components/Header';
 import NotFound from 'components/NotFound';
 import GuardedRoute from 'components/GuardedRoute';
 import routesConfiguration from 'routers/routesConfig';
-import Footer from 'components/Footer';
 import BackToTop from 'components/BackTop';
 import Loading from 'components/Loading';
 import { useAppSelector } from 'app/hooks';
+import { Suspense } from 'react';
 function App() {
   // const location = useLocation();
   // const { pathname } = location;
@@ -32,28 +31,30 @@ function App() {
   const isLoading = useAppSelector((state) => state.app.isLoading);
   return (
     <div className="App">
-      {isLoading ? (
-        <Loading />
-      ) : (
-        <>
-          <Header />
-          <Switch>
-            {Object.entries(routesConfiguration).map(([key, route]) => (
-              <GuardedRoute
-                key={key}
-                path={route.path}
-                component={route.component}
-                guarded={route.guarded}
-                exact={route.exact}
-                role={route.role}
-              />
-            ))}
-            <Route component={NotFound} />
-          </Switch>
-         
-          <BackToTop />
-        </>
-      )}
+      <Suspense fallback={null}>
+        {isLoading ? (
+          <Loading />
+        ) : (
+          <>
+            <Header />
+            <Switch>
+              {Object.entries(routesConfiguration).map(([key, route]) => (
+                <GuardedRoute
+                  key={key}
+                  path={route.path}
+                  component={route.component}
+                  guarded={route.guarded}
+                  exact={route.exact}
+                  role={route.role}
+                />
+              ))}
+              <Route component={NotFound} />
+            </Switch>
+
+            <BackToTop />
+          </>
+        )}
+      </Suspense>
     </div>
   );
 }
