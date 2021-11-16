@@ -69,6 +69,9 @@ const authSlice = createSlice({
       state.refreshToken = '';
       state.user = {}
     },
+    changeAvatar(state, payload){
+      state.user.avatar = payload
+    }
   },
   extraReducers: {
     // @ts-ignore
@@ -85,5 +88,5 @@ const authSlice = createSlice({
     },
   }
 });
-export const { logout } = authSlice.actions;
+export const { logout, changeAvatar } = authSlice.actions;
 export default authSlice.reducer;

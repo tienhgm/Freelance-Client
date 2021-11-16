@@ -84,7 +84,7 @@ export default function Header() {
         {user?.lastName ? (
           <Dropdown overlay={menu} trigger={['click']}>
             {userAvt ? (
-              <img src={`http://${userAvt}`} alt="avatar" style={{ width: '100%' }} />
+              <img src={`http://${userAvt}`} alt="avatar" width="35" height="35" style={{ borderRadius: '50%', cursor: 'pointer' }}  />
             ) : (
               <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />} />
             )}

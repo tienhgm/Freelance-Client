@@ -1,14 +1,60 @@
 import { useAppDispatch } from 'app/hooks';
 import { handleGetDetailCompany } from 'app/slices/companySlice';
 import JobItem from 'components/JobItem';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useRouteMatch } from 'react-router';
 // import React from 'react';
 import JobItemProps from 'types/jobItemProps';
-// import { Button } from 'antd';
+import { Rate } from 'antd';
 import './index.scss';
 import ReviewItem from './ReviewItem';
+import { FileProtectOutlined, PhoneOutlined } from '@ant-design/icons';
 const jobList: Array<JobItemProps> = [
+  {
+    company: 'Hexagon',
+    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
+    jobTitle: 'Bilingual Event Support Specialist',
+    location: 'San Francisco',
+    jobType: 'Full Time',
+    salary: '$35.000 - $38.000',
+    postTime: '2 days ago',
+  },
+  {
+    company: 'Hexagon',
+    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
+    jobTitle: 'Bilingual Event Support Specialist',
+    location: 'San Francisco',
+    jobType: 'Full Time',
+    salary: '$35.000 - $38.000',
+    postTime: '2 days ago',
+  },
+  {
+    company: 'Hexagon',
+    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
+    jobTitle: 'Bilingual Event Support Specialist',
+    location: 'San Francisco',
+    jobType: 'Full Time',
+    salary: '$35.000 - $38.000',
+    postTime: '2 days ago',
+  },
+  {
+    company: 'Hexagon',
+    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
+    jobTitle: 'Bilingual Event Support Specialist',
+    location: 'San Francisco',
+    jobType: 'Full Time',
+    salary: '$35.000 - $38.000',
+    postTime: '2 days ago',
+  },
+  {
+    company: 'Hexagon',
+    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
+    jobTitle: 'Bilingual Event Support Specialist',
+    location: 'San Francisco',
+    jobType: 'Full Time',
+    salary: '$35.000 - $38.000',
+    postTime: '2 days ago',
+  },
   {
     company: 'Hexagon',
     companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
@@ -29,13 +75,27 @@ const jobList: Array<JobItemProps> = [
   },
 ];
 export default function CompanyDetails() {
+  const [companyName, setCompanyName] = useState<any>('');
+  const [isVerified, setIsVerified] = useState(false);
+  const [country, setCountry] = useState<any>('');
+  const [rate, setRate] = useState<any>();
+  const [info, setInfo] = useState<any>();
   const route = useRouteMatch();
   const dispatch = useAppDispatch();
   // @ts-ignore
-  const companyId = route.params.id;
+  let companyId = route.params.id;
   const getDetail = async () => {
-    dispatch(handleGetDetailCompany(companyId));
+    const { payload } = await dispatch(handleGetDetailCompany(companyId));
+    console.log(payload);
+    if (!!payload) {
+      setCompanyName(payload.name);
+      setIsVerified(payload.isVerified);
+      setCountry(payload.country);
+      setRate(payload.stars);
+      setInfo(payload.information);
+    }
   };
+
   useEffect(() => {
     getDetail();
   }, [companyId]);
@@ -49,82 +109,57 @@ export default function CompanyDetails() {
               <img src="https://www.vasterad.com/themes/hireo/images/company-logo-03a.png" alt="king" />
             </div>
             <div className="general-info">
-              <h2 className="text-2xl info__job-title">Acodia</h2>
-              <p className="text-base font-semibold info__employer">Software House</p>
-              <div className="flex items-center text-base info__company gap-9">
-                <div className="company__name">
-                  <i className="mr-1 bx bxs-buildings"></i>
-                  <span>King</span>
-                </div>
-                <div className="flex items-center gap-1 company__rate">
-                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">4.9</div>
-                  <div className="flex gap-1 text-yellow-400 rate__stars">
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
+              <h2 className="text-2xl info__job-title">{companyName}</h2>
+              <div className="flex gap-4 font-medium">
+                {info && (
+                  <div className="flex items-center">
+                    <PhoneOutlined className="mr-2" /> Phone number: {info.phoneNumber}
                   </div>
-                </div>
+                )}
+                {info && (
+                  <div className="flex items-center">
+                    <FileProtectOutlined className="mr-2" /> Tax number: {info.paxNumber}
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center mt-2 text-base info__company gap-9">
+                {rate && (
+                  <div className="flex items-center gap-1 company__rate">
+                    <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">{rate}</div>
+                    <Rate disabled allowHalf defaultValue={rate} />
+                  </div>
+                )}
                 <div className="flex items-center gap-1 company__loca">
                   <div className="loca__flag">
-                    <img
-                      src="https://www.vasterad.com/themes/hireo/images/flags/gb.svg"
-                      alt="United Kingdom"
-                      width="25"
-                    />
+                    <div>{country && country.emoji}</div>
                   </div>
-                  <div className="loca__text">United Kingdom</div>
+                  <div className="loca__text">{country && country.name}</div>
                 </div>
-                <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
-                  <div className="px-1 bg-green-400 status__icon rounded-l-md">
-                    <i className="bx bx-check"></i>
+                {isVerified && (
+                  <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
+                    <div className="px-1 bg-green-400 status__icon rounded-l-md">
+                      <i className="bx bx-check"></i>
+                    </div>
+                    <span className="px-3 text-sm">Verified</span>
                   </div>
-                  <span className="px-3 text-sm">Verified</span>
-                </div>
+                )}
               </div>
             </div>
           </div>
         </div>
       </div>
       <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
-        <div className="w-full lg:pr-10 content__main lg:w-2/3">
-          <div className="job-description">
+        <div className="w-full px-4 lg:pr-10 content__main lg:w-2/3">
+          <div className="job-description" style={{minHeight: '400px'}}>
             <h2 className="mt-2 mb-10 text-xl">About Company</h2>
-            <div className="mb-10 text-base text-justify job-description__content">
-              <p>
-                Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to
-                corporate strategy foster collaborative thinking to further the overall value proposition. Organically
-                grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
-              </p>
-              <p>
-                Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day,
-                going forward, a new normal that has evolved from generation X is on the runway heading towards a
-                streamlined cloud solution. User generated content in real-time will have multiple touchpoints for
-                offshoring.
-              </p>
-              <p>
-                Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the
-                digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information
-                highway will close the loop on focusing solely on the bottom line.
-              </p>
-            </div>
-          </div>
-          <div className="mb-10 location">
-            <h2 className="mt-2 mb-10 text-xl">Location</h2>
-            <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.131535965436!2d105.83325081538527!3d21.02742229319891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9926e7bd67%3A0x580e078874d5df1e!2sTemple%20Of%20Literature!5e0!3m2!1sen!2s!4v1635015151319!5m2!1sen!2s"
-              height="300"
-              frameBorder="0"
-              title="border:0;"
-              allowFullScreen={true}
-              aria-hidden="false"
-              tabIndex={0}
-              className="w-full"
-            />
+            {info && (
+              <div className="mb-10 text-base text-justify job-description__content">
+                <div dangerouslySetInnerHTML={{ __html: info.description }}></div>
+              </div>
+            )}
           </div>
           <div className="mb-10 similar-jobs">
-            <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Open Positions</h2>
+            <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Other company</h2>
             {jobList.map((job, index) => (
               <div className="inline-block w-full p-3 md:w-1/2">
                 <JobItem {...job} key={index} />

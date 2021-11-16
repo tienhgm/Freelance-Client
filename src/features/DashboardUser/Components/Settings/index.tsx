@@ -13,6 +13,7 @@ import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
 import './index.scss';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
+import { changeAvatar } from 'app/slices/authSlice';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -46,9 +47,8 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetLanguages());
     setListLanguages(payload);
   };
-  const userId = useAppSelector(state => state.auth.user.id);
+  const userId = useAppSelector((state) => state.auth.user.id);
   const getProfile = async () => {
-
     const { payload } = await dispatch(handleGetProfile(userId));
 
     if (payload) {
@@ -88,7 +88,7 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
-    values.minimalHourlyRate = 100
+    values.minimalHourlyRate = 100;
     values.introduce = introduce;
     values.educations = educations;
     !!!values.dateOfBirth
@@ -115,6 +115,7 @@ export default function Settings() {
   };
   const dateFormat = 'YYYY/MM/DD';
   const handleUpdateImg = (img: any) => {
+    dispatch(changeAvatar(img))
     setPreviewImg(img);
   };
 
@@ -250,7 +251,7 @@ export default function Settings() {
                 </Select>
               </Form.Item>
             </div>
-            <div className="col-span-5 lg:ml-6" >
+            <div className="col-span-5 lg:ml-6">
               <div className="mb-2 text-xl font-bold ">
                 Languages <span className="required-field">*</span>
               </div>
