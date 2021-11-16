@@ -1,0 +1,18 @@
+.company {
+  .header__background {
+    height: 100%;
+    background: linear-gradient(
+        90deg,
+        rgba(243, 244, 246, 1) 20%,
+        rgba(243, 244, 246, 0.8) 40%,
+        rgba(255, 255, 255, 0.5) 100%,
+        rgba(243, 244, 246, 1) 100%
+      ),
+      url(../../../../assets/images/single-company.jpg) no-repeat !important;
+    background-size: cover;
+    background-position: left;
+  }
+  .reviews-list {
+    max-height: 100vh;
+  }
+}

@@ -17,8 +17,8 @@ class ApiUser extends ApiCore {
   changePassword = (password: any) => {
     return this.put(null, password, "user/change-password")
   }
-  getProfile() {
-    return this.get(null, "user/cv")
+  getProfile(id: any) {
+    return this.getCustom(`users/${id}/cv`, null)
   }
   updateProfile(data: any) {
     return this.put(null, data, "user/cv")
@@ -28,6 +28,9 @@ class ApiUser extends ApiCore {
   // }
   getReviewsById(id: any, filters: any) {
     return this.getCustom(`users/${id}/reviews`, filters)
+  }
+  getReviewsByUser(id: any, filters: any){
+    return this.getCustom(`users/${id}/reviewsByUser`, filters)
   }
 }
 

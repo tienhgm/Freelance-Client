@@ -1,9 +1,9 @@
 import { useEffect, useState } from 'react';
 import { PlusOutlined, ShoppingOutlined, UserOutlined } from '@ant-design/icons';
-import { Input, Button, Slider, Select, Form, DatePicker } from 'antd';
+import { Input, Button, Select, Form, DatePicker } from 'antd';
 import UploadAvatar from 'components/Dashboard/UploadAvatar';
 import UploadFile from 'components/Dashboard/UploadFileCv';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
@@ -13,6 +13,7 @@ import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
 import './index.scss';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
+import { changeAvatar } from 'app/slices/authSlice';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
@@ -21,7 +22,6 @@ const { TextArea } = Input;
 export default function Settings() {
   const [form] = Form.useForm();
   const dispatch = useAppDispatch();
-  const [minimalHourlyRate, setMinimalHourlyRate] = useState(0);
   const [educations, setEducations] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
@@ -33,9 +33,6 @@ export default function Settings() {
   };
   const watchIntroduce = (value: any) => {
     setIntroduce(value);
-  };
-  const handleSetPayHourly = (value: number) => {
-    setMinimalHourlyRate(value);
   };
 
   const getSkill = async () => {
@@ -50,36 +47,38 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetLanguages());
     setListLanguages(payload);
   };
+  const userId = useAppSelector((state) => state.auth.user.id);
   const getProfile = async () => {
-    const { payload } = await dispatch(handleGetProfile());
-    let experiencesPayload = payload.experiences;
-    if (!!experiencesPayload) {
-      experiencesPayload = experiencesPayload.map((item: any) => {
-        return {
-          ...item,
-          rangePicker: [moment(item.startDate), moment(item.endDate)],
-        };
+    const { payload } = await dispatch(handleGetProfile(userId));
+
+    if (payload) {
+      let experiencesPayload = payload.experiences;
+      if (!!experiencesPayload) {
+        experiencesPayload = experiencesPayload.map((item: any) => {
+          return {
+            ...item,
+            rangePicker: [moment(item.startDate), moment(item.endDate)],
+          };
+        });
+      }
+      form.setFieldsValue({
+        email: payload.email,
+        firstName: payload.firstName,
+        lastName: payload.lastName,
+        phoneNumber: payload.phoneNumber,
+        gender: payload.gender,
+        hobbies: payload.hobbies,
+        address: payload.address,
+        dateOfBirth: moment(payload.dateOfBirth),
+        skills: payload.skills,
+        nationality: payload.nationality,
+        experiences: experiencesPayload,
+        languages: payload.languages,
       });
+      setIntroduce(payload.introduce);
+      setEducations(payload.educations);
+      setPreviewImg(payload.avatar);
     }
-    form.setFieldsValue({
-      email: payload.email,
-      firstName: payload.firstName,
-      lastName: payload.lastName,
-      minimalHourlyRate: payload.minimalHourlyRate,
-      phoneNumber: payload.phoneNumber,
-      gender: payload.gender,
-      hobbies: payload.hobbies,
-      address: payload.address,
-      dateOfBirth: moment(payload.dateOfBirth),
-      skills: payload.skills,
-      nationality: payload.nationality,
-      experiences: experiencesPayload,
-      languages: payload.languages,
-    });
-    setIntroduce(payload.introduce);
-    setEducations(payload.educations);
-    setMinimalHourlyRate(payload.minimalHourlyRate);
-    setPreviewImg(payload.avatar);
   };
   useEffect(() => {
     getProfile();
@@ -89,6 +88,7 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
+    values.minimalHourlyRate = 100;
     values.introduce = introduce;
     values.educations = educations;
     !!!values.dateOfBirth
@@ -115,6 +115,7 @@ export default function Settings() {
   };
   const dateFormat = 'YYYY/MM/DD';
   const handleUpdateImg = (img: any) => {
+    dispatch(changeAvatar(img))
     setPreviewImg(img);
   };
 
@@ -195,14 +196,6 @@ export default function Settings() {
                 </div>
               </div>
               <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-                {/* <div className="col-span-6">
-                  <div className="mb-1 text-xl font-bold">
-                    Hobbies <span className="required-field">*</span>
-                  </div>
-                  <Form.Item name="hobbies" rules={[{ required: true, message: 'Please input hobbies' }]}>
-                    <Input placeholder="Hobbies" />
-                  </Form.Item>
-                </div> */}
                 <div className="col-span-6 ">
                   <div className="mb-1 text-xl font-bold">
                     Date of birth <span className="required-field">*</span>
@@ -238,17 +231,8 @@ export default function Settings() {
             </div>
           </div>
           <div className="grid my-4 lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1 profile__experience">
-            <div className="col-span-4">
-              <div className="mb-1 text-xl font-bold">
-                Set your minimal hourly rate <span className="required-field">*</span>
-              </div>
-              <div className="text-lg font-medium">${minimalHourlyRate}</div>
-              <Form.Item name="minimalHourlyRate" rules={[{ required: true, message: 'Please input more than 0' }]}>
-                <Slider max={150} onChange={handleSetPayHourly} />
-              </Form.Item>
-            </div>
-            <div className="col-span-7 lg:ml-10">
-              <div className="mb-3 text-xl font-bold">
+            <div className="col-span-6 ">
+              <div className="mb-2 text-xl font-bold">
                 Skills <span className="required-field">*</span>
               </div>
               <Form.Item name="skills" rules={[{ required: true, message: 'Please select skills' }]}>
@@ -267,7 +251,7 @@ export default function Settings() {
                 </Select>
               </Form.Item>
             </div>
-            <div className="col-span-4">
+            <div className="col-span-5 lg:ml-6">
               <div className="mb-2 text-xl font-bold ">
                 Languages <span className="required-field">*</span>
               </div>
@@ -398,6 +382,7 @@ export default function Settings() {
                           height="24"
                           onClick={() => remove(name)}
                           style={{ cursor: 'pointer' }}
+                          alt="minus"
                         />
                         {/* <MinusCircleOutlined onClick={() => remove(name)} /> */}
                       </div>

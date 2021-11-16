@@ -28,7 +28,7 @@ const jobList: Array<JobItemProps> = [
 export default function JobDetails() {
   return (
     <div className="job-details-page">
-      <div className="relative px-2 bg-gray-100 header-wrapper">
+      <div className="relative px-2 bg-gray-100 header-wrapper mb-10">
         <div className="absolute right-0 w-1/2 header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
@@ -89,7 +89,7 @@ export default function JobDetails() {
         </div>
       </div>
       <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
-        <div className="w-full pr-10 content__main lg:w-2/3">
+        <div className="w-full lg:pr-10 content__main lg:w-2/3">
           <div className="job-description">
             <h2 className="mt-2 mb-10 text-xl">Job Description</h2>
             <div className="mb-10 text-base text-justify job-description__content">
@@ -131,9 +131,9 @@ export default function JobDetails() {
             />
           </div>
           <div className="mb-10 similar-jobs">
-            <h2 className="mt-2 mb-10 text-xl">Similar Jobs</h2>
+            <h2 className="mt-2 mb-10 text-xl flex flex-wrap">Similar Jobs</h2>
             {jobList.map((job, index) => (
-              <div className="inline-block w-1/2 p-3">
+              <div className="inline-block w-full p-3 md:w-1/2">
                 <JobItem {...job} key={index} />
               </div>
             ))}
@@ -144,8 +144,8 @@ export default function JobDetails() {
             Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
           </Button>
           <div className="w-full mb-12 text-base job-summary">
-            <h2 className="px-6 py-5 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
-            <div className="flex items-center px-6 py-5 bg-gray-200 location">
+            <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
+            <div className="flex items-center px-6 py-3 bg-gray-200 location">
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-location-plus" />
               </div>
@@ -155,7 +155,7 @@ export default function JobDetails() {
                 <span>London, United Kingdom</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-5 bg-gray-200 job-type">
+            <div className="flex items-center px-6 py-3 bg-gray-200 job-type">
               <div className="mr-5 icon">
                 <i className="text-2xl bx bxs-shopping-bags"></i>
               </div>
@@ -165,7 +165,7 @@ export default function JobDetails() {
                 <span>Full Time</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-5 bg-gray-200 salary">
+            <div className="flex items-center px-6 py-3 bg-gray-200 salary">
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-dollar-circle"></i>
               </div>
@@ -175,7 +175,7 @@ export default function JobDetails() {
                 <span>$35k - $38k</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-5 bg-gray-200 date-posted">
+            <div className="flex items-center px-6 py-3 bg-gray-200 date-posted">
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-time-five"></i>
               </div>

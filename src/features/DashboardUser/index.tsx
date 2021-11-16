@@ -1,7 +1,8 @@
-import { Switch, Link, Route, useRouteMatch } from 'react-router-dom';
+import { Switch, Link, Route, useRouteMatch, useHistory } from 'react-router-dom';
 import './index.scss';
 import { Menu } from 'antd';
 import Settings from './Components/Settings';
+import { useEffect } from 'react';
 import {
   ApartmentOutlined,
   AppstoreOutlined,
@@ -12,18 +13,26 @@ import {
   SettingOutlined,
   StarOutlined,
 } from '@ant-design/icons';
+import { useAppSelector } from 'app/hooks';
+// import { lazy } from 'react';
 import ChangePassword from './Components/ChangePassword';
 import Dashboard from './Components/Dashboard';
 import Bookmarks from './Components/Bookmarks';
-import Jobs from './Components/JobsManage';
-import Candidates from './Components/CandidateManage';
+import JobsManage from './Components/JobsManage';
 import PostJob from './Components/PostJob';
 import Message from './Components/Message';
-import { useAppSelector } from 'app/hooks';
 import MyJobs from './Components/MyJobs';
-import './index.scss';
 import Reviews from './Components/Reviews';
+import './index.scss';
 
+// const ChangePassword = lazy(() => import('./Components/ChangePassword'));
+// const Dashboard = lazy(() => import('./Components/Dashboard'));
+// const Bookmarks = lazy(() => import('./Components/Bookmarks'));
+// const JobsManage = lazy(() => import('./Components/JobsManage'));
+// const PostJob = lazy(() => import('./Components/PostJob'));
+// const Message = lazy(() => import('./Components/Message'));
+// const MyJobs = lazy(() => import('./Components/MyJobs'));
+// const Reviews = lazy(() => import('./Components/Reviews'));
 function DashboardUser() {
   const userRole = useAppSelector((state) => state.auth.user.role);
 
@@ -40,9 +49,14 @@ function DashboardUser() {
   ];
   const menuManage = [
     { key: 8, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
-    { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
-    { key: 10, icon: '', link: 'post-jobs', name: 'Post A Job' },
+    // { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
+    { key: 10, icon: '', link: '/dashboard/post-jobs', name: 'Post A Job' },
   ];
+  const history = useHistory();
+  useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.add('active');
+  }, [history.location.pathname]);
+
   return (
     <div className="flex h-full overflow-y-hidden">
       <Menu
@@ -77,9 +91,8 @@ function DashboardUser() {
           <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact />
           <Route path={`${match.url}/reviews`} component={Reviews} exact />
-          <Route path={`${match.url}/jobs-manage`} component={Jobs} exact />
+          <Route path={`${match.url}/jobs-manage`} component={JobsManage} />
           <Route path={`${match.url}/post-jobs`} component={PostJob} exact />
-          <Route path={`${match.url}/candidate-manage`} component={Candidates} exact />
           <Route path={`${match.url}/password`} component={ChangePassword} exact />
         </Switch>
       </div>

@@ -11,8 +11,8 @@ import avatarDefault from 'assets/images/user-avatar-placeholder.png';
 import { Tooltip, Rate, Pagination } from 'antd';
 import './index.scss';
 import { useState } from 'react';
-import PopupCfJob from 'components/Popup';
-import PopupCfFreelancer from 'components/Popup';
+import PopupCfJob from 'components/PopupConfirm';
+import PopupCfFreelancer from 'components/PopupConfirm';
 
 export default function Bookmarks() {
   const [curPageJobs, setCurPageJobs] = useState(1);

@@ -16,12 +16,16 @@ export const role = [
     { freelancer: 2 },
     { recruiter: 1 }
 ]
-export const statusEarning = {
+export const statusApply = {
     Waiting: 0,
-    Applied: 1,
-    Pending: 2,
-    Doned: 3,
-    Cancel: 4
+    Approved: 1,
+    Rejected: 2
+}
+export const jobProgress = {
+    InProgress: 0,
+    Pending: 1,
+    Doned: 2,
+    Cancel: 3
 }
 export const gender = [
     { value: 1, name: 'Other' },

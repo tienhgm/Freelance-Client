@@ -18,7 +18,7 @@ const GuardedRoute: FC<Props> = ({
   ...rest
 }) => {
   // Fake Auth
-  const userRole = useAppSelector((state) => state.auth.user.role);
+  const userRole = useAppSelector((state) => state.auth.user?.role);
   
   let isAuthenticated = false;
   if(userRole){

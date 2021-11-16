@@ -2,23 +2,32 @@ import { DeleteOutlined, EditOutlined, FieldTimeOutlined, ProfileOutlined, TeamO
 import { Rate, Pagination, Skeleton } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { handleGetReviews } from 'app/slices/userSlice';
-import Popup from 'components/Popup';
+import Popup from 'components/PopupConfirm';
 import { useEffect, useState } from 'react';
+import PopupReview from './Components';
 import './index.scss';
 export default function Reviews() {
   const [isLoading, setIsLoading] = useState(false);
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
+  const [openDialogReview, setOpenDialogReview] = useState(false);
   const [pageIdxAboutMe, setPageIdxAboutMe] = useState(1);
+  const [reviewAboutMe, setReviewAboutMe] = useState([]);
   const handleDeleteReview = (id: any) => {
     console.log('delete');
   };
+  const handleChangeReview = (values: any) => {
+    console.log('change', values);
+  };
   const userId = useAppSelector((state) => state.auth.user.id);
   const dispatch = useAppDispatch();
-  const getReviews = async () => {
+  const getReviewsToMe = async () => {
     let filters = { page: pageIdxAboutMe };
     try {
       setIsLoading(true);
-      await dispatch(handleGetReviews({ userId, filters }));
+      const { payload } = await dispatch(handleGetReviews({ userId, filters }));
+      if (payload) {
+        setReviewAboutMe(payload);
+      }
     } catch (error) {
     } finally {
       setIsLoading(false);
@@ -28,7 +37,7 @@ export default function Reviews() {
     setPageIdxAboutMe(idx);
   };
   useEffect(() => {
-    getReviews();
+    getReviewsToMe();
   }, [pageIdxAboutMe]);
   return (
     <div className="reviews">
@@ -36,32 +45,34 @@ export default function Reviews() {
       <div className="flex flex-wrap gap-8 mt-8">
         <div className="reviews__left">
           <div className="title">
-            <ProfileOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> Reviews about me
+            <ProfileOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> Reviews by me
           </div>
-          <div className="block">
-            {!isLoading ? (
-              <>
-                <div className="block__label">Work in station live</div>
-                <div className="flex gap-4">
-                  <Rate disabled defaultValue={3.5} allowHalf />
-                  <div className="text-lg block__date">
-                    <FieldTimeOutlined /> <span style={{ color: '#808080' }}>Oct 2021</span>
+          {reviewAboutMe.map((item:any) => (
+            <div className="block" key={item.id}>
+              {!isLoading ? (
+                <>
+                  <div className="block__label">Work in station live</div>
+                  <div className="flex gap-4">
+                    <Rate disabled defaultValue={3.5} allowHalf />
+                    <div className="text-lg block__date">
+                      <FieldTimeOutlined /> <span style={{ color: '#808080' }}>Oct 2021</span>
+                    </div>
                   </div>
-                </div>
-                <div className="mt-2 mb-2 font-medium break-words">1234</div>
-                <div className="flex items-center gap-4 mt-3">
-                  <div className="flex items-center gap-1 btn btn__edit">
-                    <EditOutlined /> Edit review
+                  <div className="mt-2 mb-2 font-medium break-words">1234</div>
+                  <div className="flex items-center gap-4 mt-3">
+                    <div className="flex items-center gap-1 btn btn__edit" onClick={() => setOpenDialogReview(true)}>
+                      <EditOutlined /> Edit review
+                    </div>
+                    <div className="flex items-center gap-1 btn btn__delete" onClick={() => setOpenDialogConfirm(true)}>
+                      <DeleteOutlined /> Delete
+                    </div>
                   </div>
-                  <div className="flex items-center gap-1 btn btn__delete" onClick={() => setOpenDialogConfirm(true)}>
-                    <DeleteOutlined /> Delete
-                  </div>
-                </div>
-              </>
-            ) : (
-              <Skeleton active paragraph={{ rows: 2 }}/>
-            )}
-          </div>
+                </>
+              ) : (
+                <Skeleton active paragraph={{ rows: 2 }} />
+              )}
+            </div>
+          ))}
           <div className="flex justify-end mt-4 mb-4 mr-4">
             <Pagination defaultCurrent={pageIdxAboutMe} total={50} onChange={changePageIdxAboutMe} />
           </div>
@@ -71,6 +82,11 @@ export default function Reviews() {
             popupText="Delete?"
             handleConfirm={handleDeleteReview}
             handleCancelConfirm={() => setOpenDialogConfirm(false)}
+          />
+          <PopupReview
+            isVisible={openDialogReview}
+            handleConfirm={handleChangeReview}
+            handleCancelConfirm={() => setOpenDialogReview(false)}
           />
         </div>
         <div className="reviews__right">

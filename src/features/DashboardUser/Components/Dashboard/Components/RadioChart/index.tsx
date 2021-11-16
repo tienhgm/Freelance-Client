@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { RadialBar } from '@ant-design/charts';
-interface IProps {
-  totalAppliedJobs?: number;
-  totalBookmarkedProjects?: number;
-  totalTotalJobs?: number;
-  totalJobsDone?: number;
-}
+// interface IProps {
+//   totalAppliedJobs?: number;
+//   totalBookmarkedProjects?: number;
+//   totalTotalJobs?: number;
+//   totalJobsDone?: number;
+// }
 const ChartRadialBar: React.FC = () => {
   var data = [
     {

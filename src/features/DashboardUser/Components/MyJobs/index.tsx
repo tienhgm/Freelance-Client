@@ -1,4 +1,4 @@
-import { Select, Input } from 'antd';
+import { Select } from 'antd';
 import TableDetail from './Components/TableDetail';
 
 export default function MyJobs() {
@@ -10,6 +10,7 @@ export default function MyJobs() {
     {
       key: '1',
       job_name: 'Service organization',
+      job_progress: 0,
       company_name: 'Josh Etc',
       status: 1,
       payment: 100,
@@ -17,6 +18,7 @@ export default function MyJobs() {
     {
       key: '2',
       job_name: 'Work numui',
+      job_progress: 1,
       company_name: 'Anemia',
       status: 2,
       payment: 0,
@@ -24,27 +26,31 @@ export default function MyJobs() {
     {
       key: '3',
       job_name: 'Chat application',
+      job_progress: 2,
       company_name: 'SuTek Co',
-      status: 3,
+      status: 1,
       payment: 300,
     },
     {
       key: '4',
       job_name: 'Bot fake auth',
+      job_progress: 3,
       company_name: 'Memi Co',
-      status: 4,
+      status: 0,
       payment: 0,
     },
     {
       key: '5',
       job_name: 'Bot fake auth',
+      job_progress: 0,
       company_name: 'Memi Co',
-      status: 4,
+      status: 0,
       payment: 0,
     },
     {
       key: '6',
       job_name: 'alohehe',
+      job_progress: 0,
       company_name: 'Memi Co',
       status: 0,
       payment: 0,
@@ -52,13 +58,15 @@ export default function MyJobs() {
     {
       key: '7',
       job_name: 'Bot fake auth',
+      job_progress: 1,
       company_name: 'Memi Co',
-      status: 0,
+      status: 1,
       payment: 0,
     },
     {
       key: '8',
       job_name: 'Bot fake auth',
+      job_progress: 3,
       company_name: 'Memi Co',
       status: 1,
       payment: 0,
@@ -66,6 +74,7 @@ export default function MyJobs() {
     {
       key: '9',
       job_name: 'DortBimb auth',
+      job_progress: 2,
       company_name: 'Memi Co',
       status: 2,
       payment: 0,
@@ -73,15 +82,17 @@ export default function MyJobs() {
     {
       key: '10',
       job_name: 'Robot bevb',
+      job_progress: 0,
       company_name: 'Memi Co',
-      status: 3,
+      status: 2,
       payment: 0,
     },
     {
       key: '11',
       job_name: 'Maemmit auth',
+      job_progress: 0,
       company_name: 'Memi Co',
-      status: 4,
+      status: 0,
       payment: 0,
     },
   ];

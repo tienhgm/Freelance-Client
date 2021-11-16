@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import SideBar from './Components/SideBar';
 import { UserOutlined } from '@ant-design/icons';
 import { logout } from 'app/slices/authSlice';
-import Popup from 'components/Popup';
+import Popup from 'components/PopupConfirm';
 export default function Header() {
   const [showDialog, setShowDialog] = React.useState(false);
   const [isLogin, setIsLogin] = useState(true);
@@ -30,7 +30,7 @@ export default function Header() {
   const handleOpenDialogConfirm = () => {
     setOpenDialogConfirm(true);
   };
-
+  const userAvt = useAppSelector((state) => state.auth.user.avatar);
   const menu = (
     <Menu>
       <Menu.Item key="1">
@@ -64,7 +64,7 @@ export default function Header() {
       <div className="flex">
         <div className="header__title">
           <Link to="/">
-            Free<span>lance</span>
+            Hi<span>reo</span>
           </Link>
         </div>
         <ul className="menu">
@@ -83,7 +83,11 @@ export default function Header() {
       <div className="flex items-center gap-4">
         {user?.lastName ? (
           <Dropdown overlay={menu} trigger={['click']}>
-            <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />}></Avatar>
+            {userAvt ? (
+              <img src={`http://${userAvt}`} alt="avatar" width="35" height="35" style={{ borderRadius: '50%', cursor: 'pointer' }}  />
+            ) : (
+              <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />} />
+            )}
           </Dropdown>
         ) : (
           <div className="btn-register" onClick={openRegisterForm}>

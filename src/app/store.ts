@@ -10,11 +10,13 @@ import storage from "redux-persist/lib/storage";
 import authReducer from "./slices/authSlice";
 import appReducer from "./slices/appSlice";
 import userReducer from "./slices/userSlice";
+import companyReducer from "./slices/companySlice";
 
 const reducers = combineReducers({
   auth: authReducer,
   app: appReducer,
   user: userReducer,
+  company: companyReducer
 });
 const persistConfig = {
   key: "root",

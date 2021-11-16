@@ -26,7 +26,7 @@ export default function PostJob() {
   };
   return (
     <div className="h-full job-block">
-      <h1 className="text-2xl">Manage Candidates</h1>
+      <h1 className="text-2xl"> ... {'>'} Edit jobs </h1>
       <div className="postJobs">
         <div className="postJobs__title">
           <div className="flex items-center mb-4 ">

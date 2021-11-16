@@ -1,5 +1,4 @@
 import { Form, Select, Input, Button } from 'antd';
-import { useEffect } from 'react';
 import CountUp from 'react-countup';
 import './index.scss';
 function Banner() {
