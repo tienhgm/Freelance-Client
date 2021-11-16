@@ -3,6 +3,8 @@ import AboutUs from "features/AboutUs";
 import DashboardUser from "features/DashboardUser";
 import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
 import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
+import CompanyDetails from "features/Jobs/pages/CompanyDetails";
+import BrowseCompanies from "features/Jobs/pages/CompanyList";
 import FindJobs from "features/Jobs/pages/FindJobs";
 import JobDetails from "features/Jobs/pages/JobDetails";
 import LandingPage from "features/LandingPage";
