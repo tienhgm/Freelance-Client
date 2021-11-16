@@ -25,6 +25,16 @@ function App() {
       "/dashboard/candidate-manage",
       "/dashboard/my-jobs",
       "/dashboard/reviews",
+      "/login",
+      "/register",
+    ];
+    const currentRouter = pathname;
+    return routerExcept.indexOf(currentRouter) !== -1;
+  }, [pathname]);
+  const hiddenHeader = useMemo(() => {
+    const routerExcept = [
+      "/login",
+      "/register",
     ];
     const currentRouter = pathname;
     return routerExcept.indexOf(currentRouter) !== -1;
@@ -36,7 +46,7 @@ function App() {
         <Loading />
       ) : (
         <>
-          <Header />
+          {!hiddenHeader && <Header />}
           <Switch>
             {Object.entries(routesConfiguration).map(([key, route]) => (
               <GuardedRoute

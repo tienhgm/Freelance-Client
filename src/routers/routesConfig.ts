@@ -6,6 +6,8 @@ import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
 import FindJobs from "features/Jobs/pages/FindJobs";
 import JobDetails from "features/Jobs/pages/JobDetails";
 import LandingPage from "features/LandingPage";
+import Login from "features/LoginRegister/pages/Login";
+import Register from "features/LoginRegister/pages/Register";
 const routesConfiguration = {
   home: {
     name: "Home",
@@ -82,6 +84,28 @@ const routesConfiguration = {
     breadcrumbs: [],
     navbar: true,
     component: AboutUs,
+    routers: [],
+    guarded: false,
+    role: null
+  },
+  login: {
+    name: "Login",
+    path: "/login",
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: Login,
+    routers: [],
+    guarded: false,
+    role: null
+  },
+  register: {
+    name: "Register",
+    path: "/register",
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: Register,
     routers: [],
     guarded: false,
     role: null
