@@ -1,12 +1,14 @@
-import AboutUs from 'features/AboutUs';
-import DashboardUser from 'features/DashboardUser';
-import FindFreelancer from 'features/Freelancers/pages/FindFreelancer';
-import FreelancerProfile from 'features/Freelancers/pages/FreelancerProfile';
-import CompanyDetails from 'features/Jobs/pages/CompanyDetails';
-import BrowseCompanies from 'features/Jobs/pages/CompanyList';
-import FindJobs from 'features/Jobs/pages/FindJobs';
-import JobDetails from 'features/Jobs/pages/JobDetails';
-import LandingPage from 'features/LandingPage';
+import NotFound from "components/NotFound";
+import AboutUs from "features/AboutUs";
+import DashboardUser from "features/DashboardUser";
+import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
+import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
+import FindJobs from "features/Jobs/pages/FindJobs";
+import JobDetails from "features/Jobs/pages/JobDetails";
+import LandingPage from "features/LandingPage";
+import Login from "features/LoginRegister/pages/Login";
+import Register from "features/LoginRegister/pages/Register";
+
 const routesConfiguration = {
   home: {
     name: 'Home',
@@ -109,6 +111,28 @@ const routesConfiguration = {
     routers: [],
     guarded: false,
     role: null,
+  },
+  login: {
+    name: "Login",
+    path: "/login",
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: Login,
+    routers: [],
+    guarded: false,
+    role: null
+  },
+  register: {
+    name: "Register",
+    path: "/register",
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: Register,
+    routers: [],
+    guarded: false,
+    role: null
   },
 };
 
