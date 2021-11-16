@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import './index.scss';
-import { EnvironmentOutlined } from '@ant-design/icons';
-import { Rate, Slider, Tag, Button, Input, Checkbox } from 'antd';
+import { EnvironmentOutlined, UndoOutlined } from '@ant-design/icons';
+import { Rate, Slider, Tag, Button, Input, Checkbox, Tooltip } from 'antd';
 
 const { CheckableTag } = Tag;
 const tagsData: string[] = ['front-end dev', 'angular', 'react', 'vue js', 'web apps', 'design', 'wordpress'];
@@ -19,10 +19,17 @@ function Sidebar() {
   const onChangeCheckbox = (list: any) => {
     setCheckedList(list);
   };
-  const plainOptions = ['Apple', 'Pear', 'Orange'];
   return (
-    <div className="sidebar ">
-      <div className="mb-8">
+    <div className="sidebar">
+      <div className="flex justify-between pb-2" style={{ borderBottom: '1px solid #e4e4e4' }}>
+        <div className="text-xl font-medium" style={{color: '#2a41e8'}}>Filters</div>
+        <div className="text-xl font-medium">
+          <Tooltip placement="bottom" title={'Reset'}>
+            <Button icon={<UndoOutlined style={{color: '#2a41e8'}} />} />
+          </Tooltip>
+        </div>
+      </div>
+      <div className="mt-3 mb-8">
         <div className="text-lg font-medium">Name</div>
         <div>
           <Input size="large" placeholder="Name" />
@@ -82,7 +89,7 @@ function Sidebar() {
           <br />
         </CheckboxGroup>
       </div>
-      <div>
+      <div className="pt-2 pb-10">
         <Button className="w-full" type="primary" size="large">
           Search
         </Button>
