@@ -2,87 +2,88 @@ $color_dark: #333;
 $color_black: #000;
 $color_blue: #002fff;
 
-form {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  align-items: center;
-  background-color: white;
-  border-radius: 0 4px 4px 0;
-  position: relative;
-}
-
-.form-title {
-  text-align: center;
-
-  h3 {
-    font-weight: 700;
-    color: $color_dark;
-    font-size: 24px;
+.form-login,
+.form-register {
+  form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border-radius: 0 4px 4px 0;
+    position: relative;
   }
 
-  &__sign-up {
-    color: $color_blue;
+  .form-title {
+    text-align: center;
+
+    h3 {
+      font-weight: 700;
+      color: $color_dark;
+      font-size: 24px;
+    }
+
+    &__sign-up {
+      color: $color_blue;
+      cursor: pointer;
+
+      &:hover {
+        color: $color_black;
+      }
+    }
+  }
+
+  .ant-row {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+
+  .ant-input-affix-wrapper {
+    box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
+    padding-left: 0;
+  }
+
+  .ant-form-item-control {
+    max-width: 90%;
+
+    input {
+      margin-left: 58px;
+      padding-left: 5px;
+    }
+
+    .ant-input {
+      line-height: 2;
+    }
+
+    span.ant-input-prefix {
+      width: 48px;
+      background: #efefef;
+      height: 100%;
+      position: absolute;
+      top: 0;
+      z-index: 1;
+      border-right: 1px solid #d4d4d4;
+    }
+
+    .anticon {
+      margin: auto;
+
+      svg {
+        fill: #9e9e9e;
+      }
+    }
+  }
+
+  .ant-btn {
+    width: 90%;
+    height: 48px;
+    margin-top: 18px;
+  }
+
+  .forgot-password {
     cursor: pointer;
 
     &:hover {
-      color: $color_black;
+      text-decoration: underline;
     }
-  }
-}
-
-.ant-row {
-  width: 100%;
-  justify-content: center;
-  margin-bottom: 20px;
-}
-
-.ant-input-affix-wrapper {
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.2);
-  padding-left: 0;
-}
-
-.ant-form-item-control {
-  max-width: 90%;
-
-  input {
-    margin-left: 58px;
-    padding-left: 5px;
-  }
-
-  .ant-input {
-    line-height: 2;
-  }
-
-  span.ant-input-prefix {
-    width: 48px;
-    background: #efefef;
-    height: 100%;
-    position: absolute;
-    top: 0;
-    z-index: 1;
-    border-right: 1px solid #d4d4d4;
-  }
-
-  .anticon {
-    margin: auto;
-
-    svg {
-      fill: #9e9e9e;
-    }
-  }
-}
-
-.ant-btn {
-  width: 90%;
-  height: 48px;
-  margin: 20px 0;
-}
-
-.forgot-password {
-  cursor: pointer;
-
-  &:hover {
-    text-decoration: underline;
   }
 }
