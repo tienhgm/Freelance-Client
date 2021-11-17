@@ -1,4 +1,3 @@
-import NotFound from "components/NotFound";
 import AboutUs from "features/AboutUs";
 import DashboardUser from "features/DashboardUser";
 import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
@@ -102,6 +101,7 @@ const routesConfiguration = {
     routers: [],
     guarded: true,
     role: null,
+
   },
   aboutUs: {
     name: 'About Us',
@@ -119,22 +119,22 @@ const routesConfiguration = {
     path: "/login",
     exact: true,
     breadcrumbs: [],
-    navbar: true,
+    navbar: false,
     component: Login,
     routers: [],
     guarded: false,
-    role: null
+    role: null,
   },
   register: {
     name: "Register",
     path: "/register",
     exact: true,
     breadcrumbs: [],
-    navbar: true,
+    navbar: false,
     component: Register,
     routers: [],
     guarded: false,
-    role: null
+    role: null,
   },
 };
 

@@ -18,17 +18,17 @@ const GuardedRoute: FC<Props> = ({
   ...rest
 }) => {
   // Fake Auth
-  const userRole = useAppSelector((state) => state.auth.user?.role);
-  
+  const user = useAppSelector((state) => state.auth.user);
   let isAuthenticated = false;
-  if(userRole){
+
+  if (Object.entries(user).length > 0) {
     isAuthenticated = true;
   }
-
+  console.log(isAuthenticated);
   const location = useLocation();
   useEffect(() => {
     const title = location.pathname.replace('-', ' ').replace('/', '').toUpperCase().trim();
-    document.title = `Freelance ${title !== '' ? ' | ' + title : ''}`;
+    document.title = `Hireo ${title !== '' ? ' | ' + title : ''}`;
     window.scrollTo(0, 0);
   }, [location.pathname]);
 

@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { Link, NavLink, useHistory } from 'react-router-dom';
 import './index.scss';
-import Dialog from 'features/Auth/Dialog';
 import { Menu, Dropdown, Avatar } from 'antd';
 import routesConfiguration from 'routers/routesConfig';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
@@ -10,12 +9,6 @@ import { UserOutlined } from '@ant-design/icons';
 import { logout } from 'app/slices/authSlice';
 import Popup from 'components/PopupConfirm';
 export default function Header() {
-  const [showDialog, setShowDialog] = React.useState(false);
-  const [isLogin, setIsLogin] = useState(true);
-  const openRegisterForm = () => {
-    setShowDialog(true);
-    setIsLogin(false);
-  };
   const user = useAppSelector((state) => state.auth.user);
 
   const dispatch = useAppDispatch();
@@ -25,6 +18,9 @@ export default function Header() {
     dispatch(logout());
     history.push('/');
     setOpenDialogConfirm(false);
+  };
+  const goToLogin = () => {
+    history.push('/login');
   };
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
   const handleOpenDialogConfirm = () => {
@@ -84,13 +80,19 @@ export default function Header() {
         {user?.lastName ? (
           <Dropdown overlay={menu} trigger={['click']}>
             {userAvt ? (
-              <img src={`http://${userAvt}`} alt="avatar" width="35" height="35" style={{ borderRadius: '50%', cursor: 'pointer' }}  />
+              <img
+                src={`http://${userAvt}`}
+                alt="avatar"
+                width="35"
+                height="35"
+                style={{ borderRadius: '50%', cursor: 'pointer' }}
+              />
             ) : (
               <Avatar size="large" className="cursor-pointer" icon={<UserOutlined />} />
             )}
           </Dropdown>
         ) : (
-          <div className="btn-register" onClick={openRegisterForm}>
+          <div className="btn-register" onClick={goToLogin}>
             Login
           </div>
         )}
@@ -98,7 +100,6 @@ export default function Header() {
           <SideBar />
         </div>
       </div>
-      <Dialog isOpen={showDialog} isLogin={isLogin} closeDialog={() => setShowDialog(false)} />
       <Popup
         title="Logout"
         isVisible={openDialogConfirm}

@@ -2,12 +2,22 @@ import { Form, Button, Input } from 'antd';
 import { MailOutlined, LockOutlined, UserAddOutlined, HomeOutlined } from '@ant-design/icons';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
 import './style.scss';
-
-function FormRegister() {
+import { useHistory } from 'react-router';
+type RegisterFormProps = {
+  onFormFinish: (values: any) => void;
+};
+function FormRegister({ onFormFinish }: RegisterFormProps) {
   const [form] = Form.useForm();
+  const history = useHistory();
+  const goToLogin = () => {
+    history.push('/login');
+  };
+  const goToHome = () => {
+    history.push('/')
+  };
   return (
-    <div className="form-register flex-1 bg-white">
-      <Form form={form} name="login" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }}>
+    <div className="flex-1 bg-white form-register">
+      <Form form={form} name="login" labelCol={{ span: 8 }} wrapperCol={{ span: 16 }} onFinish={onFormFinish}>
         <div className="form-title">
           <h3 className="mt-6 mb-9">Let's create your account!</h3>
         </div>
@@ -75,14 +85,12 @@ function FormRegister() {
         </Button>
         <span className="mt-2">
           Already have an account?{' '}
-          <a href="/login" className="form-title__sign-up">
+          <span className="form-title__sign-up" onClick={goToLogin}>
             Log In!
-          </a>
+          </span>
         </span>
         <span>
-          <a href="/" className="">
-            Home
-          </a>
+          <span className="form-title__sign-up" onClick={goToHome}>Home</span>
         </span>
       </Form>
     </div>
