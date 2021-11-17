@@ -24,7 +24,7 @@ const GuardedRoute: FC<Props> = ({
   if (Object.entries(user).length > 0) {
     isAuthenticated = true;
   }
-  console.log(isAuthenticated);
+
   const location = useLocation();
   useEffect(() => {
     const title = location.pathname.replace('-', ' ').replace('/', '').toUpperCase().trim();

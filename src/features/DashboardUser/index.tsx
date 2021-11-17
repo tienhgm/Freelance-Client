@@ -55,6 +55,9 @@ function DashboardUser() {
   const history = useHistory();
   useEffect(() => {
     document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.remove('active');
+    }
   }, [history.location.pathname]);
 
   return (

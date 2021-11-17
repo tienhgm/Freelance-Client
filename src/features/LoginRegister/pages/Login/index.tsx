@@ -2,9 +2,8 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { login } from 'app/slices/authSlice';
 import bgForm from 'assets/images/login.jpg';
 import FormLogin from 'features/LoginRegister/components/FormLogin';
-import { useState } from 'react';
+// import { useState } from 'react';
 import { useHistory } from 'react-router';
-import { Redirect } from 'react-router-dom';
 
 function Login() {
   const dispatch = useAppDispatch();
