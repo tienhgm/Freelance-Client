@@ -65,9 +65,9 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      state.accessToken = '';
-      state.refreshToken = '';
-      state.user = {}
+      localStorage.removeItem('persist:root');
+      localStorage.setItem('logout-event', 'logout' + Math.random());
+      window.location.href= "/";
     },
     changeAvatar(state, payload){
       state.user.avatar = payload

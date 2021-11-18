@@ -65,7 +65,7 @@ function Sidebar() {
         </div>
       </div>
       <div className="mb-8">
-        <div className="text-lg font-medium">Reviews</div>
+        <div className="text-lg font-medium">Reviews of Company</div>
         <CheckboxGroup value={checkedList} onChange={onChangeCheckbox}>
           <Checkbox value="5">
             <Rate disabled defaultValue={5} />

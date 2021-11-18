@@ -16,7 +16,7 @@ export default function Header() {
   const history = useHistory();
   const handleLogout = () => {
     dispatch(logout());
-    history.push('/');
+    // history.push('/');
     setOpenDialogConfirm(false);
   };
   const goToLogin = () => {
