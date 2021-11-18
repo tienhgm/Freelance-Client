@@ -63,6 +63,7 @@ $blue-template: #2e3fe5;
         padding: 12px;
         &:hover {
           background-color: $blue-template;
+          transition: all 0.4s;
         }
         &:hover .menu__link {
           color: #fff;

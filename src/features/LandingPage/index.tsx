@@ -15,6 +15,12 @@ function LandingPage() {
   const dispatch = useAppDispatch();
   let query = useQuery();
   const token = query.get('token');
+  window.addEventListener('storage', function (event) {
+    if (event.key == 'logout-event') {
+      // ..
+      window.location.href = '/';
+    }
+  });
   useEffect(() => {
     (async () => {
       if (token) {
@@ -23,7 +29,7 @@ function LandingPage() {
         } catch (error) {}
       }
     })();
-  }, [token,dispatch]);
+  }, [token, dispatch]);
   return (
     <div>
       <Banner />

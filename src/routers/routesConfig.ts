@@ -22,17 +22,6 @@ const routesConfiguration = {
     guarded: false,
     role: null,
   },
-  findJobs: {
-    name: 'Find Jobs',
-    path: '/find-jobs',
-    exact: true,
-    breadcrumbs: [],
-    navbar: true,
-    component: FindJobs,
-    routers: [],
-    guarded: false,
-    role: null,
-  },
   browseCompanies: {
     name: 'Browse Companies',
     path: '/browse-companies',
@@ -56,6 +45,18 @@ const routesConfiguration = {
     guarded: false,
     role: null,
   },
+  findJobs: {
+    name: 'Find Jobs',
+    path: '/find-jobs',
+    exact: true,
+    breadcrumbs: [],
+    navbar: true,
+    component: FindJobs,
+    routers: [],
+    guarded: false,
+    role: null,
+  },
+
   jobDetails: {
     name: 'Job Details',
     cPath: '/find-jobs/',
