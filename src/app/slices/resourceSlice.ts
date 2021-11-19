@@ -18,9 +18,9 @@ export const handleGetSkills = createAsyncThunk("resource/skills", async () => {
         }
     } catch (error) { }
 });
-export const handleGetCities = createAsyncThunk("resource/cities", async () => {
+export const handleGetArea = createAsyncThunk("resource/area", async () => {
     try {
-        const res = await apiResources.getCities();
+        const res = await apiResources.getArea();
         if (res.status === 200) {
             return res.data;
         } else {
@@ -59,7 +59,7 @@ const resourceSlice = createSlice({
             return action.payload;
         },
         // @ts-ignore
-        [handleGetCities.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+        [handleGetArea.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             return action.payload;
         },
         // @ts-ignore

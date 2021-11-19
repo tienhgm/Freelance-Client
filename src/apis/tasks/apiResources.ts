@@ -13,8 +13,8 @@ class ApiResources extends ApiCore {
     getSkills() {
         return this.get(null, "resources/languages")
     }
-    getCities() {
-        return this.getCustom(`resources/states`, {countryId: 240})
+    getArea() {
+        return this.getCustom(`resources/areas`, {countryId: 240})
     }
     getLanguages() {
         return this.get(null, "resources/languages")
