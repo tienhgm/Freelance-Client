@@ -125,7 +125,7 @@ export default function CompanyDetails() {
             )}
           </div>
           <div className="mb-10 similar-jobs">
-            <h2 className="mt-2 mb-10 text-xl flex flex-wrap">Open Positions</h2>
+            <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Open Positions</h2>
             {jobList.map((job, index) => (
               <div className="inline-block w-full p-3">
                 <JobItem {...job} key={index} />
@@ -134,9 +134,9 @@ export default function CompanyDetails() {
           </div>
           <div className="mb-10 location">
             <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">
-              <i className="bx bx-like mr-3"></i>Reviews
+              <i className="mr-3 bx bx-like"></i>Reviews
             </h2>
-            <div className="reviews-list overflow-y-auto">
+            <div className="overflow-y-auto reviews-list">
               <ReviewItem
                 ratingPoint={4.5}
                 title={'Doing things the right way'}

@@ -65,7 +65,10 @@ const sortByItems = [
 ];
 
 const { Option } = Select;
-
+const handleGetSideBar = async (values: any) => {
+  // const result = await dispatch(handleGetJobs())
+  console.log(values);
+};
 function FindFreelancer() {
   return (
     <div className="flex flex-col FindFreelancer find-job-page sm:flex-row">
@@ -73,7 +76,7 @@ function FindFreelancer() {
         className="box-border flex-shrink-0 p-8 pb-0 overflow-y-auto FindFreelancer__sidebar w-52 md:w-60 lg:w-72"
         style={{ backgroundColor: '#fff', boxShadow: `0 0 4px rgba(0, 0, 0, 0.2)` }}
       >
-        <Sidebar />
+        <Sidebar handleGetSideBar={handleGetSideBar} />
       </div>
       <div className="w-full p-8 overflow-y-auto FindFreelancer__list">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">

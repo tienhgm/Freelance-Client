@@ -7,7 +7,7 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
 import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
-import { handleGetSkills, handleGetCities, handleGetLanguages } from 'app/slices/resourceSlice';
+import { handleGetSkills, handleGetArea, handleGetLanguages } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
 import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
@@ -25,7 +25,7 @@ export default function Settings() {
   const [educations, setEducations] = useState('');
   const [introduce, setIntroduce] = useState('');
   const [listSkills, setListSkills] = useState([]);
-  const [listCities, setListCities] = useState([]);
+  const [listArea, setListArea] = useState([]);
   const [listLanguages, setListLanguages] = useState([]);
   const [previewImg, setPreviewImg] = useState('');
   const watchEducation = (value: any) => {
@@ -39,9 +39,9 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetSkills());
     setListSkills(payload);
   };
-  const getCities = async () => {
-    const { payload } = await dispatch(handleGetCities());
-    setListCities(payload);
+  const getArea = async () => {
+    const { payload } = await dispatch(handleGetArea());
+    setListArea(payload);
   };
   const getLanguages = async () => {
     const { payload } = await dispatch(handleGetLanguages());
@@ -83,7 +83,7 @@ export default function Settings() {
   useEffect(() => {
     getProfile();
     getSkill();
-    getCities();
+    getArea();
     getLanguages();
   }, []);
   const onFinish = async (values: any) => {
@@ -115,7 +115,7 @@ export default function Settings() {
   };
   const dateFormat = 'YYYY/MM/DD';
   const handleUpdateImg = (img: any) => {
-    dispatch(changeAvatar(img))
+    dispatch(changeAvatar(img));
     setPreviewImg(img);
   };
 
@@ -206,16 +206,18 @@ export default function Settings() {
                 </div>
                 <div className="col-span-6 lg:ml-6">
                   <div className="mb-1 text-xl font-bold ">
-                    City <span className="required-field">*</span>
+                    Area <span className="required-field">*</span>
                   </div>
                   <Form.Item name="nationality">
-                    <Select style={{ width: '100%' }} placeholder="Select a city">
-                      {listCities.map((item: any) => (
-                        <Option value={item.id} key={item.id}>
-                          {item.name}
-                        </Option>
-                      ))}
-                    </Select>
+                    {listArea && (
+                      <Select style={{ width: '100%' }} placeholder="Select your area">
+                        {listArea.map((item: any) => (
+                          <Option value={item.id} key={item.id}>
+                            {item.name}
+                          </Option>
+                        ))}
+                      </Select>
+                    )}
                   </Form.Item>
                 </div>
               </div>
@@ -388,14 +390,10 @@ export default function Settings() {
                       </div>
                     ))}
                     <Form.Item>
-                      <Button
-                        className="flex items-center"
-                        type="dashed"
-                        onClick={() => add()}
-                        block
-                        icon={<PlusOutlined />}
-                      >
-                        Add field
+                      <Button type="dashed" onClick={() => add()} block>
+                        <div className="flex items-center justify-center">
+                          <PlusOutlined /> Add field
+                        </div>
                       </Button>
                     </Form.Item>
                   </>

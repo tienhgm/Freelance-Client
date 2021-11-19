@@ -8,9 +8,9 @@ interface AppState {
 const initialState: AppState = {
 
 }
-export const handleGetJobs = createAsyncThunk("job/list", async () => {
+export const handleGetJobs = createAsyncThunk("job/list", async (payload: any) => {
     try {
-        const res = await apiJob.getJobs();
+        const res = await apiJob.getJobs(payload);
         if (res.status === 200) {
             return res.data;
         }

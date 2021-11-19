@@ -43,8 +43,8 @@ export default function Header() {
       }
       <Menu.Item key="3">
         <div>
-          <Link to="/dashboard/settings" style={{ color: 'black' }}>
-            Settings
+          <Link to="/dashboard/bookmarks" style={{ color: 'black' }}>
+            bookmarks
           </Link>
         </div>
       </Menu.Item>

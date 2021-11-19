@@ -11,8 +11,8 @@ class ApiJob extends ApiCore {
       getCustom: true
     });
   }
-  getJobs() {
-    return this.get(null, 'jobs')
+  getJobs(filters?:any) {
+    return this.getCustom('jobs', filters ? filters : '');
   }
   getDetailJob(id: any) {
     return this.getCustom(`jobs/${id}`)
