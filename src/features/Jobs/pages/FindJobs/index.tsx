@@ -1,12 +1,10 @@
 import JobItem from 'components/JobItem';
-import { Select, Pagination } from 'antd';
+import { Select, Pagination, Skeleton } from 'antd';
 import './styles.scss';
 import Sidebar from 'components/Sidebar';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetJobs } from 'app/slices/jobSlice';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router';
-import queryString from 'query-string';
 const sortByItems = [
   { value: 1, label: 'Relevance' },
   { value: 2, label: 'Newest' },
@@ -34,9 +32,7 @@ export default function FindJobs() {
       }
     } catch (error) {
     } finally {
-      setTimeout(function () {
-        setLoading(false);
-      }, 700);
+      setTimeout(function(){ setLoading(false)}, 1000)
     }
   };
   const handleGetSideBar = async (values: any) => {
@@ -47,7 +43,6 @@ export default function FindJobs() {
   };
   useEffect(() => {
     let listFilter = { ...filters, page: page };
-    // console.log(listFilter);
     handleGetListJob(listFilter);
   }, [filters, page]);
   return (
@@ -72,29 +67,47 @@ export default function FindJobs() {
             </Select>
           </div>
         </div>
-        <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2 ">
+        <div>
           {listJobs.length > 0 ? (
-            listJobs.map((job: any) => (
-              <JobItem
-                key={job.id}
-                company={job.company && job.company.name}
-                companyLogo={job.company && `http://${job.company.logo}`}
-                jobTitle={job.title}
-                location={job.area && job.area.name}
-                jobType={job.workMode}
-                salary={job.salary}
-                postTime={job.createdAt}
-                loading={loading}
-                startDate={job.startDate}
-                endDate={job.endDate}
-              />
-            ))
+            <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2 ">
+              {listJobs.map((job: any) => (
+                <JobItem
+                  key={job.id}
+                  company={job.company && job.company.name}
+                  companyLogo={job.company && `http://${job.company.logo}`}
+                  jobTitle={job.title}
+                  location={job.area && job.area.name}
+                  jobType={job.workMode}
+                  salary={job.salary}
+                  postTime={job.createdAt}
+                  startDate={job.startDate}
+                  endDate={job.endDate}
+                  loading={loading}
+                />
+              ))}
+            </div>
           ) : (
-            <div className="ml-2 text-2xl font-bold">No result... Please input again!</div>
+            <>
+              {!loading ? (
+                <div className="ml-2 text-2xl font-bold">'No result... Please input again!'</div>
+              ) : (
+                <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2 ">
+                  {Array(10).fill(0).map((item: any) => (
+                      <Skeleton active />
+                  ))}
+                </div>
+              )}
+            </>
           )}
         </div>
         <div className="flex justify-center mt-8 find-job-page__paginate">
-          <Pagination showSizeChanger={false} defaultCurrent={page} total={total} onChange={handleChangePage} responsive={true} />
+          <Pagination
+            showSizeChanger={false}
+            defaultCurrent={page}
+            total={total}
+            onChange={handleChangePage}
+            responsive={true}
+          />
         </div>
       </div>
     </div>
