@@ -43,6 +43,7 @@ export default function FindJobs() {
   };
   useEffect(() => {
     let listFilter = { ...filters, page: page };
+    listFilter.status = 'Inprogress';
     handleGetListJob(listFilter);
   }, [filters, page]);
   return (
@@ -73,6 +74,7 @@ export default function FindJobs() {
               {listJobs.map((job: any) => (
                 <JobItem
                   key={job.id}
+                  id={job.id}
                   company={job.company && job.company.name}
                   companyLogo={job.company && `http://${job.company.logo}`}
                   jobTitle={job.title}

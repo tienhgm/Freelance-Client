@@ -1,10 +1,8 @@
 import React, { useState } from 'react';
-// import JobItemProps from 'types/jobItemProps';
 import defaultCompanyLogo from 'assets/images/company-logo-default.png';
 import Skeletons from 'react-loading-skeleton';
 import { Skeleton, Tag } from 'antd';
 import { useHistory } from 'react-router-dom';
-import routesConfiguration from 'routers/routesConfig';
 import { timeFromNow, formatDate } from 'utils/generate';
 import './styles.scss';
 
@@ -19,6 +17,7 @@ export default function JobItem({
   loading,
   startDate,
   endDate,
+  id
 }: any) {
   const history = useHistory();
   const [bookmark, setBookmark] = useState(false);
@@ -26,8 +25,10 @@ export default function JobItem({
     setBookmark(!bookmark);
   };
 
-  const gotoDetailPage = () => {
-    history.push(routesConfiguration.jobDetails.cPath + '1');
+  const gotoDetailPage = (id:any) => {
+    
+    history.push(`find-jobs/${id}`);
+    // console.log(history.location);
   };
   const compareTimeAvailableWithNow = (endDate: any) => {
     let timeNow = new Date().getTime();
@@ -45,7 +46,7 @@ export default function JobItem({
           <i className="transition-all bx bxs-star"></i>
         </div>
 
-        <div className="job-item" onClick={gotoDetailPage}>
+        <div className="job-item" onClick={() => gotoDetailPage(id)}>
           <div className="flex p-8 job-item__content">
             <div className="relative mr-3 content__logo w-14 h-14 ">
               <Skeletons height={56} />
