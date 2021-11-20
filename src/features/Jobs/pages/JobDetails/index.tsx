@@ -3,32 +3,11 @@ import React from "react";
 import JobItemProps from "types/jobItemProps";
 import { Button } from "antd";
 import "./styles.scss";
-const jobList: Array<JobItemProps> = [
-  {
-    company: "Hexagon",
-    companyLogo:
-      "https://www.vasterad.com/themes/hireo/images/company-logo-01.png",
-    jobTitle: "Bilingual Event Support Specialist",
-    location: "San Francisco",
-    jobType: "Full Time",
-    salary: "$35.000 - $38.000",
-    postTime: "2 days ago",
-  },
-  {
-    company: "Hexagon",
-    companyLogo:
-      "https://www.vasterad.com/themes/hireo/images/company-logo-01.png",
-    jobTitle: "Bilingual Event Support Specialist",
-    location: "San Francisco",
-    jobType: "Full Time",
-    salary: "$35.000 - $38.000",
-    postTime: "2 days ago",
-  },
-];
+
 export default function JobDetails() {
   return (
     <div className="job-details-page">
-      <div className="relative px-2 bg-gray-100 header-wrapper mb-10">
+      <div className="relative px-2 mb-10 bg-gray-100 header-wrapper">
         <div className="absolute right-0 w-1/2 header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
@@ -131,12 +110,12 @@ export default function JobDetails() {
             />
           </div>
           <div className="mb-10 similar-jobs">
-            <h2 className="mt-2 mb-10 text-xl flex flex-wrap">Similar Jobs</h2>
-            {jobList.map((job, index) => (
+            <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Similar Jobs</h2>
+            {/* {jobList.map((job, index) => (
               <div className="inline-block w-full p-3 md:w-1/2">
                 <JobItem {...job} key={index} />
               </div>
-            ))}
+            ))} */}
           </div>
         </div>
         <div className="flex flex-col w-full gap-10 px-8 content__sidebar lg:w-1/3">

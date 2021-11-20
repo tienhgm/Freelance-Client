@@ -243,7 +243,7 @@ export default function Settings() {
                   allowClear
                   size="large"
                   style={{ width: '100%' }}
-                  placeholder="Choose your skill"
+                  placeholder="Choose your skills"
                 >
                   {listSkills.map((item: any) => (
                     <Option value={item.name} key={item.id}>

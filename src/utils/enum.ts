@@ -43,5 +43,13 @@ export const typeWork = [
     'work',
     'volunteer',
 ]
-
+export const listWorkMode = ['On-site', 'Remote', 'Hybrid'];
+export const listLevel = [
+    'Internship',
+    'Entry level',
+    'Intermidate', 'Asssociate',
+    'Mid-Senior level', 'Senior',
+    'Executive',
+    'Director'
+];
 

@@ -55,7 +55,7 @@ export default function Footer() {
               </Tooltip>
             ))}
           </div>
-          <div>
+          {/* <div>
             <Select
               defaultValue={listLanguage[0].value}
               style={{ width: 120 }}
@@ -67,7 +67,7 @@ export default function Footer() {
                 </Option>
               ))}
             </Select>
-          </div>
+          </div> */}
         </div>
       </div>
       <div className="grid grid-cols-12 gap-6 mt-12 footer__row-two">
@@ -77,30 +77,21 @@ export default function Footer() {
               <div className="text-xl font-bold">Account</div>
               <ul>
                 <li>
-                  <a>Sign Up</a>
+                  <span>Sign Up</span>
                 </li>
-                <li>
+                {/* <li>
                   <a>Sign In</a>
                 </li>
                 <li>
                   <a>Dashboard</a>
-                </li>
+                </li> */}
               </ul>
             </div>
             <div className="flex flex-col gap-3">
               <div className="text-xl font-bold">About Us</div>
               <ul>
                 <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
+                  <span>My account</span>
                 </li>
               </ul>
             </div>
@@ -108,13 +99,7 @@ export default function Footer() {
               <div className="text-xl font-bold">Account</div>
               <ul>
                 <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
+                  <span>My account</span>
                 </li>
               </ul>
             </div>
@@ -122,20 +107,17 @@ export default function Footer() {
               <div className="text-xl font-bold">Account</div>
               <ul>
                 <li>
-                  <a>My account</a>
-                </li>
-                <li>
-                  <a>My account</a>
+                  <span>My account</span>
                 </li>
               </ul>
             </div>
           </div>
         </div>
         <div className="col-span-4 ml-4 right">
-          <div className="flex items-center text-xl font-bold">
+          <div className="flex items-center justify-end text-xl font-bold">
             <MailOutlined className="mr-3" /> Sign Up For a Newsletter
           </div>
-          <div className="right__content">
+          {/* <div className="right__content">
             Weekly breaking news, analysis and cutting edge advices on job
             searching.
           </div>
@@ -143,7 +125,7 @@ export default function Footer() {
             <input type="text" className="right__input" placeholder="Enter your email address" />
             <Button type="primary" icon={<RightOutlined />} size="large">
             </Button>
-          </div>
+          </div> */}
         </div>
       </div>
     </div>
