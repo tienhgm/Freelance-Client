@@ -17,7 +17,7 @@ const logout = () => {
     localStorage.removeItem('persist:root');
     localStorage.setItem('logout-event', 'logout' + Math.random());
     alert('Token expired');
-    // window.location.href = "/";
+    window.location.href = "/";
 }
 axiosInstance.interceptors.response.use(
     (response) => response,
