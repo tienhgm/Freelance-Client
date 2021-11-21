@@ -1,38 +1,49 @@
-import JobItem from "components/JobItem";
-import React from "react";
-import JobItemProps from "types/jobItemProps";
-import { Button } from "antd";
-import "./styles.scss";
+// import JobItem from 'components/JobItem';
+import React, { useEffect, useState } from 'react';
+import { Button } from 'antd';
+import './styles.scss';
+import { useRouteMatch } from 'react-router-dom';
+import { handleGetDetailJob } from 'app/slices/jobSlice';
+import { useAppDispatch } from 'app/hooks';
 
 export default function JobDetails() {
+  const route = useRouteMatch();
+  const dispatch = useAppDispatch();
+  // @ts-ignore
+  let jobId = route.params.id;
+  const [jobDetail, setJobDetail] = useState<any>({});
+
+  const getDetailJob = async () => {
+    try {
+      const { payload } = await dispatch(handleGetDetailJob(jobId));
+      console.log(payload);
+      if (!!payload) {
+        setJobDetail(payload.jobDetail);
+      }
+    } catch (error) {}
+  };
+  useEffect(() => {
+    getDetailJob();
+  }, [jobId]);
   return (
     <div className="job-details-page">
-      <div className="relative px-2 mb-10 bg-gray-100 header-wrapper">
+      <div className="relative px-6 mb-10 bg-gray-100 header-wrapper">
         <div className="absolute right-0 w-1/2 header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
             <div className="shadow-xl company-logo w-min">
-              <img
-                src="https://www.vasterad.com/themes/hireo/images/company-logo-03a.png"
-                alt="king"
-              />
+              <img src={`http://${jobDetail.company && jobDetail.company.logo}`} width="100" height="100" alt="king" />
             </div>
             <div className="general-info">
-              <h2 className="text-2xl info__job-title">
-                Restaurant General Manager
-              </h2>
-              <p className="text-base font-semibold info__employer">
-                About the Employer
-              </p>
+              <h2 className="text-2xl info__job-title">{jobDetail.title}</h2>
+              <p className="text-base font-semibold info__employer">About the Employer</p>
               <div className="flex items-center text-base info__company gap-9">
                 <div className="company__name">
                   <i className="mr-1 bx bxs-buildings"></i>
                   <span>King</span>
                 </div>
                 <div className="flex items-center gap-1 company__rate">
-                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">
-                    4.9
-                  </div>
+                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">4.9</div>
                   <div className="flex gap-1 text-yellow-400 rate__stars">
                     <i className="bx bxs-star"></i>
                     <i className="bx bxs-star"></i>
@@ -51,48 +62,44 @@ export default function JobDetails() {
                   </div>
                   <div className="loca__text">United Kingdom</div>
                 </div>
-                <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
-                  <div className="px-1 bg-green-400 status__icon rounded-l-md">
-                    <i className="bx bx-check"></i>
+                {jobDetail.company && jobDetail.company.isVerified && (
+                  <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
+                    <div className="px-1 bg-green-400 status__icon rounded-l-md">
+                      <i className="bx bx-check"></i>
+                    </div>
+                    <span className="px-3 text-sm">Verified</span>
                   </div>
-                  <span className="px-3 text-sm">Verified</span>
-                </div>
+                )}
               </div>
             </div>
           </div>
           <div className="pt-3 header_right pb-14 lg:py-6 lg:px-12 lg:rounded-md lg:bg-white lg:shadow-lg">
             <span className="text-base text-gray-400">Annual Salary</span>
             <br />
-            <span className="text-2xl">$35k - $38k</span>
+            <span className="flex justify-center text-2xl">${jobDetail.salary}</span>
           </div>
         </div>
       </div>
       <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
-        <div className="w-full lg:pr-10 content__main lg:w-2/3">
+        <div className="w-full pl-6 lg:pr-10 content__main lg:w-2/3">
           <div className="job-description">
             <h2 className="mt-2 mb-10 text-xl">Job Description</h2>
             <div className="mb-10 text-base text-justify job-description__content">
               <p>
-                Leverage agile frameworks to provide a robust synopsis for high
-                level overviews. Iterative approaches to corporate strategy
-                foster collaborative thinking to further the overall value
-                proposition. Organically grow the holistic world view of
-                disruptive innovation via workplace diversity and empowerment.
+                Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to
+                corporate strategy foster collaborative thinking to further the overall value proposition. Organically
+                grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
               </p>
               <p>
-                Bring to the table win-win survival strategies to ensure
-                proactive domination. At the end of the day, going forward, a
-                new normal that has evolved from generation X is on the runway
-                heading towards a streamlined cloud solution. User generated
-                content in real-time will have multiple touchpoints for
+                Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day,
+                going forward, a new normal that has evolved from generation X is on the runway heading towards a
+                streamlined cloud solution. User generated content in real-time will have multiple touchpoints for
                 offshoring.
               </p>
               <p>
-                Capitalize on low hanging fruit to identify a ballpark value
-                added activity to beta test. Override the digital divide with
-                additional clickthroughs from DevOps. Nanotechnology immersion
-                along the information highway will close the loop on focusing
-                solely on the bottom line.
+                Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the
+                digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information
+                highway will close the loop on focusing solely on the bottom line.
               </p>
             </div>
           </div>
@@ -124,9 +131,9 @@ export default function JobDetails() {
           </Button>
           <div className="w-full mb-12 text-base job-summary">
             <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
-            <div className="flex items-center px-6 py-3 bg-gray-200 location">
+            <div className="flex items-center px-6 py-3 location" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
-                <i className="text-2xl bx bx-location-plus" />
+                <i className="text-2xl bx bx-location-plus" style={{ color: '#2e3fe5' }} />
               </div>
               <div className="content">
                 <span className="font-medium">Location</span>
@@ -134,9 +141,9 @@ export default function JobDetails() {
                 <span>London, United Kingdom</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-3 bg-gray-200 job-type">
+            <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
-                <i className="text-2xl bx bxs-shopping-bags"></i>
+                <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
                 <span className="font-medium">Job Type</span>
@@ -144,9 +151,9 @@ export default function JobDetails() {
                 <span>Full Time</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-3 bg-gray-200 salary">
+            <div className="flex items-center px-6 py-3 salary" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
-                <i className="text-2xl bx bx-dollar-circle"></i>
+                <i className="text-2xl bx bx-dollar-circle" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
                 <span className="font-medium">Salary</span>
@@ -154,14 +161,15 @@ export default function JobDetails() {
                 <span>$35k - $38k</span>
               </div>
             </div>
-            <div className="flex items-center px-6 py-3 bg-gray-200 date-posted">
+            <div className="flex items-center px-6 py-3 date-posted" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
-                <i className="text-2xl bx bx-time-five"></i>
+                <i className="text-2xl bx bx-time-five" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
                 <span className="font-medium">Date Posted</span>
                 <br />
-                <span>2 days ago</span></div>
+                <span>2 days ago</span>
+              </div>
             </div>
           </div>
         </div>

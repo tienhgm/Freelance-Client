@@ -1,17 +1,11 @@
-import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { useAppDispatch } from 'app/hooks';
 import { login } from 'app/slices/authSlice';
 import bgForm from 'assets/images/login.jpg';
 import FormLogin from 'features/LoginRegister/components/FormLogin';
-// import { useState } from 'react';
 import { useHistory } from 'react-router';
 
 function Login() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector((state) => state.auth.user);
-  // const [isLogin, setIsLogin] = useState(false);
-  // if (Object.entries(user).length > 0) {
-  //   setIsLogin(true);
-  // }
   const history = useHistory();
   const handleLogin = async (values: any) => {
     const { payload } = await dispatch(login(values));

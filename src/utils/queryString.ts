@@ -3,18 +3,8 @@
  * @param {object} filters
  * @returns
  */
+import queryString from 'query-string';
+
 export default function getQueryString(filters: any) {
-  let queryString = "";
-  for (const filter in filters) {
-    if (filters[filter]) {
-      if (Array.isArray(filters[filter])) {
-        for (const item of filters[filter]) {
-          queryString += `${filter}=${item}&`;
-        }
-      } else {
-        queryString += `${filter}=${filters[filter]}&`;
-      }
-    }
-  }
-  return queryString;
+  return queryString.stringify(filters);
 }

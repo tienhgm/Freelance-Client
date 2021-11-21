@@ -50,16 +50,17 @@ export default function CompanyDetails() {
   // @ts-ignore
   let companyId = route.params.id;
   const getDetail = async () => {
-    const { payload } = await dispatch(handleGetDetailCompany(companyId));
-    if (!!payload) {
-      setCompanyName(payload.name);
-      setIsVerified(payload.isVerified);
-      setCountry(payload.country);
-      setRate(payload.stars);
-      setInfo(payload.information);
-      setLogo(payload.logo);
-      console.log(info);
-    }
+    try {
+      const { payload } = await dispatch(handleGetDetailCompany(companyId));
+      if (!!payload) {
+        setCompanyName(payload.name);
+        setIsVerified(payload.isVerified);
+        setCountry(payload.country);
+        setRate(payload.stars);
+        setInfo(payload.information);
+        setLogo(payload.logo);
+      }
+    } catch (error) {}
   };
 
   useEffect(() => {

@@ -1,5 +1,5 @@
+import { getSkills, getAreas, getLanguages, getCountries } from 'apis/resourcesModule';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import apiResources from "apis/tasks/apiResources";
 
 interface AppState {
 
@@ -10,41 +10,33 @@ const initialState: AppState = {
 }
 export const handleGetSkills = createAsyncThunk("resource/skills", async () => {
     try {
-        const res = await apiResources.getSkills();
-        if (res.status === 200) {
+        const res: any = await getSkills();
+        if (res.statusCode === 200) {
             return res.data;
-        } else {
-            return;
         }
     } catch (error) { }
 });
-export const handleGetArea = createAsyncThunk("resource/area", async () => {
+export const handleGetArea = createAsyncThunk("resource/areas", async () => {
     try {
-        const res = await apiResources.getArea();
-        if (res.status === 200) {
+        const res:any = await getAreas();
+        if (res.statusCode === 200) {
             return res.data;
-        } else {
-            return;
         }
     } catch (error) { }
 });
 export const handleGetLanguages = createAsyncThunk("resource/languages", async () => {
     try {
-        const res = await apiResources.getLanguages();
-        if (res.status === 200) {
+        const res:any = await getLanguages();
+        if (res.statusCode === 200) {
             return res.data;
-        } else {
-            return;
         }
     } catch (error) { }
 });
 export const handleGetCountries = createAsyncThunk("resource/countries", async () => {
     try {
-        const res = await apiResources.getCountries();
-        if (res.status === 200) {
+        const res:any = await getCountries();
+        if (res.statusCode === 200) {
             return res.data;
-        } else {
-            return;
         }
     } catch (error) { }
 });

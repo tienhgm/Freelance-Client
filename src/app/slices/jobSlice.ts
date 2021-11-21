@@ -1,8 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import apiJob from "apis/tasks/apiJob";
-
+import { getDetailJob, getJobs } from "apis/jobModule";
 interface AppState {
-
 }
 
 const initialState: AppState = {
@@ -10,16 +8,16 @@ const initialState: AppState = {
 }
 export const handleGetJobs = createAsyncThunk("job/list", async (payload: any) => {
     try {
-        const res = await apiJob.getJobs(payload);
-        if (res.status === 200) {
+        const res:any = await getJobs(payload);
+        if (res.statusCode === 200) {
             return res.data;
         }
     } catch (error) { }
 });
 export const handleGetDetailJob = createAsyncThunk("job/detail", async (payload: any) => {
     try {
-        const res = await apiJob.getDetailJob(payload);
-        if (res.status === 200) {
+        const res:any = await getDetailJob(payload);
+        if (res.statusCode === 200) {
             return res.data;
         }
     } catch (error) { }

@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import apiCompany from "apis/tasks/apiCompany";
+import { getCompany, getDetailCompany } from "apis/companyModule";
+// import apiCompany from "apis/tasks/apiCompany";
 
 interface AppState {
 
@@ -10,16 +11,16 @@ const initialState: AppState = {
 }
 export const handleGetCompanies = createAsyncThunk("company/list", async (payload: any) => {
     try {
-        const res = await apiCompany.getCompany(payload);
-        if (res.status === 200) {
+        const res:any = await getCompany(payload);
+        if (res.statusCode === 200) {
             return res.data;
         }
     } catch (error) { }
 });
 export const handleGetDetailCompany = createAsyncThunk("company/detail", async (payload: any) => {
     try {
-        const res = await apiCompany.getDetailCompany(payload);
-        if (res.status === 200) {
+        const res:any = await getDetailCompany(payload);
+        if (res.statusCode === 200) {
             return res.data;
         }
     } catch (error) { }

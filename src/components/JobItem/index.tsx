@@ -26,9 +26,7 @@ export default function JobItem({
   };
 
   const gotoDetailPage = (id:any) => {
-    
     history.push(`find-jobs/${id}`);
-    // console.log(history.location);
   };
   const compareTimeAvailableWithNow = (endDate: any) => {
     let timeNow = new Date().getTime();

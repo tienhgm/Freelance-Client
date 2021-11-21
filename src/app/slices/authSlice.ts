@@ -1,13 +1,12 @@
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import apiAuth from "apis/tasks/apiAuth";
 import { notify } from "utils/notification";
 import { handleLoading } from './appSlice';
-
+import { handleActivate, handleLogin, handleRegister } from 'apis/authModule';
 interface AuthState {
   accessToken: string;
   refreshToken: string;
   user: any,
- 
+
 }
 
 const initialState: AuthState = {
@@ -19,13 +18,13 @@ const initialState: AuthState = {
 export const login = createAsyncThunk("auth/login", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const res = await apiAuth.login(payload);
+    const res: any = await handleLogin(payload);
     dispatch(handleLoading(false));
-    if (res.status === 200) {
+    if (res.statusCode === 200) {
       notify("success", "Success", "");
       return res.data;
-    } 
-  } catch (error:any) {
+    }
+  } catch (error: any) {
     notify("error", error.data.message, "");
   } finally {
     dispatch(handleLoading(false));
@@ -34,13 +33,13 @@ export const login = createAsyncThunk("auth/login", async (payload: any, { dispa
 export const register = createAsyncThunk("auth/register", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const {status , data } = await apiAuth.register(payload);
+    const res: any = await handleRegister(payload);
 
-    if (status && status === 201) {
+    if (res.statusCode === 201) {
       notify("success", "Register success", "");
-      return data;
+      return res.data;
     }
-  } catch (error:any) {
+  } catch (error: any) {
     notify("error", error.data.message, "");
   } finally {
     dispatch(handleLoading(false));
@@ -49,15 +48,17 @@ export const register = createAsyncThunk("auth/register", async (payload: any, {
 export const activate = createAsyncThunk("auth/activate", async (payload: any, { dispatch }) => {
   try {
     dispatch(handleLoading(true));
-    const res = await apiAuth.activate(payload);
-    dispatch(handleLoading(false));
-    if (res.status === 200) {
+    const res: any = await handleActivate(payload);
+
+    if (res.statusCode === 200) {
       notify("success", "Activated!", "");
       return res.data;
-    } else {
-      notify("error", "Error active!", "");
     }
-  } catch (error) { }
+  } catch (error:any) {
+    console.log(error.message)
+  } finally {
+    dispatch(handleLoading(false));
+  }
 });
 
 const authSlice = createSlice({
@@ -67,9 +68,9 @@ const authSlice = createSlice({
     logout(state) {
       localStorage.removeItem('persist:root');
       localStorage.setItem('logout-event', 'logout' + Math.random());
-      window.location.href= "/";
+      window.location.href = "/";
     },
-    changeAvatar(state, payload){
+    changeAvatar(state, payload) {
       state.user.avatar = payload
     }
   },

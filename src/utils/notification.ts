@@ -4,5 +4,6 @@ export const notify = (type: any,message: any, description: any) => {
     notification[type]({
         message: message,
         description: description,
+        placement: 'bottomLeft'
     });
 };

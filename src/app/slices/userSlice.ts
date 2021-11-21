@@ -1,5 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import apiUser from "apis/tasks/apiUser";
+import { changePassword, getProfile, getReviewsById, handleUploadAvt, updateProfile } from "apis/userModule";
 import handleErrorMessage from "utils/handleErrorMessage";
 import { notify } from "utils/notification";
 import { handleLoading } from "./appSlice";
@@ -15,21 +15,20 @@ const initialState: UserSlice = {
 }
 export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any) => {
     try {
-        const res = await apiUser.uploadAvt(payload);
-        if (res && res.status === 200) {
+        const res: any = await handleUploadAvt(payload);
+        if (res.statusCode === 200) {
             notify("success", "Upload Success", "");
             return res.data.avatar;
-        } else {
-            notify("error", "Upload Error!", "");
-            return ""
         }
-    } catch (error) { }
+    } catch (error) {
+        notify("error", "Upload Error!", "");
+    }
 });
 export const handleChangePassword = createAsyncThunk("user/changePassword", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
-        const res = await apiUser.changePassword(payload);
-        if (res.status === 200) {
+        const res: any = await changePassword(payload);
+        if (res.statusCode === 200) {
             notify("success", "Password change!", "");
             return res.data.status;
         }
@@ -41,8 +40,9 @@ export const handleChangePassword = createAsyncThunk("user/changePassword", asyn
 });
 export const handleGetProfile = createAsyncThunk("user/profile", async (payload: any) => {
     try {
-        const res = await apiUser.getProfile(payload);
-        if (res.status === 200) {
+        const res: any = await getProfile(payload);
+        console.log(res)
+        if (res.statusCode === 200) {
             return res.data;
         } else {
             return;
@@ -52,8 +52,8 @@ export const handleGetProfile = createAsyncThunk("user/profile", async (payload:
 export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
-        const res = await apiUser.updateProfile(payload);
-        if (res.status === 200) {
+        const res: any = await updateProfile(payload);
+        if (res.statusCode === 200) {
             notify("success", "Update Success!", "")
             return res.data;
         } else {
@@ -66,8 +66,8 @@ export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async 
 export const handleGetReviews = createAsyncThunk("user/reviews", async (payload: any) => {
     try {
         let { userId, filters } = payload;
-        const res = await apiUser.getReviewsById(userId, filters);
-        if (res.status === 200) {
+        const res: any = await getReviewsById(userId, filters);
+        if (res.statusCode === 200) {
             return res.data;
         } else {
             return;

@@ -7,15 +7,16 @@ import { useHistory } from 'react-router-dom';
 function Register() {
   const dispatch = useAppDispatch();
   const history = useHistory();
-  const handleLogin = async (values: any) => {
+  const handleRegister = async (values: any) => {
     const { payload } = await dispatch(register(values));
+    console.log(payload);
     if (payload && !!payload.user) {
       history.push('/');
     }
   };
   const onFinish = (values: any) => {
     try {
-      handleLogin(values);
+      handleRegister(values);
     } catch (error) {}
   };
 

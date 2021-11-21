@@ -146,7 +146,7 @@ function Sidebar({ handleGetSideBar }: IProps) {
             <Form.Item name="skillIds">
               <Select mode="multiple" allowClear size="large" style={{ width: '100%' }} placeholder="Choose skills">
                 {listSkills.map((item: any) => (
-                  <Option value={item.name} key={item.id}>
+                  <Option value={item.id} key={item.id}>
                     {item.name}
                   </Option>
                 ))}
