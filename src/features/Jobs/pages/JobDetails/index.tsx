@@ -1,6 +1,6 @@
 // import JobItem from 'components/JobItem';
 import React, { useEffect, useState } from 'react';
-import { Button, Rate, Tag } from 'antd';
+import { Button, Rate, Tag, Breadcrumb } from 'antd';
 import { useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
@@ -32,7 +32,7 @@ export default function JobDetails() {
   }, [jobId]);
   return (
     <div className="job-details-page">
-      <div className="relative mt-8 mb-10 bg-gray-100 px-28 header-wrapper">
+      <div className="relative mb-10 bg-gray-100 px-28 header-wrapper">
         <div className="absolute right-0 w-full header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
@@ -147,7 +147,7 @@ export default function JobDetails() {
           </Button>
           <div className="w-full text-base job-summary">
             <h2 className="px-6 py-3 mb-0 text-xl font-medium bg-gray-200">Job Summary</h2>
-            <div className="flex items-center px-6 py-3 location" style={{ background: '#f3f3f3' }}>
+            {/* <div className="flex items-center px-6 py-3 location" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-location-plus" style={{ color: '#2e3fe5' }} />
               </div>
@@ -156,15 +156,15 @@ export default function JobDetails() {
                 <br />
                 <span>{jobDetail.area && jobDetail.area.name}</span>
               </div>
-            </div>
+            </div> */}
             <div className="flex items-center px-6 py-3 salary" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-dollar-circle" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
-                <span className="font-bold">Salary</span>
+                <span className="font-normal">Salary</span>
                 <br />
-                <span>${jobDetail.salary}</span>
+                <span className="font-medium">${jobDetail.salary}</span>
               </div>
             </div>
             <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
@@ -172,9 +172,9 @@ export default function JobDetails() {
                 <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
-                <span className="font-bold">Work Mode</span>
+                <span className="font-normal">Work Mode</span>
                 <br />
-                <span>{jobDetail.workMode}</span>
+                <span className="font-medium">{jobDetail.workMode}</span>
               </div>
             </div>
             <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
@@ -183,9 +183,9 @@ export default function JobDetails() {
                 {/* <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i> */}
               </div>
               <div className="content">
-                <span className="font-bold">Level</span>
+                <span className="font-normal">Level</span>
                 <br />
-                <span>{jobDetail.experience}</span>
+                <span className="font-medium">{jobDetail.experience}</span>
               </div>
             </div>
 
@@ -194,9 +194,9 @@ export default function JobDetails() {
                 <i className="text-2xl bx bx-time-five" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
-                <span className="font-bold">Available Time</span>
+                <span className="font-normal">Available Time</span>
                 <br />
-                <span>
+                <span className="font-medium">
                   {formatDate(jobDetail.startDate)} -{'>'} {formatDate(jobDetail.endDate)}
                 </span>
               </div>
