@@ -1,12 +1,13 @@
-// import JobItem from 'components/JobItem';
 import React, { useEffect, useState } from 'react';
-import { Button, Rate, Tag, Breadcrumb } from 'antd';
+import { Button, Tag, Comment, Avatar, Tooltip, Pagination } from 'antd';
 import { useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
 import { timeFromNow, formatDate } from 'utils/generate';
+import { UserOutlined, CommentOutlined } from '@ant-design/icons';
 import './styles.scss';
-import { UserOutlined } from '@ant-design/icons';
+import moment from 'moment';
+
 const { CheckableTag } = Tag;
 
 export default function JobDetails() {
@@ -139,6 +140,31 @@ export default function JobDetails() {
                 <JobItem {...job} key={index} />
               </div>
             ))} */}
+          </div>
+          <div className="mb-16 comment">
+            <div className="mb-3 headline">
+              <h3 className="m-0 text-lg">
+                <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+              </h3>
+            </div>
+            <Comment
+              author={<span className="text-sm font-semibold">Đặng Tuấn</span>}
+              avatar={
+                <Avatar src="https://www.vasterad.com/themes/hireo/images/user-avatar-big-02.jpg" alt="Đặng Tuấn" />
+              }
+              content={
+                <p>
+                  We supply a series of design principles, practical patterns and high quality design resources (Sketch
+                  and Axure), to help people create their product prototypes beautifully and efficiently.
+                </p>
+              }
+              datetime={
+                <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
+                  <span>{moment().fromNow()}</span>
+                </Tooltip>
+              }
+            />
+            <Pagination className="mt-3" size="small" defaultCurrent={1} total={30} />
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">

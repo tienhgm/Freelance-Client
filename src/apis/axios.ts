@@ -7,7 +7,6 @@ const axiosInstance = Axios.create({
 });
 axiosInstance.interceptors.request.use(
     (config) => {
-        //@ts-ignore
         config.headers = getAuthHeader();
         return config;
     },
