@@ -1,10 +1,13 @@
 // import JobItem from 'components/JobItem';
 import React, { useEffect, useState } from 'react';
-import { Button } from 'antd';
-import './styles.scss';
+import { Button, Rate, Tag } from 'antd';
 import { useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
+import { timeFromNow, formatDate } from 'utils/generate';
+import './styles.scss';
+import { UserOutlined } from '@ant-design/icons';
+const { CheckableTag } = Tag;
 
 export default function JobDetails() {
   const route = useRouteMatch();
@@ -12,11 +15,13 @@ export default function JobDetails() {
   // @ts-ignore
   let jobId = route.params.id;
   const [jobDetail, setJobDetail] = useState<any>({});
-
+  const [bookmarkTag, setBookmarkTag] = useState(false);
+  const handleChange = () => {
+    setBookmarkTag((i) => (i = !i));
+  };
   const getDetailJob = async () => {
     try {
       const { payload } = await dispatch(handleGetDetailJob(jobId));
-      console.log(payload);
       if (!!payload) {
         setJobDetail(payload.jobDetail);
       }
@@ -27,32 +32,40 @@ export default function JobDetails() {
   }, [jobId]);
   return (
     <div className="job-details-page">
-      <div className="relative px-6 mb-10 bg-gray-100 header-wrapper">
-        <div className="absolute right-0 w-1/2 header__background"></div>
+      <div className="relative mt-8 mb-10 bg-gray-100 px-28 header-wrapper">
+        <div className="absolute right-0 w-full header__background"></div>
         <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
           <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
-            <div className="shadow-xl company-logo w-min">
-              <img src={`http://${jobDetail.company && jobDetail.company.logo}`} width="100" height="100" alt="king" />
-            </div>
             <div className="general-info">
-              <h2 className="text-2xl info__job-title">{jobDetail.title}</h2>
-              <p className="text-base font-semibold info__employer">About the Employer</p>
-              <div className="flex items-center text-base info__company gap-9">
+              <h2 className="text-3xl info__job-title">{jobDetail.title}</h2>
+              {/* {jobDetail.businessFields &&
+                jobDetail.businessFields.map((item: any) => (
+                  <Tag className="text-xl font-medium" color="#2e3fe5" key={item.id}>
+                    {item.name}
+                  </Tag>
+                ))} */}
+              <div className="flex items-center mt-2 text-base info__company gap-9">
                 <div className="company__name">
-                  <i className="mr-1 bx bxs-buildings"></i>
-                  <span>King</span>
+                  <i className="mr-1 text-xl bx bxs-buildings"></i>
+                  <span>{jobDetail.company && jobDetail.company.name}</span>
                 </div>
                 <div className="flex items-center gap-1 company__rate">
-                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">4.9</div>
-                  <div className="flex gap-1 text-yellow-400 rate__stars">
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
+                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">
+                    {jobDetail.company && jobDetail.company.stars}
                   </div>
+                  {/* <Rate disabled defaultValue={jobDetail.company && Math.floor(jobDetail.company.stars)} /> */}
+                  {jobDetail.company && jobDetail.company.stars && (
+                    <div className="flex gap-1 text-yellow-400 rate__stars">
+                      {Array(Math.floor(jobDetail.company.stars))
+                        .fill(0)
+                        .map((item: any) => (
+                          <i className="text-2xl bx bxs-star"></i>
+                        ))}
+                    </div>
+                  )}
                 </div>
-                <div className="flex items-center gap-1 company__loca">
+
+                {/* <div className="flex items-center gap-1 company__loca">
                   <div className="loca__flag">
                     <img
                       src="https://www.vasterad.com/themes/hireo/images/flags/gb.svg"
@@ -61,7 +74,7 @@ export default function JobDetails() {
                     />
                   </div>
                   <div className="loca__text">United Kingdom</div>
-                </div>
+                </div> */}
                 {jobDetail.company && jobDetail.company.isVerified && (
                   <div className="flex items-center text-white bg-green-500 rounded-md company__status--verified">
                     <div className="px-1 bg-green-400 status__icon rounded-l-md">
@@ -71,42 +84,45 @@ export default function JobDetails() {
                   </div>
                 )}
               </div>
+              <div className="flex items-center gap-1 info__post-time flex-nowrap">
+                <i className="text-xl bx bx-time-five"></i>
+                <span className="font-medium">{timeFromNow(jobDetail.createdAt)}</span>
+              </div>
             </div>
           </div>
-          <div className="pt-3 header_right pb-14 lg:py-6 lg:px-12 lg:rounded-md lg:bg-white lg:shadow-lg">
+          <div className="pt-3 mr-3 header_right pb-14 lg:py-6 lg:px-12 lg:rounded-md lg:bg-white lg:shadow-lg">
             <span className="text-base text-gray-400">Annual Salary</span>
             <br />
             <span className="flex justify-center text-2xl">${jobDetail.salary}</span>
           </div>
         </div>
       </div>
-      <div className="container flex flex-col m-auto content mt-14 lg:flex-row">
+      <div className="container flex flex-col m-auto px-28 content mt-14 lg:flex-row">
         <div className="w-full pl-6 lg:pr-10 content__main lg:w-2/3">
-          <div className="job-description">
-            <h2 className="mt-2 mb-10 text-xl">Job Description</h2>
-            <div className="mb-10 text-base text-justify job-description__content">
-              <p>
-                Leverage agile frameworks to provide a robust synopsis for high level overviews. Iterative approaches to
-                corporate strategy foster collaborative thinking to further the overall value proposition. Organically
-                grow the holistic world view of disruptive innovation via workplace diversity and empowerment.
-              </p>
-              <p>
-                Bring to the table win-win survival strategies to ensure proactive domination. At the end of the day,
-                going forward, a new normal that has evolved from generation X is on the runway heading towards a
-                streamlined cloud solution. User generated content in real-time will have multiple touchpoints for
-                offshoring.
-              </p>
-              <p>
-                Capitalize on low hanging fruit to identify a ballpark value added activity to beta test. Override the
-                digital divide with additional clickthroughs from DevOps. Nanotechnology immersion along the information
-                highway will close the loop on focusing solely on the bottom line.
-              </p>
+          {/* <div className="mb-8">
+            <h2 className="mt-2 mb-8 text-xl">Skill required</h2>
+            <div className="flex gap-3">
+              {jobDetail.businessFields &&
+                jobDetail.skills.map((item: any) => (
+                  <Tag className="px-2 text-xl font-medium" color="#2e3fe5" key={item.id}>
+                    {item.name}
+                  </Tag>
+                ))}
             </div>
+          </div> */}
+          <div className="job-description">
+            <h2 className="mt-2 mb-8 text-xl">Job Description</h2>
+            <div
+              className="mb-10 text-base text-justify job-description__content"
+              dangerouslySetInnerHTML={{ __html: jobDetail.description }}
+            ></div>
           </div>
-          <div className="mb-10 location">
+          <div className="mb-8 location">
             <h2 className="mt-2 mb-10 text-xl">Location</h2>
             <iframe
-              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3724.131535965436!2d105.83325081538527!3d21.02742229319891!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3135ab9926e7bd67%3A0x580e078874d5df1e!2sTemple%20Of%20Literature!5e0!3m2!1sen!2s!4v1635015151319!5m2!1sen!2s"
+              src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDAHhcUacKG8mW34H9OPSh54v6ICnTZZMM&q=${
+                jobDetail.area && jobDetail.area.name
+              }`}
               height="300"
               frameBorder="0"
               title="border:0;"
@@ -125,30 +141,20 @@ export default function JobDetails() {
             ))} */}
           </div>
         </div>
-        <div className="flex flex-col w-full gap-10 px-8 content__sidebar lg:w-1/3">
+        <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
           <Button>
             Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
           </Button>
-          <div className="w-full mb-12 text-base job-summary">
-            <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">Job Summary</h2>
+          <div className="w-full text-base job-summary">
+            <h2 className="px-6 py-3 mb-0 text-xl font-medium bg-gray-200">Job Summary</h2>
             <div className="flex items-center px-6 py-3 location" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-location-plus" style={{ color: '#2e3fe5' }} />
               </div>
               <div className="content">
-                <span className="font-medium">Location</span>
+                <span className="font-bold">Location</span>
                 <br />
-                <span>London, United Kingdom</span>
-              </div>
-            </div>
-            <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
-              <div className="mr-5 icon">
-                <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i>
-              </div>
-              <div className="content">
-                <span className="font-medium">Job Type</span>
-                <br />
-                <span>Full Time</span>
+                <span>{jobDetail.area && jobDetail.area.name}</span>
               </div>
             </div>
             <div className="flex items-center px-6 py-3 salary" style={{ background: '#f3f3f3' }}>
@@ -156,21 +162,61 @@ export default function JobDetails() {
                 <i className="text-2xl bx bx-dollar-circle" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
-                <span className="font-medium">Salary</span>
+                <span className="font-bold">Salary</span>
                 <br />
-                <span>$35k - $38k</span>
+                <span>${jobDetail.salary}</span>
               </div>
             </div>
+            <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
+              <div className="mr-5 icon">
+                <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i>
+              </div>
+              <div className="content">
+                <span className="font-bold">Work Mode</span>
+                <br />
+                <span>{jobDetail.workMode}</span>
+              </div>
+            </div>
+            <div className="flex items-center px-6 py-3 job-type" style={{ background: '#f3f3f3' }}>
+              <div className="mr-5 icon">
+                <UserOutlined className="text-2xl" style={{ color: '#2e3fe5' }} />
+                {/* <i className="text-2xl bx bxs-shopping-bags" style={{ color: '#2e3fe5' }}></i> */}
+              </div>
+              <div className="content">
+                <span className="font-bold">Level</span>
+                <br />
+                <span>{jobDetail.experience}</span>
+              </div>
+            </div>
+
             <div className="flex items-center px-6 py-3 date-posted" style={{ background: '#f3f3f3' }}>
               <div className="mr-5 icon">
                 <i className="text-2xl bx bx-time-five" style={{ color: '#2e3fe5' }}></i>
               </div>
               <div className="content">
-                <span className="font-medium">Date Posted</span>
+                <span className="font-bold">Available Time</span>
                 <br />
-                <span>2 days ago</span>
+                <span>
+                  {formatDate(jobDetail.startDate)} -{'>'} {formatDate(jobDetail.endDate)}
+                </span>
               </div>
             </div>
+          </div>
+          <div className="mt-4 skills">
+            <div className="text-xl font-medium">Skills require</div>
+            <div className="block mt-2 skills-tags">
+              {jobDetail.businessFields && jobDetail.skills.map((item: any) => <span key={item.id}>{item.name}</span>)}
+              {/* <span>iOS</span> */}
+            </div>
+          </div>
+          <div className="mt-4 transition bookmark">
+            <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
+            <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+              <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                <i className="bx bxs-star"></i>
+              </span>
+              <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
+            </CheckableTag>
           </div>
         </div>
       </div>

@@ -1,5 +1,5 @@
 import { Form, Button, Input } from 'antd';
-import { MailOutlined, LockOutlined, UserAddOutlined, HomeOutlined } from '@ant-design/icons';
+import { MailOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
 import './style.scss';
 import { useHistory } from 'react-router';

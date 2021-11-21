@@ -12,7 +12,7 @@ import Footer from 'components/Footer';
 function LandingPage() {
   // const dispatch = useAppDispatch();
   window.addEventListener('storage', function (event) {
-    if (event.key == 'logout-event') {
+    if (event.key === 'logout-event') {
       // ..
       window.location.href = '/';
     }

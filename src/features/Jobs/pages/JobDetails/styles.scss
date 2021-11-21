@@ -20,7 +20,43 @@
     background-size: cover;
     background-position: left;
   }
+  .skills {
+    .skills-tags {
+      span {
+        font-size: 14.7px;
+        display: inline-block;
+        padding: 6px 15px;
+        margin: 2px;
+        background-color: #2a41e812;
+        color: #2a41e8;
+        border-radius: 4px;
+      }
+    }
+  }
+  .bookmark {
+    transition-timing-function: ease-in-out;
+    transition-duration: 0.2s;
 
+    .bookmark-tag {
+      font-size: 17px;
+      background-color: transparent;
+
+      span {
+        margin: 0;
+        color: white;
+        box-shadow: 0 3px 12px #0000001a;
+      }
+    }
+    .ant-tag-checkable-checked {
+      .bookmark-icon {
+        background-color: #feb342;
+      }
+
+      .bookmark-text {
+        background-color: #ffa013;
+      }
+    }
+  }
   .ant-btn {
     height: 55px;
     font-size: 18px;
