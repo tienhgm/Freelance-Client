@@ -6,8 +6,9 @@ import GuardedRoute from 'components/GuardedRoute';
 import routesConfiguration from 'routers/routesConfig';
 import BackToTop from 'components/BackTop';
 import Loading from 'components/Loading';
-import { useAppSelector } from 'app/hooks';
-import { Suspense, useMemo } from 'react';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { Suspense, useMemo, useEffect } from 'react';
+import { logout } from 'app/slices/authSlice';
 function App() {
   const location = useLocation();
   const { pathname } = location;
@@ -18,6 +19,14 @@ function App() {
   }, [pathname]);
 
   const isLoading = useAppSelector((state) => state.app.isLoading);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (localStorage.isExpired !== 'false' && (localStorage.isExpired || localStorage.isExpired === 'true')) {
+      localStorage.isExpired = false;
+      dispatch(logout());
+    }
+  }, []);
   return (
     <div className="App">
       <Suspense fallback={null}>

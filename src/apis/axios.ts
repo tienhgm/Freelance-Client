@@ -7,24 +7,27 @@ const axiosInstance = Axios.create({
 });
 axiosInstance.interceptors.request.use(
     (config) => {
-        config.headers = getAuthHeader();
+        // @ts-ignore
+        config.headers.Authorization = 'Bearer ' + getAuthHeader();
         return config;
     },
     (error) => Promise.reject(error)
 );
 const logout = () => {
-    localStorage.removeItem('persist:root');
-    localStorage.setItem('logout-event', 'logout' + Math.random());
+    // localStorage.setItem('logout-event', 'logout' + Math.random());
     alert('Token expired');
+    localStorage.isExpired = true;
     window.location.href = "/";
+    // window.location.reload();
 }
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response.status !== 401) {
-            return Promise.reject(error);
-        } else {
+        if (error.response.status === 401) {
             return logout();
+        }
+        else {
+            return Promise.reject(error);
         }
         // const refreshToken = JSON.parse(JSON.parse(localStorage.getItem("persist:root")!).auth).refreshToken;
         // if (!refreshToken) {

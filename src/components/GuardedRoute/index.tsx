@@ -20,7 +20,6 @@ const GuardedRoute: FC<Props> = ({
   // Fake Auth
   const user = useAppSelector((state) => state.auth.user);
   let isAuthenticated = false;
-
   if (Object.entries(user).length > 0) {
     isAuthenticated = true;
   }

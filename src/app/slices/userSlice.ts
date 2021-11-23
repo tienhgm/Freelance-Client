@@ -41,7 +41,6 @@ export const handleChangePassword = createAsyncThunk("user/changePassword", asyn
 export const handleGetProfile = createAsyncThunk("user/profile", async (payload: any) => {
     try {
         const res: any = await getProfile(payload);
-        console.log(res)
         if (res.statusCode === 200) {
             return res.data;
         } else {

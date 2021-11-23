@@ -54,7 +54,7 @@ export const activate = createAsyncThunk("auth/activate", async (payload: any, {
       notify("success", "Activated!", "");
       return res.data;
     }
-  } catch (error:any) {
+  } catch (error: any) {
     console.log(error.message)
   } finally {
     dispatch(handleLoading(false));
@@ -66,9 +66,7 @@ const authSlice = createSlice({
   initialState,
   reducers: {
     logout(state) {
-      localStorage.removeItem('persist:root');
-      localStorage.setItem('logout-event', 'logout' + Math.random());
-      window.location.href = "/";
+      return initialState;
     },
     changeAvatar(state, payload) {
       state.user.avatar = payload
@@ -77,6 +75,7 @@ const authSlice = createSlice({
   extraReducers: {
     // @ts-ignore
     [login.fulfilled]: (state, action: PayloadAction<AuthState>) => {
+      // return { ...action.payload, accessToken: "" };
       return action.payload;
     },
     // @ts-ignore
