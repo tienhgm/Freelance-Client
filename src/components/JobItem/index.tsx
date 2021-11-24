@@ -58,7 +58,7 @@ export default function JobItem({
             </div>
             <div className="flex-grow content__text">
               <span className="content__company-name">{company}</span>
-              <h4 className="content__job-title">{jobTitle}</h4>
+              <h4 className="text-xl content__job-title">{jobTitle}</h4>
             </div>
             <div className="">
               <Tag color={compareTimeAvailableWithNow(endDate)}>{formatDate(startDate)} -{'>'} {formatDate(endDate)}</Tag>

@@ -7,6 +7,7 @@ import { timeFromNow, formatDate } from 'utils/generate';
 import { UserOutlined, CommentOutlined } from '@ant-design/icons';
 import './styles.scss';
 import moment from 'moment';
+import JobItem from 'components/JobItem';
 
 const { CheckableTag } = Tag;
 
@@ -17,6 +18,7 @@ export default function JobDetails() {
   let jobId = route.params.id;
   const [jobDetail, setJobDetail] = useState<any>({});
   const [bookmarkTag, setBookmarkTag] = useState(false);
+  const [relatedJobs, setRelatedJobs] = useState<any>([]);
   const handleChange = () => {
     setBookmarkTag((i) => (i = !i));
   };
@@ -25,6 +27,7 @@ export default function JobDetails() {
       const { payload } = await dispatch(handleGetDetailJob(jobId));
       if (!!payload) {
         setJobDetail(payload.jobDetail);
+        setRelatedJobs(payload.relatedJobs);
       }
     } catch (error) {}
   };
@@ -135,11 +138,23 @@ export default function JobDetails() {
           </div>
           <div className="mb-10 similar-jobs">
             <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Similar Jobs</h2>
-            {/* {jobList.map((job, index) => (
-              <div className="inline-block w-full p-3 md:w-1/2">
-                <JobItem {...job} key={index} />
+            {relatedJobs.map((job: any) => (
+              <div className="inline-block w-full py-2">
+                <JobItem
+                  key={job.id}
+                  id={job.id}
+                  company={job.company && job.company.name}
+                  companyLogo={job.company && `http://${job.company.logo}`}
+                  jobTitle={job.title}
+                  location={job.area && job.area.name}
+                  jobType={job.workMode}
+                  salary={job.salary}
+                  postTime={job.createdAt}
+                  startDate={job.startDate}
+                  endDate={job.endDate}
+                />
               </div>
-            ))} */}
+            ))}
           </div>
           <div className="mb-16 comment">
             <div className="mb-3 headline">

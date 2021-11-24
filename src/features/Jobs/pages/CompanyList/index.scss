@@ -1,10 +1,10 @@
 .companies {
   .companies__list li {
-    transition: all 0.6s;
+    transition: all 0.3s;
   }
   .companies__list li:hover {
-    background-color: #f3f3f3;
-    transition: all 0.6s;
+    background-color: #f1f1f1;
+    transition: all 0.3s;
   }
   .company__logo {
     img {

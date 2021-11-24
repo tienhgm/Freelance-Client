@@ -1,18 +1,10 @@
 import JobItem from 'components/JobItem';
-import { Select, Pagination, Skeleton } from 'antd';
+import { Pagination, Skeleton } from 'antd';
 import './styles.scss';
 import Sidebar from 'components/Sidebar';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetJobs } from 'app/slices/jobSlice';
 import { useEffect, useState } from 'react';
-const sortByItems = [
-  { value: 1, label: 'Relevance' },
-  { value: 2, label: 'Newest' },
-  { value: 3, label: 'Oldest' },
-  { value: 4, label: 'Random' },
-];
-
-const { Option } = Select;
 
 export default function FindJobs() {
   const dispatch = useAppDispatch();
@@ -32,7 +24,9 @@ export default function FindJobs() {
       }
     } catch (error) {
     } finally {
-      setTimeout(function(){ setLoading(false)}, 1000)
+      setTimeout(function () {
+        setLoading(false);
+      }, 1000);
     }
   };
   const handleGetSideBar = async (values: any) => {
@@ -57,16 +51,6 @@ export default function FindJobs() {
       <div className="w-full p-6 overflow-y-auto find-job-page__content">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">
           <h2 className="font-normal header__title">Search Results</h2>
-          <div className="header__filter">
-            <span>Sort by:</span>
-            <Select labelInValue defaultValue={sortByItems[0]} style={{ width: 120 }} className="select-footer">
-              {sortByItems.map((item) => (
-                <Option value={item.value} key={item.value}>
-                  {item.label}
-                </Option>
-              ))}
-            </Select>
-          </div>
         </div>
         <div>
           {listJobs.length > 0 ? (
@@ -94,9 +78,11 @@ export default function FindJobs() {
                 <div className="ml-2 text-2xl font-bold">'No result... Please input again!'</div>
               ) : (
                 <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2 ">
-                  {Array(10).fill(0).map((item: any) => (
+                  {Array(10)
+                    .fill(0)
+                    .map((item: any) => (
                       <Skeleton active />
-                  ))}
+                    ))}
                 </div>
               )}
             </>

@@ -70,9 +70,9 @@ function Sidebar({ handleGetSideBar }: IProps) {
           </div>
         </div>
         <div className="mt-3 mb-8">
-          <div className="text-lg font-medium">Name</div>
+          <div className="text-lg font-medium">Search by keyword</div>
           <div>
-            <Form.Item name="name">
+            <Form.Item name="title">
               <Input size="large" prefix={<SearchOutlined className="mr-1" />} placeholder="Name" />
             </Form.Item>
           </div>
