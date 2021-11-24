@@ -1,3 +1,4 @@
+import { handleGetCurUser } from 'app/slices/userSlice';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { notify } from "utils/notification";
 import { handleLoading } from './appSlice';
@@ -22,6 +23,7 @@ export const login = createAsyncThunk("auth/login", async (payload: any, { dispa
     dispatch(handleLoading(false));
     if (res.statusCode === 200) {
       notify("success", "Success", "");
+      dispatch(handleGetCurUser(res.data.accessToken))
       return res.data;
     }
   } catch (error: any) {
@@ -65,12 +67,10 @@ const authSlice = createSlice({
   name: "auth",
   initialState,
   reducers: {
-    logout(state) {
+    logout() { 
       return initialState;
     },
-    changeAvatar(state, payload) {
-      state.user.avatar = payload
-    }
+  
   },
   extraReducers: {
     // @ts-ignore
@@ -88,5 +88,5 @@ const authSlice = createSlice({
     },
   }
 });
-export const { logout, changeAvatar } = authSlice.actions;
+export const { logout } = authSlice.actions;
 export default authSlice.reducer;

@@ -5,3 +5,4 @@ export const updateProfile = (data: any) => sendPut('user/cv', data);
 export const getReviewsById = (id: any, filters: any) => sendGet(`users/${id}/reviewsByUser`, filters);
 export const getReviewsByUser = (id: any, filters: any) => sendGet(`users/${id}/reviewsByUser`, filters);
 export const handleUploadAvt = (file:any) => sendUpload(`user/avatar`, file);
+export const getCurUser = () => sendGet('user');

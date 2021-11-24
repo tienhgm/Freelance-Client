@@ -8,14 +8,14 @@ const axiosInstance = Axios.create({
 axiosInstance.interceptors.request.use(
     (config) => {
         // @ts-ignore
-        config.headers.Authorization = 'Bearer ' + getAuthHeader();
+        config.headers.Authorization = getAuthHeader();
         return config;
     },
     (error) => Promise.reject(error)
 );
 const logout = () => {
     // localStorage.setItem('logout-event', 'logout' + Math.random());
-    alert('Token expired');
+    alert('Token expired'); 
     localStorage.isExpired = true;
     window.location.href = "/";
     // window.location.reload();
@@ -35,7 +35,7 @@ axiosInstance.interceptors.response.use(
         // }
     }
 );
-
+export default axiosInstance;
 export const sendGet = (url: string, params?: any) => axiosInstance.get(url, { params }).then((res) => res.data);
 export const sendPost = (url: string, params?: any, queryParams?: any) =>
     axiosInstance.post(url, params, { params: queryParams }).then((res) => res.data);

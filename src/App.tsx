@@ -20,7 +20,12 @@ function App() {
 
   const isLoading = useAppSelector((state) => state.app.isLoading);
   const dispatch = useAppDispatch();
-
+  // window.addEventListener('storage', function (event) {
+  //   if (event.key === 'logout-event') {
+  //     // ..
+  //     window.location.href = '/';
+  //   }
+  // });
   useEffect(() => {
     if (localStorage.isExpired !== 'false' && (localStorage.isExpired || localStorage.isExpired === 'true')) {
       localStorage.isExpired = false;

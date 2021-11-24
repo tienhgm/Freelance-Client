@@ -8,7 +8,7 @@ const initialState: AppState = {
 }
 export const handleGetJobs = createAsyncThunk("job/list", async (payload: any) => {
     try {
-        const res:any = await getJobs(payload);
+        const res: any = await getJobs(payload);
         if (res.statusCode === 200) {
             return res.data;
         }
@@ -16,7 +16,7 @@ export const handleGetJobs = createAsyncThunk("job/list", async (payload: any) =
 });
 export const handleGetDetailJob = createAsyncThunk("job/detail", async (payload: any) => {
     try {
-        const res:any = await getDetailJob(payload);
+        const res: any = await getDetailJob(payload);
         if (res.statusCode === 200) {
             return res.data;
         }
@@ -29,14 +29,7 @@ const jobSlice = createSlice({
     reducers: {
     },
     extraReducers: {
-        // @ts-ignore
-        [handleGetJobs.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-        // @ts-ignore
-        [handleGetDetailJob.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
+
     }
 });
 export const { } = jobSlice.actions;

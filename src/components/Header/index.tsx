@@ -8,14 +8,17 @@ import SideBar from './Components/SideBar';
 import { UserOutlined } from '@ant-design/icons';
 import { logout } from 'app/slices/authSlice';
 import Popup from 'components/PopupConfirm';
+import { logoutUser } from 'app/slices/userSlice';
 export default function Header() {
-  const user = useAppSelector((state) => state.auth.user);
+  const user = useAppSelector((state) => state.user.curUser);
 
   const dispatch = useAppDispatch();
 
   const history = useHistory();
   const handleLogout = () => {
+    // Promist.all()
     dispatch(logout());
+    dispatch(logoutUser());
     // history.push('/');
     setOpenDialogConfirm(false);
   };
@@ -26,7 +29,8 @@ export default function Header() {
   const handleOpenDialogConfirm = () => {
     setOpenDialogConfirm(true);
   };
-  const userAvt = useAppSelector((state) => state.auth.user.avatar);
+  // @ts-ignore
+  const userAvt = useAppSelector((state) => state.user.curUser.avatar);
   const menu = (
     <Menu>
       <Menu.Item key="1">

@@ -46,18 +46,6 @@ const resourceSlice = createSlice({
     reducers: {
     },
     extraReducers: {
-        // @ts-ignore
-        [handleGetSkills.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-        // @ts-ignore
-        [handleGetArea.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-        // @ts-ignore
-        [handleGetCountries.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
     }
 });
 export const { } = resourceSlice.actions;

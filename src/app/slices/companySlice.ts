@@ -11,7 +11,7 @@ const initialState: AppState = {
 }
 export const handleGetCompanies = createAsyncThunk("company/list", async (payload: any) => {
     try {
-        const res:any = await getCompany(payload);
+        const res: any = await getCompany(payload);
         if (res.statusCode === 200) {
             return res.data;
         }
@@ -19,7 +19,7 @@ export const handleGetCompanies = createAsyncThunk("company/list", async (payloa
 });
 export const handleGetDetailCompany = createAsyncThunk("company/detail", async (payload: any) => {
     try {
-        const res:any = await getDetailCompany(payload);
+        const res: any = await getDetailCompany(payload);
         if (res.statusCode === 200) {
             return res.data;
         }
@@ -32,14 +32,6 @@ const companySlice = createSlice({
     reducers: {
     },
     extraReducers: {
-        // @ts-ignore
-        [handleGetCompanies.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-        // @ts-ignore
-        [handleGetDetailCompany.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
     }
 });
 export const { } = companySlice.actions;

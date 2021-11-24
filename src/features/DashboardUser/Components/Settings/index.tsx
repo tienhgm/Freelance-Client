@@ -6,14 +6,13 @@ import UploadFile from 'components/Dashboard/UploadFileCv';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
-import { handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
+import { changeAvatar, handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetArea, handleGetLanguages } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
 import { convertDateToString } from 'utils/generate';
 import moment from 'moment';
 import './index.scss';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';
-import { changeAvatar } from 'app/slices/authSlice';
 
 const { Option } = Select;
 const { RangePicker } = DatePicker;
