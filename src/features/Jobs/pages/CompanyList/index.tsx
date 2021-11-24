@@ -96,7 +96,8 @@ export default function BrowseCompanies() {
                 <CompanyItem
                   key={item.id}
                   ratingPoint={item.stars}
-                  companyLogo={'https://www.vasterad.com/themes/hireo/images/browse-companies-02.png'}
+                  // companyLogo={'https://www.vasterad.com/themes/hireo/images/browse-companies-02.png'}
+                  companyLogo={`http://${item.logo}`}
                   companyName={item.name}
                 />
               </li>
