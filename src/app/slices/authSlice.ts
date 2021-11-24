@@ -82,10 +82,10 @@ const authSlice = createSlice({
     [register.fulfilled]: (state, action: PayloadAction<AuthState>) => {
       return action.payload;
     },
-    // @ts-ignore
-    [activate.fulfilled]: (state, action: PayloadAction<AuthState>) => {
-      return action.payload;
-    },
+    // // @ts-ignore
+    // [activate.fulfilled]: (state, action: PayloadAction<AuthState>) => {
+    //   return action.payload;
+    // },
   }
 });
 export const { logout } = authSlice.actions;

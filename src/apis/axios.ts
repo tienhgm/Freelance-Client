@@ -23,12 +23,12 @@ const logout = () => {
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        if (error.response.status === 401) {
-            return logout();
-        }
-        else {
+        // if (error.response.status === 401) {
+        //     return logout();
+        // }
+        // else {
             return Promise.reject(error);
-        }
+        // }
         // const refreshToken = JSON.parse(JSON.parse(localStorage.getItem("persist:root")!).auth).refreshToken;
         // if (!refreshToken) {
         //     return logout();

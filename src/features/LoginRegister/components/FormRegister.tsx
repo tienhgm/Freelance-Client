@@ -1,6 +1,6 @@
 import { Form, Button, Input } from 'antd';
 import { MailOutlined, LockOutlined, UserAddOutlined } from '@ant-design/icons';
-import { REGEX_CHECK_EMAIL } from 'constants/regex';
+import { REGEX_CHECK_EMAIL, REGEX_PASSWORD } from 'constants/regex';
 import './style.scss';
 import { useHistory } from 'react-router';
 type RegisterFormProps = {
@@ -13,7 +13,7 @@ function FormRegister({ onFormFinish }: RegisterFormProps) {
     history.push('/login');
   };
   const goToHome = () => {
-    history.push('/')
+    history.push('/');
   };
   return (
     <div className="flex-1 bg-white form-register">
@@ -60,6 +60,10 @@ function FormRegister({ onFormFinish }: RegisterFormProps) {
           rules={[
             { required: true, message: 'Please input your password!' },
             { min: 8, message: 'Password must be minimum 8 characters.' },
+            {
+              pattern: REGEX_PASSWORD,
+              message: 'Password must contain at least 1 uppercase character, 1 lowercase character, 1 special character, 1 number and must not contain white space.',
+            },
           ]}
         >
           <Input.Password placeholder="Password" size="large" autoComplete="false" prefix={<LockOutlined />} />
@@ -90,7 +94,9 @@ function FormRegister({ onFormFinish }: RegisterFormProps) {
           </span>
         </span>
         <span>
-          <span className="form-title__sign-up" onClick={goToHome}>Home</span>
+          <span className="form-title__sign-up" onClick={goToHome}>
+            Home
+          </span>
         </span>
       </Form>
     </div>

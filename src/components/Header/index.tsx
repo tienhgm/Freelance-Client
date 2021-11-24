@@ -16,10 +16,8 @@ export default function Header() {
 
   const history = useHistory();
   const handleLogout = () => {
-    // Promist.all()
     dispatch(logout());
     dispatch(logoutUser());
-    // history.push('/');
     setOpenDialogConfirm(false);
   };
   const goToLogin = () => {

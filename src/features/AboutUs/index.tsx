@@ -1,6 +1,7 @@
 import { Breadcrumb } from 'antd';
 import Footer from 'components/Footer';
 import CountUp from 'react-countup';
+import { Link } from 'react-router-dom';
 import AboutAgency from './components/AboutAgency';
 import AboutExpert from './components/AboutExpert';
 import AboutFreelance from './components/AboutFreelancer';
@@ -16,7 +17,7 @@ function AboutUs() {
             <div className="font-bold breadcrumb-page">
               <Breadcrumb>
                 <Breadcrumb.Item>
-                  <a href="/">Home</a>
+                  <Link to="/">Home</Link>
                 </Breadcrumb.Item>
                 <Breadcrumb.Item>About us</Breadcrumb.Item>
               </Breadcrumb>
