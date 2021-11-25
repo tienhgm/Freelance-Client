@@ -97,7 +97,7 @@ export default function BrowseCompanies() {
       <div className="container companies__list">
         <ul className="grid flex-grow grid-cols-1 transition-all gap-7 content__list-items lg:grid-cols-2 xl:grid-cols-3">
           {listCompanies.map((item: any) => (
-            <Skeleton active loading={loading}>
+            <Skeleton active loading={loading} key={item.id}>
               <li className="transition-all cursor-pointer" key={item.id} onClick={() => goToDetail(item.id)}>
                 <CompanyItem
                   key={item.id}

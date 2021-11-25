@@ -166,8 +166,8 @@ export default function CompanyDetails() {
           <div className="mb-10 similar-jobs">
             <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Open Positions</h2>
             {jobList.map((job, index) => (
-              <div className="inline-block w-full p-3">
-                <Skeleton active loading={loading}>
+              <div className="inline-block w-full p-3" key={index}>
+                <Skeleton active loading={loading} >
                   <JobItem {...job} key={index} />
                 </Skeleton>
               </div>
