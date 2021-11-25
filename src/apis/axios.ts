@@ -1,9 +1,9 @@
 import Axios from 'axios';
 import getAuthHeader from 'utils/getAuthHeader';
-const domain = "http://14.225.192.239:4000/api";
+import configs from '../config';
 const axiosInstance = Axios.create({
     timeout: 3 * 60 * 1000,
-    baseURL: domain
+    baseURL: configs.BASE_URL
 });
 axiosInstance.interceptors.request.use(
     (config) => {
