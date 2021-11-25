@@ -13,7 +13,6 @@ export default function Header() {
   const user = useAppSelector((state) => state.user.curUser);
 
   const dispatch = useAppDispatch();
-
   const history = useHistory();
   const handleLogout = () => {
     dispatch(logout());

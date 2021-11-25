@@ -97,7 +97,7 @@ const routesConfiguration = {
     path: '/dashboard',
     exact: false,
     breadcrumbs: [],
-    navbar: true,
+    navbar: false,
     component: DashboardUser,
     routers: [],
     guarded: true,

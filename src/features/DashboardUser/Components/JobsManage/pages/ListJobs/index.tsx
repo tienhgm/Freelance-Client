@@ -14,7 +14,6 @@ export default function ListJobs() {
     history.push('/dashboard/jobs-manage/edit/1');
   };
   const handleDeleteJob = () => {
-    console.log("oke");
     setOpenDialogConfirm(false);
   };
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);

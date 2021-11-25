@@ -25,13 +25,13 @@ axiosInstance.interceptors.response.use(
     (error) => {
         if (error.response.status === 401) {
             if (!!!getAuthHeader()) {
-                return Promise.reject(error);
+                return Promise.reject(error.response);
             } else {
                 return logout();
             }
         }
         else {
-            return Promise.reject(error);
+            return Promise.reject(error.response);
         }
         // const refreshToken = JSON.parse(JSON.parse(localStorage.getItem("persist:root")!).auth).refreshToken;
         // if (!refreshToken) {

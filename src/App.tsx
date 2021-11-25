@@ -9,6 +9,7 @@ import Loading from 'components/Loading';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Suspense, useMemo, useEffect } from 'react';
 import { logout } from 'app/slices/authSlice';
+import { logoutUser } from 'app/slices/userSlice';
 function App() {
   const location = useLocation();
   const { pathname } = location;
@@ -30,6 +31,7 @@ function App() {
     if (localStorage.isExpired !== 'false' && (localStorage.isExpired || localStorage.isExpired === 'true')) {
       localStorage.isExpired = false;
       dispatch(logout());
+      dispatch(logoutUser());
     }
   }, []);
   return (

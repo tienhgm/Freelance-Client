@@ -52,13 +52,13 @@ function DashboardUser() {
     // { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
     { key: 10, icon: '', link: '/dashboard/post-jobs', name: 'Post A Job' },
   ];
-  const history = useHistory();
-  useEffect(() => {
-    document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.add('active');
-    return () => {
-      document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.remove('active');
-    }
-  }, [history.location.pathname]);
+  // const history = useHistory();
+  // useEffect(() => {
+  //   document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.add('active');
+  //   return () => {
+  //     document.querySelector('.header > div > ul > li:nth-child(5) > a')?.classList.remove('active');
+  //   }
+  // }, [history.location.pathname]);
 
   return (
     <div className="flex h-full overflow-y-hidden">

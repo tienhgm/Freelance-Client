@@ -9,7 +9,6 @@ function Register() {
   const history = useHistory();
   const handleRegister = async (values: any) => {
     const { payload } = await dispatch(register(values));
-    console.log(payload);
     if (payload && !!payload.user) {
       history.push('/');
     }
