@@ -5,6 +5,7 @@ import Sidebar from 'components/Sidebar';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetJobs } from 'app/slices/jobSlice';
 import { useEffect, useState } from 'react';
+import { useHistory } from 'react-router-dom';
 
 export default function FindJobs() {
   const dispatch = useAppDispatch();
@@ -35,6 +36,13 @@ export default function FindJobs() {
   const handleChangePage = (value: any) => {
     setPage(value);
   };
+  const history = useHistory();
+  useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.remove('active');
+    };
+  }, [history.location.pathname]);
   useEffect(() => {
     let listFilter = { ...filters, page: page };
     listFilter.status = 'Inprogress';

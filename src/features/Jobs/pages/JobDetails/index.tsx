@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton } from 'antd';
-import { Link, useRouteMatch } from 'react-router-dom';
+import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
 import { timeFromNow, formatDate } from 'utils/generate';
@@ -32,6 +32,13 @@ export default function JobDetails() {
       }
     } catch (error) {}
   };
+  const history = useHistory();
+  useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.remove('active');
+    }
+  }, [history.location.pathname]);
   useEffect(() => {
     getDetailJob();
   }, [jobId]);

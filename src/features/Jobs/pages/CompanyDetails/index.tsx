@@ -3,7 +3,7 @@ import { useAppDispatch } from 'app/hooks';
 import { handleGetDetailCompany } from 'app/slices/companySlice';
 import JobItem from 'components/JobItem';
 import { useEffect, useState } from 'react';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import JobItemProps from 'types/jobItemProps';
 import { Breadcrumb, Rate, Skeleton } from 'antd';
 import './index.scss';
@@ -69,7 +69,13 @@ export default function CompanyDetails() {
       }, 500);
     }
   };
-
+  const history = useHistory();
+  useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(2) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(2) > a')?.classList.remove('active');
+    }
+  }, [history.location.pathname]);
   useEffect(() => {
     getDetail();
   }, [companyId]);

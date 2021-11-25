@@ -58,6 +58,12 @@ export default function BrowseCompanies() {
     }
   };
   useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(2) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(2) > a')?.classList.remove('active');
+    }
+  }, [history.location.pathname]);
+  useEffect(() => {
     getListCompanies();
   }, [filter]);
   return (
