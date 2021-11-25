@@ -12,8 +12,6 @@ const freelancerList: Array<FreelancerItemProps> = [
     jobTitle: 'Magento Certified Developer',
     rating: 5,
     location: 'Brisbane',
-    rate: 70,
-    jobSuccess: 100,
   },
   {
     avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
@@ -22,8 +20,6 @@ const freelancerList: Array<FreelancerItemProps> = [
     jobTitle: 'Magento Certified Developer',
     rating: 4,
     location: 'Hà Nội',
-    rate: 70,
-    jobSuccess: 100,
   },
   {
     avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
@@ -32,8 +28,6 @@ const freelancerList: Array<FreelancerItemProps> = [
     jobTitle: 'Magento Certified Developer',
     rating: 3,
     location: 'Brisbane',
-    rate: 70,
-    jobSuccess: 100,
   },
   {
     avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
@@ -42,8 +36,6 @@ const freelancerList: Array<FreelancerItemProps> = [
     jobTitle: 'Magento Certified Developer',
     rating: 5,
     location: 'Việt Nam',
-    rate: 70,
-    jobSuccess: 100,
   },
   {
     avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
@@ -52,8 +44,6 @@ const freelancerList: Array<FreelancerItemProps> = [
     jobTitle: 'Magento Certified Developer',
     rating: 5,
     location: 'Brisbane',
-    rate: 70,
-    jobSuccess: 100,
   },
 ];
 

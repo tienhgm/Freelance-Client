@@ -15,7 +15,7 @@ axiosInstance.interceptors.request.use(
 );
 const logout = () => {
     // localStorage.setItem('logout-event', 'logout' + Math.random());
-    alert('Token expired'); 
+    alert('Token expired');
     localStorage.isExpired = true;
     window.location.href = "/";
     // window.location.reload();
@@ -23,12 +23,16 @@ const logout = () => {
 axiosInstance.interceptors.response.use(
     (response) => response,
     (error) => {
-        // if (error.response.status === 401) {
-        //     return logout();
-        // }
-        // else {
+        if (error.response.status === 401) {
+            if (!!!getAuthHeader()) {
+                return Promise.reject(error);
+            } else {
+                return logout();
+            }
+        }
+        else {
             return Promise.reject(error);
-        // }
+        }
         // const refreshToken = JSON.parse(JSON.parse(localStorage.getItem("persist:root")!).auth).refreshToken;
         // if (!refreshToken) {
         //     return logout();

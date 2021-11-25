@@ -4,11 +4,11 @@ import FreelancerItemProps from 'types/freelancerItemProps';
 import { useHistory } from 'react-router';
 import routesConfiguration from 'routers/routesConfig';
 
-function Freelancer({ avatar, nationality, name, jobTitle, rating, location, rate, jobSuccess }: FreelancerItemProps) {
+function Freelancer({ avatar, nationality, name, jobTitle, rating, location }: FreelancerItemProps) {
   const history = useHistory();
   const gotoFreelancerProfile = () => {
-    history.push(routesConfiguration.freelancerDetails.cPath + '1')
-  }
+    history.push(routesConfiguration.freelancerDetails.cPath + '1');
+  };
 
   return (
     <div className="flex flex-col transition freelancer">
@@ -16,13 +16,13 @@ function Freelancer({ avatar, nationality, name, jobTitle, rating, location, rat
         <div className="flex-1">
           {/* avata */}
           <div className="freelancer__avatar">
-              <img src={avatar} alt={name} />
+            <img src={avatar} alt={name} />
           </div>
           {/* name */}
           <div className="mt-4 freelancer__name">
-            <h4>
+            {/* <h4>
               {name} <img className="ml-1 flag" src={nationality} alt={location} />
-            </h4>
+            </h4> */}
             <span>{jobTitle}</span>
           </div>
           {/* rating */}
@@ -39,7 +39,7 @@ function Freelancer({ avatar, nationality, name, jobTitle, rating, location, rat
       </div>
 
       <div className="freelancer__details">
-        <div className="info">
+        <div className="flex justify-center info">
           <ul>
             <li className="relative">
               Location
@@ -48,17 +48,15 @@ function Freelancer({ avatar, nationality, name, jobTitle, rating, location, rat
               </strong>
             </li>
             <li>
-              Rate
-              <strong>&#36;{rate}/hr</strong>
-            </li>
-            <li>
-              Job Success
-              <strong>{jobSuccess}%</strong>
+              Level
+              <strong>Senior</strong>
             </li>
           </ul>
         </div>
 
-          <button className="view-profile" onClick={gotoFreelancerProfile}>View Profile</button>
+        <button className="view-profile" onClick={gotoFreelancerProfile}>
+          View Profile
+        </button>
       </div>
     </div>
   );

@@ -5,8 +5,6 @@ type FreelancerItemProps = {
   jobTitle: string;
   rating: number;
   location: string;
-  rate: number;
-  jobSuccess: number;
 };
 
 export default FreelancerItemProps;
