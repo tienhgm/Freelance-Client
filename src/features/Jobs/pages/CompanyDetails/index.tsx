@@ -83,7 +83,7 @@ export default function CompanyDetails() {
     <div className="job-details-page company">
       <div className="relative px-2 mb-10 bg-gray-100 header-wrapper">
         <div className="absolute right-0 w-1/2 header__background"></div>
-        <Skeleton loading={loading} active avatar paragraph={{ rows: 3, width: '100' }} className="p-6">
+        <Skeleton loading={loading} active paragraph={{ rows: 4, width: '100' }} className="p-6">
           <div className="container relative flex flex-col justify-between m-auto page__header items-left lg:items-center lg:flex-row">
             <div className="flex flex-col gap-5 header__left items-left lg:items-center pt-14 lg:py-14 lg:flex-row">
               <div className="shadow-xl company-logo w-min">
