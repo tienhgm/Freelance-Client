@@ -89,7 +89,7 @@ export default function FindJobs() {
                   {Array(10)
                     .fill(0)
                     .map((item: any) => (
-                      <Skeleton active />
+                      <Skeleton active key={Math.random()} />
                     ))}
                 </div>
               )}

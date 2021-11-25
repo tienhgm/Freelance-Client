@@ -12,9 +12,8 @@ import JobItem from 'components/JobItem';
 const { CheckableTag } = Tag;
 
 export default function JobDetails() {
-  const route = useRouteMatch();
+  const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
-  // @ts-ignore
   let jobId = route.params.id;
   const [jobDetail, setJobDetail] = useState<any>({});
   const [bookmarkTag, setBookmarkTag] = useState(false);
@@ -79,7 +78,7 @@ export default function JobDetails() {
                         {Array(Math.floor(jobDetail.company.stars))
                           .fill(0)
                           .map((item: any) => (
-                            <i className="text-2xl bx bxs-star"></i>
+                            <i className="text-2xl bx bxs-star" key={Math.random()}></i>
                           ))}
                       </div>
                     )}
@@ -272,7 +271,7 @@ export default function JobDetails() {
           <div className="mt-4 skills">
             <div className="text-xl font-medium">Skills require</div>
             <div className="block mt-2 skills-tags">
-              <Skeleton active loading={loading} paragraph={{rows:1, width: '100%'}}>
+              <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
                 {jobDetail.businessFields &&
                   jobDetail.skills.map((item: any) => <span key={item.id}>{item.name}</span>)}
               </Skeleton>
@@ -280,13 +279,13 @@ export default function JobDetails() {
           </div>
           <div className="mt-4 transition bookmark">
             <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-            <Skeleton active loading={loading} paragraph={{rows: 1}}>
-            <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-              <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                <i className="bx bxs-star"></i>
-              </span>
-              <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-            </CheckableTag>
+            <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
+              <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+                <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                  <i className="bx bxs-star"></i>
+                </span>
+                <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
+              </CheckableTag>
             </Skeleton>
           </div>
         </div>
