@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { Button, Tag, Comment, Avatar, Tooltip, Pagination } from 'antd';
-import { useRouteMatch } from 'react-router-dom';
+import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton } from 'antd';
+import { Link, useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
 import { timeFromNow, formatDate } from 'utils/generate';
-import { UserOutlined, CommentOutlined } from '@ant-design/icons';
+import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
 import moment from 'moment';
 import JobItem from 'components/JobItem';
@@ -19,6 +19,7 @@ export default function JobDetails() {
   const [jobDetail, setJobDetail] = useState<any>({});
   const [bookmarkTag, setBookmarkTag] = useState(false);
   const [relatedJobs, setRelatedJobs] = useState<any>([]);
+  const listCanApply = ['Inprogress', 'Await'];
   const handleChange = () => {
     setBookmarkTag((i) => (i = !i));
   };
@@ -114,6 +115,19 @@ export default function JobDetails() {
                 ))}
             </div>
           </div> */}
+          <div className="mb-6 font-semibold">
+            <Breadcrumb>
+              <Breadcrumb.Item>
+                <Link to="/">
+                  <HomeOutlined className="relative -top-1" /> Home
+                </Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <Link to="/find-jobs">Find Jobs</Link>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>{jobDetail.title}</Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
           <div className="job-description">
             <h2 className="mt-2 mb-8 text-xl">Job Description</h2>
             <div
@@ -183,9 +197,12 @@ export default function JobDetails() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
-          <Button>
-            Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
-          </Button>
+          {listCanApply.includes(jobDetail.status) && (
+            <Button>
+              Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
+            </Button>
+          )}
+
           <div className="w-full text-base job-summary">
             <h2 className="px-6 py-3 mb-0 text-xl font-medium bg-gray-200">Job Summary</h2>
             {/* <div className="flex items-center px-6 py-3 location" style={{ background: '#f3f3f3' }}>
