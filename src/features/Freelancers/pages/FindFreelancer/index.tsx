@@ -1,65 +1,56 @@
 import Sidebar from 'components/Sidebar';
-import { Select, Pagination, Row, Col } from 'antd';
+import { Pagination, Row, Col, Skeleton } from 'antd';
 import './index.scss';
-import FreelancerItemProps from 'types/freelancerItemProps';
 import Freelancer from 'features/Freelancers/components/Freelancer';
+import { useEffect, useState } from 'react';
+import { useAppDispatch } from 'app/hooks';
+import { handleGetLisFreelancer } from 'app/slices/userSlice';
+import { useHistory } from 'react-router-dom';
 
-const freelancerList: Array<FreelancerItemProps> = [
-  {
-    avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
-    nationality: 'https://www.vasterad.com/themes/hireo/images/flags/au.svg',
-    name: 'Sindy Forest',
-    jobTitle: 'Magento Certified Developer',
-    rating: 5,
-    location: 'Brisbane',
-  },
-  {
-    avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
-    nationality: 'https://www.vasterad.com/themes/hireo/images/flags/au.svg',
-    name: 'Đặng Tuấn',
-    jobTitle: 'Magento Certified Developer',
-    rating: 4,
-    location: 'Hà Nội',
-  },
-  {
-    avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
-    nationality: 'https://www.vasterad.com/themes/hireo/images/flags/au.svg',
-    name: 'Mạnh Tiến',
-    jobTitle: 'Magento Certified Developer',
-    rating: 3,
-    location: 'Brisbane',
-  },
-  {
-    avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
-    nationality: 'https://www.vasterad.com/themes/hireo/images/flags/au.svg',
-    name: 'Khắc Thiện',
-    jobTitle: 'Magento Certified Developer',
-    rating: 5,
-    location: 'Việt Nam',
-  },
-  {
-    avatar: 'https://www.vasterad.com/themes/hireo/images/user-avatar-big-03.jpg',
-    nationality: 'https://www.vasterad.com/themes/hireo/images/flags/au.svg',
-    name: 'Sindy Forest',
-    jobTitle: 'Magento Certified Developer',
-    rating: 5,
-    location: 'Brisbane',
-  },
-];
-
-const sortByItems = [
-  { value: 1, label: 'Relevance' },
-  { value: 2, label: 'Newest' },
-  { value: 3, label: 'Oldest' },
-  { value: 4, label: 'Random' },
-];
-
-const { Option } = Select;
-const handleGetSideBar = async (values: any) => {
-  // const result = await dispatch(handleGetJobs())
-  console.log(values);
-};
 function FindFreelancer() {
+  const dispatch = useAppDispatch();
+
+  const [total, setTotal] = useState(0);
+  const [loading, setLoading] = useState(false);
+  const [listFreelancer, setListFreelancer] = useState<any>([]);
+  const [filters, setFilters] = useState<any>();
+  const [page, setPage] = useState(1);
+  const handleGetSideBar = async (values: any) => {
+    setFilters(values);
+  };
+  const handleChangePage = (value: number) => {
+    setPage(value);
+  };
+
+  const handleGetListFreelancers = async (listFilters: any) => {
+    try {
+      setLoading(true);
+      const { payload } = await dispatch(handleGetLisFreelancer(listFilters));
+      if (payload) {
+        const { totalRecords, users } = payload;
+        setTotal(totalRecords);
+        setListFreelancer(users);
+      }
+    } catch (error) {
+    } finally {
+      setTimeout(function () {
+        setLoading(false);
+      }, 5000);
+    }
+  };
+  const history = useHistory();
+  useEffect(() => {
+    document.querySelector('.header > div > ul > li:nth-child(4) > a')?.classList.add('active');
+    return () => {
+      document.querySelector('.header > div > ul > li:nth-child(4) > a')?.classList.remove('active');
+    };
+  }, [history.location.pathname]);
+  useEffect(() => {
+    let listFilter = { ...filters, page: page };
+    listFilter.role = 2;
+    listFilter.records = 9;
+    handleGetListFreelancers(listFilter);
+  }, [filters, page]);
   return (
     <div className="flex flex-col FindFreelancer find-job-page sm:flex-row">
       <div
@@ -71,29 +62,39 @@ function FindFreelancer() {
       <div className="w-full p-8 overflow-y-auto FindFreelancer__list">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">
           <h2 className="font-normal header__title">Search Results</h2>
-          <div className="header__filter">
-            <span>Sort by:</span>
-            <Select labelInValue defaultValue={sortByItems[0]} style={{ width: 120 }} className="select-footer">
-              {sortByItems.map((item) => (
-                <Option value={item.value} key={item.value}>
-                  {item.label}
-                </Option>
-              ))}
-            </Select>
-          </div>
+          <div className="header__filter"></div>
         </div>
         {/* listFreelancer */}
         <div className="flex-1 mr-1">
           <Row gutter={{ md: 16, lg: 24 }}>
-            {freelancerList.map((freelancer, index) => (
-              <Col className="mb-4 gutter-row" md={24} lg={12} xl={8}>
-                <Freelancer key={index} {...freelancer} />
+            {listFreelancer.map((freelancer: any) => (
+              <Col className="mb-4 gutter-row" md={24} lg={12} xl={8} key={freelancer.id}>
+                <Skeleton active loading={loading}>
+                  <Freelancer
+                    key={freelancer.id}
+                    avatar={freelancer.avatar}
+                    rate={freelancer.rate}
+                    name={freelancer.name}
+                    briefIntroduce={freelancer.briefIntroduce}
+                    area={freelancer.area}
+                    country={freelancer.country}
+                    skills={freelancer.skills}
+                  />
+                </Skeleton>
               </Col>
             ))}
           </Row>
         </div>
         <div className="flex justify-center mt-8 find-job-page__paginate">
-          <Pagination defaultCurrent={1} total={100} responsive={true} />
+          {!loading && (
+            <Pagination
+              showSizeChanger={false}
+              defaultCurrent={page}
+              total={total}
+              onChange={handleChangePage}
+              responsive={true}
+            />
+          )}
         </div>
       </div>
     </div>

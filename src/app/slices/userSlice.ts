@@ -1,7 +1,8 @@
+import { getListFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { changePassword, getProfile, getReviewsById, handleUploadAvt, updateProfile } from "apis/userModule";
-import handleErrorMessage from "utils/handleErrorMessage";
-import { notify } from "utils/notification";
+import handleErrorMessage from "helpers/handleErrorMessage";
+import { notify } from "helpers/notification";
 import { handleLoading } from "./appSlice";
 interface UserSlice {
     isChangePassword: boolean;
@@ -77,6 +78,15 @@ export const handleGetCurUser = createAsyncThunk("user/curUser", async (payload:
         .then((data) => { return data.data })
         .catch(err => { console.log(err) })
     return res;
+});
+export const handleGetLisFreelancer = createAsyncThunk("user/listFreelancer", async (payload: any) => {
+    try {
+        const res: any = await getListFreelancer(payload);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+
 });
 const userSlice = createSlice({
     name: "user",

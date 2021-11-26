@@ -3,7 +3,7 @@ import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
 import { uploadAvt } from 'app/slices/userSlice';
-import { notify } from "utils/notification";
+import { notify } from "helpers/notification";
 interface Iprops {
   disabled: boolean;
   previewImg: string;

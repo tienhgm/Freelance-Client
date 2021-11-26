@@ -1,5 +1,5 @@
 import { Space, Table, Tag, Button } from 'antd';
-import { handleGetStatusEarning, handleGetJobProgress } from 'utils/Dashboard';
+import { handleGetStatusEarning, handleGetJobProgress } from 'helpers/Dashboard';
 import { statusApply } from 'utils/enum';
 interface IProps {
   data: any | null;

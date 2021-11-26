@@ -1,10 +1,11 @@
 type FreelancerItemProps = {
   avatar: string;
-  nationality: string;
   name: string;
-  jobTitle: string;
-  rating: number;
-  location: string;
+  briefIntroduce: string;
+  rate: number;
+  skills: any;
+  area: any;
+  country: any;
 };
 
 export default FreelancerItemProps;

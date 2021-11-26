@@ -33,7 +33,7 @@ export default function FindJobs() {
   const handleGetSideBar = async (values: any) => {
     setFilters(values);
   };
-  const handleChangePage = (value: any) => {
+  const handleChangePage = (value: number) => {
     setPage(value);
   };
   const history = useHistory();
@@ -97,13 +97,15 @@ export default function FindJobs() {
           )}
         </div>
         <div className="flex justify-center mt-8 find-job-page__paginate">
-          <Pagination
-            showSizeChanger={false}
-            defaultCurrent={page}
-            total={total}
-            onChange={handleChangePage}
-            responsive={true}
-          />
+          {!loading && (
+            <Pagination
+              showSizeChanger={false}
+              defaultCurrent={page}
+              total={total}
+              onChange={handleChangePage}
+              responsive={true}
+            />
+          )}
         </div>
       </div>
     </div>

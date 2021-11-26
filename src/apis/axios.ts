@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import getAuthHeader from 'utils/getAuthHeader';
+import getAuthHeader from 'helpers/getAuthHeader';
 import configs from '../config';
 const axiosInstance = Axios.create({
     timeout: 3 * 60 * 1000,

@@ -78,7 +78,7 @@ export default function PostJob() {
               <Slider max={1500} value={jobSalary} onChange={handleSetJobSalary} />
             </div>
             <div className="input-job">
-              <h2>Tags</h2>
+              <h2>Skills</h2>
               <Select
                 mode="multiple"
                 allowClear

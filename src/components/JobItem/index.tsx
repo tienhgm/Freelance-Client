@@ -3,7 +3,7 @@ import defaultCompanyLogo from 'assets/images/company-logo-default.png';
 import Skeletons from 'react-loading-skeleton';
 import { Skeleton, Tag } from 'antd';
 import { useHistory } from 'react-router-dom';
-import { timeFromNow, formatDate } from 'utils/generate';
+import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 
 export default function JobItem({

@@ -6,4 +6,3 @@ export const getReviewsById = (id: any, filters: any) => sendGet(`users/${id}/re
 export const getReviewsByUser = (id: any, filters: any) => sendGet(`users/${id}/reviewsByUser`, filters);
 export const handleUploadAvt = (file:any) => sendUpload(`user/avatar`, file);
 export const getCurUser = () => sendGet('user');
-export const getListUser = (filters?:any) => sendGet('users',filters ? filters : '');

@@ -101,10 +101,10 @@ export default function MyJobs() {
       <div className="flex items-center justify-between">
         <div className="m-3 text-xl font-medium">List Jobs</div>
         <div>
-          <Select style={{ width: 120, marginRight: '20px' }} onChange={handleSelect} placeholder="Payment" allowClear>
+          {/* <Select style={{ width: 120, marginRight: '20px' }} onChange={handleSelect} placeholder="Payment" allowClear>
             <Option value="asc">Ascending</Option>
             <Option value="desc">Descending</Option>
-          </Select>
+          </Select> */}
           <Select style={{ width: 120 }} onChange={handleSelect} placeholder="Status" allowClear>
             <Option value="Applied">Applied</Option>
             <Option value="Pending">Pending</Option>

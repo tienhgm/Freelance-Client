@@ -9,7 +9,7 @@ import { gender, roleWork, typeWork } from 'utils/enum';
 import { changeAvatar, handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetArea, handleGetLanguages } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
-import { convertDateToString } from 'utils/generate';
+import { convertDateToString } from 'helpers/generate';
 import moment from 'moment';
 import './index.scss';
 import { REGEX_CHECK_EMAIL } from 'constants/regex';

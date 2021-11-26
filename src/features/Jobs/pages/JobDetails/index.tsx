@@ -3,7 +3,7 @@ import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch } from 'app/hooks';
-import { timeFromNow, formatDate } from 'utils/generate';
+import { timeFromNow, formatDate } from 'helpers/generate';
 import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
 import moment from 'moment';

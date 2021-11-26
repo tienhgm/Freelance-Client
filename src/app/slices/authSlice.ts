@@ -1,6 +1,6 @@
 import { handleGetCurUser } from 'app/slices/userSlice';
 import { createAsyncThunk, createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { notify } from "utils/notification";
+import { notify } from "helpers/notification";
 import { handleLoading } from './appSlice';
 import { handleActivate, handleLogin, handleRegister } from 'apis/authModule';
 interface AuthState {
