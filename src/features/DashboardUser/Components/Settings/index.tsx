@@ -6,7 +6,7 @@ import UploadFile from 'components/Dashboard/UploadFileCv';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import CkEditor from 'components/Editor';
 import { gender, roleWork, typeWork } from 'utils/enum';
-import { changeAvatar, handleGetProfile, handleUpdateProfile } from 'app/slices/userSlice';
+import { changeAvatar, handleGetProfile, handleUpdateProfile, updateCertifications } from 'app/slices/userSlice';
 import { handleGetSkills, handleGetArea, handleGetLanguages } from 'app/slices/resourceSlice';
 import iconMinus from 'assets/images/minus.svg';
 import { convertDateToString } from 'helpers/generate';
@@ -27,6 +27,7 @@ export default function Settings() {
   const [listArea, setListArea] = useState([]);
   const [listLanguages, setListLanguages] = useState([]);
   const [previewImg, setPreviewImg] = useState('');
+  const [loaded, setLoaded] = useState(false);
   const watchEducation = (value: any) => {
     setEducations(value);
   };
@@ -46,6 +47,7 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetLanguages());
     setListLanguages(payload);
   };
+
   const userId = useAppSelector((state) => state.auth.user.id);
   const getProfile = async () => {
     const { payload } = await dispatch(handleGetProfile(userId));
@@ -53,7 +55,7 @@ export default function Settings() {
     if (payload) {
       let experiencesPayload = payload.experiences;
       if (!!experiencesPayload) {
-        experiencesPayload = experiencesPayload.map((item: any) => {
+        experiencesPayload = experiencesPayload?.map((item: any) => {
           return {
             ...item,
             rangePicker: [moment(item.startDate), moment(item.endDate)],
@@ -77,6 +79,8 @@ export default function Settings() {
       setIntroduce(payload.introduce);
       setEducations(payload.educations);
       setPreviewImg(payload.avatar);
+      dispatch(updateCertifications(payload.certifications));
+      setLoaded(true);
     }
   };
   useEffect(() => {
@@ -97,7 +101,7 @@ export default function Settings() {
     // handler experiences
     let experiences = values.experiences;
     if (!!experiences) {
-      experiences = experiences.map((item: any) => {
+      experiences = experiences?.map((item: any) => {
         return {
           ...item,
           startDate: convertDateToString(item.rangePicker[0]._d),
@@ -149,7 +153,7 @@ export default function Settings() {
                   </div>
                   <Form.Item name="gender" rules={[{ required: true, message: 'Please select your gender' }]}>
                     <Select>
-                      {gender.map((item, idx) => (
+                      {gender?.map((item, idx) => (
                         <Option value={item.value} key={idx}>
                           {item.name}
                         </Option>
@@ -210,7 +214,7 @@ export default function Settings() {
                   <Form.Item name="nationality">
                     {listArea && (
                       <Select style={{ width: '100%' }} placeholder="Select your area">
-                        {listArea.map((item: any) => (
+                        {listArea?.map((item: any) => (
                           <Option value={item.id} key={item.id}>
                             {item.name}
                           </Option>
@@ -244,7 +248,7 @@ export default function Settings() {
                   style={{ width: '100%' }}
                   placeholder="Choose your skills"
                 >
-                  {listSkills.map((item: any) => (
+                  {listSkills?.map((item: any) => (
                     <Option value={item.name} key={item.id}>
                       {item.name}
                     </Option>
@@ -264,7 +268,7 @@ export default function Settings() {
                   style={{ width: '100%' }}
                   placeholder="Select your languages"
                 >
-                  {listLanguages.map((item: any) => (
+                  {listLanguages?.map((item: any) => (
                     <Option value={item.name} key={item.id}>
                       {item.name}
                     </Option>
@@ -331,7 +335,7 @@ export default function Settings() {
                               rules={[{ required: true, message: 'Missing Type' }]}
                             >
                               <Select style={{ width: '200px' }} placeholder="Select your type">
-                                {typeWork.map((item, idx) => (
+                                {typeWork?.map((item, idx) => (
                                   <Option value={item} key={idx}>
                                     {item}
                                   </Option>
@@ -357,7 +361,7 @@ export default function Settings() {
                               rules={[{ required: true, message: 'Missing Role Name' }]}
                             >
                               <Select style={{ width: '200px' }} placeholder="Select your role">
-                                {roleWork.map((item, idx) => (
+                                {roleWork?.map((item, idx) => (
                                   <Option value={item} key={idx}>
                                     {item}
                                   </Option>
@@ -402,9 +406,11 @@ export default function Settings() {
           </div>
           <div>
             <div className="mb-3 text-lg font-bold">Certifications</div>
-            <div style={{ width: 'calc(20%)' }}>
-              <UploadFile disabled={false} />
-            </div>
+            {loaded && (
+              <div style={{ width: 'calc(20%)' }}>
+                <UploadFile disabled={false} />
+              </div>
+            )}
           </div>
         </div>
         {/* /profile */}

@@ -1,6 +1,6 @@
 import { getListFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { changePassword, getProfile, getReviewsById, handleUploadAvt, updateProfile } from "apis/userModule";
+import { changePassword, getProfile, getReviewsById, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile } from "apis/userModule";
 import handleErrorMessage from "helpers/handleErrorMessage";
 import { notify } from "helpers/notification";
 import { handleLoading } from "./appSlice";
@@ -23,6 +23,34 @@ export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any)
         }
     } catch (error) {
         notify("error", "Upload Error!", "");
+    }
+});
+export const uploadCertification = createAsyncThunk("user/certification", async (payload: any) => {
+    try {
+        const res:any = await handleUploadCertification(payload);
+        if (res?.statusCode === 200) {
+            notify("success", "Upload Success", "");
+            console.log("success",res.data.certifications)
+            return res.data.certifications;
+        }
+    } catch (error) {
+        console.log(error)
+        notify("error",  "Upload Error!", "");
+        return ""
+    }
+});
+export const removeCertification = createAsyncThunk("user/certification", async (payload: any) => {
+    try {
+        const res:any = await handleDeleteCertification(payload);
+        if (res?.statusCode === 200) {
+            notify("success", "Removed", "");
+            console.log("success",res.data.certifications)
+            return res.data.certifications;
+        }
+    } catch (error) {
+        console.log(error)
+        notify("error",  "Remove Failed!", "");
+        return ""
     }
 });
 export const handleChangePassword = createAsyncThunk("user/changePassword", async (payload: any, { dispatch }) => {
@@ -96,7 +124,10 @@ const userSlice = createSlice({
             return initialState;
         },
         changeAvatar(state, payload) {
-            state.curUser.avatar = payload.payload
+            state.curUser.avatar = payload.payload;
+        },
+        updateCertifications(state, payload){
+            state.curUser.certifications = payload.payload;
         }
     },
     extraReducers: {
@@ -105,12 +136,20 @@ const userSlice = createSlice({
             state.curUser.avatar = action.payload;
         },
         // @ts-ignore
+        [uploadCertification.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            state.curUser.certifications = action.payload;
+        },
+        // @ts-ignore
+        [removeCertification.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
+            state.curUser.certifications = action.payload;
+        },
+        // @ts-ignore
         [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             state.isChangePassword = action.payload;
         },
         // @ts-ignore
         [handleGetReviews.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            state.reivews = action.payload;
+            state.reviews = action.payload;
         },
         // @ts-ignore
         [handleGetCurUser.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
@@ -119,5 +158,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { logoutUser, changeAvatar } = userSlice.actions;
+export const { logoutUser, changeAvatar, updateCertifications } = userSlice.actions;
 export default userSlice.reducer;
