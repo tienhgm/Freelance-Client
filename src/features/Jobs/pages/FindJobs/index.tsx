@@ -97,7 +97,7 @@ export default function FindJobs() {
           )}
         </div>
         <div className="flex justify-center mt-8 find-job-page__paginate">
-          {!loading && (
+          {!loading && listJobs.length > 0 && (
             <Pagination
               showSizeChanger={false}
               defaultCurrent={page}

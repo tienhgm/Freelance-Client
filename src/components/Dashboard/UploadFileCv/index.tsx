@@ -4,7 +4,6 @@ import { Button, message } from 'antd';
 import { Upload } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { removeCertification, uploadCertification } from 'app/slices/userSlice';
-import axios from 'axios';
 type uploadFilePropsType = {
   disabled: boolean;
   // certifications: string[];
@@ -39,8 +38,6 @@ function UploadFile(props: uploadFilePropsType) {
           } else {
             setShowPreview(`http://${file.name}`);
           }
-          console.log('file', file);
-          console.log('fileList', fileList);
         }
 
         document.querySelectorAll<HTMLElement>('.custom-certification-item a').forEach((item) => {
@@ -76,10 +73,8 @@ function UploadFile(props: uploadFilePropsType) {
 
   const handleChangeFile = async (options: any) => {
     if (options?.file) {
-      // console.log(listFile);
       const result = await dispatch(uploadCertification(options?.file));
       // dispatch(updateCertification(result.payload));
-      console.log(result);
       options.onSuccess('OK');
     }
   };
@@ -87,7 +82,6 @@ function UploadFile(props: uploadFilePropsType) {
   const handleRemove = async (file: any) => {
     const result = await dispatch(removeCertification(file));
     setShowPreview('');
-    console.log(result);
   };
 
   return (
@@ -123,7 +117,7 @@ function UploadFile(props: uploadFilePropsType) {
         )}
         {showPreview !== '' && (
           <div
-            className="preview fixed left-1/2 top-1/2 rounded-md bg-white shadow-md transition-all"
+            className="fixed transition-all bg-white rounded-md shadow-md preview left-1/2 top-1/2"
             style={{
               transform: 'translate(-50%, -50%)',
               width: '75vw',
@@ -134,7 +128,7 @@ function UploadFile(props: uploadFilePropsType) {
           >
             <div
               onClick={() => setShowPreview('')}
-              className="bg-black w-screen h-screen fixed left-1/2 top-1/2"
+              className="fixed w-screen h-screen bg-black left-1/2 top-1/2"
               style={{ transform: 'translate(-50%, -50%)', opacity: 0.6 }}
             ></div>
             <iframe

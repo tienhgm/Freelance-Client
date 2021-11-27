@@ -4,7 +4,7 @@ import './index.scss';
 import Freelancer from 'features/Freelancers/components/Freelancer';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
-import { handleGetLisFreelancer } from 'app/slices/userSlice';
+import { handleGetListFreelancer } from 'app/slices/userSlice';
 import { useHistory } from 'react-router-dom';
 
 function FindFreelancer() {
@@ -25,7 +25,7 @@ function FindFreelancer() {
   const handleGetListFreelancers = async (listFilters: any) => {
     try {
       setLoading(true);
-      const { payload } = await dispatch(handleGetLisFreelancer(listFilters));
+      const { payload } = await dispatch(handleGetListFreelancer(listFilters));
       if (payload) {
         const { totalRecords, users } = payload;
         setTotal(totalRecords);
@@ -35,7 +35,7 @@ function FindFreelancer() {
     } finally {
       setTimeout(function () {
         setLoading(false);
-      }, 5000);
+      }, 500);
     }
   };
   const history = useHistory();
@@ -66,27 +66,47 @@ function FindFreelancer() {
         </div>
         {/* listFreelancer */}
         <div className="flex-1 mr-1">
-          <Row gutter={{ md: 16, lg: 24 }}>
-            {listFreelancer.map((freelancer: any) => (
-              <Col className="mb-4 gutter-row" md={24} lg={12} xl={8} key={freelancer.id}>
-                <Skeleton active loading={loading}>
-                  <Freelancer
-                    key={freelancer.id}
-                    avatar={freelancer.avatar}
-                    rate={freelancer.rate}
-                    name={freelancer.name}
-                    briefIntroduce={freelancer.briefIntroduce}
-                    area={freelancer.area}
-                    country={freelancer.country}
-                    skills={freelancer.skills}
-                  />
-                </Skeleton>
-              </Col>
-            ))}
-          </Row>
+          {listFreelancer.length > 0 ? (
+            <Row gutter={{ md: 16, lg: 24 }}>
+              {listFreelancer.map((freelancer: any) => (
+                <Col className="mb-4 gutter-row" md={24} lg={12} xl={8} key={freelancer.id}>
+                  <Skeleton active loading={loading}>
+                    <Freelancer
+                      key={freelancer.id}
+                      id={freelancer.id}
+                      avatar={freelancer.avatar}
+                      rate={freelancer.rate}
+                      firstName={freelancer.firstName}
+                      lastName={freelancer.lastName}
+                      briefIntroduce={freelancer.briefIntroduce}
+                      area={freelancer.area}
+                      country={freelancer.country}
+                      skills={freelancer.skills}
+                    />
+                  </Skeleton>
+                </Col>
+              ))}
+            </Row>
+          ) : (
+            <>
+              {!loading ? (
+                <div className="ml-2 text-2xl font-bold">'No result... Please input again!'</div>
+              ) : (
+                <Row gutter={{ md: 16, lg: 24 }}>
+                  {Array(10)
+                    .fill(0)
+                    .map((item: any) => (
+                      <Col className="mb-4 gutter-row" md={24} lg={12} xl={8} key={Math.random()}>
+                        <Skeleton active />
+                      </Col>
+                    ))}
+                </Row>
+              )}
+            </>
+          )}
         </div>
         <div className="flex justify-center mt-8 find-job-page__paginate">
-          {!loading && (
+          {!loading && listFreelancer.length > 0 && (
             <Pagination
               showSizeChanger={false}
               defaultCurrent={page}

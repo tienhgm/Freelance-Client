@@ -39,6 +39,7 @@ export const register = createAsyncThunk("auth/register", async (payload: any, {
 
     if (res.statusCode === 201) {
       notify("success", "Register success", "");
+      dispatch(handleGetCurUser(res.data.accessToken))
       return res.data;
     }
   } catch (error: any) {

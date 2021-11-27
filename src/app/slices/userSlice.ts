@@ -1,4 +1,4 @@
-import { getListFreelancer } from './../../apis/freelancerModule/index';
+import { getListFreelancer, getDetailFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { changePassword, getProfile, getReviewsById, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile } from "apis/userModule";
 import handleErrorMessage from "helpers/handleErrorMessage";
@@ -48,7 +48,6 @@ export const removeCertification = createAsyncThunk("user/certification", async 
             return res.data.certifications;
         }
     } catch (error) {
-        console.log(error)
         notify("error",  "Remove Failed!", "");
         return ""
     }
@@ -107,9 +106,18 @@ export const handleGetCurUser = createAsyncThunk("user/curUser", async (payload:
         .catch(err => { console.log(err) })
     return res;
 });
-export const handleGetLisFreelancer = createAsyncThunk("user/listFreelancer", async (payload: any) => {
+export const handleGetListFreelancer = createAsyncThunk("user/listFreelancer", async (payload: any) => {
     try {
         const res: any = await getListFreelancer(payload);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+
+});
+export const handleGetDetailFreelancer = createAsyncThunk("user/detailFreelancer", async (payload: any) => {
+    try {
+        const res: any = await getDetailFreelancer(payload);
         if (res.statusCode === 200) {
             return res.data;
         }

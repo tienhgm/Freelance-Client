@@ -172,6 +172,7 @@ export default function JobDetails() {
                     postTime={job.createdAt}
                     startDate={job.startDate}
                     endDate={job.endDate}
+                    loading={loading}
                   />
                 </Skeleton>
               </div>

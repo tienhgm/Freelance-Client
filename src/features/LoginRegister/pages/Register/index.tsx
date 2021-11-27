@@ -15,6 +15,7 @@ function Register() {
   };
   const onFinish = (values: any) => {
     try {
+      delete values.re_password;
       handleRegister(values);
     } catch (error) {}
   };

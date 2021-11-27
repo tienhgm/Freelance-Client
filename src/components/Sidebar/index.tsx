@@ -241,7 +241,7 @@ function Sidebar({ handleGetSideBar }: IProps) {
                 </Form.Item>
               </div>
             </div>
-            <div className="mb-8 sidebar__tags">
+            {/* <div className="mb-8 sidebar__tags">
               <div className="text-lg font-medium">Languages</div>
               <div>
                 <Form.Item name="languageIds">
@@ -260,7 +260,7 @@ function Sidebar({ handleGetSideBar }: IProps) {
                   </Select>
                 </Form.Item>
               </div>
-            </div>
+            </div> */}
             <div className="mb-8">
               <div className="flex justify-between">
                 <div className="text-lg font-medium">Rate</div>

@@ -5,6 +5,7 @@ import { Skeleton, Tag } from 'antd';
 import { useHistory } from 'react-router-dom';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
+import JobItemProps from 'types/jobItemProps';
 
 export default function JobItem({
   company,
@@ -18,7 +19,7 @@ export default function JobItem({
   startDate,
   endDate,
   id
-}: any) {
+}: JobItemProps) {
   const history = useHistory();
   const [bookmark, setBookmark] = useState(false);
   const addOrRemoveBookmark = () => {
@@ -35,7 +36,7 @@ export default function JobItem({
   };
   return (
     <Skeleton active loading={loading}>
-      <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl">
+      <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl" >
         <div
           className={`content__bookmark transition-all top-24 ${bookmark ? 'added' : ''}`}
           onClick={addOrRemoveBookmark}

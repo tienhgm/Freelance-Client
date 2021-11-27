@@ -4,13 +4,12 @@ import { handleGetDetailCompany } from 'app/slices/companySlice';
 import JobItem from 'components/JobItem';
 import { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router';
-import JobItemProps from 'types/jobItemProps';
 import { Breadcrumb, Rate, Skeleton } from 'antd';
 import './index.scss';
 import ReviewItem from './ReviewItem';
 import { FileProtectOutlined, HomeOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
-const jobList: Array<JobItemProps> = [
+const jobList: Array<any> = [
   {
     company: 'Hexagon',
     companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',

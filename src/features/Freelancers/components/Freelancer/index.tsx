@@ -2,33 +2,46 @@ import { EnvironmentOutlined, StarFilled } from '@ant-design/icons';
 import './index.scss';
 import FreelancerItemProps from 'types/freelancerItemProps';
 import { useHistory } from 'react-router';
-import routesConfiguration from 'routers/routesConfig';
+import { Tooltip } from 'antd';
 
-function Freelancer({ avatar, rate, country, name, briefIntroduce, area, skills }: FreelancerItemProps) {
+function Freelancer({
+  avatar,
+  rate,
+  country,
+  firstName,
+  lastName,
+  briefIntroduce,
+  area,
+  skills,
+  id,
+}: FreelancerItemProps) {
   const history = useHistory();
-  const gotoFreelancerProfile = () => {
-    history.push(routesConfiguration.freelancerDetails.cPath + '1');
+  const gotoDetailPage = (id: any) => {
+    history.push(`find-freelancers/${id}`);
   };
-
   return (
-    <div className="flex flex-col transition freelancer">
+    <div className="flex flex-col transition freelancer" style={{ minHeight: '500px' }}>
       <div className="flex flex-wrap items-center flex-grow freelancer__overview">
         <div className="flex-1">
           <div className="freelancer__avatar">
             <img src={`http://${avatar}`} alt={avatar} />
           </div>
           <div className="mt-4 freelancer__name">
-            <h4>{name}</h4>
-            <span>{briefIntroduce}</span>
+            <h4>{firstName + ' ' + lastName}</h4>
+            
           </div>
+          <div className="mt-3 text-lg font-medium">{briefIntroduce}</div>
           <div className="mt-4 freelancer__name">
             <h5>
-              {country.name} <span>{country.emoji}</span>
+              {country && (
+                <span>
+                  {country.name} {country.emoji}
+                </span>
+              )}
             </h5>
           </div>
-          <div>{briefIntroduce}</div>
           <div className="mt-1 freelancer__rating">
-            <span className="mr-2 point">{rate}</span>
+            {rate > 0 && <span className="mr-2 point">{rate}</span>}
             <span className="star">
               {Array(Math.floor(rate))
                 .fill(0)
@@ -39,7 +52,9 @@ function Freelancer({ avatar, rate, country, name, briefIntroduce, area, skills 
           </div>
           <div className="mt-4 freelancer__skills">
             {skills.map((item: any) => (
-              <div className="item" key={item.id}>{item.name}</div>
+              <Tooltip key={item.id} placement="bottom" title={item.experience} color="geekblue">
+                <div className="item">{item.name}</div>
+              </Tooltip>
             ))}
           </div>
         </div>
@@ -55,8 +70,7 @@ function Freelancer({ avatar, rate, country, name, briefIntroduce, area, skills 
             </li>
           </ul>
         </div>
-
-        <button className="view-profile" onClick={gotoFreelancerProfile}>
+        <button className="view-profile" onClick={() => gotoDetailPage(id)}>
           View Profile
         </button>
       </div>
