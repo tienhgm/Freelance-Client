@@ -10,6 +10,8 @@ type JobItemProps = {
   startDate: string;
   endDate: string;
   id: string;
+  skills: any;
+  level: string;
 };
 
 export default JobItemProps;
