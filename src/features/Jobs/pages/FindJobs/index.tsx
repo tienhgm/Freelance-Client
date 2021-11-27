@@ -67,6 +67,7 @@ export default function FindJobs() {
                 <JobItem
                   key={job.id}
                   id={job.id}
+                  skills={job.skills}
                   company={job.company && job.company.name}
                   companyLogo={job.company && `http://${job.company.logo}`}
                   jobTitle={job.title}
@@ -76,6 +77,7 @@ export default function FindJobs() {
                   postTime={job.createdAt}
                   startDate={job.startDate}
                   endDate={job.endDate}
+                  level={job.experience}
                   loading={loading}
                 />
               ))}

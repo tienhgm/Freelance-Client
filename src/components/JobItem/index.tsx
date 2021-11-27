@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
+import { RocketOutlined } from '@ant-design/icons';
 
 export default function JobItem({
   company,
@@ -18,7 +19,9 @@ export default function JobItem({
   loading,
   startDate,
   endDate,
-  id
+  skills,
+  level,
+  id,
 }: JobItemProps) {
   const history = useHistory();
   const [bookmark, setBookmark] = useState(false);
@@ -26,7 +29,7 @@ export default function JobItem({
     setBookmark(!bookmark);
   };
 
-  const gotoDetailPage = (id:any) => {
+  const gotoDetailPage = (id: any) => {
     history.push(`find-jobs/${id}`);
   };
   const compareTimeAvailableWithNow = (endDate: any) => {
@@ -36,7 +39,7 @@ export default function JobItem({
   };
   return (
     <Skeleton active loading={loading}>
-      <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl" >
+      <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl">
         <div
           className={`content__bookmark transition-all top-24 ${bookmark ? 'added' : ''}`}
           onClick={addOrRemoveBookmark}
@@ -46,7 +49,7 @@ export default function JobItem({
         </div>
 
         <div className="job-item" onClick={() => gotoDetailPage(id)}>
-          <div className="flex p-8 job-item__content">
+          <div className="flex w-full p-8 job-item__content">
             <div className="relative mr-3 content__logo w-14 h-14 ">
               <Skeletons height={56} />
               <img
@@ -58,11 +61,21 @@ export default function JobItem({
               />
             </div>
             <div className="flex-grow content__text">
-              <span className="content__company-name">{company}</span>
-              <h4 className="text-xl content__job-title">{jobTitle}</h4>
-            </div>
-            <div className="">
-              <Tag color={compareTimeAvailableWithNow(endDate)}>{formatDate(startDate)} -{'>'} {formatDate(endDate)}</Tag>
+              <span className="flex gap-1 content__company-name">
+                <div style={{ width: 'calc(70%)' }}>{company}</div>
+                <div>
+                  <div>
+                    <Tag color={compareTimeAvailableWithNow(endDate)}>
+                      {formatDate(startDate)} -{'>'} {formatDate(endDate)}
+                    </Tag>
+                  </div>
+                </div>
+              </span>
+
+              <h5 className="text-xl content__job-title">{jobTitle}</h5>
+              <div className="flex gap-1 flex-nowrap">
+                {skills && skills.map((item: any) => <Tag color="geekblue">{item.name}</Tag>)}
+              </div>
             </div>
           </div>
           <div className="p-8 bg-gray-100 job-item__footer">
@@ -70,6 +83,10 @@ export default function JobItem({
               <div className="flex items-center gap-1 info__location flex-nowrap w-min">
                 <i className="icon icon__location"></i>
                 <span className="font-medium">{location}</span>
+              </div>
+              <div className="flex items-center gap-1 info__salary flex-nowrap">
+                {/* <RocketOutlined /> */} <span className="font-medium"> Level: </span>
+                <span className="font-medium">{level}</span>
               </div>
               <div className="flex items-center gap-1 info__job-type flex-nowrap">
                 <i className="icon icon__bag"></i>
@@ -79,6 +96,7 @@ export default function JobItem({
                 <i className="icon icon__wallet"></i>
                 <span className="font-medium">${salary}</span>
               </div>
+
               <div className="flex items-center gap-1 info__post-time flex-nowrap">
                 <i className="icon icon__time"></i>
                 <span className="font-medium">{timeFromNow(postTime)}</span>

@@ -163,6 +163,7 @@ export default function JobDetails() {
                   <JobItem
                     key={job.id}
                     id={job.id}
+                    skills={job.skills}
                     company={job.company && job.company.name}
                     companyLogo={job.company && `http://${job.company.logo}`}
                     jobTitle={job.title}
@@ -172,6 +173,7 @@ export default function JobDetails() {
                     postTime={job.createdAt}
                     startDate={job.startDate}
                     endDate={job.endDate}
+                    level={job.experience}
                     loading={loading}
                   />
                 </Skeleton>
