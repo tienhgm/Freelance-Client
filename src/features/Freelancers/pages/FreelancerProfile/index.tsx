@@ -19,6 +19,7 @@ const { CheckableTag } = Tag;
 
 function FreelancerProfile() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
+  const curUser = useAppSelector((state) => state.user.curUser);
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let freelancerId = route.params.id;
@@ -96,7 +97,6 @@ function FreelancerProfile() {
         </Skeleton>
       </div>
 
-      {/* Breadcrumb */}
       <div className="container mt-4 ml-40 font-semibold">
         {loading ? (
           <Skeleton.Button active={true} size="small" style={{ width: 'calc(340px)' }} />
@@ -114,12 +114,10 @@ function FreelancerProfile() {
           </Breadcrumb>
         )}
       </div>
-      {/* content */}
       <div className="flex-1 w-full mt-10 content">
         <Row justify="center" gutter={{ md: 16, lg: 24 }}>
           <Col className="content__left" md={24} lg={12} xl={12}>
             <Skeleton className="mb-4" active loading={loading} paragraph={{ rows: 18, width: '100%' }}>
-              {/* About Me */}
               <div className="mb-10 card-container">
                 <Tabs type="card" size="large">
                   <TabPane tab={<span>Overview</span>} key="1">
@@ -196,7 +194,6 @@ function FreelancerProfile() {
                 </Tabs>
               </div>
             </Skeleton>
-            {/* Work History and Feedback */}
             <Skeleton active loading={loading} paragraph={{ rows: 8, width: '100%' }}>
               <div className="mb-16 work-history">
                 <div className="headline">
@@ -294,16 +291,19 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {/* make an offer */}
-            <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
-              <div className="mt-6 button-make">
-                <a href="/" className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
-                  Let's Chat
-                  <ArrowRightOutlined className="relative ml-3 -top-1" />
-                </a>
-              </div>
-            </Skeleton>
-            {/* Indicators */}
+            {curUser.id === freelancerId ? (
+              <></>
+            ) : (
+              <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
+                <div className="mt-6 button-make">
+                  <a href="/" className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
+                    Let's Chat
+                    <ArrowRightOutlined className="relative ml-3 -top-1" />
+                  </a>
+                </div>
+              </Skeleton>
+            )}
+
             <Skeleton active loading={loading} paragraph={{ rows: 4, width: '100%' }}>
               <div className="flex flex-wrap mt-12 indicators">
                 <div className="indicator-item">
@@ -328,7 +328,6 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {/* Skills */}
             <Skeleton active loading={loading} paragraph={{ rows: 2, width: '100%' }}>
               <div className="mt-8 skills">
                 <h4 className="text-xl font-medium">Languages</h4>
@@ -371,21 +370,26 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {/* Bookmark  */}
             {userRole === 1 ? (
               <></>
             ) : (
-              <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
-                <div className="mt-8 transition bookmark">
-                  <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-                  <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-                    <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                      <i className="bx bxs-star"></i>
-                    </span>
-                    <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-                  </CheckableTag>
-                </div>
-              </Skeleton>
+              <>
+                {curUser.id === freelancerId ? (
+                  <></>
+                ) : (
+                  <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
+                    <div className="mt-8 transition bookmark">
+                      <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
+                      <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+                        <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                          <i className="bx bxs-star"></i>
+                        </span>
+                        <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
+                      </CheckableTag>
+                    </div>
+                  </Skeleton>
+                )}
+              </>
             )}
           </Col>
         </Row>
