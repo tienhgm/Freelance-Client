@@ -158,7 +158,7 @@ export default function JobDetails() {
           <div className="mb-10 similar-jobs">
             <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Similar Jobs</h2>
             {relatedJobs.map((job: any) => (
-              <div className="inline-block w-full py-2">
+              <div className="inline-block w-full py-2" key={job.id}>
                 <Skeleton active loading={loading}>
                   <JobItem
                     key={job.id}

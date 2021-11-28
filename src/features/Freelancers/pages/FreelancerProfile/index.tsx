@@ -84,7 +84,7 @@ function FreelancerProfile() {
                     <EnvironmentOutlined />
                     {freelancerDetail.area && freelancerDetail.area.name && (
                       <div className="font-medium loca__text">
-                        {freelancerDetail.address + ', ' + freelancerDetail.area.name}
+                        {freelancerDetail.address + `${freelancerDetail.address && ', '}` + freelancerDetail.area.name}
                       </div>
                     )}
                   </div>
@@ -132,7 +132,10 @@ function FreelancerProfile() {
                           style={{ paddingBottom: '2px', height: '4px', width: 'calc(2%)', backgroundColor: '#2e3fe5' }}
                         ></div>
                       </div>
-                      <p className="text-base leading-7">{freelancerDetail.introduce}</p>
+                      <div
+                        className="text-base leading-7"
+                        dangerouslySetInnerHTML={{ __html: freelancerDetail.introduce }}
+                      />
                     </div>
                   </TabPane>
                   <TabPane tab="Work experiences" key="2">
@@ -182,7 +185,7 @@ function FreelancerProfile() {
                         ></div>
                       </div>
                       {freelancerDetail.educations && (
-                        <div dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}></div>
+                        <div className="text-base leading-7" dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}></div>
                       )}
                     </div>
                   </TabPane>
@@ -347,6 +350,21 @@ function FreelancerProfile() {
             <Skeleton active loading={loading} paragraph={{ rows: 2, width: '100%' }}>
               <div className="mt-8 certifications">
                 <h4 className="text-xl font-medium">Certifications</h4>
+                <div className="flex flex-col gap-1">
+                  {freelancerDetail.certifications &&
+                    freelancerDetail.certifications.map((item: any, idx: number) => (
+                      <a
+                        href={`http://${item}`}
+                        target="_blank"
+                        key={idx}
+                        rel="noopener"
+                        className="ml-2 text-lg"
+                        style={{ color: '#1890FF' }}
+                      >
+                        Certificate {idx + 1}
+                      </a>
+                    ))}
+                </div>
               </div>
             </Skeleton>
             {/* Bookmark  */}

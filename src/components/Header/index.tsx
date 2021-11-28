@@ -35,19 +35,15 @@ export default function Header() {
       </Menu.Item>
       {
         <Menu.Item key="2">
-          <div>
-            <Link to="/dashboard" style={{ color: 'black' }}>
-              Dashboard
-            </Link>
-          </div>
+          <Link to="/dashboard" style={{ color: 'black' }}>
+            Dashboard
+          </Link>
         </Menu.Item>
       }
       <Menu.Item key="3">
-        <div>
-          <Link to="/dashboard/bookmarks" style={{ color: 'black' }}>
-            bookmarks
-          </Link>
-        </div>
+        <Link to="/dashboard/bookmarks" style={{ color: 'black' }}>
+          bookmarks
+        </Link>
       </Menu.Item>
       <Menu.Item key="4">
         <div style={{ color: 'black' }} onClick={handleOpenDialogConfirm}>

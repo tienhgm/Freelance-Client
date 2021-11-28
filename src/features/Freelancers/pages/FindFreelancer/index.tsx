@@ -50,6 +50,11 @@ function FindFreelancer() {
     listFilter.role = 2;
     listFilter.records = 9;
     handleGetListFreelancers(listFilter);
+    return () => {
+      setListFreelancer([]);
+      setTotal(0);
+      setFilters({});
+    }
   }, [filters, page]);
   return (
     <div className="flex flex-col FindFreelancer find-job-page sm:flex-row">

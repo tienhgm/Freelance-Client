@@ -6,7 +6,6 @@ import { useHistory } from 'react-router-dom';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
-import { RocketOutlined } from '@ant-design/icons';
 
 export default function JobItem({
   company,
@@ -74,7 +73,7 @@ export default function JobItem({
 
               <h5 className="text-xl content__job-title">{jobTitle}</h5>
               <div className="flex gap-1 flex-nowrap">
-                {skills && skills.map((item: any) => <Tag color="geekblue">{item.name}</Tag>)}
+                {skills && skills.map((item: any) => <Tag color="geekblue" key={Math.random()}>{item.name}</Tag>)}
               </div>
             </div>
           </div>

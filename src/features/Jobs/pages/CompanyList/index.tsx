@@ -54,7 +54,7 @@ export default function BrowseCompanies() {
       }
     } catch (error) {
     } finally {
-      setTimeout(function(){ setLoading(false)}, 1000)
+      setTimeout(function(){ setLoading(false)}, 500)
     }
   };
   useEffect(() => {
@@ -65,6 +65,9 @@ export default function BrowseCompanies() {
   }, [history.location.pathname]);
   useEffect(() => {
     getListCompanies();
+    return () => {
+      setListCompanies([]);
+    }
   }, [filter]);
   return (
     <div className="container companies">

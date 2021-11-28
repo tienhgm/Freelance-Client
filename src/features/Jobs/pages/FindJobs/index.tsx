@@ -27,7 +27,7 @@ export default function FindJobs() {
     } finally {
       setTimeout(function () {
         setLoading(false);
-      }, 1000);
+      }, 500);
     }
   };
   const handleGetSideBar = async (values: any) => {
@@ -47,6 +47,11 @@ export default function FindJobs() {
     let listFilter = { ...filters, page: page };
     listFilter.status = 'Inprogress';
     handleGetListJob(listFilter);
+    return () => {
+      setListJobs([]);
+      setTotal(0);
+      setPage(1);
+    }
   }, [filters, page]);
   return (
     <div className="flex flex-col find-job-page sm:flex-row">
@@ -62,7 +67,7 @@ export default function FindJobs() {
         </div>
         <div>
           {listJobs.length > 0 ? (
-            <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2 ">
+            <div className="grid flex-grow grid-cols-1 gap-5 transition-all content__list-items lg:grid-cols-2">
               {listJobs.map((job: any) => (
                 <JobItem
                   key={job.id}

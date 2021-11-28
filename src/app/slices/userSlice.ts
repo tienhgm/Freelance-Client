@@ -27,28 +27,28 @@ export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any)
 });
 export const uploadCertification = createAsyncThunk("user/certification", async (payload: any) => {
     try {
-        const res:any = await handleUploadCertification(payload);
+        const res: any = await handleUploadCertification(payload);
         if (res?.statusCode === 200) {
             notify("success", "Upload Success", "");
-            console.log("success",res.data.certifications)
+            console.log("success", res.data.certifications)
             return res.data.certifications;
         }
     } catch (error) {
         console.log(error)
-        notify("error",  "Upload Error!", "");
+        notify("error", "Upload Error!", "");
         return ""
     }
 });
 export const removeCertification = createAsyncThunk("user/certification", async (payload: any) => {
     try {
-        const res:any = await handleDeleteCertification(payload);
+        const res: any = await handleDeleteCertification(payload);
         if (res?.statusCode === 200) {
             notify("success", "Removed", "");
-            console.log("success",res.data.certifications)
+            console.log("success", res.data.certifications)
             return res.data.certifications;
         }
     } catch (error) {
-        notify("error",  "Remove Failed!", "");
+        notify("error", "Remove Failed!", "");
         return ""
     }
 });
@@ -82,7 +82,9 @@ export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async 
             notify("success", "Update Success!", "")
             return res.data;
         }
-    } catch (error) { } finally {
+    } catch (error: any) {
+        notify('error', error.data.message, "")
+    } finally {
         dispatch(handleLoading(false));
     }
 });
@@ -134,7 +136,10 @@ const userSlice = createSlice({
         changeAvatar(state, payload) {
             state.curUser.avatar = payload.payload;
         },
-        updateCertifications(state, payload){
+        changeName(state,payload){
+            
+        },
+        updateCertifications(state, payload) {
             state.curUser.certifications = payload.payload;
         }
     },
