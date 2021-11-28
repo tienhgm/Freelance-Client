@@ -80,6 +80,8 @@ export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async 
         const res: any = await updateProfile(payload);
         if (res.statusCode === 200) {
             notify("success", "Update Success!", "")
+            const name = { firstName: payload.firstName, lastName: payload.lastName };
+            dispatch(changeName(name))
             return res.data;
         }
     } catch (error: any) {
@@ -126,6 +128,7 @@ export const handleGetDetailFreelancer = createAsyncThunk("user/detailFreelancer
     } catch (error) { }
 
 });
+
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -136,8 +139,9 @@ const userSlice = createSlice({
         changeAvatar(state, payload) {
             state.curUser.avatar = payload.payload;
         },
-        changeName(state,payload){
-            
+        changeName(state, payload: any) {
+            state.curUser.firstName = payload.payload.firstName;
+            state.curUser.lastName = payload.payload.lastName;
         },
         updateCertifications(state, payload) {
             state.curUser.certifications = payload.payload;
@@ -171,5 +175,5 @@ const userSlice = createSlice({
     }
 });
 
-export const { logoutUser, changeAvatar, updateCertifications } = userSlice.actions;
+export const { logoutUser, changeAvatar, updateCertifications, changeName } = userSlice.actions;
 export default userSlice.reducer;
