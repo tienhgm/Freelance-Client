@@ -8,7 +8,7 @@ import {
 } from '@ant-design/icons';
 import { Tooltip, Col, Pagination, Progress, Row, Tag, Breadcrumb, Tabs, Skeleton } from 'antd';
 import { useEffect, useState } from 'react';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleGetDetailFreelancer } from 'app/slices/userSlice';
 import { formatDateMonth, getGender, subContent } from 'helpers/generate';
@@ -18,6 +18,7 @@ const { TabPane } = Tabs;
 const { CheckableTag } = Tag;
 
 function FreelancerProfile() {
+  const userRole = useAppSelector((state) => state.user.curUser.role);
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let freelancerId = route.params.id;
@@ -185,7 +186,10 @@ function FreelancerProfile() {
                         ></div>
                       </div>
                       {freelancerDetail.educations && (
-                        <div className="text-base leading-7" dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}></div>
+                        <div
+                          className="text-base leading-7"
+                          dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}
+                        ></div>
                       )}
                     </div>
                   </TabPane>
@@ -368,17 +372,21 @@ function FreelancerProfile() {
               </div>
             </Skeleton>
             {/* Bookmark  */}
-            <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
-              <div className="mt-8 transition bookmark">
-                <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-                <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-                  <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                    <i className="bx bxs-star"></i>
-                  </span>
-                  <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-                </CheckableTag>
-              </div>
-            </Skeleton>
+            {userRole === 1 ? (
+              <></>
+            ) : (
+              <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
+                <div className="mt-8 transition bookmark">
+                  <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
+                  <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+                    <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                      <i className="bx bxs-star"></i>
+                    </span>
+                    <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
+                  </CheckableTag>
+                </div>
+              </Skeleton>
+            )}
           </Col>
         </Row>
       </div>

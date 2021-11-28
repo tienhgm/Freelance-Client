@@ -1,5 +1,6 @@
 import AboutUs from "features/AboutUs";
 import DashboardUser from "features/DashboardUser";
+import MyJobs from "features/DashboardUser/Components/MyJobs";
 import FindFreelancer from "features/Freelancers/pages/FindFreelancer";
 import FreelancerProfile from "features/Freelancers/pages/FreelancerProfile";
 import CompanyDetails from "features/Jobs/pages/CompanyDetails";
@@ -102,6 +103,18 @@ const routesConfiguration = {
     routers: [],
     guarded: true,
     role: null,
+
+  },
+  dashboardUserRole1: {
+    name: 'Dashboard',
+    path: '/dashboard/my-jobs',
+    exact: false,
+    breadcrumbs: [],
+    navbar: false,
+    component: MyJobs,
+    routers: [],
+    guarded: true,
+    role: 2,
 
   },
   aboutUs: {

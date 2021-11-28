@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton } from 'antd';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleGetDetailJob } from 'app/slices/jobSlice';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
@@ -12,6 +12,7 @@ import JobItem from 'components/JobItem';
 const { CheckableTag } = Tag;
 
 export default function JobDetails() {
+  const userRole = useAppSelector((state) => state.user.curUser.role);
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let jobId = route.params.id;
@@ -213,12 +214,18 @@ export default function JobDetails() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
-          {listCanApply.includes(jobDetail.status) && (
-            <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
-              <Button>
-                Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
-              </Button>
-            </Skeleton>
+          {userRole === 1 ? (
+            <></>
+          ) : (
+            <>
+              {listCanApply.includes(jobDetail.status) && (
+                <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
+                  <Button>
+                    Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
+                  </Button>
+                </Skeleton>
+              )}
+            </>
           )}
 
           <div className="w-full text-base job-summary">
@@ -280,17 +287,21 @@ export default function JobDetails() {
               </Skeleton>
             </div>
           </div>
-          <div className="mt-4 transition bookmark">
-            <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-            <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
-              <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-                <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                  <i className="bx bxs-star"></i>
-                </span>
-                <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-              </CheckableTag>
-            </Skeleton>
-          </div>
+          {userRole === 1 ? (
+            <></>
+          ) : (
+            <div className="mt-4 transition bookmark">
+              <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
+              <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
+                <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
+                  <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
+                    <i className="bx bxs-star"></i>
+                  </span>
+                  <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
+                </CheckableTag>
+              </Skeleton>
+            </div>
+          )}
         </div>
       </div>
     </div>

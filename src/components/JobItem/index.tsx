@@ -6,6 +6,7 @@ import { useHistory } from 'react-router-dom';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
+import { useAppSelector } from 'app/hooks';
 
 export default function JobItem({
   company,
@@ -23,6 +24,7 @@ export default function JobItem({
   id,
 }: JobItemProps) {
   const history = useHistory();
+  const userRole = useAppSelector((state) => state.user.curUser.role);
   const [bookmark, setBookmark] = useState(false);
   const addOrRemoveBookmark = () => {
     setBookmark(!bookmark);
@@ -39,13 +41,18 @@ export default function JobItem({
   return (
     <Skeleton active loading={loading}>
       <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl">
-        <div
-          className={`content__bookmark transition-all top-24 ${bookmark ? 'added' : ''}`}
-          onClick={addOrRemoveBookmark}
-        >
-          <div className="bookmark__animation"></div>
-          <i className="transition-all bx bxs-star"></i>
-        </div>
+        {userRole === 1 ? (
+          <></>
+        ) : (
+          <div
+            className={`content__bookmark transition-all top-24 ${bookmark ? 'added' : ''}`}
+            style={{ zIndex: 99 }}
+            onClick={addOrRemoveBookmark}
+          >
+            <div className="bookmark__animation"></div>
+            <i className="transition-all bx bxs-star"></i>
+          </div>
+        )}
 
         <div className="job-item" onClick={() => gotoDetailPage(id)}>
           <div className="flex w-full p-8 job-item__content">
@@ -73,7 +80,12 @@ export default function JobItem({
 
               <h5 className="text-xl content__job-title">{jobTitle}</h5>
               <div className="flex gap-1 flex-nowrap">
-                {skills && skills.map((item: any) => <Tag color="geekblue" key={Math.random()}>{item.name}</Tag>)}
+                {skills &&
+                  skills.map((item: any) => (
+                    <Tag color="geekblue" key={Math.random()}>
+                      {item.name}
+                    </Tag>
+                  ))}
               </div>
             </div>
           </div>

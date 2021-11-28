@@ -1,5 +1,6 @@
 import { ShoppingOutlined, ToolOutlined } from '@ant-design/icons';
 import { Badge } from 'antd';
+import { useAppSelector } from 'app/hooks';
 import Chart from './Components/Chart';
 import ChartRadialBar from './Components/RadioChart';
 import './index.scss';
@@ -8,37 +9,72 @@ export default function Dashboard() {
   // function handleSelect(value: any) {
   //   console.log(`selected ${value}`);
   // }
+  const userRole = useAppSelector((state) => state.user.curUser.role);
   return (
     <div className="h-full dashboard">
       <h1 className="mb-8 text-2xl">Hi Tien!</h1>
       <div className="flex flex-wrap w-full gap-6">
-        <div className="dashboard__block">
-          <div className="flex flex-col text-xl">
-            <div className="mb-1">Total Earning</div>
-            <div className="text-2xl font-bold ">$ 12321</div>
-          </div>
-          <div className="dashboard__icon1">
-            <ToolOutlined />
-          </div>
-        </div>
-        <div className="dashboard__block">
-          <div className="flex flex-col text-xl">
-            <div className="mb-1">Jobs Applied</div>
-            <div className="text-2xl font-bold ">4</div>
-          </div>
-          <div className="dashboard__icon2">
-            <ShoppingOutlined />
-          </div>
-        </div>
-        <div className="dashboard__block">
-          <div className="flex flex-col text-xl">
-            <div className="mb-1">Reviews</div>
-            <div className="text-2xl font-bold">12</div>
-          </div>
-          <div className="dashboard__icon3">
-            <ToolOutlined />
-          </div>
-        </div>
+        {userRole === 2 ? (
+          <>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Total Earning</div>
+                <div className="text-2xl font-bold ">$ 12321</div>
+              </div>
+              <div className="dashboard__icon1">
+                <ToolOutlined />
+              </div>
+            </div>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Jobs Applied</div>
+                <div className="text-2xl font-bold ">4</div>
+              </div>
+              <div className="dashboard__icon2">
+                <ShoppingOutlined />
+              </div>
+            </div>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Reviews</div>
+                <div className="text-2xl font-bold">12</div>
+              </div>
+              <div className="dashboard__icon3">
+                <ToolOutlined />
+              </div>
+            </div>
+          </>
+        ) : (
+          <>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Total Posted</div>
+                <div className="text-2xl font-bold ">111</div>
+              </div>
+              <div className="dashboard__icon1">
+                <ToolOutlined />
+              </div>
+            </div>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Total employees</div>
+                <div className="text-2xl font-bold ">400</div>
+              </div>
+              <div className="dashboard__icon2">
+                <ShoppingOutlined />
+              </div>
+            </div>
+            <div className="dashboard__block">
+              <div className="flex flex-col text-xl">
+                <div className="mb-1">Reviews</div>
+                <div className="text-2xl font-bold">12</div>
+              </div>
+              <div className="dashboard__icon3">
+                <ToolOutlined />
+              </div>
+            </div>
+          </>
+        )}
       </div>
       <div className="flex-wrap dashboard__chart">
         <div className="dashboard__chart__left">
