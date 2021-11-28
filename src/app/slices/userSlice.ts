@@ -30,7 +30,6 @@ export const uploadCertification = createAsyncThunk("user/certification", async 
         const res: any = await handleUploadCertification(payload);
         if (res?.statusCode === 200) {
             notify("success", "Upload Success", "");
-            console.log("success", res.data.certifications)
             return res.data.certifications;
         }
     } catch (error) {
@@ -41,10 +40,9 @@ export const uploadCertification = createAsyncThunk("user/certification", async 
 });
 export const removeCertification = createAsyncThunk("user/certification", async (payload: any) => {
     try {
-        const res: any = await handleDeleteCertification(payload);
+        const res:any = await handleDeleteCertification(payload.split('/').pop());
         if (res?.statusCode === 200) {
             notify("success", "Removed", "");
-            console.log("success", res.data.certifications)
             return res.data.certifications;
         }
     } catch (error) {

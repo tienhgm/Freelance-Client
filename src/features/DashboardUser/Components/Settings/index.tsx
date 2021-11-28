@@ -87,11 +87,11 @@ export default function Settings() {
         address: payload.address,
         dateOfBirth: moment(payload.dateOfBirth),
         skills: skillsPayload,
-        areaId: payload.area.id,
+        areaId: payload.area?.id,
         experiences: experiencesPayload,
         languageIds: payload.language,
         briefIntroduce: payload.briefIntroduce,
-        countryId: payload.area.countryId,
+        countryId: payload.area?.countryId,
       });
       setIntroduce(payload.introduce);
       setEducations(payload.educations);
@@ -508,7 +508,7 @@ export default function Settings() {
                 <div className="mb-3 text-lg font-bold">Certifications</div>
                 {loaded && (
                   <div style={{ width: 'calc(20%)' }}>
-                    <UploadFile disabled={false} />
+                    <UploadFile />
                   </div>
                 )}
               </div>

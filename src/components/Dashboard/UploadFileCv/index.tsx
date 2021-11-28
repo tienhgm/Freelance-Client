@@ -4,25 +4,18 @@ import { Button, message } from 'antd';
 import { Upload } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { removeCertification, uploadCertification } from 'app/slices/userSlice';
-type uploadFilePropsType = {
-  disabled: boolean;
-  // certifications: string[];
-};
 
-// let listFile: [] = [];
-
-function UploadFile(props: uploadFilePropsType) {
+function UploadFile() {
   const dispatch = useAppDispatch();
-  const { disabled } = props;
   const certificationsList = useAppSelector((state) => state.user.curUser.certifications);
   const [showPreview, setShowPreview] = useState('');
-
+  const [fileList, setFileList] = useState([]);
   const previewList = useMemo(() => {
     if (certificationsList instanceof Array)
       return certificationsList?.map((certification: any, id: any) => ({
         uid: id,
         status: 'done',
-        name: certification,
+        name: `${certification.split('/').pop()}`,
         url: `http://${certification}`,
       }));
     return [];
@@ -31,18 +24,24 @@ function UploadFile(props: uploadFilePropsType) {
   const CertificationItem = useMemo(
     () =>
       ({ originNode, file, fileList }: any) => {
-        function logData() {
+        setFileList(fileList);
+        function showPreview() {
           if (file?.originFileObj) {
             let url: string = URL.createObjectURL(file?.originFileObj);
             setShowPreview(url);
           } else {
-            setShowPreview(`http://${file.name}`);
+            setShowPreview(file.url);
           }
         }
 
-        document.querySelectorAll<HTMLElement>('.custom-certification-item a').forEach((item) => {
-          item.style.pointerEvents = 'none';
-        });
+        document
+          .querySelectorAll<HTMLElement>('.custom-certification-item .ant-upload-list-item-name')
+          .forEach((item) => {
+            item.addEventListener('click', function (event: any) {
+              event.preventDefault();
+              showPreview();
+            });
+          });
 
         return (
           <div
@@ -50,7 +49,6 @@ function UploadFile(props: uploadFilePropsType) {
             style={{
               cursor: 'Pointer',
             }}
-            onClick={() => logData()}
           >
             {originNode}
           </div>
@@ -67,21 +65,16 @@ function UploadFile(props: uploadFilePropsType) {
     return isLt20M;
   };
 
-  // const onChange = ({ _, fileList }: any) => {
-  //   listFile = fileList.map((file: any) => file.originFileObj);
-  // };
-
   const handleChangeFile = async (options: any) => {
     if (options?.file) {
-      const result = await dispatch(uploadCertification(options?.file));
-      // dispatch(updateCertification(result.payload));
+      await dispatch(uploadCertification(options?.file));
       options.onSuccess('OK');
     }
   };
 
   const handleRemove = async (file: any) => {
-    const result = await dispatch(removeCertification(file));
-    setShowPreview('');
+    let fileIndex = fileList.findIndex((item: any) => file.uid === item.uid);
+    await dispatch(removeCertification(certificationsList[fileIndex]));
   };
 
   return (
@@ -90,7 +83,6 @@ function UploadFile(props: uploadFilePropsType) {
         {previewList.length > 0 ? (
           <Upload
             beforeUpload={beforeUpload}
-            // onChange={onChange}
             // @ts-ignore
             defaultFileList={previewList}
             itemRender={(originNode, file, currFileList) => (
@@ -105,13 +97,7 @@ function UploadFile(props: uploadFilePropsType) {
             </Button>
           </Upload>
         ) : (
-          <Upload
-            beforeUpload={beforeUpload}
-            // onChange={onChange}
-            disabled={disabled}
-            accept=".png, .pdf"
-            customRequest={handleChangeFile}
-          >
+          <Upload beforeUpload={beforeUpload} accept=".png, .pdf" customRequest={handleChangeFile}>
             <Button className="uploadBtn">Push your Certification</Button>
           </Upload>
         )}

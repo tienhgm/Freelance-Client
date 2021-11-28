@@ -45,7 +45,7 @@ export const sendPost = (url: string, params?: any, queryParams?: any) =>
     axiosInstance.post(url, params, { params: queryParams }).then((res) => res.data);
 export const sendPut = (url: string, params?: any) => axiosInstance.put(url, params).then((res) => res.data);
 export const sendPatch = (url: string, params?: any) => axiosInstance.patch(url, params).then((res) => res.data);
-export const sendDelete = (url: string, params?: any) => axiosInstance.delete(url, { params }).then((res) => res.data);
+export const sendDelete = (url: string, params?: any) => axiosInstance.delete(url, { data: params }).then((res) => res.data);
 export const sendUpload = (url: string, file: any) => {
     let formData = new FormData();
     formData.append("file", file);
