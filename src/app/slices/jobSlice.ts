@@ -2,6 +2,7 @@ import { applyJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
+import { notify } from 'helpers/notification';
 interface AppState {
 }
 
@@ -38,9 +39,12 @@ export const handleApplyJob = createAsyncThunk("job/apply", async (payload: any,
         const { jobId, introduceMessage } = payload;
         const res: any = await applyJob(jobId, introduceMessage);
         if (res.statusCode === 200) {
+            notify("success", "Applied success! Please waiting company response", "");
             return res.data;
         }
-    } catch (error) { }
+    } catch (error:any) { 
+        notify("error", error.data.message, "");
+    }
     finally {
         dispatch(handleLoading(false));
     }

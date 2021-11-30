@@ -5,7 +5,7 @@ import { useEffect, useState } from 'react';
 import CkEditor from 'components/Editor';
 import { handleGetSkills } from 'app/slices/resourceSlice';
 import { useAppDispatch } from 'app/hooks';
-import { listWorkMode } from 'utils/enum';
+import { listLevel, listWorkMode } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
 import { handlePostJob } from 'app/slices/jobSlice';
 const { Option } = Select;
@@ -19,18 +19,8 @@ export default function PostJob() {
   const handleSetJobSalary = (value: number) => {
     setJobSalary(value);
   };
-  const [tagChoose, setTagChoose] = useState([]);
   const watchJobDescription = (value: any) => {
     setJobDescription(value);
-  };
-  const listTag = [
-    { id: 0, tagName: 'Vuejs' },
-    { id: 1, tagName: 'ReactJs' },
-    { id: 2, tagName: 'nodeJs' },
-  ];
-
-  const handleChange = (value: any) => {
-    setTagChoose(value);
   };
   const getSkill = async () => {
     const { payload } = await dispatch(handleGetSkills());
@@ -39,13 +29,13 @@ export default function PostJob() {
   const onFinish = async (values: any) => {
     values.startDate = convertDateToString(values.rangePicker[0]._d);
     values.endDate = convertDateToString(values.rangePicker[1]._d);
-    values.bussinessFields = [];
+    values.businessFields = [];
     values.areaId = 0;
     values.minEmployees = 1;
-    values.maxEmployees = +values.maxEmployees
+    values.maxEmployees = values.maxEmployees;
     values.description = jobDescription;
     delete values.rangePicker;
-    await dispatch(handlePostJob(values))
+    await dispatch(handlePostJob(values));
   };
   useEffect(() => {
     getSkill();
@@ -88,12 +78,15 @@ export default function PostJob() {
                   </Select>
                 </Form.Item>
               </div>
-              <div>
+              <div className="input-job">
                 <div className="flex gap-1">
-                  <h2>Available Time</h2> <span style={{ color: 'red' }}>*</span>
+                  <h2>Number of employees required</h2> <span style={{ color: 'red' }}>*</span>
                 </div>
-                <Form.Item name="rangePicker" rules={[{ required: true, message: 'Select available time' }]}>
-                  <RangePicker size="large" />
+                <Form.Item
+                  name="maxEmployees"
+                  rules={[{ required: true, message: 'Please input number of employees' }]}
+                >
+                  <Input type="number" min="0" size="large" placeholder="Number of employees" />
                 </Form.Item>
               </div>
             </div>
@@ -112,14 +105,7 @@ export default function PostJob() {
                   <h2>Skills</h2> <span style={{ color: 'red' }}>*</span>
                 </div>
                 <Form.Item name="skillIds" rules={[{ required: true, message: 'Select skills' }]}>
-                  <Select
-                    mode="multiple"
-                    allowClear
-                    size="large"
-                    style={{ width: '100%' }}
-                    placeholder="Choose Skills"
-                    onChange={handleChange}
-                  >
+                  <Select mode="multiple" allowClear size="large" style={{ width: '100%' }} placeholder="Choose Skills">
                     {listSkills?.map((item: any) => (
                       <Option value={item.id} key={item.id}>
                         {item.name}
@@ -130,13 +116,26 @@ export default function PostJob() {
               </div>
               <div className="input-job">
                 <div className="flex gap-1">
-                  <h2>Number of employees required</h2> <span style={{ color: 'red' }}>*</span>
+                  <h2>Experience</h2> <span style={{ color: 'red' }}>*</span>
                 </div>
-                <Form.Item
-                  name="maxEmployees"
-                  rules={[{ required: true, message: 'Please input number of employees' }]}
-                >
-                  <Input type="number" min="0" size="large" placeholder="Number of employees" />
+                <Form.Item name="experience" rules={[{ required: true, message: 'Select skills' }]}>
+                  <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose experience">
+                    {listLevel?.map((item: any, idx: number) => (
+                      <Option value={item} key={idx}>
+                        {item}
+                      </Option>
+                    ))}
+                  </Select>
+                </Form.Item>
+              </div>
+            </div>
+            <div className="flex flex-wrap w-full">
+              <div style={{ width: 'calc(100%)' }}>
+                <div className="flex gap-1">
+                  <h2>Available Time</h2> <span style={{ color: 'red' }}>*</span>
+                </div>
+                <Form.Item name="rangePicker" rules={[{ required: true, message: 'Select available time' }]}>
+                  <RangePicker size="large" />
                 </Form.Item>
               </div>
             </div>

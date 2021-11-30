@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Form, Input } from 'antd';
+const { TextArea } = Input;
 interface ModalForm {
   visible: boolean;
   title: string;
@@ -37,7 +38,7 @@ export default function ModalForm({ title, isVisible, okText, handleConfirm, han
           label="Description"
           rules={[{ required: true, message: 'Please input introduce message' }]}
         >
-          <Input size="large" type="textarea" />
+          <TextArea placeholder="Description" autoSize={{ minRows: 5, maxRows: 6 }} />
         </Form.Item>
       </Form>
     </Modal>
