@@ -29,7 +29,7 @@ export default function PostJob() {
   const onFinish = async (values: any) => {
     values.startDate = convertDateToString(values.rangePicker[0]._d);
     values.endDate = convertDateToString(values.rangePicker[1]._d);
-    values.businessFields = [];
+    values.businessFieldIds = [];
     values.areaId = 0;
     values.minEmployees = 1;
     values.maxEmployees = values.maxEmployees;

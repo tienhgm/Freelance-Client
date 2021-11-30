@@ -52,4 +52,10 @@ export const listLevel = [
     'Executive',
     'Director'
 ];
-
+export const listStatusJob = [
+    'Inprogress',
+    'Pending',
+    'Await',
+    'Cancel',
+    'Done'
+]
