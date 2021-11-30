@@ -7,6 +7,7 @@ import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
 import { useAppSelector } from 'app/hooks';
+import isLogin from 'helpers/isUserLogin';
 
 export default function JobItem({
   company,
@@ -26,6 +27,7 @@ export default function JobItem({
   const history = useHistory();
   const userRole = useAppSelector((state) => state.user.curUser.role);
   const [bookmark, setBookmark] = useState(false);
+  let isUserLogin = isLogin();
   const addOrRemoveBookmark = () => {
     setBookmark(!bookmark);
   };
@@ -41,7 +43,7 @@ export default function JobItem({
   return (
     <Skeleton active loading={loading}>
       <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl">
-        {userRole === 1 ? (
+        {userRole === 1 || !isUserLogin ? (
           <></>
         ) : (
           <div

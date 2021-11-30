@@ -14,12 +14,14 @@ import { handleGetDetailFreelancer } from 'app/slices/userSlice';
 import { formatDateMonth, getGender, subContent } from 'helpers/generate';
 
 import './styles.scss';
+import isLogin from 'helpers/isUserLogin';
 const { TabPane } = Tabs;
 const { CheckableTag } = Tag;
 
 function FreelancerProfile() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
   const curUser = useAppSelector((state) => state.user.curUser);
+  let isUserLogin = isLogin();
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let freelancerId = route.params.id;
@@ -291,7 +293,7 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {curUser.id === freelancerId ? (
+            {curUser.id === freelancerId || !isUserLogin ? (
               <></>
             ) : (
               <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
@@ -370,7 +372,7 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {userRole === 1 ? (
+            {userRole === 1 || !isUserLogin ? (
               <></>
             ) : (
               <>

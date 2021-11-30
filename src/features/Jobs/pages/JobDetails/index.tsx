@@ -1,24 +1,28 @@
 import React, { useEffect, useState } from 'react';
 import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton } from 'antd';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
-import { handleGetDetailJob } from 'app/slices/jobSlice';
+import { handleApplyJob, handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
 import moment from 'moment';
 import JobItem from 'components/JobItem';
+import ModalForm from 'components/ModalApplyForm';
+import isLogin from 'helpers/isUserLogin';
 
 const { CheckableTag } = Tag;
 
 export default function JobDetails() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
+  let isUserLogin = isLogin();
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let jobId = route.params.id;
   const [jobDetail, setJobDetail] = useState<any>({});
   const [bookmarkTag, setBookmarkTag] = useState(false);
   const [relatedJobs, setRelatedJobs] = useState<any>([]);
+  const [openModalApply, setOpenModalApply] = useState(false);
   const [loading, setLoading] = useState(true);
   const listCanApply = ['Inprogress', 'Await'];
   const handleChange = () => {
@@ -37,6 +41,13 @@ export default function JobDetails() {
         setLoading(false);
       }, 500);
     }
+  };
+  const handleApplyToJob = async (values: any) => {
+    const payload = {
+      introduceMessage: values.introduceMessage,
+      jobId: jobId,
+    };
+    await dispatch(handleApplyJob(payload));
   };
   const history = useHistory();
   useEffect(() => {
@@ -214,20 +225,27 @@ export default function JobDetails() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
-          {userRole === 1 ? (
+          {userRole === 1 || !isUserLogin ? (
             <></>
           ) : (
             <>
               {listCanApply.includes(jobDetail.status) && (
                 <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
-                  <Button>
+                  <Button onClick={() => setOpenModalApply(true)}>
                     Apply Now <i className="ml-2 bx bx-right-arrow-alt"></i>
                   </Button>
                 </Skeleton>
               )}
             </>
           )}
-
+          <ModalForm
+            visible={false}
+            title={'Apply job'}
+            okText={'Apply'}
+            isVisible={openModalApply}
+            handleConfirm={handleApplyToJob}
+            handleCancelConfirm={() => setOpenModalApply(false)}
+          />
           <div className="w-full text-base job-summary">
             <h2 className="px-6 py-3 mb-0 text-xl font-medium bg-gray-200">Job Summary</h2>
             <Skeleton active loading={loading} paragraph={{ rows: 8, width: '100%' }}>
@@ -287,7 +305,7 @@ export default function JobDetails() {
               </Skeleton>
             </div>
           </div>
-          {userRole === 1 ? (
+          {userRole === 1 || !isUserLogin ? (
             <></>
           ) : (
             <div className="mt-4 transition bookmark">
