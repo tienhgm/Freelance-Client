@@ -7,7 +7,7 @@ import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
 import { useAppSelector } from 'app/hooks';
-import isLogin from 'helpers/isUserLogin';
+// import isLogin from 'helpers/isUserLogin';
 
 export default function JobItem({
   company,
@@ -27,10 +27,10 @@ export default function JobItem({
   const history = useHistory();
   const userRole = useAppSelector((state) => state.user.curUser.role);
   const [bookmark, setBookmark] = useState(false);
-  let isUserLogin = isLogin();
-  const addOrRemoveBookmark = () => {
-    setBookmark(!bookmark);
-  };
+  // let isUserLogin = isLogin();
+  // const addOrRemoveBookmark = () => {
+  //   setBookmark(!bookmark);
+  // };
 
   const gotoDetailPage = (id: any) => {
     history.push(`find-jobs/${id}`);
@@ -43,7 +43,7 @@ export default function JobItem({
   return (
     <Skeleton active loading={loading}>
       <div className="relative transition-all shadow-md job-item__wrapper hover:shadow-xl">
-        {userRole === 1 || !isUserLogin ? (
+        {/* {userRole === 1 || !isUserLogin ? (
           <></>
         ) : (
           <div
@@ -54,7 +54,7 @@ export default function JobItem({
             <div className="bookmark__animation"></div>
             <i className="transition-all bx bxs-star"></i>
           </div>
-        )}
+        )} */}
 
         <div className="job-item" onClick={() => gotoDetailPage(id)}>
           <div className="flex w-full p-8 job-item__content">

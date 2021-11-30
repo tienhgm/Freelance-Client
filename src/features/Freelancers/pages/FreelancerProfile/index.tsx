@@ -25,14 +25,14 @@ function FreelancerProfile() {
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let freelancerId = route.params.id;
-  const [bookmarkTag, setBookmarkTag] = useState(false);
+  // const [bookmarkTag, setBookmarkTag] = useState(false);
   const [freelancerDetail, setFreelancerDetail] = useState<any>({});
   const [jobs, setJobs] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  const handleChange = () => {
-    setBookmarkTag((i) => (i = !i));
-  };
+  // const handleChange = () => {
+  //   setBookmarkTag((i) => (i = !i));
+  // };
   const getDetailFreelancer = async (id: string) => {
     try {
       const { payload } = await dispatch(handleGetDetailFreelancer(id));
@@ -372,7 +372,7 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {userRole === 1 || !isUserLogin ? (
+            {/* {userRole === 1 || !isUserLogin ? (
               <></>
             ) : (
               <>
@@ -392,7 +392,7 @@ function FreelancerProfile() {
                   </Skeleton>
                 )}
               </>
-            )}
+            )} */}
           </Col>
         </Row>
       </div>

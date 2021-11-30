@@ -20,14 +20,14 @@ export default function JobDetails() {
   const dispatch = useAppDispatch();
   let jobId = route.params.id;
   const [jobDetail, setJobDetail] = useState<any>({});
-  const [bookmarkTag, setBookmarkTag] = useState(false);
+  // const [bookmarkTag, setBookmarkTag] = useState(false);
   const [relatedJobs, setRelatedJobs] = useState<any>([]);
   const [openModalApply, setOpenModalApply] = useState(false);
   const [loading, setLoading] = useState(true);
   const listCanApply = ['Inprogress', 'Await'];
-  const handleChange = () => {
-    setBookmarkTag((i) => (i = !i));
-  };
+  // const handleChange = () => {
+  //   setBookmarkTag((i) => (i = !i));
+  // };
   const getDetailJob = async () => {
     try {
       const { payload } = await dispatch(handleGetDetailJob(jobId));
@@ -305,7 +305,7 @@ export default function JobDetails() {
               </Skeleton>
             </div>
           </div>
-          {userRole === 1 || !isUserLogin ? (
+          {/* {userRole === 1 || !isUserLogin ? (
             <></>
           ) : (
             <div className="mt-4 transition bookmark">
@@ -319,7 +319,7 @@ export default function JobDetails() {
                 </CheckableTag>
               </Skeleton>
             </div>
-          )}
+          )} */}
         </div>
       </div>
     </div>
