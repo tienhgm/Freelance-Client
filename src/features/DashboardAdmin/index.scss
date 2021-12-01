@@ -1,0 +1,12 @@
+.admin {
+  height: calc(100vh - 64px);
+
+  &__menu {
+    max-height: calc(100vh - 64px);
+  }
+
+  &__content {
+    max-height: calc(100vh - 64px);
+  }
+
+}

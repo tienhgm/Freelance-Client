@@ -10,6 +10,7 @@ import JobDetails from "features/Jobs/pages/JobDetails";
 import LandingPage from "features/LandingPage";
 import Login from "features/LoginRegister/pages/Login";
 import Register from "features/LoginRegister/pages/Register";
+import DashboardAdmin from "../features/DashboardAdmin";
 
 const routesConfiguration = {
   home: {
@@ -150,6 +151,18 @@ const routesConfiguration = {
     guarded: false,
     role: null,
   },
+  dashboardAdmin: {
+    name: "Dashboard Admin",
+    path: "/dashboard-admin",
+    exact: false,
+    breadcrumbs: [],
+    navbar: true,
+    component: DashboardAdmin,
+    routers: [],
+    guarded: true,
+    role: null,
+  },
+  
 };
 
 export default routesConfiguration;
