@@ -1,11 +1,11 @@
 import './index.scss';
 import { FolderOpenOutlined } from '@ant-design/icons';
 import { Input, Select, Slider, DatePicker, Form, Button, Skeleton } from 'antd';
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import CkEditor from 'components/Editor';
 import { handleGetSkills } from 'app/slices/resourceSlice';
 import { useAppDispatch } from 'app/hooks';
-import { listLevel, listWorkMode } from 'utils/enum';
+import { listLevel, listStatusJob, listWorkMode } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
 import { handleGetDetailJob, handlePostJob, handleUpdateJob } from 'app/slices/jobSlice';
 import { useRouteMatch } from 'react-router';
@@ -50,6 +50,7 @@ export default function PostJob() {
           maxEmployees: payload.jobDetail.maxEmployees,
           salary: payload.jobDetail.salary,
           skillIds: listSkillIds,
+          status: payload.jobDetail.status,
           experience: payload.jobDetail.experience,
           rangePicker: [moment(payload.jobDetail.startDate), moment(payload.jobDetail.endDate)],
         });
@@ -89,7 +90,7 @@ export default function PostJob() {
     }
   }, [jobId]);
   return (
-    <Skeleton loading={loading} paragraph={{rows: 16, width: '100%'}}>
+    <Skeleton active loading={loading} paragraph={{ rows: 18, width: '100%' }}>
       <Form form={form} onFinish={onFinish}>
         <div className="h-full job-block">
           <div className="flex gap-1 mb-4 text-lg">
@@ -174,7 +175,7 @@ export default function PostJob() {
                   <div className="flex gap-1">
                     <h2>Experience</h2> <span style={{ color: 'red' }}>*</span>
                   </div>
-                  <Form.Item name="experience" rules={[{ required: true, message: 'Select skills' }]}>
+                  <Form.Item name="experience" rules={[{ required: true, message: 'Choose experience' }]}>
                     <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose experience">
                       {listLevel?.map((item: any, idx: number) => (
                         <Option value={item} key={idx}>
@@ -185,8 +186,22 @@ export default function PostJob() {
                   </Form.Item>
                 </div>
               </div>
-              <div className="flex flex-wrap w-full">
-                <div style={{ width: 'calc(100%)' }}>
+              <div className="flex flex-wrap gap-4">
+                <div style={{ width: 'calc(364px)' }}>
+                  <div className="flex gap-1">
+                    <h2>Status</h2> <span style={{ color: 'red' }}>*</span>
+                  </div>
+                  <Form.Item name="status" rules={[{ required: true, message: 'Choose status job' }]}>
+                    <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose status job">
+                      {listStatusJob?.map((item: any, idx: number) => (
+                        <Option value={item} key={idx}>
+                          {item}
+                        </Option>
+                      ))}
+                    </Select>
+                  </Form.Item>
+                </div>
+                <div>
                   <div className="flex gap-1">
                     <h2>Available Time</h2> <span style={{ color: 'red' }}>*</span>
                   </div>

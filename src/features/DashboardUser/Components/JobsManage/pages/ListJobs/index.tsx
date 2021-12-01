@@ -234,7 +234,17 @@ export default function ListJobs() {
               </div>
             </Skeleton>
           ))}
-        {listJobs.length === 0 && <div className="text-lg font-medium">No result! Please try again...</div>}
+        {listJobs.length === 0 ? (
+          <>
+            {loading === true ? (
+              <Skeleton active paragraph={{ rows: 14, width: '100%' }}></Skeleton>
+            ) : (
+              <div className="text-lg font-medium">No result! Please try again...</div>
+            )}
+          </>
+        ) : (
+          ''
+        )}
       </div>
       <Popup
         title="Delete Job"
