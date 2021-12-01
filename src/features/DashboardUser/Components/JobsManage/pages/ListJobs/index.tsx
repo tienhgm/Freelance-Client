@@ -16,7 +16,7 @@ import { useHistory } from 'react-router-dom';
 import Popup from 'components/PopupConfirm';
 import { useEffect, useState } from 'react';
 import { listStatusJob } from 'utils/enum';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { handleGetArea } from 'app/slices/resourceSlice';
 import { handleGetListJobManage } from 'app/slices/companySlice';
 import { formatDateMonth } from 'helpers/generate';
@@ -33,13 +33,14 @@ export default function ListJobs() {
   const [loading, setLoading] = useState(false);
   const [listJobs, setListJobs] = useState<any>([]);
   const [jobIdRow, setJobIdRow] = useState<any>();
+  const curUser = useAppSelector((state) => state.user.curUser);
   const history = useHistory();
   const dispatch = useAppDispatch();
   const goToDetail = () => {
     history.push('/dashboard/jobs-manage/1');
   };
-  const goToEdit = () => {
-    history.push('/dashboard/jobs-manage/edit/1');
+  const goToEdit = (id: string) => {
+    history.push(`/dashboard/jobs-manage/edit/${id}`);
   };
   const handleDeleteJob = async () => {
     try {
@@ -87,7 +88,10 @@ export default function ListJobs() {
     setStatusJob(null);
   };
   const handleGetJobManage = async (title?: string, statusJob?: any, areaId?: any, page?: number) => {
-    const id = '8c1fb494-662c-469a-b9ab-42d857193692';
+    let id = '';
+    if (curUser && curUser.company) {
+      id = curUser.company.id;
+    }
     let filters: any = {
       title,
       status: statusJob,
@@ -214,7 +218,7 @@ export default function ListJobs() {
                   {/* end left */}
                   {/* right */}
                   <div className="flex gap-3">
-                    <div className="cursor-pointer btn btn__edit" onClick={goToEdit}>
+                    <div className="cursor-pointer btn btn__edit" onClick={() => goToEdit(item.id)}>
                       <Tooltip placement="bottom" title="Edit">
                         <EditOutlined />
                       </Tooltip>

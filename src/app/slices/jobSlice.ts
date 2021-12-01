@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, deleteJob } from './../../apis/jobModule/index';
+import { applyJob, deleteJob, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -33,6 +33,20 @@ export const handlePostJob = createAsyncThunk("job/post", async (payload: any) =
             return res.data;
         }
     } catch (error) { }
+});
+export const handleUpdateJob = createAsyncThunk("job/update", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res: any = await updateJob(payload[0], payload[1]);
+        if (res.statusCode === 200) {
+            successMes('Update success');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
 });
 export const handleApplyJob = createAsyncThunk("job/apply", async (payload: any, { dispatch }) => {
     try {

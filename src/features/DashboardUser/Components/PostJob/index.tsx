@@ -1,13 +1,16 @@
 import './index.scss';
 import { FolderOpenOutlined } from '@ant-design/icons';
 import { Input, Select, Slider, DatePicker, Form, Button } from 'antd';
-import { useEffect, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import CkEditor from 'components/Editor';
 import { handleGetSkills } from 'app/slices/resourceSlice';
 import { useAppDispatch } from 'app/hooks';
 import { listLevel, listWorkMode } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
-import { handlePostJob } from 'app/slices/jobSlice';
+import { handleGetDetailJob, handlePostJob, handleUpdateJob } from 'app/slices/jobSlice';
+import { useRouteMatch } from 'react-router';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
 const { Option } = Select;
 export default function PostJob() {
   const [form] = Form.useForm();
@@ -15,7 +18,10 @@ export default function PostJob() {
   const [jobSalary, setJobSalary] = useState(0);
   const [jobDescription, setJobDescription] = useState('');
   const [listSkills, setListSkills] = useState([]);
+  const [detailJob, setDetailJob] = useState<any>({});
   const dispatch = useAppDispatch();
+  const match = useRouteMatch<any>();
+  const jobId = match.params.id;
   const handleSetJobSalary = (value: number) => {
     setJobSalary(value);
   };
@@ -26,32 +32,68 @@ export default function PostJob() {
     const { payload } = await dispatch(handleGetSkills());
     setListSkills(payload);
   };
+  const getDetailJob = async (jobId: string) => {
+    try {
+      const { payload } = await dispatch(handleGetDetailJob(jobId));
+      if (!!payload) {
+        setDetailJob(payload.jobDetail);
+        const skills = payload.jobDetail.skills;
+        let listSkillIds:any = [];
+        skills.map((e: any) => {listSkillIds.push(e.id)});
+        form.setFieldsValue({
+          title: payload.jobDetail.title,
+          workMode: payload.jobDetail.workMode,
+          maxEmployees: payload.jobDetail.maxEmployees,
+          salary: payload.jobDetail.salary,
+          skillIds: listSkillIds,
+          experience: payload.jobDetail.experience,
+          rangePicker: [moment(payload.jobDetail.startDate), moment(payload.jobDetail.endDate)],
+        });
+        setJobDescription(payload.jobDetail.description);
+        setJobSalary(payload.jobDetail.salary);
+      }
+    } catch (error) {}
+  };
   const onFinish = async (values: any) => {
     values.startDate = convertDateToString(values.rangePicker[0]._d);
     values.endDate = convertDateToString(values.rangePicker[1]._d);
     values.businessFieldIds = [];
     values.areaId = 0;
     values.minEmployees = 1;
-    values.maxEmployees = values.maxEmployees;
     values.description = jobDescription;
     delete values.rangePicker;
-    await dispatch(handlePostJob(values));
+    if (!jobId) {
+      await dispatch(handlePostJob(values));
+    } else {
+      const payload = [jobId, values];
+      await dispatch(handleUpdateJob(payload));
+    }
   };
+
   useEffect(() => {
     getSkill();
     return () => {
       setListSkills([]);
     };
   }, []);
+  useEffect(() => {
+    if (!!jobId) {
+      getDetailJob(jobId);
+    }
+  }, [jobId]);
   return (
     <Form form={form} onFinish={onFinish}>
       <div className="h-full job-block">
-        <h1 className="text-2xl">Job</h1>
+        <div className="flex gap-1 mb-4 text-lg">
+          <Link to="/dashboard/jobs-manage">Manage jobs</Link> {'>'}{' '}
+          <div className="font-medium">{detailJob && detailJob.title}</div>
+        </div>
+
         <div className="postJobs">
           <div className="postJobs__title">
             <div className="flex items-center mb-4 ">
               <FolderOpenOutlined style={{ color: '#2e3fe5' }} className="mt-1 mr-4" />
-              Post a job
+              {jobId ? 'Edit' : 'Post a job'}
             </div>
           </div>
           <div className="flex flex-col gap-6">

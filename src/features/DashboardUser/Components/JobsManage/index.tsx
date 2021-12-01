@@ -1,7 +1,10 @@
 // import { lazy } from 'react';
 import { Route, Switch, useRouteMatch } from 'react-router';
+import PostJob from '../PostJob';
 import DetailJob from './pages/DetailJob';
-import EditJob from './pages/EditJob';
+// import PostJob from './pages/EditJob';
+// import EditJob from './pages/EditJob';
+
 import ListJobs from './pages/ListJobs';
 // const ListJobs = lazy(() => import('./pages/ListJobs'));
 // const DetailJob = lazy(() => import('./pages/DetailJob'));
@@ -12,7 +15,7 @@ export default function JobsManage() {
     <Switch>
       <Route path={match.path} component={ListJobs} exact></Route>
       <Route path={`${match.path}/:id`} component={DetailJob} exact></Route>
-      <Route path={`${match.path}/edit/:id`} component={EditJob} exact></Route>
+      <Route path={`${match.path}/edit/:id`} component={PostJob} exact></Route>
     </Switch>
   );
 }
