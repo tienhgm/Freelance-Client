@@ -187,20 +187,22 @@ export default function PostJob() {
                 </div>
               </div>
               <div className="flex flex-wrap gap-4">
-                <div style={{ width: 'calc(364px)' }}>
-                  <div className="flex gap-1">
-                    <h2>Status</h2> <span style={{ color: 'red' }}>*</span>
+                {jobId && (
+                  <div style={{ width: 'calc(364px)' }}>
+                    <div className="flex gap-1">
+                      <h2>Status</h2> <span style={{ color: 'red' }}>*</span>
+                    </div>
+                    <Form.Item name="status" rules={[{ required: true, message: 'Choose status job' }]}>
+                      <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose status job">
+                        {listStatusJob?.map((item: any, idx: number) => (
+                          <Option value={item} key={idx}>
+                            {item}
+                          </Option>
+                        ))}
+                      </Select>
+                    </Form.Item>
                   </div>
-                  <Form.Item name="status" rules={[{ required: true, message: 'Choose status job' }]}>
-                    <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose status job">
-                      {listStatusJob?.map((item: any, idx: number) => (
-                        <Option value={item} key={idx}>
-                          {item}
-                        </Option>
-                      ))}
-                    </Select>
-                  </Form.Item>
-                </div>
+                )}
                 <div>
                   <div className="flex gap-1">
                     <h2>Available Time</h2> <span style={{ color: 'red' }}>*</span>
