@@ -27,3 +27,17 @@ export const handleGetJobProgress = (value: number) => {
             return "";
     }
 }
+export const getJobStatus = (value: string) => {
+    switch(value) {
+        case 'Cancel':
+            return '#FF0000';
+        case 'Done':
+            return '#87d068';
+        case 'Pending':
+            return '#FFA500';
+        case 'Await':
+            return '#d3adf7';
+        case 'Inprogress':
+            return '#108ee9';
+    }
+}

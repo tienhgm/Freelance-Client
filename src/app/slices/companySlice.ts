@@ -30,7 +30,6 @@ export const handleGetListJobManage = createAsyncThunk("company/listJobManage", 
         return await listJobManage(payload[0], payload[1]);
     } catch (error) { }
 });
-
 const companySlice = createSlice({
     name: "companies",
     initialState,

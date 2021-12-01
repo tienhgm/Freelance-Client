@@ -6,8 +6,12 @@ import {
   EditOutlined,
   TeamOutlined,
   SearchOutlined,
+  WalletOutlined,
+  ProjectOutlined,
+  UserAddOutlined,
+  UndoOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Button, Tag, Badge, Pagination, Input, Select, Skeleton } from 'antd';
+import { Tooltip, Button, Tag, Badge, Pagination, Input, Select, Skeleton, Spin } from 'antd';
 import { useHistory } from 'react-router-dom';
 import Popup from 'components/PopupConfirm';
 import { useEffect, useState } from 'react';
@@ -15,17 +19,20 @@ import { listStatusJob } from 'utils/enum';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetArea } from 'app/slices/resourceSlice';
 import { handleGetListJobManage } from 'app/slices/companySlice';
-import { filter } from '@antv/util';
+import { formatDateMonth } from 'helpers/generate';
+import { getJobStatus } from 'helpers/Dashboard';
+import { handleDeleteAJob } from 'app/slices/jobSlice';
 const { Option } = Select;
 export default function ListJobs() {
   const [title, setTitle] = useState<any>('');
-  const [statusJob, setStatusJob] = useState<any>('');
+  const [statusJob, setStatusJob] = useState<any>();
   const [listArea, setListArea] = useState<any>([]);
-  const [areaId, setAreaId] = useState();
-  const [page, setPage] = useState(1);
+  const [areaId, setAreaId] = useState<any>();
+  const [page, setPage] = useState<any>(1);
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [listJobs, setListJobs] = useState<any>([]);
+  const [jobIdRow, setJobIdRow] = useState<any>();
   const history = useHistory();
   const dispatch = useAppDispatch();
   const goToDetail = () => {
@@ -34,19 +41,32 @@ export default function ListJobs() {
   const goToEdit = () => {
     history.push('/dashboard/jobs-manage/edit/1');
   };
-  const handleDeleteJob = () => {
-    setOpenDialogConfirm(false);
+  const handleDeleteJob = async () => {
+    try {
+      if (jobIdRow) {
+        setLoading(true);
+        const { payload }: any = await dispatch(handleDeleteAJob(jobIdRow));
+        if (payload.statusCode === 200) {
+          setOpenDialogConfirm(false);
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      setOpenDialogConfirm(false);
+      setLoading(false);
+    }
   };
   const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
-  const handleOpenDialogConfirm = () => {
+  const handleOpenDialogConfirm = (id: string) => {
+    setJobIdRow(id);
     setOpenDialogConfirm(true);
   };
   const getArea = async () => {
     const { payload } = await dispatch(handleGetArea());
     setListArea(payload);
   };
-  const searchByName = (value: any) => {
-    setTitle(value);
+  const searchByName = (e: any) => {
+    setTitle(e.target.value);
   };
   const chooseStatus = (value: any) => {
     setStatusJob(value);
@@ -60,13 +80,19 @@ export default function ListJobs() {
   useEffect(() => {
     getArea();
   }, []);
-  const handleGetJobManage = async (title?: string, statusJob?: any, areaId?: any) => {
+  const handleReset = () => {
+    setPage(1);
+    setTitle('');
+    setAreaId(null);
+    setStatusJob(null);
+  };
+  const handleGetJobManage = async (title?: string, statusJob?: any, areaId?: any, page?: number) => {
     const id = '8c1fb494-662c-469a-b9ab-42d857193692';
     let filters: any = {
       title,
       status: statusJob,
       areaId,
-      page: page,
+      page,
       records: 4,
     };
 
@@ -91,7 +117,7 @@ export default function ListJobs() {
     }
   };
   useEffect(() => {
-    handleGetJobManage(title, statusJob, areaId);
+    handleGetJobManage(title, statusJob, areaId, page);
   }, [title, statusJob, areaId, page]);
   return (
     <div className="h-full jobs-manage">
@@ -104,15 +130,21 @@ export default function ListJobs() {
           </div>
           <div className="flex gap-2 ">
             <div>
+              <Tooltip placement="bottom" title={'Reset'}>
+                <Button onClick={handleReset} icon={<UndoOutlined style={{ color: '#2a41e8' }} />} />
+              </Tooltip>
+            </div>
+            <div>
               <Input
                 style={{ width: 220 }}
                 prefix={<SearchOutlined />}
                 placeholder="Job name"
+                value={title}
                 onChange={searchByName}
               />
             </div>
             <div>
-              <Select placeholder="Status" allowClear style={{ width: 150 }} onChange={chooseStatus}>
+              <Select placeholder="Status" allowClear style={{ width: 150 }} value={statusJob} onChange={chooseStatus}>
                 {listStatusJob.map((item) => (
                   <Option value={item} key={Math.random()}>
                     {item}
@@ -132,6 +164,7 @@ export default function ListJobs() {
                 allowClear
                 style={{ width: 150 }}
                 placeholder="Select your area"
+                value={areaId}
                 onChange={chooseArea}
               >
                 {listArea.map((item: any) => (
@@ -145,24 +178,31 @@ export default function ListJobs() {
         </div>
         {listJobs.length > 0 &&
           listJobs.map((item: any) => (
-            <Skeleton active loading={loading}>
+            <Skeleton active loading={loading} key={item.id}>
               <div className="box" key={item.id}>
                 <div className="h-36 box__item">
                   {/* left */}
                   <div className="flex flex-col">
                     <div className="flex gap-3">
-                      <div className="text-xl cursor-pointer">Nadoshiki organization</div>
-                      <div>
-                        <Tag color="#87d068">Doned</Tag>
-                      </div>
+                      <div className="text-xl cursor-pointer">{item.title}</div>
+                      <div>{<Tag color={getJobStatus(item.status)}>{item.status}</Tag>}</div>
                     </div>
                     <div className="flex gap-3 mt-2">
                       <div className="flex items-center gap-2 box__item__content">
-                        <CalendarOutlined /> Posted on 10 July, 2021
+                        <CalendarOutlined /> Posted on {formatDateMonth(item.createdAt)}
+                      </div>
+                      <div className="flex items-center gap-2 box__item__content">
+                        <WalletOutlined /> ${item.salary}
+                      </div>
+                      <div className="flex items-center gap-2 box__item__content">
+                        <ProjectOutlined /> {item.workMode}
+                      </div>
+                      <div className="flex items-center gap-2 box__item__content">
+                        <UserAddOutlined /> {item.experience}
                       </div>
                     </div>
                     <div className="mt-4">
-                      <Badge count={5}>
+                      <Badge count={item.totalEmployees}>
                         <Button type="primary" onClick={goToDetail}>
                           <TeamOutlined className="mb-1" />
                           Manage candidate
@@ -179,7 +219,7 @@ export default function ListJobs() {
                         <EditOutlined />
                       </Tooltip>
                     </div>
-                    <div className="cursor-pointer btn btn__delete" onClick={handleOpenDialogConfirm}>
+                    <div className="cursor-pointer btn btn__delete" onClick={() => handleOpenDialogConfirm(item.id)}>
                       <Tooltip placement="bottom" title="Delete">
                         <DeleteOutlined />
                       </Tooltip>
@@ -190,6 +230,7 @@ export default function ListJobs() {
               </div>
             </Skeleton>
           ))}
+        {listJobs.length === 0 && <div className="text-lg font-medium">No result! Please try again...</div>}
       </div>
       <Popup
         title="Delete Job"
@@ -200,11 +241,11 @@ export default function ListJobs() {
       />
       <Pagination
         className="flex justify-center pt-4 pb-4"
-        showSizeChanger={false}
         defaultCurrent={page}
         total={total}
         onChange={handleChangePage}
         responsive={true}
+        pageSize={4}
       />
     </div>
   );

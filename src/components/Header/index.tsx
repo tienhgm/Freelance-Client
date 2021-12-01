@@ -40,11 +40,11 @@ export default function Header() {
           </Link>
         </Menu.Item>
       }
-      <Menu.Item key="3">
+      {/* <Menu.Item key="3">
         <Link to="/dashboard/bookmarks" style={{ color: 'black' }}>
           bookmarks
         </Link>
-      </Menu.Item>
+      </Menu.Item> */}
       <Menu.Item key="4">
         <div style={{ color: 'black' }} onClick={handleOpenDialogConfirm}>
           Logout
