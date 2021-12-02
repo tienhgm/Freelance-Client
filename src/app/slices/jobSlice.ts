@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, deleteJob, updateJob } from './../../apis/jobModule/index';
+import { applyJob, deleteJob, getJobCandidates, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -53,12 +53,12 @@ export const handleApplyJob = createAsyncThunk("job/apply", async (payload: any,
         dispatch(handleLoading(true));
         const { jobId, introduceMessage } = payload;
         const res: any = await applyJob(jobId, introduceMessage);
-        if (res.statusCode === 200) {
-            notify("success", "Applied success! Please waiting company response", "");
+        if (res.statusCode === 201) {
+            successMes('Applied!');
             return res.data;
         }
     } catch (error: any) {
-        notify("error", error.data.message, "");
+        errorMes(error.data.message)    
     }
     finally {
         dispatch(handleLoading(false));
@@ -77,6 +77,14 @@ export const handleDeleteAJob = createAsyncThunk("company/deleteJob", async (pay
     finally {
         dispatch(handleLoading(false));
     }
+});
+export const handleGetJobCandidates = createAsyncThunk("job/candidates", async (payload: any) => {
+    try {
+        const res:any = await getJobCandidates(payload[0], payload[1]);
+        if(res.statusCode === 200){
+            return res.data;
+        }
+    } catch (error) { }
 });
 const jobSlice = createSlice({
     name: "jobs",

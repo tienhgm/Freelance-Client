@@ -36,8 +36,8 @@ export default function ListJobs() {
   const curUser = useAppSelector((state) => state.user.curUser);
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const goToDetail = () => {
-    history.push('/dashboard/jobs-manage/1');
+  const goToDetail = (id: string) => {
+    history.push(`/dashboard/jobs-manage/${id}`);
   };
   const goToEdit = (id: string) => {
     history.push(`/dashboard/jobs-manage/edit/${id}`);
@@ -207,7 +207,7 @@ export default function ListJobs() {
                     </div>
                     <div className="mt-4">
                       <Badge count={item.totalEmployees}>
-                        <Button type="primary" onClick={goToDetail}>
+                        <Button type="primary" onClick={() => goToDetail(item.id)}>
                           <TeamOutlined className="mb-1" />
                           Manage candidate
                         </Button>

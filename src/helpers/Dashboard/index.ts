@@ -28,7 +28,7 @@ export const handleGetJobProgress = (value: number) => {
     }
 }
 export const getJobStatus = (value: string) => {
-    switch(value) {
+    switch (value) {
         case 'Cancel':
             return '#FF0000';
         case 'Done':
@@ -39,5 +39,15 @@ export const getJobStatus = (value: string) => {
             return '#d3adf7';
         case 'Inprogress':
             return '#108ee9';
+    }
+}
+export const getApplyStatus = (value: string) => {
+    switch (value) {
+        case 'Rejected':
+            return '#FF0000';
+        case 'Approved':
+            return '#87d068';
+        case 'Waiting':
+            return '#d3adf7';
     }
 }

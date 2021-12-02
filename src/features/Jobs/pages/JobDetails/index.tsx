@@ -15,7 +15,6 @@ import isLogin from 'helpers/isUserLogin';
 export default function JobDetails() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
   let isUserLogin = isLogin();
-  console.log(userRole);
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   let jobId = route.params.id;
@@ -225,7 +224,7 @@ export default function JobDetails() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
-          {userRole === 1 || isUserLogin === true ? (
+          {userRole === 1 || !isUserLogin ? (
             <></>
           ) : (
             <>

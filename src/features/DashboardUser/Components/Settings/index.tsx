@@ -225,7 +225,7 @@ export default function Settings() {
                   <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
                     <div className="col-span-6 ">
                       <div className="mb-1 text-xl font-bold">
-                        Nationality <span className="required-field">*</span>
+                        Country <span className="required-field">*</span>
                       </div>
                       <Form.Item
                         name="countryId"
