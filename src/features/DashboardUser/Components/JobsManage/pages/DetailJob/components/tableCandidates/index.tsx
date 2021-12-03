@@ -4,12 +4,17 @@ import PopupAccept from 'components/PopupConfirm';
 import { getApplyStatus } from 'helpers/Dashboard';
 import { formatDateMonth } from 'helpers/generate';
 import { useState } from 'react';
+type InfoNeed = {
+  maxEmployees: number;
+  totalEmployees: number;
+};
 interface IProps {
   data: any | null;
   loading: boolean;
+  infoNeed: InfoNeed;
   handleUpdateApplyStatus: (data: any) => void;
 }
-export default function TableDetail({ data, loading, handleUpdateApplyStatus }: IProps) {
+export default function TableCandidates({ data, infoNeed, loading, handleUpdateApplyStatus }: IProps) {
   const [record, setRecord] = useState<any>();
   const [openDialogAccept, setOpenDialogAccept] = useState(false);
   const [openModalReject, setOpenModalReject] = useState(false);
@@ -22,9 +27,6 @@ export default function TableDetail({ data, loading, handleUpdateApplyStatus }: 
     setOpenModalReject(true);
   };
   const handleDetail = (e: any) => {
-    console.log(e);
-  };
-  const handleDelete = (e: any) => {
     console.log(e);
   };
   const handleAccept = async () => {
@@ -52,7 +54,7 @@ export default function TableDetail({ data, loading, handleUpdateApplyStatus }: 
     {
       title: 'Avatar',
       dataIndex: ['user', 'avatar'],
-      key: 'Avatar',
+      key: 'avatar',
       width: 100,
       render: (avatar: string) => (
         <div className="font-medium">
@@ -102,12 +104,12 @@ export default function TableDetail({ data, loading, handleUpdateApplyStatus }: 
           <Button size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
-          {record.applyStatus === 'Waiting' && (
+          {record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees && (
             <Button type="primary" size="small" onClick={() => handleOpenDialogAccept(record)}>
               Accept
             </Button>
           )}
-          {record.applyStatus === 'Waiting' && (
+          {record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees && (
             <Button danger size="small" onClick={() => handleOpenDialogReject(record)}>
               Reject
             </Button>
@@ -119,8 +121,26 @@ export default function TableDetail({ data, loading, handleUpdateApplyStatus }: 
 
   return (
     <>
-      {/* @ts-ignore */}
-      <Table loading={loading} columns={columns} dataSource={data} pagination={false} scroll={{ y: 400 }} />
+      <Table
+        /* @ts-ignore */
+        columns={columns}
+        title={() => (
+          <div className="flex gap-2 text-base">
+            <div>
+              <span>Max employees require: </span>
+              <span className="font-medium">{infoNeed.maxEmployees}</span>
+            </div>
+            <div>
+              <span>| &nbsp; Current Employees: </span>
+              <span className="font-medium">{infoNeed.totalEmployees}</span>
+            </div>
+          </div>
+        )}
+        loading={loading}
+        dataSource={data}
+        pagination={false}
+        scroll={{ y: 400 }}
+      />
       <PopupAccept
         title="Accept"
         isVisible={openDialogAccept}

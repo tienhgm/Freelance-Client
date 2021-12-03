@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, changeApplyStatus, deleteJob, getJobCandidates, getJobEmployees, updateJob } from './../../apis/jobModule/index';
+import { applyJob, changeApplyStatus, deleteEmployeeFromJob, deleteJob, getJobCandidates, getJobEmployees, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -101,6 +101,21 @@ export const handleChangeApplyStatus = createAsyncThunk("job/changeApplyStatus",
         const res: any = await changeApplyStatus(jobId, candidateId, applyStatus, rejectMessage);
         if (res.statusCode === 200) {
             !rejectMessage ? successMes('Applied!') : successMes('Rejected!');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleDeleteEmployeeFromJob = createAsyncThunk("job/deleteEmployeeJob", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const { employeeId, jobId } = payload;
+        const res: any = await deleteEmployeeFromJob(jobId, employeeId);
+        if (res.statusCode === 200) {
+            successMes('Deleted!');
             return res.data;
         }
     } catch (error: any) {

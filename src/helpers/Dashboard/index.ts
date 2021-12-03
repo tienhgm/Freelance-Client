@@ -51,3 +51,11 @@ export const getApplyStatus = (value: string) => {
             return '#d3adf7';
     }
 }
+export const getWorkingStatus = (value: string) => {
+    switch (value) {
+        case 'Remove':
+            return '#FF0000';
+        case 'Working':
+            return '#108ee9';
+    }
+}

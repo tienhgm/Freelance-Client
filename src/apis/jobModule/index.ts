@@ -7,6 +7,7 @@ export const postAJob = (job: any) => sendPost(`jobs`, job);
 export const updateJob = (id: string, job: any) => sendPut(`jobs/${id}`, job);
 export const deleteJob = (id: any) => sendDelete(`jobs/${id}`);
 export const applyJob = (jobId: string, introduceMessage: any) => sendPost(`jobs/${jobId}/apply`, { introduceMessage });
-export const changeApplyStatus = (jobId: string, candidateId: any, applyStatus: string, rejectMessage?: string) => sendPut(`jobs/${jobId}/candidates/${applyStatus}/${candidateId}`, rejectMessage ? rejectMessage : '');
+export const changeApplyStatus = (jobId: any, candidateId: any, applyStatus: string, rejectMessage?: string) => sendPut(`jobs/${jobId}/candidates/${applyStatus}/${candidateId}`, rejectMessage ? rejectMessage : '');
+export const deleteEmployeeFromJob = (jobId: any, employeeId: any) => sendDelete(`jobs/${jobId}/employees/${employeeId}`);
 
 

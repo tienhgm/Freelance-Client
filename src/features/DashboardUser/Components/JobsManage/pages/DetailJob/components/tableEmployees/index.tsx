@@ -1,25 +1,42 @@
 import { Space, Table, Tag, Button } from 'antd';
-import { getApplyStatus } from 'helpers/Dashboard';
+import { getWorkingStatus } from 'helpers/Dashboard';
 import { formatDateMonth } from 'helpers/generate';
+import PopupRemove from 'components/PopupConfirm';
+import { useState } from 'react';
+type InfoNeed = {
+  maxEmployees: number;
+  totalEmployees: number;
+};
 interface IProps {
   data: any | null;
   loading: boolean;
+  infoNeed: InfoNeed;
+  handleUpdateWorkStatus: (data: any) => void;
 }
-export default function TableDetail({ data, loading }: IProps) {
+export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus }: IProps) {
+  const [openDialogRemove, setOpenDialogRemove] = useState(false);
+  const [record, setRecord] = useState<any>();
   const handleDetail = (e: any) => {
     console.log(e);
   };
-  const handleDelete = (e: any) => {
-    console.log(e);
+  const handleOpenDialogRemove = (record: any) => {
+    setRecord(record);
+    setOpenDialogRemove(true);
   };
-  const handleAccept = (e: any) => {
-    console.log(e);
+  const handleRemove = () => {
+    if (record) {
+      let data = {
+        jobId: record.jobId,
+        employeeId: record.user.id,
+      };
+      handleUpdateWorkStatus(data);
+    }
   };
   const columns = [
     {
       title: 'Avatar',
       dataIndex: ['user', 'avatar'],
-      key: 'Avatar',
+      key: 'avatar',
       render: (avatar: string) => (
         <div className="font-medium">
           <img src={`http://${avatar}`} width="40" height="40" alt="avt" style={{ borderRadius: '50%' }} />
@@ -39,16 +56,16 @@ export default function TableDetail({ data, loading }: IProps) {
       render: (email: string) => <div className="font-medium">{email}</div>,
     },
     {
-      title: 'Apply date',
+      title: 'Join date',
       dataIndex: 'createdAt',
       key: 'createdAt',
       render: (createdAt: any) => <div className="font-medium">{formatDateMonth(createdAt)}</div>,
     },
     {
-      title: 'Apply status',
-      dataIndex: 'applyStatus',
-      key: 'applyStatus',
-      render: (applyStatus: string) => <Tag color={getApplyStatus(applyStatus)}>{applyStatus}</Tag>,
+      title: 'Working status',
+      dataIndex: 'employeeStatus',
+      key: 'employeeStatus',
+      render: (employeeStatus: string) => <Tag color={getWorkingStatus(employeeStatus)}>{employeeStatus}</Tag>,
     },
     {
       title: 'Action',
@@ -58,17 +75,46 @@ export default function TableDetail({ data, loading }: IProps) {
           <Button size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
-
-          <Button type="primary" size="small" onClick={() => handleAccept(record)}>
-            Accept
-          </Button>
-          <Button danger size="small" onClick={() => handleDelete(record)}>
-            Reject
+          {/* {record.employeeStatus === 'Working' && (
+            <Button danger size="small" onClick={() => handleDelete(record)}>
+              Remove
+            </Button>
+          )} */}
+          <Button danger size="small" onClick={() => handleOpenDialogRemove(record)}>
+            Remove
           </Button>
         </Space>
       ),
     },
   ];
 
-  return <Table loading={loading} columns={columns} dataSource={data} pagination={false} />;
+  return (
+    <>
+      <Table
+        loading={loading}
+        columns={columns}
+        title={() => (
+          <div className="flex gap-2 text-base">
+            <div>
+              <span>Max employees require: </span>
+              <span className="font-medium">{infoNeed.maxEmployees}</span>
+            </div>
+            <div>
+              <span>| &nbsp; Current Employees: </span>
+              <span className="font-medium">{infoNeed.totalEmployees}</span>
+            </div>
+          </div>
+        )}
+        dataSource={data}
+        pagination={false}
+      />
+      <PopupRemove
+        title="Accept"
+        isVisible={openDialogRemove}
+        popupText="Want to Remove?"
+        handleConfirm={handleRemove}
+        handleCancelConfirm={() => setOpenDialogRemove(false)}
+      />
+    </>
+  );
 }
