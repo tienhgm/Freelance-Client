@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, deleteJob, getJobCandidates, updateJob } from './../../apis/jobModule/index';
+import { applyJob, changeApplyStatus, deleteJob, getJobCandidates, getJobEmployees, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -58,7 +58,7 @@ export const handleApplyJob = createAsyncThunk("job/apply", async (payload: any,
             return res.data;
         }
     } catch (error: any) {
-        errorMes(error.data.message)    
+        errorMes(error.data.message)
     }
     finally {
         dispatch(handleLoading(false));
@@ -80,12 +80,36 @@ export const handleDeleteAJob = createAsyncThunk("company/deleteJob", async (pay
 });
 export const handleGetJobCandidates = createAsyncThunk("job/candidates", async (payload: any) => {
     try {
-        const res:any = await getJobCandidates(payload[0], payload[1]);
-        if(res.statusCode === 200){
+        const res: any = await getJobCandidates(payload[0], payload[1]);
+        if (res.statusCode === 200) {
             return res.data;
         }
     } catch (error) { }
 });
+export const handleGetJobEmployees = createAsyncThunk("job/employees", async (payload: any) => {
+    try {
+        const res: any = await getJobEmployees(payload[0], payload[1]);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+});
+export const handleChangeApplyStatus = createAsyncThunk("job/changeApplyStatus", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const { applyStatus, candidateId, jobId, rejectMessage } = payload;
+        const res: any = await changeApplyStatus(jobId, candidateId, applyStatus, rejectMessage);
+        if (res.statusCode === 200) {
+            !rejectMessage ? successMes('Applied!') : successMes('Rejected!');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
+
 const jobSlice = createSlice({
     name: "jobs",
     initialState,

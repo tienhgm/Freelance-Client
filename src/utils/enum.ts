@@ -59,3 +59,4 @@ export const listStatusJob = [
     'Cancel',
     'Done'
 ]
+export const applyStatus = ['Waiting', 'Approved', 'Rejected']

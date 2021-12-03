@@ -3,7 +3,7 @@ import { getApplyStatus } from 'helpers/Dashboard';
 import { formatDateMonth } from 'helpers/generate';
 interface IProps {
   data: any | null;
-  loading: boolean
+  loading: boolean;
 }
 export default function TableDetail({ data, loading }: IProps) {
   const handleDetail = (e: any) => {
@@ -70,5 +70,5 @@ export default function TableDetail({ data, loading }: IProps) {
     },
   ];
 
-  return <Table loading={loading} columns={columns} dataSource={data} />;
+  return <Table loading={loading} columns={columns} dataSource={data} pagination={false} />;
 }

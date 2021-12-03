@@ -6,10 +6,22 @@ interface ModalForm {
   title: string;
   okText: string;
   isVisible: boolean;
+  fieldName: string;
+  labelField: string;
+  ruleMessage: string;
   handleConfirm: (values: any) => any;
   handleCancelConfirm: () => any;
 }
-export default function ModalForm({ title, isVisible, okText, handleConfirm, handleCancelConfirm }: ModalForm) {
+export default function ModalForm({
+  title,
+  labelField,
+  fieldName,
+  isVisible,
+  okText,
+  ruleMessage,
+  handleConfirm,
+  handleCancelConfirm,
+}: ModalForm) {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   useEffect(() => setVisible(isVisible), [isVisible]);
@@ -34,11 +46,11 @@ export default function ModalForm({ title, isVisible, okText, handleConfirm, han
     >
       <Form form={form} layout="vertical" name="form_in_modal" initialValues={{ modifier: 'public' }}>
         <Form.Item
-          name="introduceMessage"
-          label="Description"
-          rules={[{ required: true, message: 'Please input introduce message' }]}
+          name={fieldName}
+          label={labelField}
+          rules={[{ required: true, message: ruleMessage }]}
         >
-          <TextArea placeholder="Description" autoSize={{ minRows: 5, maxRows: 6 }} />
+          <TextArea placeholder={labelField} autoSize={{ minRows: 5, maxRows: 6 }} />
         </Form.Item>
       </Form>
     </Modal>

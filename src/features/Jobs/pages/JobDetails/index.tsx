@@ -8,9 +8,8 @@ import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
 import moment from 'moment';
 import JobItem from 'components/JobItem';
-import ModalForm from 'components/ModalApplyForm';
+import ModalFormApply from 'components/ModalForm';
 import isLogin from 'helpers/isUserLogin';
-
 
 export default function JobDetails() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
@@ -237,13 +236,16 @@ export default function JobDetails() {
               )}
             </>
           )}
-          <ModalForm
+          <ModalFormApply
             visible={false}
             title={'Apply job'}
             okText={'Apply'}
             isVisible={openModalApply}
             handleConfirm={handleApplyToJob}
             handleCancelConfirm={() => setOpenModalApply(false)}
+            fieldName={'introduceMessage'}
+            labelField={'Introduce message'}
+            ruleMessage={'Please input introduce message'}
           />
           <div className="w-full text-base job-summary">
             <h2 className="px-6 py-3 mb-0 text-xl font-medium bg-gray-200">Job Summary</h2>

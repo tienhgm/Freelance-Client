@@ -1,31 +1,34 @@
 import './index.scss';
-import { DeleteOutlined, MailOutlined, PhoneOutlined, PlusCircleOutlined } from '@ant-design/icons';
-import { Tooltip, Rate, Tabs, Pagination, Input } from 'antd';
-import avatarDefault from 'assets/images/user-avatar-placeholder.png';
-import TableDetail from './components/table';
-import { handleGetJobCandidates } from 'app/slices/jobSlice';
-import { useRouteMatch } from 'react-router-dom';
+import { Tabs, Input, Select, Pagination } from 'antd';
+import TableCandidates from './components/tableCandidates';
+import { handleChangeApplyStatus, handleGetJobCandidates, handleGetJobEmployees } from 'app/slices/jobSlice';
+import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
+import { applyStatus } from 'utils/enum';
+import queryString from 'query-string';
 const { TabPane } = Tabs;
+const { Option } = Select;
 export default function DetailJob() {
-  const [key, setKey] = useState('1');
+  const history = useHistory();
+  const location = useLocation();
+  const [key, setKey] = useState(queryString.parse(location.search).key);
   function callback(key: string) {
     setKey(key);
   }
   const [listJobCandidates, setListJobCandidates] = useState<any>([]);
-  const [page, setPage] = useState(1);
+  const [listJobEmployees, setListJobEmployees] = useState<any>([]);
   const [filters, setFilters] = useState<any>({
     name: '',
-    applyStatus: '',
-    appliedAt: null,
+    applyStatus: null,
+    appliedAt: '',
   });
   const [loading, setLoading] = useState(false);
   const match = useRouteMatch<any>();
   let jobId = match.params.id;
   const dispatch = useAppDispatch();
   const getListCandidates = async (jobId: string) => {
-    let listFilter = { ...filters, page: 1 };
+    let listFilter = { ...filters, page: 1, records: 99 };
     for (const key in listFilter) {
       if (listFilter[key] === undefined || listFilter[key] === null || listFilter[key] === '') {
         delete listFilter[key];
@@ -51,80 +54,102 @@ export default function DetailJob() {
       }, 500);
     }
   };
+  const getListEmployees = async (jobId: string) => {
+    let listFilter = { ...filters, page: 1, records: 99 };
+    for (const key in listFilter) {
+      if (listFilter[key] === undefined || listFilter[key] === null || listFilter[key] === '') {
+        delete listFilter[key];
+      }
+    }
+    const data = [jobId, listFilter];
+    try {
+      setLoading(true);
+      const { payload } = await dispatch(handleGetJobEmployees(data));
+      if (payload.employees) {
+        let employees = payload.employees.map((item: any) => {
+          return {
+            ...item,
+            fullName: item.user.firstName + ' ' + item.user.lastName,
+          };
+        });
+        setListJobEmployees(employees);
+      }
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+    }
+  };
   const handleSearchName = (e: any) => {
     setFilters((prev: any) => ({ ...prev, name: e.target.value }));
   };
+  const handleApplyStatus = (value: any) => {
+    setFilters((prev: any) => ({ ...prev, applyStatus: value }));
+  };
+  const handleUpdateApplyStatus = async (data: any) => {
+    try {
+      await dispatch(handleChangeApplyStatus(data));
+    } catch (error) {}
+  };
+
   useEffect(() => {
+    history.push({
+      pathname: `/dashboard/jobs-manage/${jobId}`,
+      search: `?key=${key}`,
+    });
     if (key === '2') {
       getListCandidates(jobId);
+    }
+    if (key === '1') {
+      getListEmployees(jobId);
     }
   }, [jobId, key, filters]);
   return (
     <div className="h-full candidate-manage">
-      <h1 className="text-2xl">Jobs {'>'} ...</h1>
+      <div className="flex gap-2 mb-4 text-lg font-medium">
+        <Link to="/dashboard/jobs-manage">Manage jobs</Link> {' > '}
+        <div>
+          {key === '1' && 'Manage employees'}
+          {key === '2' && 'Manage candidates'}
+        </div>
+      </div>
       <div className="candidate">
         <div>
-          <div className="flex justify-end px-6">
+          <div className="flex justify-end gap-3 px-6">
             <div style={{ width: 'calc(160px)' }}>
               <Input value={filters.name} onChange={handleSearchName} placeholder="Search by name..." />
             </div>
+            <div style={{ width: 'calc(160px)' }}>
+              <Select
+                placeholder="Apply status"
+                allowClear
+                style={{ width: 150 }}
+                value={filters.applyStatus}
+                onChange={handleApplyStatus}
+              >
+                {applyStatus.map((item) => (
+                  <Option value={item} key={Math.random()}>
+                    {item}
+                  </Option>
+                ))}
+              </Select>
+            </div>
+            {/* <div>
+              <DatePicker value={filters.appliedAt} onChange={onChangeDate} />
+            </div> */}
           </div>
-          <Tabs size="large" defaultActiveKey="1" onChange={callback}>
-            <TabPane tab="List employees" key="1">
-              <div className="box">
-                <div className="h-32 box__item">
-                  {/* left */}
-                  <div className="flex items-center">
-                    <img
-                      src={avatarDefault}
-                      style={{ width: '80px', height: '80px', borderRadius: '50%' }}
-                      alt="avatar"
-                    />
-                    <div className="flex flex-col ml-4">
-                      <div className="text-lg cursor-pointer box__item__title">Bilingual Event Support Speciallist</div>
-                      <div className="box__item__content">IOS Developer</div>
-                      <div className="flex gap-3 box__item__content">
-                        <div className="flex items-center gap-2">
-                          <MailOutlined /> sindy@example.com{' '}
-                        </div>
-                        <div className="flex items-center gap-2">
-                          <PhoneOutlined /> (+61) 123-456-789{' '}
-                        </div>
-                      </div>
-
-                      <div>
-                        <Rate disabled defaultValue={2} />
-                      </div>
-                    </div>
-                  </div>
-                  {/* end left */}
-                  {/* right */}
-                  <div className="flex gap-1">
-                    <div className="cursor-pointer btn btn__download">
-                      <Tooltip placement="bottom" title="Accept">
-                        <PlusCircleOutlined />
-                      </Tooltip>
-                    </div>
-                    <div className="cursor-pointer btn btn__message">
-                      <Tooltip placement="bottom" title="Message">
-                        <MailOutlined />
-                      </Tooltip>
-                    </div>
-                    <div className="cursor-pointer btn btn__delete">
-                      <Tooltip placement="bottom" title="Reject">
-                        <DeleteOutlined />
-                      </Tooltip>
-                    </div>
-                  </div>
-                  {/* end right */}
-                </div>
-              </div>
-            </TabPane>
+          {/* @ts-ignore */}
+          <Tabs size="large" defaultActiveKey={key} onChange={callback}>
+            <TabPane tab="List employees" key="1"></TabPane>
             <TabPane tab="List candidates" key="2">
-              <TableDetail data={listJobCandidates} loading={loading} />
+              <TableCandidates
+                handleUpdateApplyStatus={handleUpdateApplyStatus}
+                data={listJobCandidates}
+                loading={loading}
+              />
             </TabPane>
           </Tabs>
-          <Pagination className="mt-4" defaultCurrent={page} total={50} />
         </div>
       </div>
     </div>
