@@ -1,0 +1,14 @@
+.custom-modal{
+    .ant-modal-content{
+        .ant-modal-header{
+            .ant-modal-title{
+                display: flex;
+                justify-content: center;
+            }
+        }
+    }
+    .detail{
+        height: 400px;
+        overflow-y: scroll;
+    }
+}

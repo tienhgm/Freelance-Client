@@ -45,15 +45,13 @@ function FindFreelancer() {
       document.querySelector('.header > div > ul > li:nth-child(4) > a')?.classList.remove('active');
     };
   }, [history.location.pathname]);
-  useEffect(() => {
-    let listFilter = { ...filters, page: page };
-    listFilter.role = 2;
-    listFilter.records = 9;
+  useEffect(() => { 
+    let listFilter = { ...filters, page: page, records: 9, role: 2 };
     handleGetListFreelancers(listFilter);
     return () => {
       setListFreelancer([]);
       setTotal(0);
-      setFilters({});
+      setPage(1);
     }
   }, [filters, page]);
   return (

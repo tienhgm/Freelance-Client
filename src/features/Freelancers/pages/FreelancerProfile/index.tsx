@@ -6,7 +6,7 @@ import {
   EnvironmentOutlined,
   MailOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Col, Pagination, Progress, Row, Tag, Breadcrumb, Tabs, Skeleton } from 'antd';
+import { Tooltip, Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -16,10 +16,9 @@ import { formatDateMonth, getGender, subContent } from 'helpers/generate';
 import './styles.scss';
 import isLogin from 'helpers/isUserLogin';
 const { TabPane } = Tabs;
-const { CheckableTag } = Tag;
 
 function FreelancerProfile() {
-  const userRole = useAppSelector((state) => state.user.curUser.role);
+  // const userRole = useAppSelector((state) => state.user.curUser.role);
   const curUser = useAppSelector((state) => state.user.curUser);
   let isUserLogin = isLogin();
   const route = useRouteMatch<any>();

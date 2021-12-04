@@ -1,4 +1,5 @@
 import { Space, Table, Tag, Button } from 'antd';
+import ModalDetailEmloyee from 'components/ModalDetailEmployee';
 import ModalFormReject from 'components/ModalForm';
 import PopupAccept from 'components/PopupConfirm';
 import { getApplyStatus } from 'helpers/Dashboard';
@@ -16,8 +17,10 @@ interface IProps {
 }
 export default function TableCandidates({ data, infoNeed, loading, handleUpdateApplyStatus }: IProps) {
   const [record, setRecord] = useState<any>();
+  const [userIdRow, setUserIdRow] = useState<any>('');
   const [openDialogAccept, setOpenDialogAccept] = useState(false);
   const [openModalReject, setOpenModalReject] = useState(false);
+  const [openModalDetail, setOpenModalDetail] = useState(false)
   const handleOpenDialogAccept = (record: any) => {
     setRecord(record);
     setOpenDialogAccept(true);
@@ -25,9 +28,6 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
   const handleOpenDialogReject = (record: any) => {
     setRecord(record);
     setOpenModalReject(true);
-  };
-  const handleDetail = (e: any) => {
-    console.log(e);
   };
   const handleAccept = async () => {
     if (record) {
@@ -50,6 +50,10 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
       handleUpdateApplyStatus(data);
     }
   };
+  const handleOpenModalDetail = (record: any) => {
+    setOpenModalDetail(true);
+    setUserIdRow(record.user.id);
+  }
   const columns = [
     {
       title: 'Avatar',
@@ -101,7 +105,7 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
       width: 250,
       render: (record: any) => (
         <Space size="middle">
-          <Button size="small" onClick={() => handleDetail(record)}>
+          <Button size="small" onClick={() => handleOpenModalDetail(record)}>
             Detail
           </Button>
           {record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees && (
@@ -158,6 +162,13 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
         fieldName={'rejectMessage'}
         labelField={'Reject message'}
         ruleMessage={'Please input reject message'}
+      />
+      <ModalDetailEmloyee
+        title={'Info'}
+        isVisible={openModalDetail}
+        handleCancelConfirm={() => setOpenModalDetail(false)}
+        handleConfirm={() => setOpenModalDetail(false)}
+        userId={userIdRow}
       />
     </>
   );
