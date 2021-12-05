@@ -20,7 +20,7 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
   const [userIdRow, setUserIdRow] = useState<any>('');
   const [openDialogAccept, setOpenDialogAccept] = useState(false);
   const [openModalReject, setOpenModalReject] = useState(false);
-  const [openModalDetail, setOpenModalDetail] = useState(false)
+  const [openModalDetail, setOpenModalDetail] = useState(false);
   const handleOpenDialogAccept = (record: any) => {
     setRecord(record);
     setOpenDialogAccept(true);
@@ -164,7 +164,7 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
         ruleMessage={'Please input reject message'}
       />
       <ModalDetailEmloyee
-        title={'Info'}
+        title={'DETAIL'}
         isVisible={openModalDetail}
         handleCancelConfirm={() => setOpenModalDetail(false)}
         handleConfirm={() => setOpenModalDetail(false)}

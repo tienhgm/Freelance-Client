@@ -1,14 +1,93 @@
-.custom-modal{
-    .ant-modal-content{
-        .ant-modal-header{
-            .ant-modal-title{
-                display: flex;
-                justify-content: center;
-            }
+@mixin block-title {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #2e3fe5;
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+}
+.custom-modal {
+  .ant-modal-content {
+    .ant-modal-header {
+      .ant-modal-title {
+        display: flex;
+        justify-content: center;
+      }
+    }
+  }
+  .detail {
+    height: 400px;
+    overflow-y: scroll;
+    width: 100%;
+    display: flex;
+    box-sizing: border-box;
+    .left {
+      width: calc(250px);
+
+      height: calc(100%);
+      margin-right: 20px;
+      &__avatar {
+        display: flex;
+        justify-content: center;
+        border-right: 2px solid #f2f2f2;
+        padding-bottom: 15px;
+      }
+      .info {
+        border-right: 2px solid #f2f2f2;
+
+        &__title {
+          @include block-title;
         }
+        &__content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+          height: 100%;
+        }
+      }
     }
-    .detail{
-        height: 400px;
-        overflow-y: scroll;
+    .right {
+      width: calc(100% - 270px);
+      .educations {
+        margin-bottom: 1.25rem;
+        &__title {
+          @include block-title;
+        }
+      }
+      .skills {
+        margin-bottom: 1.25rem;
+        &__title {
+          @include block-title;
+        }
+        &__content {
+          display: flex;
+          flex-direction: row;
+          flex-wrap: wrap;
+          gap: 0.25rem;
+        }
+        &__tag {
+          span {
+            font-size: 14.7px;
+            display: inline-block;
+            padding: 6px 15px;
+            margin: 2px;
+            background-color: #2a41e812;
+            border-radius: 4px;
+            font-weight: 500;
+          }
+        }
+      }
+      .experiences {
+        margin-bottom: 1.25rem;
+        &__title {
+          @include block-title;
+        }
+      }
+      .jobAnalyst {
+        &__title {
+          @include block-title;
+        }
+      }
     }
+  }
 }

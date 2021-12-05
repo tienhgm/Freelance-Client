@@ -58,8 +58,8 @@ export default function Settings() {
     const { payload } = await dispatch(handleGetProfile(userId));
 
     if (payload) {
-      let experiencesPayload = payload.experiences;
-      if (!!experiencesPayload) {
+      let experiencesPayload = [...payload.experiences];
+      if (experiencesPayload) {
         experiencesPayload = experiencesPayload?.map((item: any) => {
           return {
             ...item,
@@ -67,8 +67,8 @@ export default function Settings() {
           };
         });
       }
-      let skillsPayload = payload.skills;
-      if (!!skillsPayload) {
+      let skillsPayload: any = [...payload.skills];
+      if (skillsPayload) {
         skillsPayload = skillsPayload.map((item: any) => {
           return {
             ...item,
@@ -76,6 +76,12 @@ export default function Settings() {
           };
         });
         delete skillsPayload.id;
+      }
+      let languages = [...payload.languages];
+      if (languages) {
+        languages = languages.map((item: any) => {
+          return item.name;
+        });
       }
       form.setFieldsValue({
         email: payload.email,
@@ -89,7 +95,7 @@ export default function Settings() {
         skills: skillsPayload,
         areaId: payload.area?.id,
         experiences: experiencesPayload,
-        languageIds: payload.language,
+        languageIds: languages,
         briefIntroduce: payload.briefIntroduce,
         countryId: payload.area?.countryId,
       });
@@ -109,7 +115,6 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
-    values.minimalHourlyRate = 100;
     values.nationalityId = 194;
     values.introduce = introduce;
     values.educations = educations;
@@ -119,7 +124,7 @@ export default function Settings() {
     values.hobbies = [''];
     // handler experiences
     let experiences = values.experiences;
-    if (!!experiences) {
+    if (experiences) {
       experiences = experiences?.map((item: any) => {
         return {
           ...item,

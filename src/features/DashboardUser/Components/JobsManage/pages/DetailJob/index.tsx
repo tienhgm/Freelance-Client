@@ -1,6 +1,7 @@
 import './index.scss';
-import { Tabs, Input, Select, Pagination } from 'antd';
+import { Tabs, Input, Select } from 'antd';
 import TableCandidates from './components/tableCandidates';
+import TableEmployees from './components/tableEmployees';
 import {
   handleChangeApplyStatus,
   handleDeleteEmployeeFromJob,
@@ -12,7 +13,6 @@ import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
 import { applyStatus, jobEmployeeStatus } from 'utils/enum';
 import queryString from 'query-string';
-import TableEmployees from './components/tableEmployees';
 const { TabPane } = Tabs;
 const { Option } = Select;
 export default function DetailJob() {

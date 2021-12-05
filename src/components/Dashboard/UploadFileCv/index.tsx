@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import './index.scss';
 import { Button, message } from 'antd';
 import { Upload } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { removeCertification, uploadCertification } from 'app/slices/userSlice';
 
-function UploadFile() {
+export default function UploadFile() {
   const dispatch = useAppDispatch();
   const certificationsList = useAppSelector((state) => state.user.curUser.certifications);
   const [showPreview, setShowPreview] = useState('');
@@ -138,4 +138,4 @@ function UploadFile() {
   );
 }
 
-export default UploadFile;
+

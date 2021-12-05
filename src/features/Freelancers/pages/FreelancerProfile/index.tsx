@@ -6,7 +6,7 @@ import {
   EnvironmentOutlined,
   MailOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton } from 'antd';
+import { Tooltip, Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton, Timeline } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -149,28 +149,30 @@ function FreelancerProfile() {
                           style={{ paddingBottom: '2px', height: '4px', width: 'calc(2%)', backgroundColor: '#2e3fe5' }}
                         ></div>
                       </div>
-                      {freelancerDetail.experiences &&
-                        freelancerDetail.experiences.map((item: any) => (
-                          <div key={item.id} className="flex flex-col gap-2 mt-4">
-                            <div className="flex items-center gap-4">
-                              <ArrowRightOutlined style={{ color: '#2e3fe5' }} />
-                              <div className="flex flex-col">
-                                <div className="text-lg font-medium">{item.role}</div>
-                                <div className="flex items-center gap-4">
-                                  <div className="font-normal">{item.companyName} </div>
-                                  <div className="flex items-center gap-2">
-                                    <MailOutlined className="mt-1" />{' '}
-                                    <div className="font-normal">{item.companyEmail}</div>
+                      <Timeline>
+                        {freelancerDetail.experiences &&
+                          freelancerDetail.experiences.map((item: any) => (
+                            <Timeline.Item key={item.id}>
+                              <div key={item.id} className="flex flex-col gap-2 mt-4">
+                                <div className="flex flex-col">
+                                  <div className="text-lg font-medium">{item.role}</div>
+                                  <div className="flex items-center gap-4">
+                                    <div className="font-normal">{item.companyName} </div>
+                                    <div className="flex items-center gap-2">
+                                      <MailOutlined className="mt-1" />{' '}
+                                      <div className="font-normal">{item.companyEmail}</div>
+                                    </div>
                                   </div>
+                                  <div style={{ color: '#2e3fe5' }}>
+                                    {formatDateMonth(item.startDate)} - {formatDateMonth(item.endDate)}
+                                  </div>
+                                  <div className="mt-1 font-medium">{item.description}</div>
+                                  {/* </div> */}
                                 </div>
-                                <div style={{ color: '#2e3fe5' }}>
-                                  {formatDateMonth(item.startDate)} - {formatDateMonth(item.endDate)}
-                                </div>
-                                <div className="mt-1 font-medium">{item.description}</div>
                               </div>
-                            </div>
-                          </div>
-                        ))}
+                            </Timeline.Item>
+                          ))}
+                      </Timeline>
                     </div>
                   </TabPane>
                   <TabPane tab="Educations" key="3">
@@ -361,7 +363,7 @@ function FreelancerProfile() {
                         href={`http://${item}`}
                         target="_blank"
                         key={idx}
-                        rel="noopener"
+                        rel="noreferrer"
                         className="ml-2 text-lg"
                         style={{ color: '#1890FF' }}
                       >
