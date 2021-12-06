@@ -4,6 +4,7 @@ import { formatDateMonth } from 'helpers/generate';
 import PopupRemove from 'components/PopupConfirm';
 import { useState } from 'react';
 import ModalDetailEmloyee from 'components/ModalDetailEmployee';
+import ModalReview from 'components/ModalReview';
 type InfoNeed = {
   maxEmployees: number;
   totalEmployees: number;
@@ -13,19 +14,22 @@ interface IProps {
   loading: boolean;
   infoNeed: InfoNeed;
   handleUpdateWorkStatus: (data: any) => void;
+  handlePostReview: (data: any) => void;
 }
-export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus }: IProps) {
+export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus, handlePostReview }: IProps) {
   const [openDialogRemove, setOpenDialogRemove] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
+  const [openModalReview, setOpenModalReview] = useState(false);
   const [userIdRow, setUserIdRow] = useState<any>('');
   const [record, setRecord] = useState<any>();
-  const handleDetail = (e: any) => {
-    console.log(e);
-  };
   const handleOpenModalDetail = (record: any) => {
     setOpenModalDetail(true);
     setUserIdRow(record.user.id);
-  }
+  };
+  const handleOpenModalReview = (record: any) => {
+    setRecord(record);
+    setOpenModalReview(record.user.id);
+  };
   const handleOpenDialogRemove = (record: any) => {
     setRecord(record);
     setOpenDialogRemove(true);
@@ -37,6 +41,15 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
         employeeId: record.user.id,
       };
       handleUpdateWorkStatus(data);
+    }
+  };
+  const handleReview = (value: any) => {
+    if (record) {
+      let data = {
+        userId: record.user.id,
+        review: value,
+      };
+      handlePostReview(data);
     }
   };
   const columns = [
@@ -73,6 +86,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
       dataIndex: 'employeeStatus',
       key: 'employeeStatus',
       render: (employeeStatus: string) => <Tag color={getWorkingStatus(employeeStatus)}>{employeeStatus}</Tag>,
+      align: 'center',
     },
     {
       title: 'Action',
@@ -82,9 +96,16 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
           <Button size="small" onClick={() => handleOpenModalDetail(record)}>
             Detail
           </Button>
+
           {record.employeeStatus === 'Working' && (
             <Button danger size="small" onClick={() => handleOpenDialogRemove(record)}>
               Remove
+            </Button>
+          )}
+          {/* check done show */}
+          {record.employeeStatus === 'Done' && (
+            <Button size="small" onClick={() => handleOpenModalReview(record)}>
+              Reviews
             </Button>
           )}
         </Space>
@@ -96,6 +117,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
     <>
       <Table
         loading={loading}
+        // @ts-ignore
         columns={columns}
         title={() => (
           <div className="flex gap-2 text-base">
@@ -125,6 +147,11 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
         handleCancelConfirm={() => setOpenModalDetail(false)}
         handleConfirm={() => setOpenModalDetail(false)}
         userId={userIdRow}
+      />
+      <ModalReview
+        isVisible={openModalReview}
+        handleConfirm={handleReview}
+        handleCancelConfirm={() => setOpenModalReview(false)}
       />
     </>
   );

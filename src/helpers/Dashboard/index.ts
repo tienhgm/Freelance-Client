@@ -57,5 +57,7 @@ export const getWorkingStatus = (value: string) => {
             return '#FF0000';
         case 'Working':
             return '#108ee9';
+        case 'Done':
+            return '#87d068';
     }
 }

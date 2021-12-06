@@ -1,23 +1,28 @@
 import './index.scss';
-import { Tabs, Input, Select } from 'antd';
+import { Tabs, Input, Select, Tag, Button, Tooltip } from 'antd';
 import TableCandidates from './components/tableCandidates';
 import TableEmployees from './components/tableEmployees';
 import {
   handleChangeApplyStatus,
   handleDeleteEmployeeFromJob,
+  handleFinishJob,
   handleGetJobCandidates,
   handleGetJobEmployees,
+  handlePostAReview,
 } from 'app/slices/jobSlice';
 import { Link, useHistory, useLocation, useRouteMatch } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import { useAppDispatch } from 'app/hooks';
 import { applyStatus, jobEmployeeStatus } from 'utils/enum';
 import queryString from 'query-string';
+import { getJobStatus } from 'helpers/Dashboard';
+import { CheckOutlined } from '@ant-design/icons';
 const { TabPane } = Tabs;
 const { Option } = Select;
 export default function DetailJob() {
   const history = useHistory();
   const location = useLocation();
+  const route = useRouteMatch<any>();
   const [key, setKey] = useState<any>(
     queryString.parse(location.search).key ? queryString.parse(location.search).key : '1'
   );
@@ -40,6 +45,7 @@ export default function DetailJob() {
     jobEmployeeStatus: null,
     joinedAt: '',
   });
+  const [jobStatus, setJobStatus] = useState<any>('');
   const [loading, setLoading] = useState(false);
   const match = useRouteMatch<any>();
   let jobId = match.params.id;
@@ -93,6 +99,7 @@ export default function DetailJob() {
           maxEmployees: payload.maxEmployees,
           totalEmployees: payload.totalEmployees,
         }));
+        setJobStatus(payload.jobStatus);
         let employees = payload.employees.map((item: any) => {
           return {
             ...item,
@@ -130,7 +137,14 @@ export default function DetailJob() {
       await dispatch(handleDeleteEmployeeFromJob(data));
     } catch (error) {}
   };
-
+  const handlePostReview = async (data: any) => {
+    try {
+      await dispatch(handlePostAReview(data));
+    } catch (error) {}
+  };
+  const handleDoneJob = async () => {
+    await dispatch(handleFinishJob(jobId));
+  };
   useEffect(() => {
     history.push({
       pathname: `/dashboard/jobs-manage/${jobId}`,
@@ -143,10 +157,16 @@ export default function DetailJob() {
       getListEmployees(jobId);
     }
   }, [jobId, key, filtersCandidate, filtersEmployee]);
+  useEffect(() => {
+    if (key === '2') {
+      setJobStatus('');
+    }
+  }, [key]);
   return (
     <div className="h-full candidate-manage">
       <div className="flex gap-2 mb-4 text-lg font-medium">
         <Link to="/dashboard/jobs-manage">Manage jobs</Link> {' > '}
+        {route.params && route.params.id && <div>{`Job ${route.params.id} >`}</div>}
         <div>
           {key === '1' && 'Manage employees'}
           {key === '2' && 'Manage candidates'}
@@ -154,65 +174,83 @@ export default function DetailJob() {
       </div>
       <div className="candidate">
         <div>
-          <div className="flex justify-end gap-3 px-6">
-            {key === '1' && (
-              <>
-                <div style={{ width: 'calc(160px)' }}>
-                  <Input
-                    value={filtersEmployee.name}
-                    onChange={handleSearchNameEmployee}
-                    placeholder="Search by name..."
-                  />
-                </div>
-                <div style={{ width: 'calc(160px)' }}>
-                  <Select
-                    placeholder="Work status"
-                    allowClear
-                    style={{ width: 150 }}
-                    value={filtersEmployee.applyStatus}
-                    onChange={handleWorkingStatus}
-                  >
-                    {jobEmployeeStatus.map((item) => (
-                      <Option value={item} key={Math.random()}>
-                        {item}
-                      </Option>
-                    ))}
-                  </Select>
-                </div>
-              </>
+          <div className="flex justify-between gap-3 px-6">
+            {jobStatus.length > 0 ? (
+              <div className="flex items-center gap-2">
+                {jobStatus !== 'Done' && (
+                  <div>
+                    <Tooltip color="geekblue" title="Done">
+                      <Button icon={<CheckOutlined />} onClick={handleDoneJob} />
+                    </Tooltip>
+                  </div>
+                )}
+                <div className="font-medium">Job status: </div>
+                <div>{<Tag color={getJobStatus(jobStatus)}>{jobStatus}</Tag>}</div>
+              </div>
+            ) : (
+              <div></div>
             )}
-            {key === '2' && (
-              <>
-                <div style={{ width: 'calc(160px)' }}>
-                  <Input
-                    value={filtersEmployee.name}
-                    onChange={handleSearchNameCandidate}
-                    placeholder="Search by name..."
-                  />
-                </div>
-                <div style={{ width: 'calc(160px)' }}>
-                  <Select
-                    placeholder="Apply status"
-                    allowClear
-                    style={{ width: 150 }}
-                    value={filtersCandidate.applyStatus}
-                    onChange={handleApplyStatus}
-                  >
-                    {applyStatus.map((item) => (
-                      <Option value={item} key={Math.random()}>
-                        {item}
-                      </Option>
-                    ))}
-                  </Select>
-                </div>
-              </>
-            )}
+            <div className="flex justify-end gap-3">
+              {key === '1' && (
+                <>
+                  <div style={{ width: 'calc(160px)' }}>
+                    <Input
+                      value={filtersEmployee.name}
+                      onChange={handleSearchNameEmployee}
+                      placeholder="Search by name..."
+                    />
+                  </div>
+                  <div style={{ width: 'calc(160px)' }}>
+                    <Select
+                      placeholder="Work status"
+                      allowClear
+                      style={{ width: 150 }}
+                      value={filtersEmployee.applyStatus}
+                      onChange={handleWorkingStatus}
+                    >
+                      {jobEmployeeStatus.map((item) => (
+                        <Option value={item} key={Math.random()}>
+                          {item}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                </>
+              )}
+              {key === '2' && (
+                <>
+                  <div style={{ width: 'calc(160px)' }}>
+                    <Input
+                      value={filtersEmployee.name}
+                      onChange={handleSearchNameCandidate}
+                      placeholder="Search by name..."
+                    />
+                  </div>
+                  <div style={{ width: 'calc(160px)' }}>
+                    <Select
+                      placeholder="Apply status"
+                      allowClear
+                      style={{ width: 150 }}
+                      value={filtersCandidate.applyStatus}
+                      onChange={handleApplyStatus}
+                    >
+                      {applyStatus.map((item) => (
+                        <Option value={item} key={Math.random()}>
+                          {item}
+                        </Option>
+                      ))}
+                    </Select>
+                  </div>
+                </>
+              )}
+            </div>
           </div>
           {/* @ts-ignore */}
           <Tabs size="large" defaultActiveKey={key} onChange={callback}>
             <TabPane tab="List employees" key="1">
               <TableEmployees
                 handleUpdateWorkStatus={handleDeleteEmployee}
+                handlePostReview={handlePostReview}
                 data={listJobEmployees}
                 loading={loading}
                 infoNeed={infoNeed}

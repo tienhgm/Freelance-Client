@@ -11,8 +11,8 @@ import {
   UserAddOutlined,
   UndoOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Button, Tag, Badge, Pagination, Input, Select, Skeleton, Spin } from 'antd';
-import { useHistory } from 'react-router-dom';
+import { Tooltip, Button, Tag, Badge, Pagination, Input, Select, Skeleton } from 'antd';
+import { useHistory, useLocation } from 'react-router-dom';
 import Popup from 'components/PopupConfirm';
 import { useEffect, useState } from 'react';
 import { listStatusJob } from 'utils/enum';
@@ -22,13 +22,18 @@ import { handleGetListJobManage } from 'app/slices/companySlice';
 import { formatDateMonth } from 'helpers/generate';
 import { getJobStatus } from 'helpers/Dashboard';
 import { handleDeleteAJob } from 'app/slices/jobSlice';
+import queryString from 'query-string';
+
 const { Option } = Select;
 export default function ListJobs() {
   const [title, setTitle] = useState<any>('');
   const [statusJob, setStatusJob] = useState<any>();
   const [listArea, setListArea] = useState<any>([]);
   const [areaId, setAreaId] = useState<any>();
-  const [page, setPage] = useState<any>(1);
+  const location = useLocation();
+  const [page, setPage] = useState<any>(
+    queryString.parse(location.search).page ? queryString.parse(location.search).page : 1
+  );
   const [total, setTotal] = useState(0);
   const [loading, setLoading] = useState(false);
   const [listJobs, setListJobs] = useState<any>([]);
@@ -36,8 +41,11 @@ export default function ListJobs() {
   const curUser = useAppSelector((state) => state.user.curUser);
   const history = useHistory();
   const dispatch = useAppDispatch();
-  const goToDetail = (id: string) => {
-    history.push(`/dashboard/jobs-manage/${id}`);
+  const goToDetailEmployee = (id: string) => {
+    history.push(`/dashboard/jobs-manage/${id}?key=1`);
+  };
+  const goToDetailCandidate = (id: string) => {
+    history.push(`/dashboard/jobs-manage/${id}?key=2`);
   };
   const goToEdit = (id: string) => {
     history.push(`/dashboard/jobs-manage/edit/${id}`);
@@ -121,6 +129,10 @@ export default function ListJobs() {
     }
   };
   useEffect(() => {
+    history.push({
+      pathname: `/dashboard/jobs-manage`,
+      search: `?page=${page}`,
+    });
     handleGetJobManage(title, statusJob, areaId, page);
   }, [title, statusJob, areaId, page]);
   return (
@@ -205,11 +217,17 @@ export default function ListJobs() {
                         <UserAddOutlined /> {item.experience}
                       </div>
                     </div>
-                    <div className="mt-4">
+                    <div className="flex gap-5 mt-4">
                       <Badge count={item.totalEmployees}>
-                        <Button type="primary" onClick={() => goToDetail(item.id)}>
+                        <Button type="ghost" onClick={() => goToDetailEmployee(item.id)}>
                           <TeamOutlined className="mb-1" />
-                          Manage candidate
+                          Manage Employee
+                        </Button>
+                      </Badge>
+                      <Badge count={item.totalCandidates}>
+                        <Button type="primary" onClick={() => goToDetailCandidate(item.id)}>
+                          <TeamOutlined className="mb-1" />
+                          Manage Candidate
                         </Button>
                       </Badge>
                     </div>

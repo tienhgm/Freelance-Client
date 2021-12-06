@@ -8,12 +8,13 @@ import { useAppDispatch } from 'app/hooks';
 import { listLevel, listStatusJob, listWorkMode } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
 import { handleGetDetailJob, handlePostJob, handleUpdateJob } from 'app/slices/jobSlice';
-import { useRouteMatch } from 'react-router';
+import { useHistory, useRouteMatch } from 'react-router';
 import { Link } from 'react-router-dom';
 import moment from 'moment';
 const { Option } = Select;
 export default function PostJob() {
   const [form] = Form.useForm();
+  const history = useHistory();
   const { RangePicker } = DatePicker;
   const [jobSalary, setJobSalary] = useState(0);
   const [jobDescription, setJobDescription] = useState('');
@@ -69,9 +70,14 @@ export default function PostJob() {
     values.areaId = 0;
     values.minEmployees = 1;
     values.description = jobDescription;
+    values.maxEmployees = +values.maxEmployees;
     delete values.rangePicker;
     if (!jobId) {
-      await dispatch(handlePostJob(values));
+      const result = await dispatch(handlePostJob(values));
+      if(result){
+        form.resetFields();
+        history.push('/dashboard/jobs-manage?page=1')
+      }
     } else {
       const payload = [jobId, values];
       await dispatch(handleUpdateJob(payload));
@@ -85,7 +91,7 @@ export default function PostJob() {
     };
   }, []);
   useEffect(() => {
-    if (!!jobId) {
+    if (jobId) {
       getDetailJob(jobId);
     }
   }, [jobId]);
@@ -194,7 +200,7 @@ export default function PostJob() {
                     </div>
                     <Form.Item name="status" rules={[{ required: true, message: 'Choose status job' }]}>
                       <Select allowClear size="large" style={{ width: '100%' }} placeholder="Choose status job">
-                        {listStatusJob?.map((item: any, idx: number) => (
+                        {listStatusJob.filter(item => item !== 'Done').map((item: any, idx: number) => (
                           <Option value={item} key={idx}>
                             {item}
                           </Option>

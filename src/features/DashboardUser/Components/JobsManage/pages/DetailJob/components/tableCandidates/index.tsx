@@ -153,7 +153,6 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
         handleCancelConfirm={() => setOpenDialogAccept(false)}
       />
       <ModalFormReject
-        visible={false}
         title={'Apply job'}
         okText={'Apply'}
         isVisible={openModalReject}

@@ -3,6 +3,7 @@ import { Rate, Pagination, Skeleton } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { handleGetReviews } from 'app/slices/userSlice';
 import Popup from 'components/PopupConfirm';
+import { formatDateMonth } from 'helpers/generate';
 import { useEffect, useState } from 'react';
 import PopupReview from './Components';
 import './index.scss';
@@ -47,26 +48,37 @@ export default function Reviews() {
           <div className="title">
             <ProfileOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> Reviews by me
           </div>
-          {reviewAboutMe.map((item:any) => (
+          {reviewAboutMe.map((item: any) => (
             <div className="block" key={item.id}>
               {!isLoading ? (
                 <>
-                  <div className="block__label">Work in station live</div>
+                  {item.reviewer && (
+                    <div className="flex items-center gap-3 block__label">
+                      <img
+                        src={`http://${item.reviewer.avatar}`}
+                        width="30"
+                        height="30"
+                        style={{ borderRadius: '50%' }}
+                        alt="avatar"
+                      />
+                      <div>{item.reviewer.firstName}</div>
+                    </div>
+                  )}
                   <div className="flex gap-4">
-                    <Rate disabled defaultValue={3.5} allowHalf />
+                    {item.rate && <Rate disabled defaultValue={item.rate} allowHalf />}
                     <div className="text-lg block__date">
-                      <FieldTimeOutlined /> <span style={{ color: '#808080' }}>Oct 2021</span>
+                      <FieldTimeOutlined /> <span style={{ color: '#808080' }}>{formatDateMonth(item.createdAt)}</span>
                     </div>
                   </div>
-                  <div className="mt-2 mb-2 font-medium break-words">1234</div>
-                  <div className="flex items-center gap-4 mt-3">
+                  {item.comment && <div className="mt-2 mb-2 font-medium break-words">{item.comment}</div>}
+                  {/* <div className="flex items-center gap-4 mt-3">
                     <div className="flex items-center gap-1 btn btn__edit" onClick={() => setOpenDialogReview(true)}>
                       <EditOutlined /> Edit review
                     </div>
                     <div className="flex items-center gap-1 btn btn__delete" onClick={() => setOpenDialogConfirm(true)}>
                       <DeleteOutlined /> Delete
                     </div>
-                  </div>
+                  </div> */}
                 </>
               ) : (
                 <Skeleton active paragraph={{ rows: 2 }} />

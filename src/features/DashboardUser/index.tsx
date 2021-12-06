@@ -46,7 +46,7 @@ function DashboardUser() {
   ];
   const menuUserRole2 = [
     { key: 2, icon: <FolderOpenOutlined />, link: '/dashboard/my-jobs', name: 'My Jobs' },
-    { key: 3, icon: <StarOutlined />, link: '/dashboard/bookmarks', name: 'Bookmarks' },
+    // { key: 3, icon: <StarOutlined />, link: '/dashboard/bookmarks', name: 'Bookmarks' },
   ];
   const menuUserRole1 = [
     { key: 8, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },

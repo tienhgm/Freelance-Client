@@ -1,34 +1,22 @@
-import React, { useEffect, useState } from 'react';
-import { Modal, Form, Input } from 'antd';
+import { useEffect, useState } from 'react';
+import { Modal, Form, Input, Rate } from 'antd';
+import './index.scss';
 const { TextArea } = Input;
 interface ModalForm {
-  title: string;
-  okText: string;
   isVisible: boolean;
-  fieldName: string;
-  labelField: string;
-  ruleMessage: string;
   handleConfirm: (values: any) => any;
   handleCancelConfirm: () => any;
 }
-export default function ModalForm({
-  title,
-  labelField,
-  fieldName,
-  isVisible,
-  okText,
-  ruleMessage,
-  handleConfirm,
-  handleCancelConfirm,
-}: ModalForm) {
+export default function ModalForm({ isVisible, handleConfirm, handleCancelConfirm }: ModalForm) {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   useEffect(() => setVisible(isVisible), [isVisible]);
   return (
     <Modal
       visible={visible}
-      title={title}
-      okText={okText}
+      className="custom-review"
+      title={'Review'}
+      okText={'Save'}
       cancelText="Cancel"
       onCancel={handleCancelConfirm}
       onOk={() => {
@@ -44,12 +32,11 @@ export default function ModalForm({
       }}
     >
       <Form form={form} layout="vertical" name="form_in_modal" initialValues={{ modifier: 'public' }}>
-        <Form.Item
-          name={fieldName}
-          label={labelField}
-          rules={[{ required: true, message: ruleMessage }]}
-        >
-          <TextArea placeholder={labelField} autoSize={{ minRows: 5, maxRows: 6 }} />
+        <Form.Item name="rate" label={'Rate'} rules={[{ required: true, message: 'Please rate' }]}>
+          <Rate allowHalf allowClear/>
+        </Form.Item>
+        <Form.Item name="comment" label={'Comment'} rules={[{ required: true, message: 'Please input your comment' }]}>
+          <TextArea placeholder={'Comment'} autoSize={{ minRows: 5, maxRows: 6 }} />
         </Form.Item>
       </Form>
     </Modal>

@@ -45,7 +45,7 @@ export default function FindJobs() {
   }, [history.location.pathname]);
   useEffect(() => {
     let listFilter = { ...filters, page: page };
-    // listFilter.status = 'Inprogress';
+    listFilter.statuses = ['Inprogress', 'Await'];
     handleGetListJob(listFilter);
     return () => {
       setListJobs([]);

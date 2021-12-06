@@ -104,7 +104,6 @@ const routesConfiguration = {
     routers: [],
     guarded: true,
     role: null,
-
   },
   dashboardUserRole1: {
     name: 'Dashboard',

@@ -237,7 +237,6 @@ export default function JobDetails() {
             </>
           )}
           <ModalFormApply
-            visible={false}
             title={'Apply job'}
             okText={'Apply'}
             isVisible={openModalApply}

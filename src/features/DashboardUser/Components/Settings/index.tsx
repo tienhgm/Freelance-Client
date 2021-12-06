@@ -71,16 +71,16 @@ export default function Settings() {
       if (skillsPayload) {
         skillsPayload = skillsPayload.map((item: any) => {
           return {
-            ...item,
-            skillId: item.id,
+            skillId: +item.id,
+            experience: item.experience,
           };
         });
-        delete skillsPayload.id;
       }
+      console.log(skillsPayload);
       let languages = [...payload.languages];
       if (languages) {
         languages = languages.map((item: any) => {
-          return item.name;
+          return item.id;
         });
       }
       form.setFieldsValue({
@@ -115,6 +115,13 @@ export default function Settings() {
   }, []);
   const onFinish = async (values: any) => {
     delete values.email;
+    let cloneSkills = [...values.skills];
+    values.skills = cloneSkills.map((item:any) => {
+      return {
+        skillId: item.skillId,
+        experience: item.experience
+      }
+    })
     values.nationalityId = 194;
     values.introduce = introduce;
     values.educations = educations;
@@ -122,7 +129,6 @@ export default function Settings() {
       ? (values.dateOfBirth = '')
       : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
     values.hobbies = [''];
-    // handler experiences
     let experiences = values.experiences;
     if (experiences) {
       experiences = experiences?.map((item: any) => {
@@ -374,7 +380,7 @@ export default function Settings() {
                       placeholder="Select your languages"
                     >
                       {listLanguages?.map((item: any) => (
-                        <Option value={item.name} key={item.id}>
+                        <Option value={item.id} key={item.id}>
                           {item.name}
                         </Option>
                       ))}

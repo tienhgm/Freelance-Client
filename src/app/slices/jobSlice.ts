@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, changeApplyStatus, deleteEmployeeFromJob, deleteJob, getJobCandidates, getJobEmployees, updateJob } from './../../apis/jobModule/index';
+import { applyJob, changeApplyStatus, deleteEmployeeFromJob, deleteJob, finishJob, getJobCandidates, getJobEmployees, postAReview, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -26,20 +26,25 @@ export const handleGetDetailJob = createAsyncThunk("job/detail", async (payload:
         }
     } catch (error) { }
 });
-export const handlePostJob = createAsyncThunk("job/post", async (payload: any) => {
+export const handlePostJob = createAsyncThunk("job/post", async (payload: any, { dispatch }) => {
     try {
+        dispatch(handleLoading(true));
         const res: any = await postAJob(payload);
-        if (res.statusCode === 200) {
+        if (res.statusCode === 201) {
+            successMes('Posted!');
             return res.data;
         }
-    } catch (error) { }
+    } catch (error: any) { errorMes(error.data.message) }
+    finally {
+        dispatch(handleLoading(false));
+    }
 });
 export const handleUpdateJob = createAsyncThunk("job/update", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
         const res: any = await updateJob(payload[0], payload[1]);
         if (res.statusCode === 200) {
-            successMes('Update success');
+            successMes('Updated!');
             return res.data;
         }
     } catch (error: any) {
@@ -124,7 +129,36 @@ export const handleDeleteEmployeeFromJob = createAsyncThunk("job/deleteEmployeeJ
         dispatch(handleLoading(false));
     }
 });
+export const handlePostAReview = createAsyncThunk("job/post", async (payload: any, { dispatch }) => {
+    try {
+        const { userId, review } = payload;
+        dispatch(handleLoading(true));
+        const res: any = await postAReview(userId, review);
+        if (res.statusCode === 201) {
+            successMes('Reviewed!');
+            return res.data;
+        }
 
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleFinishJob = createAsyncThunk("job/finishJob", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res: any = await finishJob(payload);
+        if (res.statusCode === 200) {
+            successMes('Finished!');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
 const jobSlice = createSlice({
     name: "jobs",
     initialState,
