@@ -71,7 +71,7 @@ function FreelancerProfile() {
               <div className="freelancer-info">
                 <h2 className="text-2xl info__name">{freelancerDetail.lastName + ' ' + freelancerDetail.firstName}</h2>
                 <p className="text-lg info__job">{freelancerDetail.briefIntroduce}</p>
-                <div className="flex items-center text-base info__user gap-9">
+                <div className="flex items-center gap-6 text-base info__user">
                   {/* <div className="flex items-center gap-1 user__rate">
                   <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">5.0</div>
                   <div className="flex gap-1 text-yellow-400 rate__stars">
@@ -89,6 +89,14 @@ function FreelancerProfile() {
                       <div className="font-medium loca__text">
                         {freelancerDetail.address + `${freelancerDetail.address && ', '}` + freelancerDetail.area.name}
                       </div>
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    {freelancerDetail.country && (
+                      <>
+                        <div>{freelancerDetail?.country?.emoji}</div>
+                        <div>{freelancerDetail?.country?.name}</div>
+                      </>
                     )}
                   </div>
                 </div>

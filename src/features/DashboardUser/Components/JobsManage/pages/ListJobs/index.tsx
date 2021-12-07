@@ -86,6 +86,9 @@ export default function ListJobs() {
   const handleChangePage = (value: number) => {
     setPage(value);
   };
+  const handleGoDetailJob = (id:string) => {
+    window.open(`/find-jobs/${id}`, 'blank')
+  }
   useEffect(() => {
     getArea();
   }, []);
@@ -200,7 +203,7 @@ export default function ListJobs() {
                   {/* left */}
                   <div className="flex flex-col">
                     <div className="flex gap-3">
-                      <div className="text-xl cursor-pointer">{item.title}</div>
+                      <div className="text-xl cursor-pointer" onClick={() => handleGoDetailJob(item.id)}>{item.title}</div>
                       <div>{<Tag color={getJobStatus(item.status)}>{item.status}</Tag>}</div>
                     </div>
                     <div className="flex gap-3 mt-2">

@@ -48,7 +48,7 @@ export const sendPatch = (url: string, params?: any) => axiosInstance.patch(url,
 export const sendDelete = (url: string, params?: any) => axiosInstance.delete(url, { data: params }).then((res) => res.data);
 export const sendUpload = (url: string, file: any) => {
     let formData = new FormData();
-    formData.append("file", file);
+    formData.append("certification", file);
     return axiosInstance.put(url, formData).then((res) => res.data);
 }
 export const sendUploadAvt = (url: string, file: any) => {

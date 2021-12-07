@@ -160,6 +160,10 @@ export default function DetailJob() {
   useEffect(() => {
     if (key === '2') {
       setJobStatus('');
+      setFiltersEmployee({ name: '', jobEmployeeStatus: null, joinedAt: '' });
+    }
+    if (key === '1') {
+      setFiltersCandidate({ name: '', applyStatus: null, appliedAt: '' });
     }
   }, [key]);
   return (
@@ -221,7 +225,7 @@ export default function DetailJob() {
                 <>
                   <div style={{ width: 'calc(160px)' }}>
                     <Input
-                      value={filtersEmployee.name}
+                      value={filtersCandidate.name}
                       onChange={handleSearchNameCandidate}
                       placeholder="Search by name..."
                     />

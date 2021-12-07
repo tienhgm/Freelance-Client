@@ -1,7 +1,7 @@
 import { Switch, Link, Route, useRouteMatch, Redirect } from 'react-router-dom';
 import './index.scss';
 import { Col, Menu, Row } from 'antd';
-import Settings from './Components/Settings';
+import Settings from './Components/SettingUser';
 import {
   ApartmentOutlined,
   AppstoreOutlined,
@@ -10,7 +10,6 @@ import {
   LockOutlined,
   MessageOutlined,
   SettingOutlined,
-  StarOutlined,
 } from '@ant-design/icons';
 import { useAppSelector } from 'app/hooks';
 // import { lazy } from 'react';
@@ -22,16 +21,10 @@ import PostJob from './Components/PostJob';
 import Message from './Components/Message';
 import MyJobs from './Components/MyJobs';
 import Reviews from './Components/Reviews';
+import SettingCompany from './Components/SettingCompany';
 import './index.scss';
 
 // const ChangePassword = lazy(() => import('./Components/ChangePassword'));
-// const Dashboard = lazy(() => import('./Components/Dashboard'));
-// const Bookmarks = lazy(() => import('./Components/Bookmarks'));
-// const JobsManage = lazy(() => import('./Components/JobsManage'));
-// const PostJob = lazy(() => import('./Components/PostJob'));
-// const Message = lazy(() => import('./Components/Message'));
-// const MyJobs = lazy(() => import('./Components/MyJobs'));
-// const Reviews = lazy(() => import('./Components/Reviews'));
 function DashboardUser() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
 
@@ -41,28 +34,23 @@ function DashboardUser() {
     { key: 1, icon: <AppstoreOutlined />, link: '/dashboard', name: 'Dashboard' },
     { key: 4, icon: <MessageOutlined />, link: '/dashboard/message', name: 'Message' },
     { key: 5, icon: <BookOutlined />, link: '/dashboard/reviews', name: 'Reviews' },
-    { key: 6, icon: <SettingOutlined />, link: '/dashboard/settings', name: 'Settings' },
     { key: 7, icon: <LockOutlined />, link: '/dashboard/password', name: 'Change password' },
   ];
   const menuUserRole2 = [
     { key: 2, icon: <FolderOpenOutlined />, link: '/dashboard/my-jobs', name: 'My Jobs' },
+    { key: 6, icon: <SettingOutlined />, link: '/dashboard/settings', name: 'Settings' },
     // { key: 3, icon: <StarOutlined />, link: '/dashboard/bookmarks', name: 'Bookmarks' },
   ];
   const menuUserRole1 = [
-    { key: 8, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
-    // { key: 9, icon: '', link: '/dashboard/candidate-manage', name: 'Manage Candidates' },
+    { key: 8, icon: <SettingOutlined />, link: '/dashboard/setting-company', name: 'Setting company' },
+    { key: 9, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
     { key: 10, icon: '', link: '/dashboard/post-jobs', name: 'Post A Job' },
   ];
 
   return (
     <Row>
       <Col xs={24} sm={12} md={4} lg={4} xl={4}>
-        <Menu
-          style={{ width: 240 }}
-          defaultSelectedKeys={['1']}
-          defaultOpenKeys={['sub1']}
-          mode="inline"
-        >
+        <Menu style={{ width: 240 }} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} mode="inline">
           {menuUser.map((item) => (
             <Menu.Item key={item.key} icon={item.icon}>
               <Link to={item.link}>{item.name}</Link>
@@ -79,12 +67,17 @@ function DashboardUser() {
           )}
           {userRole === 1 && (
             <>
+              <Menu.Item icon={menuUserRole1[0].icon}>
+                <Link to={menuUserRole1[0].link}>{menuUserRole1[0].name}</Link>
+              </Menu.Item>
               <SubMenu key="sub2" icon={<ApartmentOutlined />} title="Jobs">
-                {menuUserRole1.map((item) => (
-                  <Menu.Item key={item.key} icon={item.icon}>
-                    <Link to={item.link}>{item.name}</Link>
-                  </Menu.Item>
-                ))}
+                {menuUserRole1
+                  .filter((item) => item.key !== 8)
+                  .map((item) => (
+                    <Menu.Item key={item.key} icon={item.icon}>
+                      <Link to={item.link}>{item.name}</Link>
+                    </Menu.Item>
+                  ))}
               </SubMenu>
             </>
           )}
@@ -96,7 +89,12 @@ function DashboardUser() {
           <Route path={`${match.url}/my-jobs`} exact>
             {userRole === 2 ? <MyJobs /> : <Redirect to="/dashboard" />}
           </Route>
-          <Route path={`${match.url}/settings`} component={Settings} exact />
+          <Route path={`${match.url}/settings`} component={Settings} exact>
+            {userRole === 2 ? <Settings /> : <Redirect to="/dashboard" />}
+          </Route>
+          <Route path={`${match.url}/setting-company`} component={SettingCompany} exact>
+            {userRole === 1 ? <SettingCompany /> : <Redirect to="/dashboard" />}
+          </Route>
           <Route path={`${match.url}/message`} component={Message} exact />
           <Route path={`${match.url}/bookmarks`} component={Bookmarks} exact>
             {userRole === 2 ? <Bookmarks /> : <Redirect to="/dashboard" />}

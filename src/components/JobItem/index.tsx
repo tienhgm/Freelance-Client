@@ -25,8 +25,6 @@ export default function JobItem({
   id,
 }: JobItemProps) {
   const history = useHistory();
-  const userRole = useAppSelector((state) => state.user.curUser.role);
-  const [bookmark, setBookmark] = useState(false);
   // let isUserLogin = isLogin();
   // const addOrRemoveBookmark = () => {
   //   setBookmark(!bookmark);
