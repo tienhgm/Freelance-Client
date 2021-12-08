@@ -1,20 +1,42 @@
-import React from 'react';
+import { useState } from 'react';
 import { Button, Table, Tag } from 'antd';
 import { useHistory } from 'react-router';
+import Popup from 'components/PopupConfirm';
+import { handleDeleteAJob } from 'app/slices/adminSlice';
+import { useAppDispatch } from 'app/hooks';
 interface IProps {
   data: any | null;
+  load: any;
 }
 
-
-
-function TableJobs({ data }: IProps) {
+function TableJobs({ data, load }: IProps) {
+  const dispatch = useAppDispatch();
   const history = useHistory();
+  const [loading, setLoading] = useState(false);
+  const [jobId, setJobId] = useState<any>();
+  const [openDialogConfirm, setOpenDialogConfirm] = useState(false);
 
   const handleDetail = (job: any) => {
-    history.push(`/find-jobs/${job.key}`)
+    history.push(`/find-jobs/${job.key}`);
   };
-  const handleDelete = (e: any) => {
-    console.log(e);
+  const handleOpenDialogConfirm = (job: any) => {
+    setJobId(job.key);
+    setOpenDialogConfirm(true);
+  };
+  const handleDeleteJob = async () => {
+    try {
+      if (jobId) {
+        setLoading(true);
+        const { payload }: any = await dispatch(handleDeleteAJob(jobId));
+        if (payload.statusCode === 200) {
+          setOpenDialogConfirm(false);
+          setLoading(false);
+        }
+      }
+    } catch (error) {
+      setOpenDialogConfirm(false);
+      setLoading(false);
+    }
   };
 
   const columns: any = [
@@ -38,7 +60,7 @@ function TableJobs({ data }: IProps) {
       width: 150,
       render: (status: string) => (
         <>
-          {status === "Pending" && <Tag color="#00BFFF">{status}</Tag>}
+          {status === 'Pending' && <Tag color="#00BFFF">{status}</Tag>}
           {status === 'Inprogress' && <Tag color="#FFA500">{status}</Tag>}
           {status === 'Await' && <Tag color="purple">{status}</Tag>}
           {status === 'Done' && <Tag color="#87d068">{status}</Tag>}
@@ -60,8 +82,8 @@ function TableJobs({ data }: IProps) {
           <Button className="mb-1" size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
-          <Button danger size="small" onClick={() => handleDelete(record)}>
-              Delete
+          <Button danger size="small" onClick={() => handleOpenDialogConfirm(record)}>
+            Delete
           </Button>
         </div>
       ),
@@ -69,13 +91,23 @@ function TableJobs({ data }: IProps) {
   ];
 
   return (
-    <Table
-      columns={columns}
-      dataSource={data}
-      scroll={{ x: 1500, y: 445 }}
-      style={{ height: 'calc(100vh - 236px)' }}
-      pagination={false}
-    />
+    <div>
+      <Table
+        columns={columns}
+        dataSource={data}
+        scroll={{ x: 1500, y: 445 }}
+        style={{ height: 'calc(100vh - 236px)' }}
+        pagination={false}
+        loading={load}
+      />
+      <Popup
+        title="Delete Job"
+        isVisible={openDialogConfirm}
+        popupText="Want to delete this job?"
+        handleConfirm={handleDeleteJob}
+        handleCancelConfirm={() => setOpenDialogConfirm(false)}
+      />
+    </div>
   );
 }
 

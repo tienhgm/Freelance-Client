@@ -1,5 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { getDetailJob, getJobs } from "apis/jobModule";
+import { deleteJob, getDetailJob, getJobs } from "apis/adminModule";
+import { handleLoading } from "./appSlice";
+import { errorMes, successMes } from 'helpers/notification';
+
 interface AppState {
 }
 
@@ -25,21 +28,26 @@ export const handleGetDetailJob = createAsyncThunk("job/detail", async (payload:
     } catch (error) { }
 });
 
+export const handleDeleteAJob = createAsyncThunk("job/deleteJob", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res: any = await deleteJob(payload);
+        if (res.statusCode === 200) {
+            successMes('Delete success');
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    }
+    finally {
+        dispatch(handleLoading(false));
+    }
+});
+
 const adminSlice = createSlice({
     name: "admin",
     initialState,
     reducers: {
     },
-    extraReducers: {
-        // @ts-ignore
-        [handleGetJobs.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-        // @ts-ignore
-        [handleGetDetailJob.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            return action.payload;
-        },
-    }
 });
 export const { } = adminSlice.actions;
 export default adminSlice.reducer;
