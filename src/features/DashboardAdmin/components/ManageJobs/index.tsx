@@ -3,11 +3,16 @@ import TableJobs from './components/TableJobs';
 import { Pagination, Select, Input, Space, DatePicker, Button } from 'antd';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetJobs } from 'app/slices/adminSlice';
+import { listStatusJob } from 'utils/enum';
+import moment from 'moment';
 
 const { Option } = Select;
 const { Search } = Input;
+const { RangePicker } = DatePicker;
+const dateFormat = 'YYYY/MM/DD';
 
 function ManageJobs() {
+  const [loading, setLoading] = useState<any>(true);
   const dispatch = useAppDispatch();
   const [listJobs, setListJobs] = useState<any>([]);
   const [page, setPage] = useState(1);
@@ -21,6 +26,7 @@ function ManageJobs() {
         const { totalRecords, jobs } = payload;
         setTotal(totalRecords);
         setListJobs(jobs);
+        setLoading(false);
       }
     } catch (error) {}
   };
@@ -40,15 +46,18 @@ function ManageJobs() {
         records: pageSize,
       };
     });
+    setLoading(true);
   };
 
-  const handleSelectStatus = (value: any) => {
+  const chooseStatus = (value: any) => {
+
     setFilters((prev: any) => {
       return {
         ...prev,
-        status: value,
+        statuses: value,
       };
     });
+    setLoading(true);
   };
 
   const handleSearchName = (value: any) => {
@@ -58,37 +67,23 @@ function ManageJobs() {
         title: value,
       };
     });
+    setLoading(true);
   };
 
-  const handleStartDate = (dateString: any) => {
+  const handleSearchDate = (value: any, dateString: any) => {
+    console.log('Formatted Selected Time: ', dateString);
+
     setFilters((prev: any) => {
       return {
         ...prev,
-        startDate: dateString,
+        startDateBegin: dateString[0],
+        startDateEnd: dateString[1],
       };
     });
+    setLoading(true);
   };
 
-  const handleEndDate = (dateString: any) => {
-    setFilters((prev: any) => {
-      return {
-        ...prev,
-        endDate: dateString,
-      };
-    });
-  };
 
-  const handleReset = () => {
-    setFilters((prev: any) => {
-      return {
-        ...prev,
-        endDate: null,
-        startDate: null,
-        title: '',
-        status: '',
-      };
-    });
-  };
 
   const data: any = [];
   // eslint-disable-next-line array-callback-return
@@ -122,26 +117,24 @@ function ManageJobs() {
         <div className="mb-3 text-xl font-medium">Manage Jobs</div>
         <div className="-mt-3">
           <Space>
+            
             <Search placeholder="Search name" allowClear onSearch={handleSearchName} style={{ width: 200 }} />
-            <Select style={{ width: 120 }} onChange={handleSelectStatus} placeholder="Status" allowClear>
-              <Option value="Inprogress">Inprogress</Option>
-              <Option value="Pending">Pending</Option>
-              <Option value="Await">Await</Option>
-              <Option value="Done">Doned</Option>
-              <Option value="Cancel">Cancel</Option>
+            <Select placeholder="Status" allowClear style={{ width: 120 }} onChange={chooseStatus}>
+              {listStatusJob.map((item) => (
+                <Option value={item} key={Math.random()}>
+                  {item}
+                </Option>
+              ))}
             </Select>
-            <DatePicker onChange={handleStartDate} placeholder="Start Date" />
-            <DatePicker onChange={handleEndDate} placeholder="End Date" />
-            <Button type="primary" onClick={handleReset}>
-              Reset
-            </Button>
+            <RangePicker format={dateFormat} onChange={handleSearchDate}  />
           </Space>
         </div>
       </div>
-      <TableJobs data={data} />
+      <TableJobs data={data} load={loading} />
+
       <Pagination
         className="-mt-6"
-        defaultCurrent={page}
+        current={page}
         total={total}
         onChange={handleChangePage}
         responsive={true}
