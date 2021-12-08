@@ -5,17 +5,30 @@ import Sidebar from 'components/Sidebar';
 import { useAppDispatch } from 'app/hooks';
 import { handleGetJobs } from 'app/slices/jobSlice';
 import { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-
+import { useHistory, useLocation } from 'react-router-dom';
+import queryString from 'query-string';
 export default function FindJobs() {
   const dispatch = useAppDispatch();
   const [listJobs, setListJobs] = useState<any>([]);
   const [page, setPage] = useState(1);
   const [total, setTotal] = useState(0);
-  const [filters, setFilters] = useState<any>();
+  const location = useLocation();
+  const [filters, setFilters] = useState<any>({
+    title: queryString.parse(location.search).title ? queryString.parse(location.search).title : null,
+    salary: queryString.parse(location.search).salary ? queryString.parse(location.search).salary : null,
+    areaId: queryString.parse(location.search).areaId ? queryString.parse(location.search).areaId : null,
+    workMode: queryString.parse(location.search).workMode ? queryString.parse(location.search).workMode : null,
+    skillIds: queryString.parse(location.search).skillIds ? queryString.parse(location.search).skillIds : [],
+  });
   const [loading, setLoading] = useState(false);
   const handleGetListJob = async (filters: any) => {
     try {
+      for (const key in filters) {
+        if (filters[key] === undefined || filters[key] === null || filters[key] === '' || filters[key] === []) {
+          delete filters[key];
+        }
+      }
+      history.push({ pathname: '/find-jobs', search: queryString.stringify(filters) });
       setLoading(true);
       const { payload } = await dispatch(handleGetJobs(filters));
       if (payload) {
@@ -46,12 +59,13 @@ export default function FindJobs() {
   useEffect(() => {
     let listFilter = { ...filters, page: page };
     listFilter.statuses = ['Inprogress', 'Await'];
+
     handleGetListJob(listFilter);
     return () => {
       setListJobs([]);
       setTotal(0);
       setPage(1);
-    }
+    };
   }, [filters, page]);
   return (
     <div className="flex flex-col find-job-page sm:flex-row">
@@ -59,7 +73,7 @@ export default function FindJobs() {
         className="flex-shrink-0 w-full p-8 pb-0 overflow-y-auto find-job-page__sidebar md:w-60 lg:w-72"
         style={{ backgroundColor: '#fff', boxShadow: `0 0 4px rgba(0, 0, 0, 0.2)` }}
       >
-        <Sidebar handleGetSideBar={handleGetSideBar} />
+        <Sidebar filters={filters} handleGetSideBar={handleGetSideBar} />
       </div>
       <div className="w-full p-6 overflow-y-auto find-job-page__content">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">

@@ -1,11 +1,11 @@
-import { Form, Select, Input, Button } from 'antd';
+import { Button } from 'antd';
 import CountUp from 'react-countup';
+import { useHistory } from 'react-router';
 import './index.scss';
 function Banner() {
-  const { Option } = Select;
-  const [form] = Form.useForm();
-  const onFinish = (values: any) => {
-    console.log('value', values);
+  const history = useHistory();
+  const goToFindJob = () => {
+    history.push('/find-jobs');
   };
   return (
     <div className="banner">
@@ -24,31 +24,14 @@ function Banner() {
         </div>
         {/* end title */}
         {/* search jobs */}
-        <div className="mt-24 banner__fulfil__form">
-          <Form form={form} name="horizontal_login" onFinish={onFinish} size="large">
-            <div className="flex flex-wrap items-center gap-2">
-              <div style={{ width: 300 }}>
-                <Form.Item name="location">
-                  <Select placeholder="Please select a location">
-                    <Option value="china">Viet Nam</Option>
-                    <Option value="usa">U.S.A</Option>
-                  </Select>
-                </Form.Item>
-              </div>
-              <div style={{ width: 400 }} className="">
-                <Form.Item name="job-name">
-                  <Input placeholder="jobs name" />
-                </Form.Item>
-              </div>
-              <div>
-                <Form.Item>
-                  <Button type="primary" htmlType="submit">
-                    Search
-                  </Button>
-                </Form.Item>
-              </div>
-            </div>
-          </Form>
+        <div className="mt-12 banner__fulfil__form">
+          {/* <div onClick={goToFindJob} className="btn-find">Let's find a job</div> */}
+          <div className="flex items-center gap-4">
+            <div className="font-medium lg:text-2xl md:text-xl xs:text-lg"> Do u wanna earn money ?</div>
+            <Button type="primary" shape="round" size="large" onClick={goToFindJob}>
+              Let's find a job
+            </Button>
+          </div>
         </div>
         {/* end search jobs */}
         {/* statistical  */}

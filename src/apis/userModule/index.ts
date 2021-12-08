@@ -8,3 +8,4 @@ export const handleUploadAvt = (file: any) => sendUploadAvt(`user/avatar`, file)
 export const handleUploadCertification = (file: any) => sendUpload(`user/certification`, file);
 export const handleDeleteCertification = (file_name: any) => sendDelete('user/certifications', { certifications: [file_name] })
 export const getCurUser = () => sendGet('user');
+export const getListJobUser = (userId: string, type: string, filters?: any) => sendGet(`users/${userId}/jobs/${type}`, filters ? filters : '');

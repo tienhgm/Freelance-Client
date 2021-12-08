@@ -53,7 +53,7 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
   const handleOpenModalDetail = (record: any) => {
     setOpenModalDetail(true);
     setUserIdRow(record.user.id);
-  }
+  };
   const columns = [
     {
       title: 'Avatar',
@@ -108,12 +108,14 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
           <Button size="small" onClick={() => handleOpenModalDetail(record)}>
             Detail
           </Button>
-          {record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees && (
+          {((record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees) ||
+            record.jobStatus == 'Done') && (
             <Button type="primary" size="small" onClick={() => handleOpenDialogAccept(record)}>
               Accept
             </Button>
           )}
-          {record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees && (
+          {((record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees) ||
+            record.jobStatus == 'Done') && (
             <Button danger size="small" onClick={() => handleOpenDialogReject(record)}>
               Reject
             </Button>

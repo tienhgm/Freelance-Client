@@ -2,7 +2,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { SearchOutlined, UndoOutlined } from '@ant-design/icons';
 import { Form, DatePicker, Rate, Slider, Button, Input, Tooltip, Select, Radio } from 'antd';
 import { useAppDispatch } from 'app/hooks';
-import { handleGetArea, handleGetLanguages, handleGetSkills } from 'app/slices/resourceSlice';
+import { handleGetArea, handleGetSkills } from 'app/slices/resourceSlice';
 import { listWorkMode, listLevel } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
 import { useRouteMatch } from 'react-router';
@@ -14,13 +14,13 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 interface IProps {
   handleGetSideBar: (value: any) => any;
+  filters?: any;
 }
-function Sidebar({ handleGetSideBar }: IProps) {
+function Sidebar({ handleGetSideBar, filters }: IProps) {
   const [form] = Form.useForm();
   // const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [listArea, setListArea] = useState<any>([]);
   const [listSkills, setListSkills] = useState<any>([]);
-  const [languages, setLanguages] = useState<any>([]);
   const match = useRouteMatch();
   const dateFormat = 'YYYY/MM/DD';
 
@@ -40,18 +40,14 @@ function Sidebar({ handleGetSideBar }: IProps) {
     const { payload } = await dispatch(handleGetSkills());
     setListSkills(payload);
   };
-  const getLanguage = async () => {
-    if (!sideBarJobs) {
-      const { payload } = await dispatch(handleGetLanguages());
-      setLanguages(payload);
-    }
-  };
+
   const onFinish = (values: any) => {
     if (values && values.datePicker) {
       values.startDate = convertDateToString(values.datePicker[0]._d);
       values.endDate = convertDateToString(values.datePicker[1]._d);
       delete values.datePicker;
     }
+    console.log(values);
     handleGetSideBar(values);
   };
   const handleResetForm = () => {
@@ -64,9 +60,25 @@ function Sidebar({ handleGetSideBar }: IProps) {
     });
   };
   useEffect(() => {
+    for (const key in filters) {
+      if (filters[key] === undefined || filters[key] === null || filters[key] === '' || filters[key] === []) {
+        delete filters[key];
+      }
+    }
+    if (filters.areaId) {
+      filters.areaId = +filters.areaId;
+    }
+    if (filters.skillIds) {
+      filters.skillIds = filters.skillIds.map((item: any) => {
+        return +item;
+      });
+    }
+    form.setFieldsValue({
+      ...filters,
+    });
+
     getArea();
     getSkill();
-    getLanguage();
   }, []);
   return (
     <Form form={form} onFinish={onFinish}>

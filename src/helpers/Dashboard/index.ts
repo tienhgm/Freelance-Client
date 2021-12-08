@@ -13,20 +13,7 @@ export const handleGetStatusEarning = (value: number) => {
             return "";
     }
 }
-export const handleGetJobProgress = (value: number) => {
-    switch (value) {
-        case jobProgress.InProgress:
-            return "In Progress";
-        case jobProgress.Pending:
-            return "Pending";
-        case jobProgress.Doned:
-            return "Doned";
-        case jobProgress.Cancel:
-            return "Cancel";
-        default:
-            return "";
-    }
-}
+
 export const getJobStatus = (value: string) => {
     switch (value) {
         case 'Cancel':
@@ -59,5 +46,27 @@ export const getWorkingStatus = (value: string) => {
             return '#108ee9';
         case 'Done':
             return '#87d068';
+    }
+}
+export const getPathKey = (value: any) => {
+    switch (value) {
+        case 'message':
+            return '4';
+        case undefined:
+            return '1';
+        case 'my-jobs':
+            return '2';
+        case 'reviews':
+            return '5';
+        case 'settings':
+            return '6';
+        case 'password':
+            return '7';
+        case 'setting-company':
+            return '8';
+        case 'jobs-manage':
+            return '9';
+        case 'post-jobs':
+            return '10';
     }
 }
