@@ -4,7 +4,7 @@ import { Input, Select, Slider, DatePicker, Form, Button, Skeleton } from 'antd'
 import { useEffect, useState } from 'react';
 import CkEditor from 'components/Editor';
 import { handleGetSkills } from 'app/slices/resourceSlice';
-import { useAppDispatch } from 'app/hooks';
+import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { listLevel, listStatusJob, listWorkMode } from 'utils/enum';
 import { convertDateToString } from 'helpers/generate';
 import { handleGetDetailJob, handlePostJob, handleUpdateJob } from 'app/slices/jobSlice';
@@ -24,6 +24,7 @@ export default function PostJob() {
   const dispatch = useAppDispatch();
   const match = useRouteMatch<any>();
   const jobId = match.params.id;
+  const areaCompanyId = useAppSelector(state => state.user.curUser.company.areaId)
   const handleSetJobSalary = (value: number) => {
     setJobSalary(value);
   };
@@ -67,7 +68,7 @@ export default function PostJob() {
     values.startDate = convertDateToString(values.rangePicker[0]._d);
     values.endDate = convertDateToString(values.rangePicker[1]._d);
     values.businessFieldIds = [];
-    values.areaId = 0;
+    values.areaId = areaCompanyId;
     values.minEmployees = 1;
     values.description = jobDescription;
     values.maxEmployees = +values.maxEmployees;

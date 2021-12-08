@@ -67,10 +67,12 @@ export default function DetailJob() {
           maxEmployees: payload.maxEmployees,
           totalEmployees: payload.totalEmployees,
         }));
+        setJobStatus(payload.jobStatus);
         let candidates = payload.candidates.map((item: any) => {
           return {
             ...item,
             fullName: item.user.firstName + ' ' + item.user.lastName,
+            key: Math.random(),
           };
         });
         setListJobCandidates(candidates);
@@ -104,6 +106,7 @@ export default function DetailJob() {
           return {
             ...item,
             fullName: item.user.firstName + ' ' + item.user.lastName,
+            key: Math.random(),
           };
         });
         setListJobEmployees(employees);
@@ -159,7 +162,6 @@ export default function DetailJob() {
   }, [jobId, key, filtersCandidate, filtersEmployee]);
   useEffect(() => {
     if (key === '2') {
-      setJobStatus('');
       setFiltersEmployee({ name: '', jobEmployeeStatus: null, joinedAt: '' });
     }
     if (key === '1') {
@@ -181,7 +183,7 @@ export default function DetailJob() {
           <div className="flex justify-between gap-3 px-6">
             {jobStatus.length > 0 ? (
               <div className="flex items-center gap-2">
-                {jobStatus !== 'Done' && (
+                {jobStatus !== 'Done' && key === '1' && (
                   <div>
                     <Tooltip color="geekblue" title="Done">
                       <Button icon={<CheckOutlined />} onClick={handleDoneJob} />
@@ -213,7 +215,7 @@ export default function DetailJob() {
                       onChange={handleWorkingStatus}
                     >
                       {jobEmployeeStatus.map((item) => (
-                        <Option value={item} key={Math.random()}>
+                        <Option value={item} key={item}>
                           {item}
                         </Option>
                       ))}
@@ -239,7 +241,7 @@ export default function DetailJob() {
                       onChange={handleApplyStatus}
                     >
                       {applyStatus.map((item) => (
-                        <Option value={item} key={Math.random()}>
+                        <Option value={item} key={item}>
                           {item}
                         </Option>
                       ))}

@@ -126,7 +126,7 @@ export default function Settings() {
     !!!values.dateOfBirth
       ? (values.dateOfBirth = '')
       : (values.dateOfBirth = convertDateToString(values.dateOfBirth._d));
-    values.hobbies = [];
+    values.hobbies = [''];
     let experiences = values.experiences;
     if (experiences) {
       experiences = experiences?.map((item: any) => {

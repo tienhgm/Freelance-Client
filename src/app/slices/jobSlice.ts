@@ -131,9 +131,9 @@ export const handleDeleteEmployeeFromJob = createAsyncThunk("job/deleteEmployeeJ
 });
 export const handlePostAReview = createAsyncThunk("job/post", async (payload: any, { dispatch }) => {
     try {
-        const { userId, review } = payload;
+        const { userId, review, jobId } = payload;
         dispatch(handleLoading(true));
-        const res: any = await postAReview(userId, review);
+        const res: any = await postAReview(userId, jobId, review);
         if (res.statusCode === 201) {
             successMes('Reviewed!');
             return res.data;

@@ -1,18 +1,16 @@
 import { getListFreelancer, getDetailFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { changePassword, getProfile, getReviewsById, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile } from "apis/userModule";
+import { changePassword, getListJobUser, getProfile, getReviewsById, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile } from "apis/userModule";
 import handleErrorMessage from "helpers/handleErrorMessage";
 import { notify } from "helpers/notification";
 import { handleLoading } from "./appSlice";
 interface UserSlice {
     isChangePassword: boolean;
     curUser: any;
-    reviews: any;
 }
 const initialState: UserSlice = {
     isChangePassword: false,
     curUser: {},
-    reviews: null
 }
 export const uploadAvt = createAsyncThunk("user/uploadAvt", async (payload: any) => {
     try {
@@ -40,7 +38,7 @@ export const uploadCertification = createAsyncThunk("user/certification", async 
 });
 export const removeCertification = createAsyncThunk("user/certification", async (payload: any) => {
     try {
-        const res:any = await handleDeleteCertification(payload.split('/').pop());
+        const res: any = await handleDeleteCertification(payload.split('/').pop());
         if (res?.statusCode === 200) {
             notify("success", "Removed", "");
             return res.data.certifications;
@@ -126,7 +124,16 @@ export const handleGetDetailFreelancer = createAsyncThunk("user/detailFreelancer
     } catch (error) { }
 
 });
+export const handleGetListJobUser = createAsyncThunk("user/listJobUser", async (payload: any) => {
+    try {
+        const { userId, type, filters } = payload;
+        const res: any = await getListJobUser(userId, type, filters);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
 
+});
 const userSlice = createSlice({
     name: "user",
     initialState,
@@ -161,10 +168,6 @@ const userSlice = createSlice({
         // @ts-ignore
         [handleChangePassword.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
             state.isChangePassword = action.payload;
-        },
-        // @ts-ignore
-        [handleGetReviews.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {
-            state.reviews = action.payload;
         },
         // @ts-ignore
         [handleGetCurUser.fulfilled]: (state: any, action: PayloadAction<UserSlice>) => {

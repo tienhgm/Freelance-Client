@@ -28,7 +28,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
   };
   const handleOpenModalReview = (record: any) => {
     setRecord(record);
-    setOpenModalReview(record.user.id);
+    setOpenModalReview(true);
   };
   const handleOpenDialogRemove = (record: any) => {
     setRecord(record);
@@ -47,6 +47,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
     if (record) {
       let data = {
         userId: record.user.id,
+        jobId: record.jobId,
         review: value,
       };
       handlePostReview(data);
@@ -105,7 +106,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
           {/* check done show */}
           {record.employeeStatus === 'Done' && (
             <Button size="small" onClick={() => handleOpenModalReview(record)}>
-              Reviews
+              {record.hasBeenReview ? 'See review' : 'Review'}
             </Button>
           )}
         </Space>
@@ -150,6 +151,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
       />
       <ModalReview
         isVisible={openModalReview}
+        record={record}
         handleConfirm={handleReview}
         handleCancelConfirm={() => setOpenModalReview(false)}
       />

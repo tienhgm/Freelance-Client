@@ -1,4 +1,4 @@
-import { Switch, Link, Route, useRouteMatch, Redirect } from 'react-router-dom';
+import { Switch, Link, Route, useRouteMatch, Redirect, useLocation } from 'react-router-dom';
 import './index.scss';
 import { Col, Menu, Row } from 'antd';
 import Settings from './Components/SettingUser';
@@ -23,11 +23,14 @@ import MyJobs from './Components/MyJobs';
 import Reviews from './Components/Reviews';
 import SettingCompany from './Components/SettingCompany';
 import './index.scss';
+import { useEffect, useState } from 'react';
+import { getPathKey } from 'helpers/Dashboard';
+import NotFound from 'components/NotFound';
 
 // const ChangePassword = lazy(() => import('./Components/ChangePassword'));
 function DashboardUser() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
-
+  const [key, setKey] = useState<any>(null);
   const { SubMenu } = Menu;
   const match = useRouteMatch();
   const menuUser = [
@@ -46,42 +49,50 @@ function DashboardUser() {
     { key: 9, icon: '', link: '/dashboard/jobs-manage', name: 'Manage Jobs' },
     { key: 10, icon: '', link: '/dashboard/post-jobs', name: 'Post A Job' },
   ];
+  const location = useLocation();
 
+  useEffect(() => {
+    let path = location.pathname.split('/')[2];
+    let handleKey = getPathKey(path);
+    setKey(handleKey);
+  }, [location.pathname.split('/')[2]]);
   return (
     <Row>
       <Col xs={24} sm={12} md={4} lg={4} xl={4}>
-        <Menu style={{ width: 240 }} defaultSelectedKeys={['1']} defaultOpenKeys={['sub1']} mode="inline">
-          {menuUser.map((item) => (
-            <Menu.Item key={item.key} icon={item.icon}>
-              <Link to={item.link}>{item.name}</Link>
-            </Menu.Item>
-          ))}
-          {userRole === 2 && (
-            <>
-              {menuUserRole2.map((item) => (
-                <Menu.Item key={item.key} icon={item.icon}>
-                  <Link to={item.link}>{item.name}</Link>
-                </Menu.Item>
-              ))}
-            </>
-          )}
-          {userRole === 1 && (
-            <>
-              <Menu.Item icon={menuUserRole1[0].icon}>
-                <Link to={menuUserRole1[0].link}>{menuUserRole1[0].name}</Link>
+        {key && (
+          <Menu style={{ width: 240 }} defaultSelectedKeys={[key]} defaultOpenKeys={['sub1']} mode="inline">
+            {menuUser.map((item) => (
+              <Menu.Item key={item.key} icon={item.icon}>
+                <Link to={item.link}>{item.name}</Link>
               </Menu.Item>
-              <SubMenu key="sub2" icon={<ApartmentOutlined />} title="Jobs">
-                {menuUserRole1
-                  .filter((item) => item.key !== 8)
-                  .map((item) => (
-                    <Menu.Item key={item.key} icon={item.icon}>
-                      <Link to={item.link}>{item.name}</Link>
-                    </Menu.Item>
-                  ))}
-              </SubMenu>
-            </>
-          )}
-        </Menu>
+            ))}
+            {userRole === 2 && (
+              <>
+                {menuUserRole2.map((item) => (
+                  <Menu.Item key={item.key} icon={item.icon}>
+                    <Link to={item.link}>{item.name}</Link>
+                  </Menu.Item>
+                ))}
+              </>
+            )}
+            {userRole === 1 && (
+              <>
+                <Menu.Item icon={menuUserRole1[0].icon}>
+                  <Link to={menuUserRole1[0].link}>{menuUserRole1[0].name}</Link>
+                </Menu.Item>
+                <SubMenu key="sub2" icon={<ApartmentOutlined />} title="Jobs">
+                  {menuUserRole1
+                    .filter((item) => item.key !== 8)
+                    .map((item) => (
+                      <Menu.Item key={item.key} icon={item.icon}>
+                        <Link to={item.link}>{item.name}</Link>
+                      </Menu.Item>
+                    ))}
+                </SubMenu>
+              </>
+            )}
+          </Menu>
+        )}
       </Col>
       <Col xs={24} sm={12} md={20} lg={20} xl={20} className="p-3">
         <Switch>
@@ -107,6 +118,7 @@ function DashboardUser() {
             {userRole === 1 ? <PostJob /> : <Redirect to="/dashboard" />}
           </Route>
           <Route path={`${match.url}/password`} component={ChangePassword} exact />
+          <Route component={NotFound} />
         </Switch>
       </Col>
     </Row>
