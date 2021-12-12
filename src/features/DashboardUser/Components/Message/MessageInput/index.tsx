@@ -1,9 +1,18 @@
+import { useAppSelector } from "app/hooks";
+import { sendMessage } from "firebaseServices/realtimeDatabase";
 import React, { useState, useEffect } from "react";
 import EmojiTable from "../EmojiTable";
 
 export default function MessageInput() {
+  const roomId = useAppSelector(state => state.app.roomId)
+  const senderId = useAppSelector(state => state.user.curUser.id)
   const [currentMsg, setCurrentMsg] = useState("");
   const [showEmoji, setShowEmoji] = useState(false);
+
+  const handleSendMessage = () => {
+    sendMessage(roomId, senderId, currentMsg)
+    setCurrentMsg("");
+  }
 
   const changeMsg = (event: any) => {
     setCurrentMsg(event.target.value);
@@ -46,7 +55,7 @@ export default function MessageInput() {
         />
       </div>
       <div className="message__submit w-1/12">
-        <button className="h-10 w-10 mx-auto block text-blue-700 rounded-3xl transition-all hover:bg-gray-100">
+        <button onClick={handleSendMessage} className="h-10 w-10 mx-auto block text-blue-700 rounded-3xl transition-all hover:bg-gray-100">
           <i className="bx bxs-send" />
         </button>
       </div>

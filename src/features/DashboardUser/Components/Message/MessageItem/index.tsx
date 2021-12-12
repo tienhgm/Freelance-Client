@@ -16,6 +16,7 @@ export default function MessageItem({
   avatarSrc,
   name,
   msgText,
+  msgTime,
   type,
 }: MessageItemPropsType) {
   return (
@@ -30,6 +31,7 @@ export default function MessageItem({
         </div>
       </div>
       <div
+        title={msgTime}
         className={`message-item__text mx-3 p-2 rounded-md relative ${
           type === RECEIVER
             ? "bg-gray-300 message-item__text--receive"

@@ -9,6 +9,7 @@ import './index.scss';
 import ReviewItem from './ReviewItem';
 import { FileProtectOutlined, HomeOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+const API_KEY = process.env.REACT_APP_API_KEY;
 const jobList: Array<any> = [
   {
     company: 'Hexagon',
@@ -206,7 +207,7 @@ export default function CompanyDetails() {
             <Skeleton active loading={loading} paragraph={{ rows: 5 }}>
               {info?.addresses[0] && (
                 <iframe
-                  src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDAHhcUacKG8mW34H9OPSh54v6ICnTZZMM&q=${info?.addresses[0]}`}
+                  src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${info?.addresses[0]}`}
                   height="300"
                   frameBorder="0"
                   title="border:0;"

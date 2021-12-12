@@ -15,6 +15,7 @@ import { formatDateMonth, getGender, subContent } from 'helpers/generate';
 
 import './styles.scss';
 import isLogin from 'helpers/isUserLogin';
+import { setPartner } from 'app/slices/appSlice';
 const { TabPane } = Tabs;
 
 function FreelancerProfile() {
@@ -23,7 +24,7 @@ function FreelancerProfile() {
   let isUserLogin = isLogin();
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
-  let freelancerId = route.params.id;
+  const freelancerId = route.params.id;
   // const [bookmarkTag, setBookmarkTag] = useState(false);
   const [freelancerDetail, setFreelancerDetail] = useState<any>({});
   const [jobs, setJobs] = useState<any>([]);
@@ -48,6 +49,14 @@ function FreelancerProfile() {
       }, 500);
     }
   };
+
+  const gotoChat = () => {
+    dispatch(setPartner({
+      id: freelancerId,
+      name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
+      avatar: freelancerDetail.avatar
+    }))
+  }
   useEffect(() => {
     getDetailFreelancer(freelancerId);
   }, [freelancerId]);
@@ -307,10 +316,10 @@ function FreelancerProfile() {
             ) : (
               <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
                 <div className="mt-6 button-make">
-                  <a href="/" className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
+                  <Link to="/dashboard/message" onClick={gotoChat} className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
                     Let's Chat
                     <ArrowRightOutlined className="relative ml-3 -top-1" />
-                  </a>
+                  </Link>
                 </div>
               </Skeleton>
             )}

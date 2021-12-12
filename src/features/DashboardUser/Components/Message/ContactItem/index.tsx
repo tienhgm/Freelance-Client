@@ -7,6 +7,7 @@ type ContactItemPropsType = {
   uuid: string;
   lastMsg: string;
   lastMsgTime: string;
+  selected: boolean;
 };
 export default function ContactItem({
   avatarSrc,
@@ -14,11 +15,12 @@ export default function ContactItem({
   name,
   lastMsg,
   lastMsgTime,
+  selected,
   uuid,
 }: ContactItemPropsType) {
   return (
     <div className={`contact-item cursor-pointer flex items-center px-10 py-5 w-full relative ${
-        activity ? "bg-gray-100 selected" : "bg-white"
+       selected ? "bg-gray-100 selected" : "bg-white"
       }`}>
       <div className="contact__avatar relative">
         <div className="avatar__image rounded-full overflow-hidden w-10 h-10">
@@ -29,7 +31,7 @@ export default function ContactItem({
             className={`${
               activity ? "bg-green-400" : "bg-gray-400"
             } text-sm m-auto w-2 h-2 rounded-full`}
-          ></div>
+          />
         </div>
       </div>
       <div className="contact__info flex flex-wrap justify-between px-5 w-full">

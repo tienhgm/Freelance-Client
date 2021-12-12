@@ -10,6 +10,7 @@ import moment from 'moment';
 import JobItem from 'components/JobItem';
 import ModalFormApply from 'components/ModalForm';
 import isLogin from 'helpers/isUserLogin';
+const API_KEY = process.env.REACT_APP_API_KEY;
 
 export default function JobDetails() {
   const userRole = useAppSelector((state) => state.user.curUser.role);
@@ -152,7 +153,7 @@ export default function JobDetails() {
             <h2 className="mt-2 mb-10 text-xl">Location</h2>
             <Skeleton active loading={loading} paragraph={{ rows: 7, width: '100%' }}>
               <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=AIzaSyDAHhcUacKG8mW34H9OPSh54v6ICnTZZMM&q=${
+                src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${
                   jobDetail.area && jobDetail.area.name
                 }`}
                 height="300"
