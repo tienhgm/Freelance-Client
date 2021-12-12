@@ -1,6 +1,16 @@
 import { useAppSelector } from 'app/hooks';
 import { ref, query as realtimeQuery, limitToLast, onValue } from 'firebase/database';
-import { collection, doc, DocumentData, onSnapshot, orderBy, query, setDoc, Unsubscribe, where } from 'firebase/firestore';
+import {
+  collection,
+  doc,
+  DocumentData,
+  onSnapshot,
+  orderBy,
+  query,
+  setDoc,
+  Unsubscribe,
+  where,
+} from 'firebase/firestore';
 import { SetStateAction, useEffect, useState } from 'react';
 import { MsgType } from 'types/msgType';
 import { UserType } from 'types/userType';
@@ -35,7 +45,9 @@ export const useMessageList = () => {
       if (data) {
         setMessageList([...messageList, ...data]);
       }
-      const msgListElement = document.querySelector("div.message-list.border-2.border-b-0.border-t-0.w-full.p-6.overflow-y-auto")
+      const msgListElement = document.querySelector(
+        'div.message-list.border-2.border-b-0.border-t-0.w-full.p-6.overflow-y-auto'
+      );
       if (msgListElement) {
         msgListElement.scrollTop = msgListElement.scrollHeight;
       }
@@ -52,66 +64,56 @@ export const useMessageList = () => {
 
 export const useContactList = (handleChangeContact: (partner: any) => void) => {
   const user = useAppSelector((state) => state.user.curUser);
+  const filter = useAppSelector((state) => state.app.contactFilter);
   const partner = useAppSelector((state) => state.app.partner);
   const [roomList, setRoomList] = useState([]);
   const [contactList, setContactList] = useState([]);
   const [partnerList, setPartnerList] = useState([]);
 
   useEffect(() => {
-    const unsubscribeUser = onSnapshot(doc(fireStore, 'users', user.id),
-      { includeMetadataChanges: true },
-      (doc) => {
-        const curUser = doc.data();
-        if (curUser) {
-          console.log(curUser)
-          setRoomList(curUser.rooms)
-          setPartnerList(curUser.partners)
-        }
-      });
+    const unsubscribeUser = onSnapshot(doc(fireStore, 'users', user.id), { includeMetadataChanges: true }, (doc) => {
+      const curUser = doc.data();
+      if (curUser) {
+        setRoomList(curUser.rooms);
+        setPartnerList(curUser.partners);
+      }
+    });
 
     return () => {
       unsubscribeUser();
-    }
-
-  }, [])
-
+    };
+  }, []);
 
   useEffect(() => {
     let unsubscribeRoom: Unsubscribe;
     let unsubscribePartner: Unsubscribe;
     if (roomList?.length > 0) {
-      const roomsQuery = query(collection(fireStore, 'chat_rooms'), where('name', 'in', roomList));
+      const roomsQuery = query(collection(fireStore, 'chat_rooms'), where('name', 'in', roomList), orderBy("lastMsgTime", "desc"));
       unsubscribeRoom = onSnapshot(roomsQuery, (snapshot) => {
         rooms = [];
-        snapshot.docs.forEach(doc => {
+        snapshot.docs.forEach((doc) => {
           const room = doc.data();
           if (room) {
             rooms.push(room);
           }
-        })
-        setContactList(mergeList(contacts, rooms) as SetStateAction<never[]>)
+        });
+        setContactList(mergeList(contacts, rooms, filter) as SetStateAction<never[]>);
       });
     }
     if (partnerList?.length > 0) {
       const partnersQuery = query(collection(fireStore, 'users'), where('id', 'in', partnerList));
       unsubscribePartner = onSnapshot(partnersQuery, (snapshot) => {
         contacts = [];
-        snapshot.docs.forEach(doc => {
+        snapshot.docs.forEach((doc) => {
           const contact = doc.data();
           if (contact) {
             contacts.push(contact);
           }
-        })
-        setContactList(mergeList(contacts, rooms) as SetStateAction<never[]>)
+        });
+        setContactList(mergeList(contacts, rooms, filter) as SetStateAction<never[]>);
       });
     }
 
-    if (!partner && partnerList.length > 0) {
-      handleChangeContact(partnerList[0]);
-    }
-    else {
-      handleChangeContact(partner!);
-    }
     return () => {
       if (!!unsubscribePartner) {
         unsubscribePartner();
@@ -120,29 +122,24 @@ export const useContactList = (handleChangeContact: (partner: any) => void) => {
         unsubscribeRoom();
       }
     };
-  }, [roomList, partnerList]);
+  }, [roomList, partnerList, filter]);
 
+
+  useEffect(() => {
+    if ((!partner || !partner.id || !contacts[0]?.id) && partnerList.length > 0) {
+      handleChangeContact({
+        // @ts-ignore
+        id: contactList[0]?.id,
+        // @ts-ignore
+        avatar: contactList[0]?.avatar,
+        // @ts-ignore
+        name: contactList[0]?.name,
+        // @ts-ignore
+        isAct: contactList[0]?.isAct,
+      });
+    } else {
+      handleChangeContact(partner!);
+    }
+  }, [contactList])
   return contactList;
 };
-
-
-// useEffect(() => {
-  //   const q = query(collection(fireStore, 'chat_rooms'), where('name', 'in', roomList), orderBy('lastMsgTime', 'desc'));
-  //   const unsubscribe = onSnapshot(q, (snapshot) => {
-  //     console.log(snapshot.docs);
-  //     snapshot.docChanges().forEach((change) => {
-  //       if (change.type === 'added') {
-  //         console.log('New: ', change.doc.data());
-  //       }
-  //       if (change.type === 'modified') {
-  //         console.log('Modified: ', change.doc.data());
-  //       }
-  //       if (change.type === 'removed') {
-  //         console.log('Removed: ', change.doc.data());
-  //       }
-  //     });
-  //   });
-  //   return () => {
-  //     unsubscribe();
-  //   };
-  // }, []);

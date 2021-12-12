@@ -10,13 +10,15 @@ export default function MessageInput() {
   const [showEmoji, setShowEmoji] = useState(false);
 
   const handleSendMessage = () => {
-    setCurrentMsg("");
-    sendMessage(roomId, senderId, currentMsg).then(() => {
-      const msgListElement = document.querySelector("div.message-list.border-2.border-b-0.border-t-0.w-full.p-6.overflow-y-auto")
-      if (msgListElement) {
-        msgListElement.scrollTop = msgListElement.scrollHeight;
-      }
-    })
+    if (!!roomId && !!currentMsg) {
+      setCurrentMsg("");
+      sendMessage(roomId, senderId, currentMsg).then(() => {
+        const msgListElement = document.querySelector("div.message-list.border-2.border-b-0.border-t-0.w-full.p-6.overflow-y-auto")
+        if (msgListElement) {
+          msgListElement.scrollTop = msgListElement.scrollHeight;
+        }
+      })
+    }
   }
 
   const changeMsg = (event: any) => {
@@ -31,11 +33,6 @@ export default function MessageInput() {
     setCurrentMsg(currentMsg + emoji);
   };
 
-  useEffect(() => {
-    if (showEmoji) {
-    }
-    return () => { };
-  }, [showEmoji]);
   return (
     <div className="message w-full h-24 bg0-blue-600 border-2 flex items-center">
       <div className="message__emoji w-1/12 relative">
@@ -49,14 +46,14 @@ export default function MessageInput() {
           <i className="bx bx-face" />
         </button>
       </div>
-      <div className="message__input w-11/12 h-full">
+      <div className="message__input w-11/12 h-full flex items-center rounded-md overflow-hidden max-h-16">
         <textarea
           value={currentMsg}
           onChange={changeMsg}
           name="new-message"
           id="new-message"
           placeholder="Your message . . ."
-          className="p-5 pt-8 w-full h-full outline-none resize-none text-base"
+          className="px-3 py-3 w-full h-full bg-gray-200 outline-none resize-none text-base"
         />
       </div>
       <div className="message__submit w-1/12">

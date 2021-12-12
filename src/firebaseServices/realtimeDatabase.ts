@@ -19,11 +19,3 @@ export async function sendMessage(roomId: string, senderId: string, msg: string)
 
     await sendMsg(roomId, senderId, msg, currentTime)
 }
-
-export async function getMessage(roomId: string) {
-    const messagesRef = query(ref(database, `chat_rooms/${roomId}`), limitToLast(50));
-    onValue(messagesRef, (snapshot) => {
-        const data = snapshot.val();
-        console.log('data', data);
-    });
-}

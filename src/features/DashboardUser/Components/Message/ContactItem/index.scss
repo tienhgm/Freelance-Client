@@ -1,9 +1,18 @@
 .contact-item.selected::before {
-    content: '';
-    display: block;
-    height: 100%;
-    width: 3px;
-    background-color: #1900ff;
-    position: absolute;
-    left: 0;
+  content: '';
+  display: block;
+  height: 100%;
+  width: 3px;
+  background-color: #1900ff;
+  position: absolute;
+  left: 0;
+}
+
+.contact__info {
+  overflow-x: hidden;
+  .contact__name {
+      overflow-x: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+  }
 }

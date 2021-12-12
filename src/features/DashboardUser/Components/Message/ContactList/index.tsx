@@ -2,7 +2,7 @@ import React, { SetStateAction, useEffect, useState } from 'react';
 import ContactItem from '../ContactItem';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { UserType } from 'types/userType';
-import { setPartner, setRoomId } from 'app/slices/appSlice';
+import { setContactFilter, setPartner, setRoomId } from 'app/slices/appSlice';
 import { checkRoomExist, getPartners } from 'firebaseServices/firestore';
 import { useContactList } from 'firebaseServices/hooks';
 import dayjs from 'dayjs';
@@ -18,21 +18,10 @@ export default function ContactList() {
       dispatch(setPartner(partner));
     });
   };
-  // useEffect(() => {
-  //   (async () => {
-  //     let partners = await getPartners({
-  //       id: user.id,
-  //       name: user.firstName + ' ' + user.lastName,
-  //       avatar: user.avatar,
-  //     });
-  //     setContacts(partners as SetStateAction<never[]>);
-  //     if (!partner && partners.length > 0) {
-  //       handleChangeContact(partners[0]);
-  //     } else {
-  //       handleChangeContact(partner!);
-  //     }
-  //   })();
-  // }, [partner]);
+
+  const handleChangeFilter = (event: any) => {
+    dispatch(setContactFilter(event.target.value));
+  }
 
   const contactList = useContactList(handleChangeContact);
 
@@ -40,7 +29,7 @@ export default function ContactList() {
     <div className="list-contact-wrap w-1/4 h-full">
       <div className="search-box border-2 border-r-0 h-20 flex">
         <div className="flex items-center justify-between px-3 m-auto bg-gray-100 w-5/6 h-10 rounded-md">
-          <input type="text" placeholder="Search" className="h-full w-full outline-none bg-gray-100" />
+          <input onChange={handleChangeFilter} type="text" placeholder="Search" className="h-full w-full outline-none bg-gray-100" />
           <i className="bx bx-search-alt-2 text-lg" />
         </div>
       </div>

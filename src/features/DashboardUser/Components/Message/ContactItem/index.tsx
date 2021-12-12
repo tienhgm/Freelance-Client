@@ -19,7 +19,7 @@ export default function ContactItem({
   seen,
 }: ContactItemPropsType) {
   return (
-    <div className={`contact-item cursor-pointer flex items-center px-10 py-5 w-full relative
+    <div className={`contact-item cursor-pointer flex items-center px-10 py-3 h-24 w-full relative
     ${seen ? "" : "font-bold"
       } ${selected ? "bg-gray-100 selected" : "bg-white"
       }`}>
@@ -34,7 +34,7 @@ export default function ContactItem({
           />
         </div>
       </div>
-      <div className="contact__info flex flex-wrap justify-between items-center px-5 w-full">
+      <div className="contact__info flex flex-wrap justify-between items-center pl-4 w-full">
         <div className={`contact__name mb-2 text-lg ${seen ? "font-medium" : "font-bold"}`}>{name}</div>
         <div className={`contact__last-message-time text-sm ${seen ? "font-thin" : "font-thin"}`}>{lastMsgTime}</div>
         <div className="contact__last-message w-full overflow-hidden whitespace-nowrap text-base overflow-ellipsis">

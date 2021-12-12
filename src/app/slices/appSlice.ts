@@ -6,13 +6,15 @@ interface AppState {
   roomId: string;
   oldRoomId: string;
   partner: UserType | null;
+  contactFilter: string;
 }
 
 const initialState: AppState = {
   isLoading: false,
   roomId: '',
   oldRoomId: '',
-  partner: null
+  partner: null,
+  contactFilter: '',
 }
 
 const appSlice = createSlice({
@@ -30,9 +32,12 @@ const appSlice = createSlice({
     },
     setOldRoomId(state, action){
       state.oldRoomId = action.payload;
+    },
+    setContactFilter(state, action){
+      state.contactFilter = action.payload;
     }
   },
 });
 
-export const { handleLoading, setPartner, setRoomId, setOldRoomId } = appSlice.actions;
+export const { handleLoading, setPartner, setRoomId, setOldRoomId, setContactFilter } = appSlice.actions;
 export default appSlice.reducer;
