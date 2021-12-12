@@ -24,7 +24,7 @@ export const useMessageList = () => {
     unsubscribe = onValue(messagesRef, (snapshot) => {
       let data: MsgType[] = [];
       snapshot.forEach(msg => {
-        if (msg) {
+        if (msg && msg.hasChild("msg")) {
           data.push(msg.val() as MsgType)
         }
       });

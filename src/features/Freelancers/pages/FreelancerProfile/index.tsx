@@ -16,6 +16,7 @@ import { formatDateMonth, getGender, subContent } from 'helpers/generate';
 import './styles.scss';
 import isLogin from 'helpers/isUserLogin';
 import { setPartner } from 'app/slices/appSlice';
+import { createNewRoom } from 'firebaseServices/firestore';
 const { TabPane } = Tabs;
 
 function FreelancerProfile() {
@@ -51,11 +52,21 @@ function FreelancerProfile() {
   };
 
   const gotoChat = () => {
-    dispatch(setPartner({
+    createNewRoom({
+      id: curUser.id,
+      name: curUser.firstName + ' ' + curUser.lastName,
+      avatar: curUser.avatar
+    }, {
       id: freelancerId,
       name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
       avatar: freelancerDetail.avatar
-    }))
+    }).then(() => {
+      dispatch(setPartner({
+        id: freelancerId,
+        name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
+        avatar: freelancerDetail.avatar
+      }))
+    })
   }
   useEffect(() => {
     getDetailFreelancer(freelancerId);

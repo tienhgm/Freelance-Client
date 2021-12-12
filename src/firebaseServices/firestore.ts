@@ -31,6 +31,7 @@ async function createRefIfNotExist(user: UserType) {
     await setDoc(userRef, {
       ...user,
       partners: [],
+      rooms: [],
       isAct: false,
     });
   }
@@ -45,11 +46,12 @@ async function updateActState(user: UserType, isAct: boolean) {
   });
 }
 
-async function updatePartnerList(user: UserType, partnerId: string) {
+async function updatePartnerList(user: UserType, partnerId: string, roomId: string) {
   const userRef = doc(fireStore, 'users', user.id);
   await createRefIfNotExist(user);
   await updateDoc(userRef, {
     partners: arrayUnion(partnerId),
+    rooms: arrayUnion(roomId)
   });
 }
 
@@ -77,14 +79,12 @@ export async function getPartners(user: UserType) {
 
 export async function checkRoomExist(senderId: string, receiverId: string, isSecondStep?: boolean): Promise<boolean | string> {
   const roomRef = doc(fireStore, 'chat_rooms', senderId + '_' + receiverId);
-  console.log(senderId + '_' + receiverId)
   const roomSnap = await getDoc(roomRef);
   return roomSnap.exists()
     ? senderId + '_' + receiverId
     : isSecondStep
       ? false
       : await checkRoomExist(receiverId, senderId, true);
-  // return isSecondStep ? roomSnap.exists() : await checkRoomExist(receiverId, senderId, true);
 }
 
 export async function createNewRoom(sender: UserType, receiver: UserType) {
@@ -92,11 +92,13 @@ export async function createNewRoom(sender: UserType, receiver: UserType) {
   if (!isRoomExist) {
     const roomId = sender.id + '_' + receiver.id;
     const roomRef = doc(fireStore, 'chat_rooms', roomId);
-    await updatePartnerList(sender, receiver.id);
-    await updatePartnerList(receiver, sender.id);
+    await updatePartnerList(sender, receiver.id, roomId);
+    await updatePartnerList(receiver, sender.id, roomId);
     await setDoc(roomRef, {
       name: roomId,
       user: [sender, receiver],
+      lastMsg: null,
+      lastMsgTime: null
     });
   }
 }
