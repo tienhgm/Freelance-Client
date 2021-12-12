@@ -65,6 +65,14 @@ export default function ModalFormOfCompany({ record, isVisible, handleConfirm, h
       setReviewId(null);
     };
   }, [isVisible]);
+  useEffect(() => {
+    if (disabledReview) {
+      form.setFieldsValue({
+        rate: initialInfo.rate,
+        comment: initialInfo.comment,
+      });
+    }
+  }, [disabledReview]);
   return (
     <Modal
       visible={visible}
@@ -80,7 +88,6 @@ export default function ModalFormOfCompany({ record, isVisible, handleConfirm, h
           form
             .validateFields()
             .then((values) => {
-              form.resetFields();
               if (_.isEqual(initialInfo, values)) {
                 values.isEdit = false;
                 handleConfirm(values);
@@ -89,6 +96,7 @@ export default function ModalFormOfCompany({ record, isVisible, handleConfirm, h
                 values.reviewId = reviewId;
                 handleConfirm(values);
               }
+              form.resetFields();
             })
             .catch((info) => {
               console.log('Validate Failed:', info);

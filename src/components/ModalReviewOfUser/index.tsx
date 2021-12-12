@@ -1,10 +1,11 @@
 import { useEffect, useState } from 'react';
-import { Modal, Form, Input, Rate } from 'antd';
+import { Modal, Form, Input, Rate, Button } from 'antd';
 import './index.scss';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { handleGetReviewJobByCompanyOrUser } from 'app/slices/jobSlice';
 import { ClockCircleOutlined } from '@ant-design/icons';
 import { formatDateMonth } from 'helpers/generate';
+import _ from 'lodash';
 const { TextArea } = Input;
 interface ModalForm {
   isVisible: boolean;
@@ -15,6 +16,7 @@ interface ModalForm {
 export default function ModalFormOfUser({ record, isVisible, handleConfirm, handleCancelConfirm }: ModalForm) {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
+  const [disabledReview, setDisabledReview] = useState(false);
   const handleCancel = () => {
     form.resetFields();
     handleCancelConfirm();
@@ -22,6 +24,8 @@ export default function ModalFormOfUser({ record, isVisible, handleConfirm, hand
   const [timePost, setTimePost] = useState<any>();
   const dispatch = useAppDispatch();
   const userId = useAppSelector((state) => state.user.curUser.id);
+  const [initialInfo, setInitialInfo] = useState<any>({});
+  const [reviewId, setReviewId] = useState<any>();
   const handleGetReviewOfUser = async () => {
     let data = {
       userId: userId,
@@ -29,24 +33,47 @@ export default function ModalFormOfUser({ record, isVisible, handleConfirm, hand
       type: 'byUser',
     };
     const { payload } = await dispatch(handleGetReviewJobByCompanyOrUser(data));
-    console.log(payload);
     if (payload) {
       form.setFieldsValue({
         rate: payload.rate,
         comment: payload.comment,
       });
+      setInitialInfo({
+        rate: payload.rate,
+        comment: payload.comment,
+      });
+      setReviewId(payload.id);
       setTimePost(payload.createdAt);
     }
+  };
+  const editReview = () => {
+    setDisabledReview((prev: any) => !prev);
   };
   useEffect(() => {
     if (record && record.wroteReview === true) {
       handleGetReviewOfUser();
     }
+    if (record) {
+      setDisabledReview(record.wroteReview);
+    }
     setVisible(isVisible);
     return () => {
       form.resetFields();
+      if (record) {
+        setDisabledReview(record.hasBeenReview);
+      }
+      setInitialInfo({});
+      setReviewId(null);
     };
   }, [isVisible]);
+  useEffect(() => {
+    if(disabledReview){
+      form.setFieldsValue({
+        rate: initialInfo.rate,
+        comment: initialInfo.comment,
+      })
+    }
+  }, [disabledReview])
   return (
     <Modal
       visible={visible}
@@ -56,14 +83,22 @@ export default function ModalFormOfUser({ record, isVisible, handleConfirm, hand
       cancelText="Cancel"
       onCancel={handleCancel}
       onOk={() => {
-        if (record && record.wroteReview) {
+        if (disabledReview === true) {
           handleCancel();
         } else {
           form
             .validateFields()
             .then((values) => {
-              form.resetFields();
               handleConfirm(values);
+              if (_.isEqual(initialInfo, values)) {
+                values.isEdit = false;
+                handleConfirm(values);
+              } else {
+                values.isEdit = true;
+                values.reviewId = reviewId;
+                handleConfirm(values);
+              }
+              form.resetFields();
             })
             .catch((info) => {
               console.log('Validate Failed:', info);
@@ -72,20 +107,23 @@ export default function ModalFormOfUser({ record, isVisible, handleConfirm, hand
       }}
     >
       <Form form={form} layout="vertical" name="form_in_modal" initialValues={{ modifier: 'public' }}>
-        {record && record.hasBeenReview && timePost && (
-          <div style={{ color: '#888' }} className="flex items-center gap-2 text-base">
-            <ClockCircleOutlined /> <span>{formatDateMonth(timePost)}</span>
-          </div>
-        )}
+        <div className="flex justify-between">
+          {record && record.wroteReview && timePost && (
+            <div style={{ color: '#888' }} className="flex items-center gap-2 text-base">
+              <ClockCircleOutlined /> <span>{formatDateMonth(timePost)}</span>
+            </div>
+          )}
+          {record && record.wroteReview && (
+            <div>
+              <Button onClick={editReview}>{disabledReview === true ? 'Edit' : 'Cancel edit'}</Button>
+            </div>
+          )}
+        </div>
         <Form.Item name="rate" label={'Rate'} rules={[{ required: true, message: 'Please rate' }]}>
-          <Rate allowHalf allowClear disabled={record && record.wroteReview} />
+          <Rate allowHalf allowClear disabled={disabledReview} />
         </Form.Item>
         <Form.Item name="comment" label={'Comment'} rules={[{ required: true, message: 'Please input your comment' }]}>
-          <TextArea
-            placeholder={'Comment'}
-            disabled={record && record.wroteReview}
-            autoSize={{ minRows: 5, maxRows: 6 }}
-          />
+          <TextArea placeholder={'Comment'} disabled={disabledReview} autoSize={{ minRows: 5, maxRows: 6 }} />
         </Form.Item>
       </Form>
     </Modal>

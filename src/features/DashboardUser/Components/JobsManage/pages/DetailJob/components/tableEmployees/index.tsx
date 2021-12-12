@@ -56,6 +56,7 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
         reviewId: value?.reviewId
       }
       value.isEdit === false ? handlePostReview(data) : handleUpdateReviewCompany(updateData);
+      setOpenModalReview(false);
     }
   };
   const columns = [

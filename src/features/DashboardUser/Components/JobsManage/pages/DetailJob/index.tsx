@@ -162,7 +162,9 @@ export default function DetailJob() {
     delete data.review.isEdit;
     delete data.review.reviewId;
     try {
-      await dispatch(handleUpdateReviewByCompany(data));
+      if (data.reviewId) {
+        await dispatch(handleUpdateReviewByCompany(data));
+      }
     } catch (error) {}
   };
   const handleDoneJob = async () => {

@@ -1,6 +1,6 @@
 import { getListFreelancer, getDetailFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { changePassword, getAnalysisCompany, getAnalysisUser, getListJobUser, getProfile, getReviewsByCompany, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile, updateReviewByCompany } from "apis/userModule";
+import { changePassword, getAnalysisCompany, getAnalysisUser, getListJobUser, getProfile, getReviewsByCompany, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile, updateReviewByCompany, updateReviewByFreelancer } from "apis/userModule";
 import handleErrorMessage from "helpers/handleErrorMessage";
 import { errorMes, notify, successMes } from "helpers/notification";
 import { handleLoading } from "./appSlice";
@@ -152,11 +152,24 @@ export const handleGetReviewsOfCompany = createAsyncThunk("user/reviews", async 
         }
     } catch (error) { }
 });
-export const handleUpdateReviewByCompany = createAsyncThunk("user/reviews", async (payload: any, { dispatch }) => {
+export const handleUpdateReviewByCompany = createAsyncThunk("user/updateRvByCompany", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
         let { reviewId, review } = payload;
         const res: any = await updateReviewByCompany(reviewId, review);
+        if (res.statusCode === 200) {
+            successMes('Updated!');
+            return res.data;
+        }
+    } catch (error: any) { errorMes(error.data.message) } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleUpdateReviewByFreelancer = createAsyncThunk("user/updateRvByFreelancer", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        let { reviewId, review } = payload;
+        const res: any = await updateReviewByFreelancer(reviewId, review);
         if (res.statusCode === 200) {
             successMes('Updated!');
             return res.data;

@@ -1,6 +1,6 @@
 import { Input, Select, Tabs } from 'antd';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
-import { handleGetListJobUser } from 'app/slices/userSlice';
+import { handleGetListJobUser, handleUpdateReviewByFreelancer } from 'app/slices/userSlice';
 import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router';
 import { listStatusJob } from 'utils/enum';
@@ -106,7 +106,15 @@ export default function MyJobs() {
       await dispatch(handlePostAReviewByUserToJob(data));
     } catch (error) {}
   };
-
+  const handleUpdateReviewFreelancer = async (data: any) => {
+    delete data.review.isEdit;
+    delete data.review.reviewId;
+    try {
+      if(data.reviewId){
+        await dispatch(handleUpdateReviewByFreelancer(data));
+      }
+    } catch (error) {}
+  };
   useEffect(() => {
     history.push({
       pathname: '/dashboard/my-jobs',
@@ -151,7 +159,12 @@ export default function MyJobs() {
       </div>
       <Tabs size="large" defaultActiveKey={key} onChange={callback}>
         <TabPane tab="List jobs joined" key="1">
-          <TableJoined handlePostReview={handlePostReview} loading={loading} data={listJoined} />
+          <TableJoined
+            handlePostReview={handlePostReview}
+            handleUpdateReviewFreelancer={handleUpdateReviewFreelancer}
+            loading={loading}
+            data={listJoined}
+          />
         </TabPane>
         <TabPane tab="List jobs applied" key="2">
           <TableApplied loading={loading} data={listApplied} />

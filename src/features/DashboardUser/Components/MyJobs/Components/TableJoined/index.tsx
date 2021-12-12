@@ -11,8 +11,9 @@ interface IProps {
   data: any | null;
   loading: boolean;
   handlePostReview: (data: any) => void;
+  handleUpdateReviewFreelancer: (data: any) => void;
 }
-export default function TableJoined({ data, loading, handlePostReview }: IProps) {
+export default function TableJoined({ data, loading, handlePostReview, handleUpdateReviewFreelancer }: IProps) {
   const handleDetail = (record: any) => {
     window.open(`/find-jobs/${record.jobId}`, 'blank');
   };
@@ -42,7 +43,12 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
         jobId: record.jobId,
         review: value,
       };
-      handlePostReview(data);
+      let updateData = {
+        review: value,
+        reviewId: value?.reviewId,
+      };
+      value.isEdit === false ? handlePostReview(data) : handleUpdateReviewFreelancer(updateData);
+      setOpenModalReview(false)
     }
   };
   const columns = [
@@ -85,7 +91,7 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
           <Button size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
-          {record.jobEmployeeStatus !== 'Completed by user' && record.jobStatus !== 'Done' && (
+          {record.jobEmployeeStatus !== 'Completed by user' && record.jobStatus === 'Inprogress' && (
             <Button size="small" onClick={() => handleOpenDialogComplete(record)}>
               Complete
             </Button>
