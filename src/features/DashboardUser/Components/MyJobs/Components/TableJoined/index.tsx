@@ -1,8 +1,12 @@
 import { Space, Table, Tag, Button } from 'antd';
-import ModalReview from 'components/ModalReview';
+import { useAppDispatch } from 'app/hooks';
+import { handleCompletedJobByUser } from 'app/slices/jobSlice';
+import ModalReview from 'components/ModalReviewOfCompany';
 import { getJobStatus, getWorkingStatus } from 'helpers/Dashboard';
 import { formatDateMonth } from 'helpers/generate';
 import { useState } from 'react';
+import PopupConfirm from 'components/PopupConfirm';
+import ModalReviewOfUser from 'components/ModalReviewOfUser';
 interface IProps {
   data: any | null;
   loading: boolean;
@@ -12,25 +16,33 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
   const handleDetail = (record: any) => {
     window.open(`/find-jobs/${record.jobId}`, 'blank');
   };
+  const dispatch = useAppDispatch();
   const handleDelete = (e: any) => {
     console.log(e);
   };
   const [openModalReview, setOpenModalReview] = useState(false);
   const [record, setRecord] = useState<any>();
+  const [openDialogComplete, setOpenDialogComplete] = useState(false);
   const handleOpenModalReview = (record: any) => {
     setRecord(record);
     setOpenModalReview(true);
   };
+
+  const handleOpenDialogComplete = (record: any) => {
+    setRecord(record);
+    setOpenDialogComplete(true);
+  };
+  const handleCompletedJob = async () => {
+    const jobId = record.jobId;
+    await dispatch(handleCompletedJobByUser(jobId));
+  };
   const handleReview = (value: any) => {
-    console.log(record);
-    console.log(value);
     if (record) {
-    //   let data = {
-    //     userId: record.user.id,
-    //     jobId: record.jobId,
-    //     review: value,
-    //   };
-      //   handlePostReview(data);
+      let data = {
+        jobId: record.jobId,
+        review: value,
+      };
+      handlePostReview(data);
     }
   };
   const columns = [
@@ -46,18 +58,6 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
       key: 'jobStatus',
       render: (jobStatus: string) => <Tag color={getJobStatus(jobStatus)}>{jobStatus}</Tag>,
     },
-    // {
-    //   title: 'Status',
-    //   dataIndex: 'status',
-    //   key: 'status',
-    //   render: (status: number) => (
-    //     <>
-    //       {status === 0 && <Tag color="#FF00FF">{handleGetStatusEarning(status)}</Tag>}
-    //       {status === 1 && <Tag color="#87d068">{handleGetStatusEarning(status)}</Tag>}
-    //       {status === 2 && <Tag color="#FF0000">{handleGetStatusEarning(status)}</Tag>}
-    //     </>
-    //   ),
-    // },
     {
       title: 'Joined at',
       dataIndex: 'joinedAt',
@@ -70,13 +70,14 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
       key: 'jobEmployeeStatus',
       render: (jobEmployeeStatus: string) => <Tag color={getWorkingStatus(jobEmployeeStatus)}>{jobEmployeeStatus}</Tag>,
     },
-    // {
-    //   title: 'Payment',
-    //   dataIndex: 'payment',
-    //   key: 'payment',
-    //   render: (payment: number) => <div className="font-medium"> {payment > 0 && '$ ' + payment}</div>,
-    // },
     {
+      title: 'Salary',
+      dataIndex: 'salary',
+      key: 'salary',
+      render: (salary: number) => <div className="font-medium"> {'$' + salary}</div>,
+    },
+    {
+      width: 250,
       title: 'Action',
       key: 'action',
       render: (record: any) => (
@@ -84,6 +85,12 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
           <Button size="small" onClick={() => handleDetail(record)}>
             Detail
           </Button>
+          {record.jobEmployeeStatus !== 'Completed by user' && record.jobStatus !== 'Done' && (
+            <Button size="small" onClick={() => handleOpenDialogComplete(record)}>
+              Complete
+            </Button>
+          )}
+
           {['Remove'].includes(record.workStatus) && (
             <Button danger size="small" onClick={() => handleDelete(record)}>
               Delete
@@ -91,7 +98,7 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
           )}
           {record.jobEmployeeStatus === 'Done' && (
             <Button size="small" onClick={() => handleOpenModalReview(record)}>
-              Review
+              {record.wroteReview ? 'See review' : 'Review'}
             </Button>
           )}
         </Space>
@@ -102,11 +109,18 @@ export default function TableJoined({ data, loading, handlePostReview }: IProps)
   return (
     <>
       <Table columns={columns} pagination={false} loading={loading} dataSource={data} />
-      <ModalReview
+      <ModalReviewOfUser
         isVisible={openModalReview}
         record={record}
         handleConfirm={handleReview}
         handleCancelConfirm={() => setOpenModalReview(false)}
+      />
+      <PopupConfirm
+        title="Confirm"
+        isVisible={openDialogComplete}
+        popupText="Completed?"
+        handleConfirm={handleCompletedJob}
+        handleCancelConfirm={() => setOpenDialogComplete(false)}
       />
     </>
   );

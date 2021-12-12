@@ -1,5 +1,5 @@
 import { errorMes } from 'helpers/notification';
-import { applyJob, changeApplyStatus, deleteEmployeeFromJob, deleteJob, finishJob, getJobCandidates, getJobEmployees, postAReview, updateJob } from './../../apis/jobModule/index';
+import { applyJob, changeApplyStatus, completedJobByUser, deleteEmployeeFromJob, deleteJob, finishJob, getJobCandidates, getJobEmployees, getReviewFromCompanyOrUser, leaveThisJobWhenAwait, postAReview, postAReviewByUser, updateJob } from './../../apis/jobModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { getDetailJob, getJobs, postAJob } from "apis/jobModule";
 import { handleLoading } from './appSlice';
@@ -145,6 +145,22 @@ export const handlePostAReview = createAsyncThunk("job/post", async (payload: an
         dispatch(handleLoading(false));
     }
 });
+export const handlePostAReviewByUserToJob = createAsyncThunk("job/userPostReviewToJob", async (payload: any, { dispatch }) => {
+    try {
+        const { review, jobId } = payload;
+        dispatch(handleLoading(true));
+        const res: any = await postAReviewByUser(jobId, review);
+        if (res.statusCode === 201) {
+            successMes('Reviewed!');
+            return res.data;
+        }
+
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
 export const handleFinishJob = createAsyncThunk("job/finishJob", async (payload: any, { dispatch }) => {
     try {
         dispatch(handleLoading(true));
@@ -156,6 +172,44 @@ export const handleFinishJob = createAsyncThunk("job/finishJob", async (payload:
     } catch (error: any) {
         errorMes(error.data.message)
     } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleCompletedJobByUser = createAsyncThunk("job/completedJobByUser", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res: any = await completedJobByUser(payload);
+        if (res.statusCode === 201) {
+            successMes('Completed!');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    } finally {
+        dispatch(handleLoading(false));
+    }
+});
+export const handleGetReviewJobByCompanyOrUser = createAsyncThunk("job/reviewFromCompanyOrUser", async (payload: any) => {
+    try {
+        const { userId, jobId, type } = payload;
+        const res: any = await getReviewFromCompanyOrUser(userId, jobId, type);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error: any) { }
+});
+export const leaveJobWhenAwait = createAsyncThunk("job/leaveJobWhenAwait", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        const res: any = await leaveThisJobWhenAwait(payload);
+        if (res.statusCode === 200) {
+            successMes('Removed!');
+            return res.data;
+        }
+    } catch (error: any) {
+        errorMes(error.data.message)
+    }
+    finally {
         dispatch(handleLoading(false));
     }
 });

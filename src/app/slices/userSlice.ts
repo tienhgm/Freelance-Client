@@ -1,8 +1,8 @@
 import { getListFreelancer, getDetailFreelancer } from './../../apis/freelancerModule/index';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
-import { changePassword, getListJobUser, getProfile, getReviewsById, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile } from "apis/userModule";
+import { changePassword, getAnalysisCompany, getAnalysisUser, getListJobUser, getProfile, getReviewsByCompany, handleDeleteCertification, handleUploadAvt, handleUploadCertification, updateProfile, updateReviewByCompany } from "apis/userModule";
 import handleErrorMessage from "helpers/handleErrorMessage";
-import { notify } from "helpers/notification";
+import { errorMes, notify, successMes } from "helpers/notification";
 import { handleLoading } from "./appSlice";
 interface UserSlice {
     isChangePassword: boolean;
@@ -86,15 +86,7 @@ export const handleUpdateProfile = createAsyncThunk("user/updateProfile", async 
         dispatch(handleLoading(false));
     }
 });
-export const handleGetReviews = createAsyncThunk("user/reviews", async (payload: any) => {
-    try {
-        let { userId, filters } = payload;
-        const res: any = await getReviewsById(userId, filters);
-        if (res.statusCode === 200) {
-            return res.data;
-        }
-    } catch (error) { }
-});
+
 export const handleGetCurUser = createAsyncThunk("user/curUser", async (payload: any) => {
 
     let url = "http://14.225.192.239:4000/api/user";
@@ -133,6 +125,45 @@ export const handleGetListJobUser = createAsyncThunk("user/listJobUser", async (
         }
     } catch (error) { }
 
+});
+export const handleGetAnalysistUser = createAsyncThunk("user/analysisUser", async (payload: any) => {
+    try {
+        const res: any = await getAnalysisUser(payload);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+
+});
+export const handleGetAnalysistCompany = createAsyncThunk("user/analysisCompany", async (payload: any) => {
+    try {
+        const res: any = await getAnalysisCompany(payload);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+});
+export const handleGetReviewsOfCompany = createAsyncThunk("user/reviews", async (payload: any) => {
+    try {
+        let { companyId, type, filters } = payload;
+        const res: any = await getReviewsByCompany(companyId, type, filters);
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+});
+export const handleUpdateReviewByCompany = createAsyncThunk("user/reviews", async (payload: any, { dispatch }) => {
+    try {
+        dispatch(handleLoading(true));
+        let { reviewId, review } = payload;
+        const res: any = await updateReviewByCompany(reviewId, review);
+        if (res.statusCode === 200) {
+            successMes('Updated!');
+            return res.data;
+        }
+    } catch (error: any) { errorMes(error.data.message) } finally {
+        dispatch(handleLoading(false));
+    }
 });
 const userSlice = createSlice({
     name: "user",

@@ -1,4 +1,4 @@
-import { Space, Table, Tag, Button } from 'antd';
+import { Space, Table, Tag, Button, Modal } from 'antd';
 import ModalDetailEmloyee from 'components/ModalDetailEmployee';
 import ModalFormReject from 'components/ModalForm';
 import PopupAccept from 'components/PopupConfirm';
@@ -8,6 +8,7 @@ import { useState } from 'react';
 type InfoNeed = {
   maxEmployees: number;
   totalEmployees: number;
+  jobStatus?: string;
 };
 interface IProps {
   data: any | null;
@@ -38,6 +39,12 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
       };
       handleUpdateApplyStatus(data);
     }
+  };
+  const errorPopup = (content: string) => {
+    Modal.error({
+      title: 'Reject reason',
+      content,
+    });
   };
   const handleRejectCandidate = async (values: any) => {
     if (record) {
@@ -103,22 +110,27 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
       key: 'action',
       fixed: 'right',
       width: 250,
-      render: (record: any) => (
+      render: (item: any) => (
         <Space size="middle">
-          <Button size="small" onClick={() => handleOpenModalDetail(record)}>
+          <Button size="small" onClick={() => handleOpenModalDetail(item)}>
             Detail
           </Button>
-          {((record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees) ||
-            record.jobStatus == 'Done') && (
-            <Button type="primary" size="small" onClick={() => handleOpenDialogAccept(record)}>
-              Accept
-            </Button>
-          )}
-          {((record.applyStatus === 'Waiting' && infoNeed.totalEmployees < infoNeed.maxEmployees) ||
-            record.jobStatus == 'Done') && (
-            <Button danger size="small" onClick={() => handleOpenDialogReject(record)}>
-              Reject
-            </Button>
+          {item.applyStatus === 'Waiting' &&
+            infoNeed.totalEmployees < infoNeed.maxEmployees &&
+            infoNeed.jobStatus !== 'Done' && (
+              <Button type="primary" size="small" onClick={() => handleOpenDialogAccept(item)}>
+                Accept
+              </Button>
+            )}
+          {item.applyStatus === 'Waiting' &&
+            infoNeed.totalEmployees < infoNeed.maxEmployees &&
+            infoNeed.jobStatus !== 'Done' && (
+              <Button danger size="small" onClick={() => handleOpenDialogReject(item)}>
+                Reject
+              </Button>
+            )}
+          {item.applyStatus === 'Rejected' && (
+            <Button size="small" onClick={() => errorPopup(item.rejectMessage)}>Reject reason</Button>
           )}
         </Space>
       ),
@@ -155,8 +167,8 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
         handleCancelConfirm={() => setOpenDialogAccept(false)}
       />
       <ModalFormReject
-        title={'Apply job'}
-        okText={'Apply'}
+        title={'Reject'}
+        okText={'Ok'}
         isVisible={openModalReject}
         handleConfirm={handleRejectCandidate}
         handleCancelConfirm={() => setOpenModalReject(false)}

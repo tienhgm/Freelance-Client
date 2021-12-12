@@ -15,12 +15,12 @@
       font-size: 16px;
       display: flex;
       align-items: center;
+      border-bottom: 1px solid #e4e4e4;
     }
     .block {
-      border-top: 2px solid #e4e4e4;
-      border-bottom: 2px solid #e4e4e4;
+      border-bottom: 1px solid #e4e4e4;
       padding: 10px 15px;
-      max-height: 14rem;
+      max-height: 20rem;
       min-height: 10rem;
       .btn {
         padding: 4px 10px;
@@ -48,8 +48,7 @@
         }
       }
       &__label {
-        font-size: 18px;
-        font-weight: bold;
+      color: '#808080';
       }
       &__date {
         display: flex;
