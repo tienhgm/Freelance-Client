@@ -6,6 +6,7 @@ import {
   handleChangeApplyStatus,
   handleDeleteEmployeeFromJob,
   handleFinishJob,
+  handleGetDetailJob,
   handleGetJobCandidates,
   handleGetJobEmployees,
   handlePostAReview,
@@ -17,6 +18,7 @@ import { applyStatus, jobEmployeeStatus } from 'utils/enum';
 import queryString from 'query-string';
 import { getJobStatus } from 'helpers/Dashboard';
 import { CheckOutlined } from '@ant-design/icons';
+import { handleUpdateReviewByCompany } from 'app/slices/userSlice';
 const { TabPane } = Tabs;
 const { Option } = Select;
 export default function DetailJob() {
@@ -29,6 +31,7 @@ export default function DetailJob() {
   const [infoNeed, setInfoNeed] = useState<any>({
     maxEmployees: 0,
     totalEmployees: 0,
+    jobStatus: '',
   });
   function callback(key: string) {
     setKey(key);
@@ -45,6 +48,7 @@ export default function DetailJob() {
     jobEmployeeStatus: null,
     joinedAt: '',
   });
+  const [jobName, setJobName] = useState('');
   const [jobStatus, setJobStatus] = useState<any>('');
   const [loading, setLoading] = useState(false);
   const match = useRouteMatch<any>();
@@ -66,6 +70,7 @@ export default function DetailJob() {
           ...prev,
           maxEmployees: payload.maxEmployees,
           totalEmployees: payload.totalEmployees,
+          jobStatus: payload.jobStatus,
         }));
         setJobStatus(payload.jobStatus);
         let candidates = payload.candidates.map((item: any) => {
@@ -118,6 +123,14 @@ export default function DetailJob() {
       }, 500);
     }
   };
+  const handleGetJobName = async () => {
+    try {
+      const { payload } = await dispatch(handleGetDetailJob(route.params.id));
+      if (payload) {
+        setJobName(payload.jobDetail.title);
+      }
+    } catch (error) {}
+  };
   const handleSearchNameEmployee = (e: any) => {
     setFiltersEmployee((prev: any) => ({ ...prev, name: e.target.value }));
   };
@@ -145,10 +158,18 @@ export default function DetailJob() {
       await dispatch(handlePostAReview(data));
     } catch (error) {}
   };
+  const handleUpdateReviewCompany = async (data: any) => {
+    delete data.review.isEdit;
+    delete data.review.reviewId;
+    try {
+      await dispatch(handleUpdateReviewByCompany(data));
+    } catch (error) {}
+  };
   const handleDoneJob = async () => {
     await dispatch(handleFinishJob(jobId));
   };
   useEffect(() => {
+    handleGetJobName();
     history.push({
       pathname: `/dashboard/jobs-manage/${jobId}`,
       search: `?key=${key}`,
@@ -172,7 +193,7 @@ export default function DetailJob() {
     <div className="h-full candidate-manage">
       <div className="flex gap-2 mb-4 text-lg font-medium">
         <Link to="/dashboard/jobs-manage">Manage jobs</Link> {' > '}
-        {route.params && route.params.id && <div>{`Job ${route.params.id} >`}</div>}
+        {route.params && route.params.id && <div>{jobName + ' >'}</div>}
         <div>
           {key === '1' && 'Manage employees'}
           {key === '2' && 'Manage candidates'}
@@ -257,6 +278,7 @@ export default function DetailJob() {
               <TableEmployees
                 handleUpdateWorkStatus={handleDeleteEmployee}
                 handlePostReview={handlePostReview}
+                handleUpdateReviewCompany={handleUpdateReviewCompany}
                 data={listJobEmployees}
                 loading={loading}
                 infoNeed={infoNeed}

@@ -4,7 +4,7 @@ import { formatDateMonth } from 'helpers/generate';
 import PopupRemove from 'components/PopupConfirm';
 import { useState } from 'react';
 import ModalDetailEmloyee from 'components/ModalDetailEmployee';
-import ModalReview from 'components/ModalReview';
+import ModalReview from 'components/ModalReviewOfCompany';
 type InfoNeed = {
   maxEmployees: number;
   totalEmployees: number;
@@ -15,8 +15,9 @@ interface IProps {
   infoNeed: InfoNeed;
   handleUpdateWorkStatus: (data: any) => void;
   handlePostReview: (data: any) => void;
+  handleUpdateReviewCompany: (data: any) => void;
 }
-export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus, handlePostReview }: IProps) {
+export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus, handlePostReview, handleUpdateReviewCompany }: IProps) {
   const [openDialogRemove, setOpenDialogRemove] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModalReview, setOpenModalReview] = useState(false);
@@ -50,7 +51,11 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
         jobId: record.jobId,
         review: value,
       };
-      handlePostReview(data);
+      let updateData = {
+        review: value,
+        reviewId: value?.reviewId
+      }
+      value.isEdit === false ? handlePostReview(data) : handleUpdateReviewCompany(updateData);
     }
   };
   const columns = [

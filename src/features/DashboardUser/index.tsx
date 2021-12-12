@@ -55,6 +55,9 @@ function DashboardUser() {
     let path = location.pathname.split('/')[2];
     let handleKey = getPathKey(path);
     setKey(handleKey);
+    return () => {
+      setKey('1')
+    }
   }, [location.pathname.split('/')[2]]);
   return (
     <Row>

@@ -1,5 +1,4 @@
 import { statusApply } from "utils/enum"
-import { jobProgress } from "utils/enum"
 
 export const handleGetStatusEarning = (value: number) => {
     switch (value) {
@@ -19,7 +18,7 @@ export const getJobStatus = (value: string) => {
         case 'Cancel':
             return '#FF0000';
         case 'Done':
-            return '#87d068';
+            return '#73d13d';
         case 'Pending':
             return '#FFA500';
         case 'Await':
@@ -33,18 +32,20 @@ export const getApplyStatus = (value: string) => {
         case 'Rejected':
             return '#FF0000';
         case 'Approved':
-            return '#87d068';
+            return '#73d13d';
         case 'Waiting':
             return '#d3adf7';
     }
 }
 export const getWorkingStatus = (value: string) => {
     switch (value) {
-        case 'Remove':
+        case 'Removed':
             return '#FF0000';
         case 'Working':
             return '#108ee9';
         case 'Done':
+            return '#73d13d';
+        case 'Completed by user':
             return '#87d068';
     }
 }

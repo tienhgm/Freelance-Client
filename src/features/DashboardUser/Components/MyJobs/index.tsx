@@ -7,6 +7,7 @@ import { listStatusJob } from 'utils/enum';
 import TableApplied from './Components/TableApplied';
 import TableJoined from './Components/TableJoined';
 import queryString from 'query-string';
+import { handlePostAReviewByUserToJob } from 'app/slices/jobSlice';
 const { TabPane } = Tabs;
 const { Option } = Select;
 
@@ -101,10 +102,9 @@ export default function MyJobs() {
     }
   };
   const handlePostReview = async (data: any) => {
-    console.log(data);
-    // try {
-    //   await dispatch(handlePostAReview(data));
-    // } catch (error) {}
+    try {
+      await dispatch(handlePostAReviewByUserToJob(data));
+    } catch (error) {}
   };
 
   useEffect(() => {

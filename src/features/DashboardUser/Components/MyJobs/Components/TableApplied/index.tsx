@@ -1,17 +1,35 @@
-import { Space, Table, Tag, Button } from 'antd';
+import { Space, Table, Tag, Button, Modal } from 'antd';
+import { useAppDispatch } from 'app/hooks';
+import { leaveJobWhenAwait } from 'app/slices/jobSlice';
+import PopupConfirm from 'components/PopupConfirm';
 import { getJobStatus, getApplyStatus } from 'helpers/Dashboard';
 import { formatDateMonth } from 'helpers/generate';
+import { useState } from 'react';
 interface IProps {
   data: any | null;
   loading: boolean;
 }
 export default function TableApplied({ data, loading }: IProps) {
   const handleDetail = (record: any) => {
-    window.open(`/find-jobs/${record.jobId}`, 'blank')
+    window.open(`/find-jobs/${record.jobId}`, 'blank');
   };
-  const handleDelete = (e: any) => {
-    console.log(e);
+  const [openModalLeaveJob, setOpenModalLeaveJob] = useState(false);
+  const [record, setRecord] = useState<any>();
+
+  const errorPopup = (content: string) => {
+    Modal.error({
+      title: 'Reject reason',
+      content,
+    });
   };
+  const handleLeave = (item:any) => {
+    setRecord(item);
+    setOpenModalLeaveJob(true)
+  }
+  const dispatch = useAppDispatch();
+  const leaveJob = async() => {
+    await dispatch(leaveJobWhenAwait(record.jobId))
+  }
   const columns = [
     {
       title: 'Job Name',
@@ -44,16 +62,22 @@ export default function TableApplied({ data, loading }: IProps) {
     //   render: (payment: number) => <div className="font-medium"> {payment > 0 && '$ ' + payment}</div>,
     // },
     {
+      width: 300,
       title: 'Action',
       key: 'action',
-      render: (record: any) => (
+      render: (item: any) => (
         <Space size="middle">
-          <Button size="small" onClick={() => handleDetail(record)}>
+          <Button size="small" onClick={() => handleDetail(item)}>
             Detail
           </Button>
-          {['Waiting', 'Rejected'].includes(record.jobApplyStatus) && (
-            <Button danger size="small" onClick={() => handleDelete(record)}>
+          {['Waiting'].includes(item.jobApplyStatus) && (
+            <Button danger size="small" onClick={() => handleLeave(item)}>
               Leave
+            </Button>
+          )}
+          {item.jobApplyStatus === 'Rejected' && (
+            <Button size="small" onClick={() => errorPopup(item.rejectMessage)}>
+              Reject reason
             </Button>
           )}
         </Space>
@@ -61,5 +85,16 @@ export default function TableApplied({ data, loading }: IProps) {
     },
   ];
 
-  return <Table columns={columns} pagination={false} loading={loading} dataSource={data} />;
+  return (
+    <>
+      <Table columns={columns} pagination={false} loading={loading} dataSource={data} />
+      <PopupConfirm
+        title="Confirm"
+        isVisible={openModalLeaveJob}
+        popupText="You want to leave this application?"
+        handleConfirm={leaveJob}
+        handleCancelConfirm={() => setOpenModalLeaveJob(false)}
+      />
+    </>
+  );
 }
