@@ -86,9 +86,9 @@ export default function ListJobs() {
   const handleChangePage = (value: number) => {
     setPage(value);
   };
-  const handleGoDetailJob = (id:string) => {
-    window.open(`/find-jobs/${id}`, 'blank')
-  }
+  const handleGoDetailJob = (id: string) => {
+    window.open(`/find-jobs/${id}`, 'blank');
+  };
   useEffect(() => {
     getArea();
   }, []);
@@ -203,7 +203,9 @@ export default function ListJobs() {
                   {/* left */}
                   <div className="flex flex-col">
                     <div className="flex gap-3">
-                      <div className="text-xl cursor-pointer" onClick={() => handleGoDetailJob(item.id)}>{item.title}</div>
+                      <div className="text-xl cursor-pointer" onClick={() => handleGoDetailJob(item.id)}>
+                        {item.title}
+                      </div>
                       <div>{<Tag color={getJobStatus(item.status)}>{item.status}</Tag>}</div>
                     </div>
                     <div className="flex gap-3 mt-2">
@@ -239,16 +241,20 @@ export default function ListJobs() {
                   {/* end left */}
                   {/* right */}
                   <div className="flex gap-3">
-                    <div className="cursor-pointer btn btn__edit" onClick={() => goToEdit(item.id)}>
-                      <Tooltip placement="bottom" title="Edit">
-                        <EditOutlined />
-                      </Tooltip>
-                    </div>
-                    <div className="cursor-pointer btn btn__delete" onClick={() => handleOpenDialogConfirm(item.id)}>
-                      <Tooltip placement="bottom" title="Delete">
-                        <DeleteOutlined />
-                      </Tooltip>
-                    </div>
+                    {item.status !== 'Done' && (
+                      <div className="cursor-pointer btn btn__edit" onClick={() => goToEdit(item.id)}>
+                        <Tooltip placement="bottom" title="Edit">
+                          <EditOutlined />
+                        </Tooltip>
+                      </div>
+                    )}
+                    {item.status !== 'Done' && (
+                      <div className="cursor-pointer btn btn__delete" onClick={() => handleOpenDialogConfirm(item.id)}>
+                        <Tooltip placement="bottom" title="Delete">
+                          <DeleteOutlined />
+                        </Tooltip>
+                      </div>
+                    )}
                   </div>
                   {/* end right */}
                 </div>
