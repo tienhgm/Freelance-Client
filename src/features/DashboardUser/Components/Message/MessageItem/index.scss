@@ -1,6 +1,13 @@
+.message-item {
+  max-width: 1600px;
+  overflow: hidden;
+}
 .message-item__text {
+  max-width: 600px;
+  overflow-wrap: break-word;
+
   &::before {
-    content: "";
+    content: '';
     display: block;
     width: 10px;
     height: 10px;

@@ -38,7 +38,7 @@ async function createRefIfNotExist(user: UserType) {
 
 }
 
-async function updateActState(user: UserType, isAct: boolean) {
+export async function updateActState(user: UserType, isAct: boolean) {
   const userRef = doc(fireStore, 'users', user.id);
   await createRefIfNotExist(user);
   await updateDoc(userRef, {
@@ -46,7 +46,7 @@ async function updateActState(user: UserType, isAct: boolean) {
   });
 }
 
-async function updatePartnerList(user: UserType, partnerId: string, roomId: string) {
+export async function updatePartnerList(user: UserType, partnerId: string, roomId: string) {
   const userRef = doc(fireStore, 'users', user.id);
   await createRefIfNotExist(user);
   await updateDoc(userRef, {
@@ -55,12 +55,16 @@ async function updatePartnerList(user: UserType, partnerId: string, roomId: stri
   });
 }
 
-export async function getPartners(user: UserType) {
-  let partners: (UserType & { isAct: boolean })[] = [];
+export async function getCurrentUser(user: UserType) {
   const userRef = doc(fireStore, 'users', user.id);
   createRefIfNotExist(user)
   const userSnap = await getDoc(userRef);
-  const userData = userSnap.data()
+  return userSnap.data()
+}
+
+export async function getPartners(user: UserType) {
+  let partners: (UserType & { isAct: boolean })[] = [];
+  const userData = await getCurrentUser(user);
   if (userData && userData.partners?.length > 0) {
     const partnersQuery = query(collection(fireStore, 'users'), where('id', 'in', userData.partners));
     const partnersSnapshot = await getDocs(partnersQuery);
@@ -98,9 +102,20 @@ export async function createNewRoom(sender: UserType, receiver: UserType) {
       name: roomId,
       user: [sender, receiver],
       lastMsg: null,
-      lastMsgTime: null
+      lastMsgTime: null,
+      lastMsgBy: null
     });
   }
+}
+
+
+export async function sendMsg(roomId: string, lastMsgBy: string, msg: string, lastMsgTime: number) {
+  const roomRef = doc(fireStore, 'chat_rooms', roomId);
+  await updateDoc(roomRef, {
+    lastMsg: msg,
+    lastMsgTime: lastMsgTime,
+    lastMsgBy: lastMsgBy
+  });
 }
 
 export default fireStore

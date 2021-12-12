@@ -10,8 +10,13 @@ export default function MessageInput() {
   const [showEmoji, setShowEmoji] = useState(false);
 
   const handleSendMessage = () => {
-    sendMessage(roomId, senderId, currentMsg)
     setCurrentMsg("");
+    sendMessage(roomId, senderId, currentMsg).then(() => {
+      const msgListElement = document.querySelector("div.message-list.border-2.border-b-0.border-t-0.w-full.p-6.overflow-y-auto")
+      if (msgListElement) {
+        msgListElement.scrollTop = msgListElement.scrollHeight;
+      }
+    })
   }
 
   const changeMsg = (event: any) => {
@@ -29,7 +34,7 @@ export default function MessageInput() {
   useEffect(() => {
     if (showEmoji) {
     }
-    return () => {};
+    return () => { };
   }, [showEmoji]);
   return (
     <div className="message w-full h-24 bg0-blue-600 border-2 flex items-center">

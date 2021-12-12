@@ -4,33 +4,37 @@ import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { UserType } from 'types/userType';
 import { setPartner, setRoomId } from 'app/slices/appSlice';
 import { checkRoomExist, getPartners } from 'firebaseServices/firestore';
+import { useContactList } from 'firebaseServices/hooks';
+import dayjs from 'dayjs';
 
 export default function ContactList() {
   const dispatch = useAppDispatch();
-  const user = useAppSelector(state => state.user.curUser);
-  const partner = useAppSelector(state => state.app.partner);
-  const [contacts, setContacts] = useState([]);
+  const user = useAppSelector((state) => state.user.curUser);
+  const partner = useAppSelector((state) => state.app.partner);
+  // const [contacts, setContacts] = useState([]);
   const handleChangeContact = (partner: UserType) => {
-    //   const senderId = useAppSelector(state => state.user.curUser.id)
-    // const receiverId = useAppSelector(state => state.app.partner?.id)
-    checkRoomExist(user.id, partner?.id as string).then(roomId => {
+    checkRoomExist(user.id, partner?.id as string).then((roomId) => {
       dispatch(setRoomId(roomId));
       dispatch(setPartner(partner));
     });
-  }
-  useEffect(() => {
-    (async () => {
-      let partners = await getPartners({
-        id: user.id,
-        name: user.firstName + ' ' + user.lastName,
-        avatar: user.avatar
-      })
-      setContacts(partners as SetStateAction<never[]>)
-      if (!partner && partners.length > 0) {
-        handleChangeContact(partners[0]);
-      }
-    })()
-  }, [partner])
+  };
+  // useEffect(() => {
+  //   (async () => {
+  //     let partners = await getPartners({
+  //       id: user.id,
+  //       name: user.firstName + ' ' + user.lastName,
+  //       avatar: user.avatar,
+  //     });
+  //     setContacts(partners as SetStateAction<never[]>);
+  //     if (!partner && partners.length > 0) {
+  //       handleChangeContact(partners[0]);
+  //     } else {
+  //       handleChangeContact(partner!);
+  //     }
+  //   })();
+  // }, [partner]);
+
+  const contactList = useContactList(handleChangeContact);
 
   return (
     <div className="list-contact-wrap w-1/4 h-full">
@@ -42,20 +46,21 @@ export default function ContactList() {
       </div>
       <div className="contact-list border-2 border-r-0 border-t-0 overflow-y-auto">
         <ul>
-          {contacts.map((contact: UserType, index) => (
-            <li key={index}
+          {/* {JSON.stringify(contactList)} */}
+          {contactList.map((contact: any, index) => (
+            <li
+              key={index}
               onClick={() => {
-                handleChangeContact(contact)
+                handleChangeContact(contact);
               }}
             >
               <ContactItem
-                uuid={contact.id}
+                seen={contact.id !== contact.lastMsgBy}
                 avatarSrc={'http://' + contact.avatar}
-                // @ts-ignore
                 activity={contact.isAct}
                 name={contact.name}
-                lastMsg={'Thanks for choosing my offer. I will start working on your project tomorrow.'}
-                lastMsgTime={'4 hours ago'}
+                lastMsg={contact.lastMsg}
+                lastMsgTime={contact.lastMsgTime ? `${dayjs(contact.lastMsgTime).fromNow(true)} ago` : ''}
                 selected={partner ? contact.id === partner?.id : index === 0 ? true : false}
               />
             </li>

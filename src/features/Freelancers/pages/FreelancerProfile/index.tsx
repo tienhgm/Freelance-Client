@@ -66,6 +66,8 @@ function FreelancerProfile() {
         name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
         avatar: freelancerDetail.avatar
       }))
+
+      history.push("/dashboard/message")
     })
   }
   useEffect(() => {
@@ -327,10 +329,10 @@ function FreelancerProfile() {
             ) : (
               <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
                 <div className="mt-6 button-make">
-                  <Link to="/dashboard/message" onClick={gotoChat} className="block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
+                  <div onClick={gotoChat} className="cursor-pointer text-white block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
                     Let's Chat
-                    <ArrowRightOutlined className="relative ml-3 -top-1" />
-                  </Link>
+                    <ArrowRightOutlined className="relative ml-3 -top-1 text-white" />
+                  </div>
                 </div>
               </Skeleton>
             )}
