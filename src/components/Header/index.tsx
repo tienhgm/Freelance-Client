@@ -26,25 +26,28 @@ export default function Header() {
   const handleOpenDialogConfirm = () => {
     setOpenDialogConfirm(true);
   };
-  // @ts-ignore
   const userAvt = useAppSelector((state) => state.user.curUser.avatar);
+  const userRole = useAppSelector((state) => state.user.curUser.role);
   const menu = (
     <Menu>
       <Menu.Item key="1">
         <div>{'Hi ' + user?.firstName + user?.lastName + ' !'}</div>
       </Menu.Item>
-      {
+      {[1, 2].includes(userRole) && (
         <Menu.Item key="2">
           <Link to="/dashboard" style={{ color: 'black' }}>
             Dashboard
           </Link>
         </Menu.Item>
-      }
-      {/* <Menu.Item key="3">
-        <Link to="/dashboard/bookmarks" style={{ color: 'black' }}>
-          bookmarks
-        </Link>
-      </Menu.Item> */}
+      )}
+      {userRole === 0 && (
+        <Menu.Item key="3">
+          <Link to="/dashboard-admin" style={{ color: 'black' }}>
+            Dashboard
+          </Link>
+        </Menu.Item>
+      )}
+
       <Menu.Item key="4">
         <div style={{ color: 'black' }} onClick={handleOpenDialogConfirm}>
           Logout

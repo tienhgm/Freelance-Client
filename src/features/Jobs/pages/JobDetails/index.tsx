@@ -1,12 +1,11 @@
-import React, { useEffect, useState } from 'react';
-import { Button, Tag, Comment, Avatar, Tooltip, Pagination, Breadcrumb, Skeleton } from 'antd';
+import { useEffect, useState } from 'react';
+import { Button, Tag, Breadcrumb, Skeleton } from 'antd';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleApplyJob, handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { timeFromNow, formatDate } from 'helpers/generate';
-import { UserOutlined, CommentOutlined, HomeOutlined } from '@ant-design/icons';
+import { UserOutlined, HomeOutlined } from '@ant-design/icons';
 import './styles.scss';
-import moment from 'moment';
 import JobItem from 'components/JobItem';
 import ModalFormApply from 'components/ModalForm';
 import isLogin from 'helpers/isUserLogin';
@@ -81,7 +80,7 @@ export default function JobDetails() {
                   </div>
                   <div className="flex items-center gap-1 company__rate">
                     <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">
-                      {jobDetail.company && jobDetail.company.stars}
+                      {jobDetail.company && jobDetail.company.stars.toFixed(2)}
                     </div>
                     {/* <Rate disabled defaultValue={jobDetail.company && Math.floor(jobDetail.company.stars)} /> */}
                     {jobDetail.company && jobDetail.company.stars && (
@@ -191,37 +190,6 @@ export default function JobDetails() {
               </div>
             ))}
           </div>
-          <div className="mb-16 comment">
-            <div className="mb-3 headline">
-              <h3 className="m-0 text-lg">
-                <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
-              </h3>
-            </div>
-            <Skeleton active loading={loading}>
-              <Comment
-                author={<span className="text-sm font-semibold">Đặng Tuấn</span>}
-                avatar={
-                  <Avatar src="https://www.vasterad.com/themes/hireo/images/user-avatar-big-02.jpg" alt="Đặng Tuấn" />
-                }
-                content={
-                  <p>
-                    We supply a series of design principles, practical patterns and high quality design resources
-                    (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.
-                  </p>
-                }
-                datetime={
-                  <Tooltip title={moment().format('YYYY-MM-DD HH:mm:ss')}>
-                    <span>{moment().fromNow()}</span>
-                  </Tooltip>
-                }
-              />
-            </Skeleton>
-            {loading ? (
-              <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
-            ) : (
-              <Pagination className="mt-3" size="small" defaultCurrent={1} total={30} />
-            )}
-          </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
           {userRole === 1 || !isUserLogin ? (
@@ -306,21 +274,6 @@ export default function JobDetails() {
               </Skeleton>
             </div>
           </div>
-          {/* {userRole === 1 || !isUserLogin ? (
-            <></>
-          ) : (
-            <div className="mt-4 transition bookmark">
-              <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-              <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
-                <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-                  <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                    <i className="bx bxs-star"></i>
-                  </span>
-                  <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-                </CheckableTag>
-              </Skeleton>
-            </div>
-          )} */}
         </div>
       </div>
     </div>

@@ -155,7 +155,7 @@ const routesConfiguration = {
     path: "/dashboard-admin",
     exact: false,
     breadcrumbs: [],
-    navbar: true,
+    navbar: false,
     component: DashboardAdmin,
     routers: [],
     guarded: true,

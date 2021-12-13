@@ -24,9 +24,13 @@ export default function Dashboard() {
   const companyId = useAppSelector((state) => state.user.curUser?.company?.id);
   const dispatch = useAppDispatch();
   const [companyAnalysis, setCompanyAnalysis] = useState<any>();
+  const [userAnalysis, setUserAnalysis] = useState<any>();
   const [listSkillCompany, setListSkillCompany] = useState<any>([]);
   const getAnalysisUser = async (userId: string) => {
-    const result = await dispatch(handleGetAnalysistUser(userId));
+    const { payload } = await dispatch(handleGetAnalysistUser(userId));
+    if(payload){
+      setUserAnalysis(payload)
+    }
   };
   const getAnalysisCompany = async (companyId: string) => {
     const { payload } = await dispatch(handleGetAnalysistCompany(companyId));
