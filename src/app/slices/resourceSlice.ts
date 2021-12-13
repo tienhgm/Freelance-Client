@@ -1,4 +1,4 @@
-import { getSkills, getAreas, getLanguages, getCountries } from 'apis/resourcesModule';
+import { getSkills, getAreas, getLanguages, getCountries, getLandingPageInfo } from 'apis/resourcesModule';
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 
 interface AppState {
@@ -35,6 +35,14 @@ export const handleGetLanguages = createAsyncThunk("resource/languages", async (
 export const handleGetCountries = createAsyncThunk("resource/countries", async () => {
     try {
         const res:any = await getCountries();
+        if (res.statusCode === 200) {
+            return res.data;
+        }
+    } catch (error) { }
+});
+export const handleGetLandingPageInfo = createAsyncThunk("resource/countries", async () => {
+    try {
+        const res:any = await getLandingPageInfo();
         if (res.statusCode === 200) {
             return res.data;
         }

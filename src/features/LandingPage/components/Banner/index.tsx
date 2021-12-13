@@ -1,4 +1,7 @@
 import { Button } from 'antd';
+import { useAppDispatch } from 'app/hooks';
+import { handleGetLandingPageInfo } from 'app/slices/resourceSlice';
+import { useEffect, useState } from 'react';
 import CountUp from 'react-countup';
 import { useHistory } from 'react-router';
 import './index.scss';
@@ -7,6 +10,15 @@ function Banner() {
   const goToFindJob = () => {
     history.push('/find-jobs');
   };
+  const [infoLanding, setInfoLanding] = useState<any>();
+  const dispatch = useAppDispatch();
+  const getInfoLandingPage = async () => {
+    const { payload } = await dispatch(handleGetLandingPageInfo());
+    setInfoLanding(payload);
+  };
+  useEffect(() => {
+    getInfoLandingPage();
+  }, []);
   return (
     <div className="banner">
       <div className="banner__fulfil p-28">
@@ -38,21 +50,21 @@ function Banner() {
         <div className="flex mt-16 flex-nowrap statistical">
           <div className="statistical__column">
             <div className="font-medium lg:text-3xl md:text-xl xs:text-lg">
-              <CountUp end={1586} start={100} duration={1} />
+              <CountUp end={infoLanding && infoLanding.totalJobs} start={100} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm">Jobs Posted</div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">Total Jobs</div>
           </div>
           <div className="statistical__column">
             <div className="font-medium lg:text-3xl md:text-xl xs:text-lg statistical__column__counter">
-              <CountUp end={6869} start={300} duration={1} />
+              <CountUp end={infoLanding && infoLanding.totalFreelances} start={120} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm">Blogs</div>
+            <div className="title lg:text-lg md:text-base xs:text-sm">Total Freelancers</div>
           </div>
           <div className="statistical__column">
             <div className="font-medium lg:text-3xl md:text-xl xs:text-lg statistical__column__counter">
-              <CountUp end={1482} start={200} duration={1} />
+              <CountUp end={infoLanding && infoLanding.totalCompanies} start={200} duration={1} />
             </div>
-            <div className="title lg:text-lg md:text-base xs:text-sm statistical__column__counter">Jobs Posted</div>
+            <div className="title lg:text-lg md:text-base xs:text-sm statistical__column__counter">Total companies</div>
           </div>
         </div>
         {/* end statistical  */}
