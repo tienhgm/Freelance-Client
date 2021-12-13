@@ -90,7 +90,7 @@ export default function ModalFormOfUser({ record, isVisible, handleConfirm, hand
             .validateFields()
             .then((values) => {
               handleConfirm(values);
-              if (_.isEqual(initialInfo, values)) {
+              if (_.isEqual(initialInfo, values) || Object.entries(initialInfo).length === 0) {
                 values.isEdit = false;
                 handleConfirm(values);
               } else {

@@ -88,11 +88,12 @@ export default function ModalFormOfCompany({ record, isVisible, handleConfirm, h
           form
             .validateFields()
             .then((values) => {
-              if (_.isEqual(initialInfo, values)) {
+              if (_.isEqual(initialInfo, values) || Object.entries(initialInfo).length === 0) {
                 values.isEdit = false;
                 handleConfirm(values);
-              } else {
+              } else if(!_.isEqual(initialInfo, values) ) {
                 values.isEdit = true;
+                console.log('edit');
                 values.reviewId = reviewId;
                 handleConfirm(values);
               }
