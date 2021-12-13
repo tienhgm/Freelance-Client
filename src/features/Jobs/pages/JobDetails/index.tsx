@@ -80,9 +80,13 @@ export default function JobDetails() {
       document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.remove('active');
     };
   }, [history.location.pathname]);
+
+  useEffect(() => {
+    getReviewsOfFreelance();
+  }, [pageIdx, jobId])
+
   useEffect(() => {
     getDetailJob();
-    getReviewsOfFreelance();
   }, [jobId]);
   return (
     <div className="job-details-page">

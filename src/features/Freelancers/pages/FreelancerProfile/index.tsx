@@ -5,8 +5,9 @@ import {
   HomeOutlined,
   EnvironmentOutlined,
   MailOutlined,
+  CommentOutlined,
 } from '@ant-design/icons';
-import { Tooltip, Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton, Timeline } from 'antd';
+import { Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton, Timeline, Avatar, Comment, Tooltip } from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -17,6 +18,8 @@ import './styles.scss';
 import isLogin from 'helpers/isUserLogin';
 import { setPartner } from 'app/slices/appSlice';
 import { createNewRoom } from 'firebaseServices/firestore';
+import { getReviewsByFreelance } from 'apis/userModule';
+import moment from 'moment';
 const { TabPane } = Tabs;
 
 function FreelancerProfile() {
@@ -29,6 +32,10 @@ function FreelancerProfile() {
   const [jobs, setJobs] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(true);
+  const [reviewList, setReviewList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [pageIdx, setPageIdx] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
 
   const getDetailFreelancer = async (id: string) => {
     try {
@@ -71,6 +78,28 @@ function FreelancerProfile() {
       history.push('/dashboard/message');
     });
   };
+
+  const getReviewsOfFreelance = async () => {
+    let filters = { page: pageIdx, records: 4 };
+    try {
+      setIsLoading(true);
+      const payload = await getReviewsByFreelance(freelancerId, 'fromCompany', filters);
+      // @ts-ignore
+      if (payload.data) {
+        // @ts-ignore
+        setReviewList(payload.data.reviews);
+        // @ts-ignore
+        setTotalRecords(payload.data.totalRecords);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  }
+  useEffect(() => {
+    getReviewsOfFreelance();
+  }, [freelancerId, pageIdx]);
+
   useEffect(() => {
     getDetailFreelancer(freelancerId);
   }, [freelancerId]);
@@ -294,6 +323,44 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
+            <div className="mb-12 comment">
+              <div className="mb-3 headline">
+                <h3 className="m-0 text-lg">
+                  <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+                </h3>
+              </div>
+              {reviewList &&
+                reviewList.map((item: any) => (
+                  <Skeleton active loading={isLoading} key={item.id}>
+                    <Comment
+                      author={
+                        <span className="text-sm font-semibold">
+                          {item.reviewer?.firstName + ' ' + item.reviewer?.lastName}
+                        </span>
+                      }
+                      avatar={<Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />}
+                      content={<p>{item.comment}</p>}
+                      datetime={
+                        <Tooltip title={moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
+                          <span>{moment(item.createdAt).fromNow()}</span>
+                        </Tooltip>
+                      }
+                    />
+                  </Skeleton>
+                ))}
+              {isLoading ? (
+                <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
+              ) : (
+                <Pagination
+                  onChange={setPageIdx}
+                  className="mt-3"
+                  size="small"
+                  defaultCurrent={pageIdx}
+                  pageSize={4}
+                  total={totalRecords}
+                />
+              )}
+            </div>
           </Col>
           <Col className="content__right" md={24} lg={12} xl={6}>
             {/* Overview */}
