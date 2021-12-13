@@ -7,6 +7,7 @@ import { convertDateToString } from 'helpers/generate';
 import moment from 'moment';
 import './index.scss';
 import { handleGetDetailCompany } from 'app/slices/companySlice';
+import { changeLogo, updateCompany } from 'apis/companyModule';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -19,9 +20,9 @@ export default function SettingCompany() {
   const [listCountries, setListCountries] = useState([]);
   const formatEstablish = 'MM-DD-YYYY';
   const [logo, setLogo] = useState<any>();
-  const chooseLogo = (e: any) => {
-    setLogo(e.target.files[0]);
-  };
+  // const chooseLogo = (e: any) => {
+  //   setLogo(e.target.files[0]);
+  // };
 
   const getArea = async () => {
     const { payload } = await dispatch(handleGetArea());
@@ -37,7 +38,7 @@ export default function SettingCompany() {
     try {
       const { payload } = await dispatch(handleGetDetailCompany(companyId));
       if (payload && payload.information) {
-        console.log(payload);
+        setLogo(payload.logo);
         form.setFieldsValue({
           name: payload.name,
           numberOfEmployees: payload.information.numberOfEmployees,
@@ -48,15 +49,34 @@ export default function SettingCompany() {
           paxNumber: payload.information.paxNumber,
         });
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   useEffect(() => {
     getProfileCompany();
     getCountries();
     getArea();
   }, []);
+
+  const onChangeLogo = (event: any) => {
+    const logo = URL.createObjectURL(event.target.files[0]);
+    console.log(typeof logo)
+    setLogo(logo);
+
+  }
+
   const onFinish = async (values: any) => {
-    console.log(values);
+    await updateCompany({
+      ...values,
+      dateOfEstablishment: "2021/12/7",
+      socialNetworks: { facebook: "ss" },
+      addresses: ["string"],
+      businessFieldIds: [],
+    }, companyId)
+    // @ts-ignore
+    const logo = document.querySelector("#avatar")?.files[0];
+    if (logo) {
+      await changeLogo(logo, companyId);
+    }
   };
 
   return (
@@ -91,23 +111,15 @@ export default function SettingCompany() {
               </Form.Item>
             </div>
           </div>
-          {/* <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-            <div className="col-span-5 lg:mr-4">
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5 lg:mr-4 mb-4" >
               <div className="mb-1 text-lg font-medium">Logo</div>
-              <input type="file" onChange={chooseLogo} placeholder="Logo" />
+              <input id="avatar" type="file" placeholder="Logo" onChange={onChangeLogo} hidden={!!logo} />
+              <label htmlFor="avatar" className="preview-logo w-28 h-28">
+                <img src={logo?.indexOf("blob") != 0 ? `http://${logo}` : logo} className='w-full h-full' style={{ objectFit: "cover" }} />
+              </label>
             </div>
-            <div className="col-span-5">
-              <div className="mb-1 text-lg font-medium">
-                Date Of Establishment <span className="required-field">*</span>
-              </div>
-              <Form.Item
-                name="dateOfEstablishment"
-                rules={[{ required: true, message: 'Please select date of establishment' }]}
-              >
-                <DatePicker format={formatEstablish} placeholder="select date" />
-              </Form.Item>
-            </div>
-          </div> */}
+          </div>
           <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
             <div className="col-span-5 lg:mr-4">
               <div className="mb-1 text-lg font-medium">
