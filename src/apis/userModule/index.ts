@@ -2,6 +2,7 @@ import { sendGet, sendUpload, sendUploadAvt, sendPut, sendDelete } from '../axio
 export const changePassword = (password: any) => sendPut('user/change-password', password);
 export const getProfile = (id: any) => sendGet(`users/${id}/cv`);
 export const updateProfile = (data: any) => sendPut('user/cv', data);
+export const getReviewsJob = (jobId: string, type: string, filters: any) => sendGet(`reviews/jobs/${jobId}/${type}`, filters);
 export const getReviewsByCompany = (companyId: string, type: string, filters: any) => sendGet(`reviews/companies/${companyId}/${type}`, filters);
 export const getReviewsByFreelance = (userId: string, type: string, filters: any) => sendGet(`reviews/users/${userId}/${type}`, filters);
 export const updateReviewByCompany = (reviewId: any, review: any) => sendPut(`reviews/fromCompany/${reviewId}`, review);

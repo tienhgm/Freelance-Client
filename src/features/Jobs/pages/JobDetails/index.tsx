@@ -1,14 +1,16 @@
 import { useEffect, useState } from 'react';
-import { Button, Tag, Breadcrumb, Skeleton } from 'antd';
+import { Button, Tag, Breadcrumb, Skeleton, Pagination, Avatar, Tooltip, Comment } from 'antd';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
 import { handleApplyJob, handleGetDetailJob } from 'app/slices/jobSlice';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { timeFromNow, formatDate } from 'helpers/generate';
-import { UserOutlined, HomeOutlined } from '@ant-design/icons';
+import { UserOutlined, HomeOutlined, CommentOutlined } from '@ant-design/icons';
 import './styles.scss';
 import JobItem from 'components/JobItem';
 import ModalFormApply from 'components/ModalForm';
 import isLogin from 'helpers/isUserLogin';
+import { getReviewsJob } from 'apis/userModule';
+import moment from 'moment';
 const API_KEY = process.env.REACT_APP_API_KEY;
 
 export default function JobDetails() {
@@ -23,6 +25,11 @@ export default function JobDetails() {
   const [openModalApply, setOpenModalApply] = useState(false);
   const [loading, setLoading] = useState(true);
   const listCanApply = ['Inprogress', 'Await'];
+  const [reviewList, setReviewList] = useState([]);
+  const [totalRecords, setTotalRecords] = useState(0);
+  const [pageIdx, setPageIdx] = useState(1);
+  const [isLoading, setIsLoading] = useState(true);
+
   // const handleChange = () => {
   //   setBookmarkTag((i) => (i = !i));
   // };
@@ -47,6 +54,25 @@ export default function JobDetails() {
     };
     await dispatch(handleApplyJob(payload));
   };
+
+  const getReviewsOfFreelance = async () => {
+    let filters = { page: pageIdx, records: 4 };
+    try {
+      setIsLoading(true);
+      const payload = await getReviewsJob(jobId, 'byUserAndByCompany', filters);
+      // @ts-ignore
+      if (payload.data) {
+        // @ts-ignore
+        setReviewList(payload.data.reviews);
+        // @ts-ignore
+        setTotalRecords(payload.data.totalRecords);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoading(false);
+    }
+  }
+
   const history = useHistory();
   useEffect(() => {
     document.querySelector('.header > div > ul > li:nth-child(3) > a')?.classList.add('active');
@@ -56,6 +82,7 @@ export default function JobDetails() {
   }, [history.location.pathname]);
   useEffect(() => {
     getDetailJob();
+    getReviewsOfFreelance();
   }, [jobId]);
   return (
     <div className="job-details-page">
@@ -152,9 +179,8 @@ export default function JobDetails() {
             <h2 className="mt-2 mb-10 text-xl">Location</h2>
             <Skeleton active loading={loading} paragraph={{ rows: 7, width: '100%' }}>
               <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${
-                  jobDetail.area && jobDetail.area.name
-                }`}
+                src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${jobDetail.area && jobDetail.area.name
+                  }`}
                 height="300"
                 frameBorder="0"
                 title="border:0;"
@@ -273,6 +299,44 @@ export default function JobDetails() {
                   jobDetail.skills.map((item: any) => <span key={item.id}>{item.name}</span>)}
               </Skeleton>
             </div>
+          </div>
+          <div className="mb-12 comment">
+            <div className="mb-3 headline">
+              <h3 className="m-0 text-lg">
+                <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+              </h3>
+            </div>
+            {reviewList &&
+              reviewList.map((item: any) => (
+                <Skeleton active loading={isLoading} key={item.id}>
+                  <Comment
+                    author={
+                      <span className="text-sm font-semibold">
+                        {item.reviewer?.firstName + ' ' + item.reviewer?.lastName}
+                      </span>
+                    }
+                    avatar={<Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />}
+                    content={<p>{item.comment}</p>}
+                    datetime={
+                      <Tooltip title={moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
+                        <span>{moment(item.createdAt).fromNow()}</span>
+                      </Tooltip>
+                    }
+                  />
+                </Skeleton>
+              ))}
+            {isLoading ? (
+              <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
+            ) : (
+              <Pagination
+                onChange={setPageIdx}
+                className="mt-3"
+                size="small"
+                defaultCurrent={pageIdx}
+                pageSize={4}
+                total={totalRecords}
+              />
+            )}
           </div>
         </div>
       </div>
