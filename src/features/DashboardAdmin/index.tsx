@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import queryString from 'query-string';
 import { Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -8,7 +9,7 @@ import {
   ApartmentOutlined,
 } from '@ant-design/icons';
 import './index.scss';
-import { Switch, Link, Route, useRouteMatch, useHistory } from 'react-router-dom';
+import { Switch, Link, Route, useRouteMatch } from 'react-router-dom';
 import Dashboard from './components/Dashboard';
 import ManageUsers from './components/ManageUsers';
 import ManageJobs from './components/ManageJobs';
@@ -21,6 +22,7 @@ const menuAdmin = [
 
 function DashboardAdmin() {
   const match = useRouteMatch();
+ 
   const [collapsed, setCollapsed] = useState(false);
 
   return (
@@ -33,13 +35,16 @@ function DashboardAdmin() {
       >
         <Menu
           className="h-full transition"
-          defaultSelectedKeys={['1']}
+          defaultSelectedKeys={[`1`]}
           defaultOpenKeys={['sub1']}
           mode="inline"
           inlineCollapsed={collapsed}
         >
           {menuAdmin.map((item) => (
-            <Menu.Item key={item.key} icon={item.icon}>
+            <Menu.Item
+              key={item.key}
+              icon={item.icon}
+            >
               <Link to={item.link}>{item.name}</Link>
             </Menu.Item>
           ))}
@@ -53,7 +58,7 @@ function DashboardAdmin() {
       </div>
       {/* content */}
       <div className="admin__content flex-1 p-6 overflow-y-auto">
-      <Switch>
+        <Switch>
           <Route path={`${match.url}`} component={Dashboard} exact />
           <Route path={`${match.url}/manage-users`} component={ManageUsers} exact />
           <Route path={`${match.url}/manage-jobs`} component={ManageJobs} exact />

@@ -110,7 +110,7 @@ function ManageJobs() {
 
   return (
     <div
-      className="manage-users w-full p-6 shadow-xl bg-white overflow-y-auto"
+      className="manage-jobs w-full p-6 shadow-xl bg-white overflow-y-auto"
       style={{ height: 'calc(100vh - 112px)' }}
     >
       <div className="flex items-center justify-between -mt-2">
