@@ -1,10 +1,12 @@
 .feature {
   margin-top: 4rem;
+  height: 700px;
   .view-more {
     color: #2e3fe5;
     &:hover {
       color: black;
     }
+
   }
   .box {
     min-width: 300px;
