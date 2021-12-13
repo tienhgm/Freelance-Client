@@ -40,7 +40,7 @@ export default function FindJobs() {
     } finally {
       setTimeout(function () {
         setLoading(false);
-      }, 500);
+      }, 400);
     }
   };
   const handleGetSideBar = async (values: any) => {
