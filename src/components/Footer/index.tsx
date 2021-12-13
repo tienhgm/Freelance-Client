@@ -7,8 +7,10 @@ import {
 } from "@ant-design/icons";
 import "./index.scss";
 import { Tooltip, Select, Button } from "antd";
+import { useHistory } from "react-router-dom";
 
 export default function Footer() {
+  const history = useHistory();
   const { Option } = Select;
   const listLanguage = [
     { id: 1, value: "English", name: "English" },
@@ -74,10 +76,10 @@ export default function Footer() {
         <div className="col-span-8">
           <div className="flex justify-between">
             <div className="flex flex-col gap-3">
-              <div className="text-xl font-bold">Account</div>
+              <div className="text-xl font-bold">Find Jobs</div>
               <ul>
                 <li>
-                  <span>Sign Up</span>
+                  <span className="cursor-pointer hover:text-red-300" onClick={() => history.push('/find-jobs')}>List Jobs</span>
                 </li>
                 {/* <li>
                   <a>Sign In</a>
@@ -88,26 +90,26 @@ export default function Footer() {
               </ul>
             </div>
             <div className="flex flex-col gap-3">
+              <div className="text-xl font-bold">Find Freelancers</div>
+              <ul>
+                <li>
+                  <span className="cursor-pointer hover:text-red-300" onClick={() => history.push('/find-freelancers')}>List Freelancers</span>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col gap-3">
+              <div className="text-xl font-bold">Browse Company</div>
+              <ul>
+                <li>
+                  <span className="cursor-pointer hover:text-red-300" onClick={() => history.push('/browse-companies')}>Browse Companies</span>
+                </li>
+              </ul>
+            </div>
+            <div className="flex flex-col gap-3">
               <div className="text-xl font-bold">About Us</div>
               <ul>
                 <li>
-                  <span>My account</span>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-xl font-bold">Account</div>
-              <ul>
-                <li>
-                  <span>My account</span>
-                </li>
-              </ul>
-            </div>
-            <div className="flex flex-col gap-3">
-              <div className="text-xl font-bold">Account</div>
-              <ul>
-                <li>
-                  <span>My account</span>
+                  <span className="cursor-pointer hover:text-red-300" onClick={() => history.push('/about-us')}>About us</span>
                 </li>
               </ul>
             </div>
