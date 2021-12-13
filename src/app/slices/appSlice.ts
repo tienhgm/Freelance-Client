@@ -7,6 +7,7 @@ interface AppState {
   oldRoomId: string;
   partner: UserType | null;
   contactFilter: string;
+  reviewData: any;
 }
 
 const initialState: AppState = {
@@ -15,6 +16,7 @@ const initialState: AppState = {
   oldRoomId: '',
   partner: null,
   contactFilter: '',
+  reviewData: '',
 }
 
 const appSlice = createSlice({
@@ -35,9 +37,12 @@ const appSlice = createSlice({
     },
     setContactFilter(state, action){
       state.contactFilter = action.payload;
+    },
+    setReviewData(state, action) {
+      state.reviewData = action.payload
     }
   },
 });
 
-export const { handleLoading, setPartner, setRoomId, setOldRoomId, setContactFilter } = appSlice.actions;
+export const { handleLoading, setPartner, setRoomId, setOldRoomId, setContactFilter, setReviewData } = appSlice.actions;
 export default appSlice.reducer;

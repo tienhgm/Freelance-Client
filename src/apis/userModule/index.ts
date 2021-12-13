@@ -3,6 +3,7 @@ export const changePassword = (password: any) => sendPut('user/change-password',
 export const getProfile = (id: any) => sendGet(`users/${id}/cv`);
 export const updateProfile = (data: any) => sendPut('user/cv', data);
 export const getReviewsByCompany = (companyId: string, type: string, filters: any) => sendGet(`reviews/companies/${companyId}/${type}`, filters);
+export const getReviewsByFreelance = (userId: string, type: string, filters: any) => sendGet(`reviews/users/${userId}/${type}`, filters);
 export const updateReviewByCompany = (reviewId: any, review: any) => sendPut(`reviews/fromCompany/${reviewId}`, review);
 export const updateReviewByFreelancer = (reviewId: any, review: any) => sendPut(`reviews/fromUser/${reviewId}`, review);
 export const getReviewsByUser = (id: any, filters: any) => sendGet(`users/${id}/reviewsByUser`, filters);

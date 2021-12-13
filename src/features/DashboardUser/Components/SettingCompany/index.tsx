@@ -8,6 +8,7 @@ import moment from 'moment';
 import './index.scss';
 import { handleGetDetailCompany } from 'app/slices/companySlice';
 import { changeLogo, updateCompany } from 'apis/companyModule';
+import { notify } from 'helpers/notification';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -18,11 +19,7 @@ export default function SettingCompany() {
   const dispatch = useAppDispatch();
   const [listArea, setListArea] = useState([]);
   const [listCountries, setListCountries] = useState([]);
-  const formatEstablish = 'MM-DD-YYYY';
   const [logo, setLogo] = useState<any>();
-  // const chooseLogo = (e: any) => {
-  //   setLogo(e.target.files[0]);
-  // };
 
   const getArea = async () => {
     const { payload } = await dispatch(handleGetArea());
@@ -47,6 +44,7 @@ export default function SettingCompany() {
           description: payload.information.description,
           phoneNumber: payload.information.phoneNumber,
           paxNumber: payload.information.paxNumber,
+          address: payload.information.addresses[0]
         });
       }
     } catch (error) { }
@@ -59,7 +57,6 @@ export default function SettingCompany() {
 
   const onChangeLogo = (event: any) => {
     const logo = URL.createObjectURL(event.target.files[0]);
-    console.log(typeof logo)
     setLogo(logo);
 
   }
@@ -69,7 +66,7 @@ export default function SettingCompany() {
       ...values,
       dateOfEstablishment: "2021/12/7",
       socialNetworks: { facebook: "ss" },
-      addresses: ["string"],
+      addresses: [values.address],
       businessFieldIds: [],
     }, companyId)
     // @ts-ignore
@@ -77,6 +74,7 @@ export default function SettingCompany() {
     if (logo) {
       await changeLogo(logo, companyId);
     }
+    notify("success", "Update Success", "");
   };
 
   return (
@@ -91,7 +89,14 @@ export default function SettingCompany() {
             </div>
           </div>
           <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-            <div className="col-span-5 lg:mr-4">
+            <div className="col-span-5 lg:mr-4 " >
+              <div className="mb-1 text-lg font-medium">Logo</div>
+              <input id="avatar" type="file" placeholder="Logo" onChange={onChangeLogo} hidden={!!logo} />
+              <label htmlFor="avatar" className="preview-logo w-28 h-28">
+                <img src={logo?.indexOf("blob") != 0 ? `http://${logo}` : logo} className='w-full h-full' style={{ objectFit: "cover" }} />
+              </label>
+            </div>
+            <div className="col-span-5">
               <div className="mb-1 text-lg font-medium">
                 Company Name <span className="required-field">*</span>
               </div>
@@ -99,7 +104,10 @@ export default function SettingCompany() {
                 <Input placeholder="Company name" />
               </Form.Item>
             </div>
-            <div className="col-span-5">
+
+          </div>
+          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
+            <div className="col-span-5  lg:mr-4">
               <div className="mb-1 text-lg font-medium">
                 Total employees <span className="required-field">*</span>
               </div>
@@ -110,14 +118,16 @@ export default function SettingCompany() {
                 <Input type="number" placeholder="Total employees" />
               </Form.Item>
             </div>
-          </div>
-          <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
-            <div className="col-span-5 lg:mr-4 mb-4" >
-              <div className="mb-1 text-lg font-medium">Logo</div>
-              <input id="avatar" type="file" placeholder="Logo" onChange={onChangeLogo} hidden={!!logo} />
-              <label htmlFor="avatar" className="preview-logo w-28 h-28">
-                <img src={logo?.indexOf("blob") != 0 ? `http://${logo}` : logo} className='w-full h-full' style={{ objectFit: "cover" }} />
-              </label>
+            <div className="col-span-5" >
+              <div className="mb-1 text-lg font-medium">
+                Address <span className="required-field">*</span>
+              </div>
+              <Form.Item
+                name="address"
+                rules={[{ required: true, message: 'Please input address' }]}
+              >
+                <Input type="text" placeholder="Address" />
+              </Form.Item>
             </div>
           </div>
           <div className="grid lg:grid-cols-12 md:grid-cols-6 xs:grid-cols-1">
@@ -165,7 +175,7 @@ export default function SettingCompany() {
             </div>
             <div className="col-span-5 ">
               <div className="mb-1 text-lg font-medium ">
-                Pax number <span className="required-field">*</span>
+                Fax number <span className="required-field">*</span>
               </div>
               <Form.Item name="paxNumber" rules={[{ required: true, message: 'Please input company pax number' }]}>
                 <Input placeholder="Pax number" />

@@ -281,6 +281,7 @@ export default function CompanyDetails() {
             <Skeleton active loading={loading} paragraph={{ rows: 5 }}>
               {info?.addresses[0] && (
                 <iframe
+                  // src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${info?.addresses.reduce((prev: string, cur: string) => prev + ' ' + cur)}`}
                   src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${info?.addresses[0]}`}
                   height="300"
                   frameBorder="0"

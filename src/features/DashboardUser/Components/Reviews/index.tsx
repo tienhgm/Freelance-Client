@@ -1,6 +1,8 @@
 import { EditOutlined, FieldTimeOutlined, ProfileOutlined, TeamOutlined } from '@ant-design/icons';
 import { Rate, Pagination, Skeleton } from 'antd';
+import { getReviewsByFreelance, updateReviewByCompany, updateReviewByFreelancer } from 'apis/userModule';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
+import { setReviewData } from 'app/slices/appSlice';
 import { handleGetReviewsOfCompany } from 'app/slices/userSlice';
 import { formatDateMonth } from 'helpers/generate';
 import { useEffect, useState } from 'react';
@@ -17,11 +19,9 @@ export default function ReviewsCompany() {
   const [pageIdxFromUserToCompany, setPageIdxFromUserToCompany] = useState(1);
   const [reviewByCompany, setReviewByCompany] = useState([]);
   const [reviewFromUserToCompany, setReviewFromUserToCompany] = useState([]);
-  const handleChangeReview = (values: any) => {
-    console.log('change', values);
-  };
   const userRole = useAppSelector((state) => state.user.curUser.role);
   const companyId = useAppSelector((state) => state.user.curUser?.company?.id);
+  const userId = useAppSelector((state) => state.user.curUser?.id);
   const history = useHistory();
   const dispatch = useAppDispatch();
   const getReviewsOfCompany = async () => {
@@ -62,6 +62,40 @@ export default function ReviewsCompany() {
       setIsLoadingFromUserToCompany(false);
     }
   };
+  const getReviewsOfFreelance = async () => {
+    let filters = { page: pageIdxByCompany, records: 4 };
+    try {
+      setIsLoadingByCompany(true);
+      const payload = await getReviewsByFreelance(userId, 'byUser', filters);
+      // @ts-ignore
+      if (payload.data) {
+        // @ts-ignore
+        setReviewByCompany(payload.data.reviews);
+        // @ts-ignore
+        setTotalReviewByCompany(payload.data.totalRecords);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoadingByCompany(false);
+    }
+  }
+  const getReviewsFromCompanyToUser = async () => {
+    let filters = { page: pageIdxFromUserToCompany, records: 4 };
+    try {
+      setIsLoadingByCompany(true);
+      const payload = await getReviewsByFreelance(userId, 'fromCompany', filters);
+      // @ts-ignore
+      if (payload?.data) {
+        // @ts-ignore
+        setReviewFromUserToCompany(payload.data.reviews);
+        // @ts-ignore
+        setTotalReviewFromUserToCompany(payload.data.totalRecords);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoadingByCompany(false);
+    }
+  }
   const changePageIdxByCompany = (idx: any) => {
     setPageIdxByCompany(idx);
   };
@@ -77,14 +111,44 @@ export default function ReviewsCompany() {
   const goToDetailCompany = (companyId: any) => {
     window.open(`/browse-companies/${companyId}`, 'blank');
   };
+
+  const openEditor = (item: any) => {
+    dispatch(setReviewData(item))
+    setOpenDialogReview(true)
+  }
+
+  const handleChangeReview = async (values: any) => {
+    if (values.reviewBy === "Company" && userRole === 1) {
+      await updateReviewByCompany(values.id, {
+        rate: values.rate,
+        comment: values.comment
+      })
+      await getReviewsOfCompany();
+    }
+    else if (values.reviewBy === "Freelance" && userRole !== 1) {
+      await updateReviewByFreelancer(values.id, {
+        rate: values.rate,
+        comment: values.comment
+      })
+      await getReviewsOfFreelance();
+    }
+    setOpenDialogReview(false);
+  };
+
   useEffect(() => {
     if (userRole === 1) {
       getReviewsOfCompany();
+    }
+    else {
+      getReviewsOfFreelance();
     }
   }, [pageIdxByCompany]);
   useEffect(() => {
     if (userRole === 1) {
       getReviewsFromUserToCompany();
+    }
+    else {
+      getReviewsFromCompanyToUser()
     }
   }, [pageIdxFromUserToCompany]);
   return (
@@ -93,9 +157,9 @@ export default function ReviewsCompany() {
       <div className="flex flex-wrap gap-8 mt-8">
         <div className="reviews__left">
           <div className="title">
-            <ProfileOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> Reviews by Company
+            <ProfileOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> {userRole == 1 ? "Reviews by Company" : "Reviews by Freelance"}
           </div>
-          {reviewByCompany.map((item: any) => (
+          {reviewByCompany?.map((item: any) => (
             <div className="block" key={item.id}>
               {!isLoadingByCompany ? (
                 <>
@@ -119,14 +183,14 @@ export default function ReviewsCompany() {
                     {item.reviewee && (
                       <div className="flex items-center gap-3 block__label">
                         <img
-                          src={`http://${item.reviewee.avatar}`}
+                          src={`http://${item.reviewee.avatar || "14.225.192.239:4000/resources/images/avatar.png"}`}
                           width="30"
                           height="30"
                           style={{ borderRadius: '50%' }}
                           alt="avatar"
                         />
                         <div className="cursor-pointer" onClick={() => goToDetailFreelancer(item.reviewee.id)}>
-                          {item.reviewee.firstName + ' ' + item.reviewee.lastName}
+                          {(item.reviewee.firstName || item.reviewee.firstName) ? `${item.reviewee.firstName ? item.reviewee.firstName + ' ' : ''}${item.reviewee.lastName ? item.reviewee.lastName : ''}` : "Anonymous"}
                         </div>
                       </div>
                     )}
@@ -152,7 +216,7 @@ export default function ReviewsCompany() {
                     )}
                   </div>
                   <div className="flex items-center gap-4 mt-3">
-                    <div className="flex items-center gap-1 btn btn__edit" onClick={() => setOpenDialogReview(true)}>
+                    <div className="flex items-center gap-1 btn btn__edit" onClick={() => openEditor(item)}>
                       <EditOutlined /> Edit review
                     </div>
                   </div>
@@ -178,7 +242,7 @@ export default function ReviewsCompany() {
         </div>
         <div className="reviews__right">
           <div className="title">
-            <TeamOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> Rate Jobs
+            <TeamOutlined style={{ color: '#2e3fe5', paddingRight: '5px' }} /> {userRole == 1 ? "Rate Jobs" : "Rate freelancer"}
           </div>
           {reviewFromUserToCompany.map((item: any) => (
             <div className="block" key={item.id}>
@@ -203,7 +267,7 @@ export default function ReviewsCompany() {
                     {item.reviewer && (
                       <div className="flex items-center gap-3 block__label">
                         <img
-                          src={`http://${item.company.logo}`}
+                          src={`http://${item.company.logo || "14.225.192.239:4000//resources/images/company-logo.png"}`}
                           width="30"
                           height="30"
                           style={{ borderRadius: '50%' }}
@@ -237,7 +301,7 @@ export default function ReviewsCompany() {
                     )}
                   </div>
                   <div className="flex items-center gap-4 mt-3">
-                    <div className="flex items-center gap-1 btn btn__edit" onClick={() => setOpenDialogReview(true)}>
+                    <div className="flex items-center gap-1 btn btn__edit" onClick={() => openEditor(item)}>
                       Detail
                     </div>
                     {/* <div className="flex items-center gap-1 btn btn__delete" onClick={() => setOpenDialogConfirm(true)}>

@@ -1,5 +1,4 @@
 import { sendGet, sendPut, sendUpload,  sendUploadLogo } from '../axios';
-import axiosInstance from '../axios';
 export const getCompany = (filters: any) => sendGet('companies', filters);
 export const updateCompany = (companyInfo: any, companyId: string) => sendPut('companies/'+companyId, companyInfo)
 export const getDetailCompany = (id: any) => sendGet(`companies/${id}/detail`);
