@@ -38,7 +38,7 @@ export default function JobDetails() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 400);
     }
   };
   const handleApplyToJob = async (values: any) => {

@@ -44,7 +44,7 @@ export default function ReviewsCompany() {
     }
   };
   const getReviewsFromUserToCompany = async () => {
-    let filters = { page: pageIdxByCompany, records: 4 };
+    let filters = { page: pageIdxFromUserToCompany, records: 4 };
     const data = {
       companyId: companyId,
       type: 'fromUser',

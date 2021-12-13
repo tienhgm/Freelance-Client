@@ -1,4 +1,3 @@
-import React, { useState } from 'react';
 import defaultCompanyLogo from 'assets/images/company-logo-default.png';
 import Skeletons from 'react-loading-skeleton';
 import { Skeleton, Tag } from 'antd';
@@ -6,7 +5,6 @@ import { useHistory } from 'react-router-dom';
 import { timeFromNow, formatDate } from 'helpers/generate';
 import './styles.scss';
 import JobItemProps from 'types/jobItemProps';
-import { useAppSelector } from 'app/hooks';
 // import isLogin from 'helpers/isUserLogin';
 
 export default function JobItem({
@@ -31,7 +29,7 @@ export default function JobItem({
   // };
 
   const gotoDetailPage = (id: any) => {
-    history.push(`find-jobs/${id}`);
+    history.push(`/find-jobs/${id}`);
   };
   const compareTimeAvailableWithNow = (endDate: any) => {
     let timeNow = new Date().getTime();

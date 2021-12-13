@@ -1,44 +1,16 @@
-import React from 'react';
 import { useAppDispatch } from 'app/hooks';
-import { handleGetDetailCompany } from 'app/slices/companySlice';
+import { handleGetDetailCompany, handleGetListJobManage } from 'app/slices/companySlice';
 import JobItem from 'components/JobItem';
 import { useEffect, useState } from 'react';
 import { useHistory, useRouteMatch } from 'react-router';
-import { Breadcrumb, Rate, Skeleton } from 'antd';
+import { Avatar, Breadcrumb, Pagination, Rate, Skeleton, Tooltip, Comment } from 'antd';
 import './index.scss';
-import ReviewItem from './ReviewItem';
-import { FileProtectOutlined, HomeOutlined, PhoneOutlined } from '@ant-design/icons';
+import { CommentOutlined, FileProtectOutlined, HomeOutlined, PhoneOutlined } from '@ant-design/icons';
 import { Link } from 'react-router-dom';
+import moment from 'moment';
+import { handleGetReviewsOfCompany } from 'app/slices/userSlice';
 const API_KEY = process.env.REACT_APP_API_KEY;
-const jobList: Array<any> = [
-  {
-    company: 'Hexagon',
-    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
-    jobTitle: 'Bilingual Event Support Specialist',
-    location: 'San Francisco',
-    jobType: 'Full Time',
-    salary: '$35.000 - $38.000',
-    postTime: '2 days ago',
-  },
-  {
-    company: 'Hexagon',
-    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
-    jobTitle: 'Bilingual Event Support Specialist',
-    location: 'San Francisco',
-    jobType: 'Full Time',
-    salary: '$35.000 - $38.000',
-    postTime: '2 days ago',
-  },
-  {
-    company: 'Hexagon',
-    companyLogo: 'https://www.vasterad.com/themes/hireo/images/company-logo-01.png',
-    jobTitle: 'Bilingual Event Support Specialist',
-    location: 'San Francisco',
-    jobType: 'Full Time',
-    salary: '$35.000 - $38.000',
-    postTime: '2 days ago',
-  },
-];
+
 export default function CompanyDetails() {
   const [loading, setLoading] = useState(true);
   const [companyName, setCompanyName] = useState<any>('');
@@ -47,14 +19,18 @@ export default function CompanyDetails() {
   const [rate, setRate] = useState<any>();
   const [info, setInfo] = useState<any>();
   const [logo, setLogo] = useState();
-  const route = useRouteMatch();
+  const [listJob, setListJob] = useState<any>([]);
+  const [totalReviewFromUserToCompany, setTotalReviewFromUserToCompany] = useState(0);
+  const [isLoadingFromUserToCompany, setIsLoadingFromUserToCompany] = useState(false);
+  const [pageIdxFromUserToCompany, setPageIdxFromUserToCompany] = useState(1);
+  const [reviewFromUserToCompany, setReviewFromUserToCompany] = useState([]);
+  const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
-  // @ts-ignore
   let companyId = route.params.id;
   const getDetail = async () => {
     try {
       const { payload } = await dispatch(handleGetDetailCompany(companyId));
-      if (!!payload) {
+      if (payload) {
         setCompanyName(payload.name);
         setIsVerified(payload.isVerified);
         setCountry(payload.country);
@@ -66,7 +42,47 @@ export default function CompanyDetails() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 400);
+    }
+  };
+  const getReviewsFromUserToCompany = async () => {
+    let filters = { page: pageIdxFromUserToCompany, records: 4 };
+    const data = {
+      companyId: companyId,
+      type: 'fromUser',
+      filters,
+    };
+    try {
+      setIsLoadingFromUserToCompany(true);
+      const { payload } = await dispatch(handleGetReviewsOfCompany(data));
+      if (payload) {
+        setReviewFromUserToCompany(payload.reviews);
+        setTotalReviewFromUserToCompany(payload.totalRecords);
+      }
+    } catch (error) {
+    } finally {
+      setIsLoadingFromUserToCompany(false);
+    }
+  };
+  const changePageIdxFromUserToCompany = (idx: any) => {
+    setPageIdxFromUserToCompany(idx);
+  };
+  const handleGetJobManage = async (id: any, statusJob?: any, page?: number) => {
+    let filters: any = {
+      status: statusJob,
+      page,
+      records: 4,
+    };
+    const data = [id, filters];
+    try {
+      setLoading(true);
+      const { payload }: any = await dispatch(handleGetListJobManage(data));
+      if (payload.statusCode === 200) {
+        setListJob(payload.data.jobs);
+      }
+    } catch (error) {
+    } finally {
+      setLoading(false);
     }
   };
   const history = useHistory();
@@ -78,7 +94,11 @@ export default function CompanyDetails() {
   }, [history.location.pathname]);
   useEffect(() => {
     getDetail();
+    handleGetJobManage(companyId, 'Inprogress', 1);
   }, [companyId]);
+  useEffect(() => {
+    getReviewsFromUserToCompany();
+  }, [pageIdxFromUserToCompany]);
   return (
     <div className="job-details-page company">
       <div className="relative px-2 mb-10 bg-gray-100 header-wrapper">
@@ -165,15 +185,31 @@ export default function CompanyDetails() {
           </div>
           <div className="mb-10 similar-jobs">
             <h2 className="flex flex-wrap mt-2 mb-10 text-xl">Open Positions</h2>
-            {jobList.map((job, index) => (
-              <div className="inline-block w-full p-3" key={index}>
-                <Skeleton active loading={loading} >
-                  <JobItem {...job} key={index} />
-                </Skeleton>
-              </div>
-            ))}
+            {listJob.length > 0 &&
+              listJob.map((item: any) => (
+                <div className="inline-block w-full p-3" key={item.id}>
+                  <Skeleton active loading={loading}>
+                    <JobItem
+                      key={item.id}
+                      company={companyName}
+                      jobTitle={item.title}
+                      location={item.area?.name}
+                      jobType={item.businessFields[0]?.name}
+                      salary={item.salary}
+                      postTime={item.createdAt}
+                      loading={loading}
+                      startDate={item.startDate}
+                      endDate={item.endDate}
+                      id={item.id}
+                      skills={item.skills}
+                      level={item.experience}
+                      companyLogo={`http://${logo}`}
+                    />
+                  </Skeleton>
+                </div>
+              ))}
           </div>
-          <div className="mb-10 location">
+          {/* <div className="mb-10 location">
             <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">
               <i className="mr-3 bx bx-like"></i>Reviews
             </h2>
@@ -199,6 +235,44 @@ export default function CompanyDetails() {
                 />
               </Skeleton>
             </div>
+          </div> */}
+          <div className="mb-12 comment">
+            <div className="mb-3 headline">
+              <h3 className="m-0 text-lg">
+                <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+              </h3>
+            </div>
+            {reviewFromUserToCompany &&
+              reviewFromUserToCompany.map((item: any) => (
+                <Skeleton active loading={isLoadingFromUserToCompany} key={item.id}>
+                  <Comment
+                    author={
+                      <span className="text-sm font-semibold">
+                        {item.reviewer?.firstName + ' ' + item.reviewer?.lastName}
+                      </span>
+                    }
+                    avatar={<Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />}
+                    content={<p>{item.comment}</p>}
+                    datetime={
+                      <Tooltip title={moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
+                        <span>{moment(item.createdAt).fromNow()}</span>
+                      </Tooltip>
+                    }
+                  />
+                </Skeleton>
+              ))}
+            {isLoadingFromUserToCompany ? (
+              <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
+            ) : (
+              <Pagination
+                onChange={changePageIdxFromUserToCompany}
+                className="mt-3"
+                size="small"
+                defaultCurrent={pageIdxFromUserToCompany}
+                pageSize={4}
+                total={totalReviewFromUserToCompany}
+              />
+            )}
           </div>
         </div>
         <div className="flex flex-col w-full gap-10 px-8 content__sidebar lg:w-1/3">

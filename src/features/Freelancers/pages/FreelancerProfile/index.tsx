@@ -20,20 +20,16 @@ import { createNewRoom } from 'firebaseServices/firestore';
 const { TabPane } = Tabs;
 
 function FreelancerProfile() {
-  // const userRole = useAppSelector((state) => state.user.curUser.role);
   const curUser = useAppSelector((state) => state.user.curUser);
   let isUserLogin = isLogin();
   const route = useRouteMatch<any>();
   const dispatch = useAppDispatch();
   const freelancerId = route.params.id;
-  // const [bookmarkTag, setBookmarkTag] = useState(false);
   const [freelancerDetail, setFreelancerDetail] = useState<any>({});
   const [jobs, setJobs] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(true);
-  // const handleChange = () => {
-  //   setBookmarkTag((i) => (i = !i));
-  // };
+
   const getDetailFreelancer = async (id: string) => {
     try {
       const { payload } = await dispatch(handleGetDetailFreelancer(id));
@@ -47,29 +43,34 @@ function FreelancerProfile() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 400);
     }
   };
 
   const gotoChat = () => {
-    createNewRoom({
-      id: curUser.id,
-      name: curUser.firstName + ' ' + curUser.lastName,
-      avatar: curUser.avatar
-    }, {
-      id: freelancerId,
-      name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
-      avatar: freelancerDetail.avatar
-    }).then(() => {
-      dispatch(setPartner({
+    createNewRoom(
+      {
+        id: curUser.id,
+        name: curUser.firstName + ' ' + curUser.lastName,
+        avatar: curUser.avatar,
+      },
+      {
         id: freelancerId,
         name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
-        avatar: freelancerDetail.avatar
-      }))
+        avatar: freelancerDetail.avatar,
+      }
+    ).then(() => {
+      dispatch(
+        setPartner({
+          id: freelancerId,
+          name: freelancerDetail.firstName + ' ' + freelancerDetail.lastName,
+          avatar: freelancerDetail.avatar,
+        })
+      );
 
-      history.push("/dashboard/message")
-    })
-  }
+      history.push('/dashboard/message');
+    });
+  };
   useEffect(() => {
     getDetailFreelancer(freelancerId);
   }, [freelancerId]);
@@ -329,9 +330,12 @@ function FreelancerProfile() {
             ) : (
               <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
                 <div className="mt-6 button-make">
-                  <div onClick={gotoChat} className="cursor-pointer text-white block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded">
+                  <div
+                    onClick={gotoChat}
+                    className="cursor-pointer text-white block text-center shadow-lg bg-blue-600 py-3.5 transition text-lg rounded"
+                  >
                     Let's Chat
-                    <ArrowRightOutlined className="relative ml-3 -top-1 text-white" />
+                    <ArrowRightOutlined className="relative ml-3 text-white -top-1" />
                   </div>
                 </div>
               </Skeleton>
@@ -403,27 +407,6 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {/* {userRole === 1 || !isUserLogin ? (
-              <></>
-            ) : (
-              <>
-                {curUser.id === freelancerId ? (
-                  <></>
-                ) : (
-                  <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
-                    <div className="mt-8 transition bookmark">
-                      <h4 className="mb-8 text-xl font-medium">Bookmark</h4>
-                      <CheckableTag checked={bookmarkTag} onChange={handleChange} className="bookmark-tag custom-tag">
-                        <span className="bookmark-icon rounded-l bg-gray-600 px-3.5 py-3">
-                          <i className="bx bxs-star"></i>
-                        </span>
-                        <span className="bookmark-text rounded-r px-3.5 py-3 bg-gray-700">Bookmark</span>
-                      </CheckableTag>
-                    </div>
-                  </Skeleton>
-                )}
-              </>
-            )} */}
           </Col>
         </Row>
       </div>
