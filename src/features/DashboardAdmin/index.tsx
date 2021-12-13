@@ -1,5 +1,4 @@
-import React, { useState, useEffect } from 'react';
-import queryString from 'query-string';
+import { useState } from 'react';
 import { Menu } from 'antd';
 import {
   MenuUnfoldOutlined,
@@ -67,7 +66,9 @@ function DashboardAdmin() {
             </Switch>
           </div>
         </div>
-      ) : (<Redirect to={'/'}/>)}
+      ) : (
+        <Redirect to={'/'} />
+      )}
     </>
   );
 }
