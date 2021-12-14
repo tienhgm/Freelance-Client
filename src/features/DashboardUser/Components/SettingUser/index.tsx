@@ -95,7 +95,7 @@ export default function Settings() {
         experiences: experiencesPayload,
         languageIds: languages,
         briefIntroduce: payload.briefIntroduce,
-        countryId: payload.area?.countryId,
+        countryId: payload.country?.id,
       });
       setIntroduce(payload.introduce);
       setEducations(payload.educations);
