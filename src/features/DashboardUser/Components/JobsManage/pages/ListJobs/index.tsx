@@ -85,6 +85,10 @@ export default function ListJobs() {
   };
   const handleChangePage = (value: number) => {
     setPage(value);
+    history.push({
+      pathname: `/dashboard/jobs-manage`,
+      search: `?page=${value}`,
+    });
   };
   const handleGoDetailJob = (id: string) => {
     window.open(`/find-jobs/${id}`, 'blank');
@@ -97,6 +101,10 @@ export default function ListJobs() {
     setTitle('');
     setAreaId(null);
     setStatusJob(null);
+    history.push({
+      pathname: `/dashboard/jobs-manage`,
+      search: `?page=${1}`,
+    });
   };
   const handleGetJobManage = async (title?: string, statusJob?: any, areaId?: any, page?: number) => {
     let id = '';
@@ -110,7 +118,13 @@ export default function ListJobs() {
       page,
       records: 4,
     };
-
+    // if (title || statusJob || areaId) {
+    //   filters.page = 1;
+    //   history.push({
+    //     pathname: `/dashboard/jobs-manage`,
+    //     search: `?page=${1}`,
+    //   });
+    // }
     for (const key in filters) {
       if (filters[key] === undefined || filters[key] === null || filters[key] === '') {
         delete filters[key];

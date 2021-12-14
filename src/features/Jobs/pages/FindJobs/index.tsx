@@ -8,11 +8,11 @@ import { useEffect, useState } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import queryString from 'query-string';
 export default function FindJobs() {
+  const location = useLocation();
   const dispatch = useAppDispatch();
   const [listJobs, setListJobs] = useState<any>([]);
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<any>(queryString.parse(location.search).page ? queryString.parse(location.search).page : 1);
   const [total, setTotal] = useState(0);
-  const location = useLocation();
   const [filters, setFilters] = useState<any>({
     title: queryString.parse(location.search).title ? queryString.parse(location.search).title : null,
     salary: queryString.parse(location.search).salary ? queryString.parse(location.search).salary : null,
@@ -59,7 +59,6 @@ export default function FindJobs() {
   useEffect(() => {
     let listFilter = { ...filters, page: page };
     listFilter.statuses = ['Inprogress', 'Await'];
-
     handleGetListJob(listFilter);
     return () => {
       setListJobs([]);
@@ -120,7 +119,7 @@ export default function FindJobs() {
           {!loading && listJobs.length > 0 && (
             <Pagination
               showSizeChanger={false}
-              defaultCurrent={page}
+              defaultCurrent={+page}
               total={total}
               onChange={handleChangePage}
               responsive={true}
