@@ -5,6 +5,7 @@ import PopupRemove from 'components/PopupConfirm';
 import { useState } from 'react';
 import ModalDetailEmloyee from 'components/ModalDetailEmployee';
 import ModalReview from 'components/ModalReviewOfCompany';
+import ModalSeeReview from 'components/ModalDetailReview';
 type InfoNeed = {
   maxEmployees: number;
   totalEmployees: number;
@@ -17,10 +18,18 @@ interface IProps {
   handlePostReview: (data: any) => void;
   handleUpdateReviewCompany: (data: any) => void;
 }
-export default function TableEmployees({ data, loading, infoNeed, handleUpdateWorkStatus, handlePostReview, handleUpdateReviewCompany }: IProps) {
+export default function TableEmployees({
+  data,
+  loading,
+  infoNeed,
+  handleUpdateWorkStatus,
+  handlePostReview,
+  handleUpdateReviewCompany,
+}: IProps) {
   const [openDialogRemove, setOpenDialogRemove] = useState(false);
   const [openModalDetail, setOpenModalDetail] = useState(false);
   const [openModalReview, setOpenModalReview] = useState(false);
+  const [openModalSeeReviewFromUser, setOpenModalSeeReviewFromUser] = useState(false);
   const [userIdRow, setUserIdRow] = useState<any>('');
   const [record, setRecord] = useState<any>();
   const handleOpenModalDetail = (record: any) => {
@@ -30,6 +39,10 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
   const handleOpenModalReview = (record: any) => {
     setRecord(record);
     setOpenModalReview(true);
+  };
+  const handleOpenModalSeeReviewFromUser = (record: any) => {
+    setRecord(record);
+    setOpenModalSeeReviewFromUser(true);
   };
   const handleOpenDialogRemove = (record: any) => {
     setRecord(record);
@@ -53,8 +66,8 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
       };
       let updateData = {
         review: value,
-        reviewId: value?.reviewId
-      }
+        reviewId: value?.reviewId,
+      };
       value.isEdit === false ? handlePostReview(data) : handleUpdateReviewCompany(updateData);
       setOpenModalReview(false);
     }
@@ -112,7 +125,12 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
           {/* check done show */}
           {record.employeeStatus === 'Done' && (
             <Button size="small" onClick={() => handleOpenModalReview(record)}>
-              {record.hasBeenReview ? 'See review' : 'Review'}
+              {record.hasBeenReview ? 'My review' : 'Review'}
+            </Button>
+          )}
+          {record.employeeStatus === 'Done' && record.wroteReview && (
+            <Button size="small" onClick={() => handleOpenModalSeeReviewFromUser(record)}>
+              User review
             </Button>
           )}
         </Space>
@@ -160,6 +178,12 @@ export default function TableEmployees({ data, loading, infoNeed, handleUpdateWo
         record={record}
         handleConfirm={handleReview}
         handleCancelConfirm={() => setOpenModalReview(false)}
+      />
+      <ModalSeeReview
+        isVisible={openModalSeeReviewFromUser}
+        record={record}
+        type={'forCompany'}
+        handleCancelConfirm={() => setOpenModalSeeReviewFromUser(false)}
       />
     </>
   );

@@ -7,7 +7,20 @@ import {
   MailOutlined,
   CommentOutlined,
 } from '@ant-design/icons';
-import { Col, Pagination, Progress, Row, Breadcrumb, Tabs, Skeleton, Timeline, Avatar, Comment, Tooltip } from 'antd';
+import {
+  Col,
+  Pagination,
+  Progress,
+  Row,
+  Breadcrumb,
+  Tabs,
+  Skeleton,
+  Timeline,
+  Avatar,
+  Comment,
+  Tooltip,
+  Badge,
+} from 'antd';
 import { useEffect, useState } from 'react';
 import { useAppDispatch, useAppSelector } from 'app/hooks';
 import { Link, useHistory, useRouteMatch } from 'react-router-dom';
@@ -20,6 +33,7 @@ import { setPartner } from 'app/slices/appSlice';
 import { createNewRoom } from 'firebaseServices/firestore';
 import { getReviewsByFreelance } from 'apis/userModule';
 import moment from 'moment';
+import RadioChartFreelancer from './components/RadioChartFreelancer';
 const { TabPane } = Tabs;
 
 function FreelancerProfile() {
@@ -29,7 +43,7 @@ function FreelancerProfile() {
   const dispatch = useAppDispatch();
   const freelancerId = route.params.id;
   const [freelancerDetail, setFreelancerDetail] = useState<any>({});
-  const [jobs, setJobs] = useState<any>([]);
+  const [analysisJob, setAnalysisJob] = useState<any>([]);
   const [reviews, setReviews] = useState<any>([]);
   const [loading, setLoading] = useState(true);
   const [reviewList, setReviewList] = useState([]);
@@ -41,10 +55,10 @@ function FreelancerProfile() {
     try {
       const { payload } = await dispatch(handleGetDetailFreelancer(id));
       if (!!payload) {
-        const { cv, reviews, jobs } = payload;
+        const { cv, reviews, jobsAnalysis } = payload;
         setFreelancerDetail(cv);
         setReviews(reviews);
-        setJobs(jobs);
+        setAnalysisJob(jobsAnalysis);
       }
     } catch (error) {
     } finally {
@@ -95,7 +109,11 @@ function FreelancerProfile() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
+  const history = useHistory();
+  const goToDetailCompany = (id: any) => {
+    window.open(`/browse-companies/${id}`, '_blank');
+  };
   useEffect(() => {
     getReviewsOfFreelance();
   }, [freelancerId, pageIdx]);
@@ -103,7 +121,6 @@ function FreelancerProfile() {
   useEffect(() => {
     getDetailFreelancer(freelancerId);
   }, [freelancerId]);
-  const history = useHistory();
   useEffect(() => {
     document.querySelector('.header > div > ul > li:nth-child(4) > a')?.classList.add('active');
     return () => {
@@ -124,17 +141,6 @@ function FreelancerProfile() {
                 <h2 className="text-2xl info__name">{freelancerDetail.lastName + ' ' + freelancerDetail.firstName}</h2>
                 <p className="text-lg info__job">{freelancerDetail.briefIntroduce}</p>
                 <div className="flex items-center gap-6 text-base info__user">
-                  {/* <div className="flex items-center gap-1 user__rate">
-                  <div className="px-2 font-bold text-white bg-yellow-400 rounded-sm rate__scores">5.0</div>
-                  <div className="flex gap-1 text-yellow-400 rate__stars">
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                    <i className="bx bxs-star"></i>
-                  </div>
-                </div> */}
-
                   <div className="flex items-center gap-2 user__loca">
                     <EnvironmentOutlined />
                     {freelancerDetail.area && freelancerDetail.area.name && (
@@ -257,88 +263,22 @@ function FreelancerProfile() {
                 </Tabs>
               </div>
             </Skeleton>
-            <Skeleton active loading={loading} paragraph={{ rows: 8, width: '100%' }}>
-              <div className="mb-16 work-history">
-                <div className="headline">
-                  <h3 className="m-0 text-lg">
-                    <LikeOutlined className="like relative -top-1.5 mr-2" /> History feedback
-                  </h3>
-                </div>
-                <ul className="list">
-                  <li>
-                    <div className="list__item">
-                      <h4 className="text-lg font-medium">
-                        Web, Database and API Developer
-                        <span className="block text-base font-normal text-gray-500">Rated as Freelancer</span>
-                      </h4>
-                      <div className="flex">
-                        <div className="flex items-center gap-1">
-                          <div className="px-2 mr-2 text-base font-bold text-white bg-yellow-400 rounded-sm">5.0</div>
-                          <div className="flex gap-0.5 text-yellow-400 text-xl">
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                          </div>
-                        </div>
-                        <div className="ml-4 text-base text-gray-500">
-                          <CalendarOutlined className="relative -top-1" /> August 2019
-                        </div>
-                      </div>
-                      <div className="mt-4 text-base item-description">
-                        <p>Excellent programmer - fully carried out my project in a very professional manner.</p>
-                      </div>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="list__item">
-                      <h4 className="text-lg font-medium">
-                        Web, Database and API Developer
-                        <span className="block text-base font-normal text-gray-500">Rated as Freelancer</span>
-                      </h4>
-                      <div className="flex">
-                        <div className="flex items-center gap-1">
-                          <div className="px-2 mr-2 text-base font-bold text-white bg-yellow-400 rounded-sm">5.0</div>
-                          <div className="flex gap-0.5 text-yellow-400 text-xl">
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                            <i className="bx bxs-star"></i>
-                          </div>
-                        </div>
-                        <div className="ml-4 text-base text-gray-500">
-                          <CalendarOutlined className="relative -top-1" /> August 2019
-                        </div>
-                      </div>
-                      <div className="mt-4 text-base item-description">
-                        <p>Excellent programmer - fully carried out my project in a very professional manner.</p>
-                      </div>
-                    </div>
-                  </li>
-                </ul>
-                <div className="pagination">
-                  <Pagination defaultCurrent={1} total={50} />
-                </div>
-              </div>
-            </Skeleton>
             <div className="mb-12 comment">
               <div className="mb-3 headline">
                 <h3 className="m-0 text-lg">
-                  <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+                  <CommentOutlined className="like relative -top-1.5 mr-2" /> History feedback
                 </h3>
               </div>
-              {reviewList &&
+              {reviewList.length > 0 &&
                 reviewList.map((item: any) => (
                   <Skeleton active loading={isLoading} key={item.id}>
                     <Comment
-                      author={
-                        <span className="text-sm font-semibold">
-                          {item.reviewer?.firstName + ' ' + item.reviewer?.lastName}
-                        </span>
+                      author={<span className="text-sm font-semibold">{item.company?.name}</span>}
+                      avatar={
+                        <div onClick={() => goToDetailCompany(item.company.id)}>
+                          <Avatar src={`http://${item.company?.logo}`} alt="alt" />
+                        </div>
                       }
-                      avatar={<Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />}
                       content={<p>{item.comment}</p>}
                       datetime={
                         <Tooltip title={moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}>
@@ -351,14 +291,18 @@ function FreelancerProfile() {
               {isLoading ? (
                 <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
               ) : (
-                <Pagination
-                  onChange={setPageIdx}
-                  className="mt-3"
-                  size="small"
-                  defaultCurrent={pageIdx}
-                  pageSize={4}
-                  total={totalRecords}
-                />
+                <>
+                  {reviewList.length > 0 && (
+                    <Pagination
+                      onChange={setPageIdx}
+                      className="mt-3"
+                      size="small"
+                      defaultCurrent={pageIdx}
+                      pageSize={4}
+                      total={totalRecords}
+                    />
+                  )}
+                </>
               )}
             </div>
           </Col>
@@ -407,31 +351,6 @@ function FreelancerProfile() {
                 </div>
               </Skeleton>
             )}
-
-            <Skeleton active loading={loading} paragraph={{ rows: 4, width: '100%' }}>
-              <div className="flex flex-wrap mt-12 indicators">
-                <div className="indicator-item">
-                  <strong>88%</strong>
-                  <Progress percent={88} strokeColor="#1890FF" size="small" trailColor="#e0e0e0" showInfo={false} />
-                  <span>Job Success</span>
-                </div>
-                <div className="indicator-item">
-                  <strong>100%</strong>
-                  <Progress percent={100} strokeColor="#1890FF" size="small" trailColor="#e0e0e0" showInfo={false} />
-                  <span>Recommendation</span>
-                </div>
-                <div className="indicator-item">
-                  <strong>90%</strong>
-                  <Progress percent={90} strokeColor="#1890FF" size="small" trailColor="#e0e0e0" showInfo={false} />
-                  <span>On Time</span>
-                </div>
-                <div className="indicator-item">
-                  <strong>80%</strong>
-                  <Progress percent={80} strokeColor="#1890FF" size="small" trailColor="#e0e0e0" showInfo={false} />
-                  <span>On Budget</span>
-                </div>
-              </div>
-            </Skeleton>
             <Skeleton active loading={loading} paragraph={{ rows: 2, width: '100%' }}>
               <div className="mt-8 skills">
                 <h4 className="text-xl font-medium">Languages</h4>
@@ -455,7 +374,7 @@ function FreelancerProfile() {
               </div>
             </Skeleton>
             <Skeleton active loading={loading} paragraph={{ rows: 2, width: '100%' }}>
-              <div className="mt-8 certifications">
+              <div className="pb-4 mt-8 certifications">
                 <h4 className="text-xl font-medium">Certifications</h4>
                 <div className="flex flex-col gap-1">
                   {freelancerDetail.certifications &&
@@ -474,6 +393,45 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
+            <Skeleton active loading={loading} paragraph={{ rows: 4, width: '100%' }}>
+              <div className="mb-3 text-xl font-medium">Analysis</div>
+              <div style={{ boxShadow: 'rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px' }}>
+                {analysisJob && <RadioChartFreelancer freelancerAnalysis={analysisJob} />}
+                <div className="flex flex-col justify-center">
+                  <div className="flex justify-between px-4 mt-4 text-base">
+                    <div className="flex gap-2">
+                      <Badge color="#36c361" size="default" /> <p>Total done job</p>
+                    </div>
+                    {analysisJob && <div className="font-bold">{analysisJob.totalDoneJobs}</div>}
+                  </div>
+                  <div className="flex justify-between px-4 text-base">
+                    <div className="flex gap-2">
+                      <Badge color="#2194ff" size="default" /> <p>Total on time job</p>
+                    </div>
+                    {analysisJob && <div className="font-bold">{analysisJob.totalOnTimeJobs}</div>}
+                  </div>
+                  <div className="flex justify-between px-4 text-base">
+                    <div className="flex gap-2">
+                      <Badge color="#FA6CA4" size="default" /> <p>Current applied job</p>
+                    </div>
+                    {analysisJob && <div className="font-bold">{analysisJob.currentAppliedJobs}</div>}
+                  </div>
+                  <div className="flex justify-between px-4 text-base">
+                    <div className="flex gap-2">
+                      <Badge color="#722ed1" size="default" /> <p>Total rejected job</p>
+                    </div>
+                    {analysisJob && <div className="font-bold">{analysisJob.totalRejectedJobs}</div>}
+                  </div>
+                  <div className="flex justify-between px-4 text-base">
+                    <div className="flex gap-2">
+                      <Badge color="#cf1322" size="default" /> <p>Total time removed from job</p>
+                    </div>
+                    {analysisJob && <div className="font-bold">{analysisJob.totalTimeRemovedFromJob}</div>}
+                  </div>
+                </div>
+              </div>
+            </Skeleton>
+            <br />
           </Col>
         </Row>
       </div>

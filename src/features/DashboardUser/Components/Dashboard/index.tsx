@@ -5,6 +5,7 @@ import {
   MinusSquareTwoTone,
   PauseCircleTwoTone,
   PlayCircleTwoTone,
+  PlusCircleTwoTone,
   ShoppingOutlined,
   ToolOutlined,
   ToolTwoTone,
@@ -16,6 +17,7 @@ import { handleGetAnalysistCompany, handleGetAnalysistUser } from 'app/slices/us
 import { useEffect, useState } from 'react';
 import Chart from './Components/Chart';
 import ChartRadialBarCompany from './Components/RadioChartCompany';
+import ChartRadialBarFreelancer from './Components/RadioChartFreelancer';
 import TableListSkillCompany from './Components/TableListSkillCompany';
 import './index.scss';
 export default function Dashboard() {
@@ -28,8 +30,8 @@ export default function Dashboard() {
   const [listSkillCompany, setListSkillCompany] = useState<any>([]);
   const getAnalysisUser = async (userId: string) => {
     const { payload } = await dispatch(handleGetAnalysistUser(userId));
-    if(payload){
-      setUserAnalysis(payload)
+    if (payload) {
+      setUserAnalysis(payload);
     }
   };
   const getAnalysisCompany = async (companyId: string) => {
@@ -113,7 +115,7 @@ export default function Dashboard() {
       onOk() {},
     });
   };
-  const infoTotalReviews = (companyAnalysis: any) => {
+  const infoReviewCompany = (companyAnalysis: any) => {
     Modal.info({
       title: 'REVIEW ANALYSIS',
       content: (
@@ -148,7 +150,105 @@ export default function Dashboard() {
             <div className="font-medium" style={{ width: 'calc(200px)' }}>
               Rate point :
             </div>
-            <div className="font-medium">{companyAnalysis.rate}</div>
+            <div className="font-medium">{companyAnalysis.rate.toFixed(2)}</div>
+          </div>
+        </div>
+      ),
+      onOk() {},
+    });
+  };
+  const infoJobUser = (userAnalysis: any) => {
+    Modal.info({
+      title: 'JOBS ANALYSIS',
+      content: (
+        <div className="text-base">
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Current working jobs:{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.currentWorkingJobs}</div>
+            <ToolTwoTone twoToneColor="#096dd9" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Total jobs doned:{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.totalDoneJobs}</div>
+            <CheckCircleTwoTone twoToneColor="#52c41a" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Total on time jobs{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.totalOnTimeJobs}</div>
+            <PlayCircleTwoTone />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Total approved jobs:{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.totalApprovedJobs}</div>
+            <PlusCircleTwoTone twoToneColor="#f759ab" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Total rejected jobs:{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.totalRejectedJobs}</div>
+            <CloseCircleTwoTone twoToneColor="#f5222d" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(250px)' }}>
+              Total time removed from jobs:{' '}
+            </div>
+            <div className="font-medium">{userAnalysis.totalTimeRemovedFromJob}</div>
+            <CloseCircleTwoTone twoToneColor="#f5222d" />
+          </div>
+        </div>
+      ),
+      onOk() {},
+    });
+  };
+  const infoReviewUser = (userAnalysis: any) => {
+    Modal.info({
+      title: 'REVIEW ANALYSIS',
+      content: (
+        <div className="text-base">
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(225px)' }}>
+              Total reviews from company:
+            </div>
+            <div className="font-medium">{userAnalysis.totalReviewsByCompany}</div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(225px)' }}>
+              Total reviews written:
+            </div>
+            <div className="font-medium">{userAnalysis.totalReviewsWritten}</div>
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(225px)' }}>
+              The highest review point :
+            </div>
+            <div className="font-medium" style={{ width: 'calc(25px)' }}>
+              {userAnalysis.highestReviewPoint}
+            </div>
+            <UpCircleTwoTone twoToneColor="#52c41a" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(225px)' }}>
+              The lowest review point :
+            </div>
+            <div className="font-medium" style={{ width: 'calc(25px)' }}>
+              {userAnalysis.lowestReviewPoint}
+            </div>
+            <DownCircleTwoTone twoToneColor="#f5222d" />
+          </div>
+          <div className="flex items-center gap-3">
+            <div className="font-medium" style={{ width: 'calc(225px)' }}>
+              Rate point :
+            </div>
+            <div className="font-medium">{userAnalysis.rate.toFixed(2)}</div>
           </div>
         </div>
       ),
@@ -171,26 +271,25 @@ export default function Dashboard() {
           <>
             <div className="dashboard__block">
               <div className="flex flex-col text-xl">
-                <div className="mb-1">Total Earning</div>
-                <div className="text-2xl font-bold ">$ 12321</div>
+                <div className="mb-1 font">Balance</div>
+                <div className="text-2xl font-bold">$ {userAnalysis && userAnalysis.totalSalary}</div>
               </div>
               <div className="dashboard__icon1">
                 <ToolOutlined />
               </div>
             </div>
-            <div className="dashboard__block">
+            <div className="dashboard__block" onClick={() => infoJobUser(userAnalysis)}>
               <div className="flex flex-col text-xl">
-                <div className="mb-1">Jobs Applied</div>
-                <div className="text-2xl font-bold ">4</div>
+                <div className="mb-1">Jobs analysis</div>
+                {/* <div className="text-2xl font-bold ">4</div> */}
               </div>
               <div className="dashboard__icon2">
                 <ShoppingOutlined />
               </div>
             </div>
-            <div className="dashboard__block">
+            <div className="dashboard__block" onClick={() => infoReviewUser(userAnalysis)}>
               <div className="flex flex-col text-xl">
-                <div className="mb-1">Reviews</div>
-                <div className="text-2xl font-bold">12</div>
+                <div className="mb-1">Reviews analysis</div>
               </div>
               <div className="dashboard__icon3">
                 <ToolOutlined />
@@ -217,10 +316,9 @@ export default function Dashboard() {
                 <ShoppingOutlined />
               </div>
             </div>
-            <div className="dashboard__block" onClick={() => infoTotalReviews(companyAnalysis)}>
+            <div className="dashboard__block" onClick={() => infoReviewCompany(companyAnalysis)}>
               <div className="flex flex-col text-xl">
-                <div className="mb-1">Reviews</div>
-                <div className="text-2xl font-bold">{companyAnalysis && companyAnalysis.totalReviews}</div>
+                <div className="mb-1">Reviews analysis</div>
               </div>
               <div className="dashboard__icon3">
                 <ToolOutlined />
@@ -243,19 +341,19 @@ export default function Dashboard() {
                 <div className="flex gap-2">
                   <Badge color="#36c361" size="default" /> <p>Total salary pay</p>
                 </div>
-                {companyAnalysis && <div className="font-bold">{companyAnalysis.totalSalaryPay}</div>}
+                {userAnalysis && <div className="font-bold">{userAnalysis.totalSalaryPay}</div>}
               </div>
               <div className="flex justify-between px-4 text-lg">
                 <div className="flex gap-2">
                   <Badge color="#2194ff" size="default" /> <p>The highest salary pay</p>
                 </div>
-                {companyAnalysis && <div className="font-bold">{companyAnalysis.highestJobSalaryPay}</div>}
+                {userAnalysis && <div className="font-bold">{userAnalysis.highestJobSalaryPay}</div>}
               </div>
               <div className="flex justify-between px-4 text-lg">
                 <div className="flex gap-2">
                   <Badge color="#FA6CA4" size="default" /> <p>The lowest salary pay</p>
                 </div>
-                {companyAnalysis && <div className="font-bold">{companyAnalysis.lowestJobSalaryPay}</div>}
+                {userAnalysis && <div className="font-bold">{userAnalysis.lowestJobSalaryPay}</div>}
               </div>
               {/* <div className="flex justify-between px-4 text-lg">
                 <div className="flex gap-2">
@@ -267,7 +365,44 @@ export default function Dashboard() {
           </div>
         </div>
       ) : (
-        <></>
+        <>
+          <div className="flex-wrap dashboard__chart">
+            <div className="dashboard__chart__left">
+              <div className="m-3 text-xl font-medium">Your Profile Views</div>
+              <Chart />
+            </div>
+            <div className="dashboard__chart__right">
+              <div className="m-3 text-xl font-medium">Salary Analytics</div>
+              {userAnalysis && <ChartRadialBarFreelancer userAnalysis={userAnalysis} />}
+              <div className="flex flex-col justify-center">
+                <div className="flex justify-between px-4 mt-4 text-lg">
+                  <div className="flex gap-2">
+                    <Badge color="#36c361" size="default" /> <p>Total salary earned</p>
+                  </div>
+                  {userAnalysis && <div className="font-bold">{userAnalysis.totalSalary}</div>}
+                </div>
+                <div className="flex justify-between px-4 text-lg">
+                  <div className="flex gap-2">
+                    <Badge color="#2194ff" size="default" /> <p>The highest salary earned</p>
+                  </div>
+                  {userAnalysis && <div className="font-bold">{userAnalysis.highestJobSalary}</div>}
+                </div>
+                <div className="flex justify-between px-4 text-lg">
+                  <div className="flex gap-2">
+                    <Badge color="#FA6CA4" size="default" /> <p>The lowest salary earned</p>
+                  </div>
+                  {userAnalysis && <div className="font-bold">{userAnalysis.lowestJobSalary}</div>}
+                </div>
+                {/* <div className="flex justify-between px-4 text-lg">
+                <div className="flex gap-2">
+                  <Badge color="#7B46BE" size="default" /> <p>Total Jobs</p>
+                </div>
+                <div className="font-bold">123</div>
+              </div> */}
+              </div>
+            </div>
+          </div>
+        </>
       )}
       {userRole === 1 ? <TableListSkillCompany data={listSkillCompany} /> : <></>}
     </div>

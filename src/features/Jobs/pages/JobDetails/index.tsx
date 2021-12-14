@@ -71,7 +71,7 @@ export default function JobDetails() {
     } finally {
       setIsLoading(false);
     }
-  }
+  };
 
   const history = useHistory();
   useEffect(() => {
@@ -83,7 +83,7 @@ export default function JobDetails() {
 
   useEffect(() => {
     getReviewsOfFreelance();
-  }, [pageIdx, jobId])
+  }, [pageIdx, jobId]);
 
   useEffect(() => {
     getDetailJob();
@@ -183,8 +183,9 @@ export default function JobDetails() {
             <h2 className="mt-2 mb-10 text-xl">Location</h2>
             <Skeleton active loading={loading} paragraph={{ rows: 7, width: '100%' }}>
               <iframe
-                src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${jobDetail.area && jobDetail.area.name
-                  }`}
+                src={`https://www.google.com/maps/embed/v1/place?key=${API_KEY}&q=${
+                  jobDetail.area && jobDetail.area.name
+                }`}
                 height="300"
                 frameBorder="0"
                 title="border:0;"
@@ -306,11 +307,13 @@ export default function JobDetails() {
           </div>
           <div className="mb-12 comment">
             <div className="mb-3 headline">
-              <h3 className="m-0 text-lg">
-                <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
-              </h3>
+              {reviewList.length > 0 && (
+                <h3 className="m-0 text-lg">
+                  <CommentOutlined className="like relative -top-1.5 mr-2" /> Comment
+                </h3>
+              )}
             </div>
-            {reviewList &&
+            {reviewList.length > 0 &&
               reviewList.map((item: any) => (
                 <Skeleton active loading={isLoading} key={item.id}>
                   <Comment
@@ -332,14 +335,18 @@ export default function JobDetails() {
             {isLoading ? (
               <Skeleton.Button active={true} size="small" style={{ width: 'calc(200px)', marginTop: '20px' }} />
             ) : (
-              <Pagination
-                onChange={setPageIdx}
-                className="mt-3"
-                size="small"
-                defaultCurrent={pageIdx}
-                pageSize={4}
-                total={totalRecords}
-              />
+              <>
+                {reviewList.length > 0 && (
+                  <Pagination
+                    onChange={setPageIdx}
+                    className="mt-3"
+                    size="small"
+                    defaultCurrent={pageIdx}
+                    pageSize={4}
+                    total={totalRecords}
+                  />
+                )}
+              </>
             )}
           </div>
         </div>

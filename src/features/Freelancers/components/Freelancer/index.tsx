@@ -41,7 +41,7 @@ function Freelancer({
             </h5>
           </div>
           <div className="mt-1 freelancer__rating">
-            {rate > 0 && <span className="mr-2 point">{rate}</span>}
+            {rate > 0 && <span className="mr-2 point">{rate.toFixed(2)}</span>}
             <span className="star">
               {Array(Math.floor(rate))
                 .fill(0)

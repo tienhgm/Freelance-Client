@@ -27,7 +27,7 @@ export default function ModalFormOfCompany({ record, isVisible, handleConfirm, h
   const dispatch = useAppDispatch();
   const handleGetReviewOfCompany = async () => {
     let data = {
-      userId: record.user.id,
+      userId: record.user?.id,
       jobId: record.jobId,
       type: 'byCompany',
     };
