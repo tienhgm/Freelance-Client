@@ -14,11 +14,12 @@ function FindFreelancer() {
   const [loading, setLoading] = useState(false);
   const [listFreelancer, setListFreelancer] = useState<any>([]);
   const [filters, setFilters] = useState<any>();
-  const [page, setPage] = useState(1);
+  const [page, setPage] = useState<any>(1);
   const handleGetSideBar = async (values: any) => {
     setFilters(values);
   };
   const handleChangePage = (value: number) => {
+    console.log(value);
     setPage(value);
   };
 
@@ -51,7 +52,6 @@ function FindFreelancer() {
     return () => {
       setListFreelancer([]);
       setTotal(0);
-      setPage(1);
     }
   }, [filters, page]);
   return (

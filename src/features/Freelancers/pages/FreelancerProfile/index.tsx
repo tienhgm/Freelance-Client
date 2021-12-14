@@ -135,7 +135,7 @@ function FreelancerProfile() {
           <div className="container relative flex flex-col justify-between px-12 mx-auto page__header lg:items-center lg:flex-row">
             <div className="container flex flex-col gap-5 mx-auto header__left lg:items-center pt-14 lg:py-14 lg:flex-row">
               <div className="shadow-xl freelancer-logo w-min">
-                <img src={`http://${freelancerDetail.avatar}`} alt="avatar" />
+                <img src={`http://${freelancerDetail.avatar}`} width={100} height={100} alt="avatar" />
               </div>
               <div className="freelancer-info">
                 <h2 className="text-2xl info__name">{freelancerDetail.lastName + ' ' + freelancerDetail.firstName}</h2>

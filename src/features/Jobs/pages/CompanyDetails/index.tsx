@@ -86,6 +86,9 @@ export default function CompanyDetails() {
     }
   };
   const history = useHistory();
+  const goToDetailFreelancer = (id: string) => {
+    window.open(`/find-freelancers/${id}`, '_blank');
+  };
   useEffect(() => {
     document.querySelector('.header > div > ul > li:nth-child(2) > a')?.classList.add('active');
     return () => {
@@ -209,33 +212,6 @@ export default function CompanyDetails() {
                 </div>
               ))}
           </div>
-          {/* <div className="mb-10 location">
-            <h2 className="px-6 py-3 mb-0 text-xl font-normal bg-gray-300">
-              <i className="mr-3 bx bx-like"></i>Reviews
-            </h2>
-            <div className="overflow-y-auto reviews-list">
-              <Skeleton active loading={loading}>
-                <ReviewItem
-                  ratingPoint={4.5}
-                  title={'Doing things the right way'}
-                  content={
-                    'Great company and especially ideal for the career-minded individual. The company is large enough to offer a variety of jobs in all kinds of interesting locations. Even if you never change roles, your job changes and evolves as the company grows, keeping things fresh.'
-                  }
-                  reviewTime={'August 2019'}
-                  index={0}
-                />
-                <ReviewItem
-                  ratingPoint={4.5}
-                  title={'Doing things the right way'}
-                  content={
-                    'Great company and especially ideal for the career-minded individual. The company is large enough to offer a variety of jobs in all kinds of interesting locations. Even if you never change roles, your job changes and evolves as the company grows, keeping things fresh.'
-                  }
-                  reviewTime={'August 2019'}
-                  index={1}
-                />
-              </Skeleton>
-            </div>
-          </div> */}
           <div className="mb-12 comment">
             <div className="mb-3 headline">
               <h3 className="m-0 text-lg">
@@ -251,7 +227,11 @@ export default function CompanyDetails() {
                         {item.reviewer?.firstName + ' ' + item.reviewer?.lastName}
                       </span>
                     }
-                    avatar={<Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />}
+                    avatar={
+                      <div onClick={() => goToDetailFreelancer(item.reviewer.id)}>
+                        <Avatar src={`http://${item.reviewer?.avatar}`} alt="alt" />
+                      </div>
+                    }
                     content={<p>{item.comment}</p>}
                     datetime={
                       <Tooltip title={moment(item.createdAt).format('YYYY-MM-DD HH:mm:ss')}>

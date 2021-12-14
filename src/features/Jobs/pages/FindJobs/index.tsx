@@ -64,7 +64,6 @@ export default function FindJobs() {
     return () => {
       setListJobs([]);
       setTotal(0);
-      setPage(1);
     };
   }, [filters, page]);
   return (
