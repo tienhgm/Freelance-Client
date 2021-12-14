@@ -55,7 +55,7 @@ export default function FeatureJob() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 300);
+      }, 200);
     }
   };
   useEffect(() => {

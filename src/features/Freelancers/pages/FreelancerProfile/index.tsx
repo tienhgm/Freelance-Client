@@ -64,7 +64,7 @@ function FreelancerProfile() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
 

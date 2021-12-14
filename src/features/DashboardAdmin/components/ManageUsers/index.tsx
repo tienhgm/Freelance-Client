@@ -119,7 +119,7 @@ function ManageUsers() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 200);
     }
   };
 
@@ -140,7 +140,7 @@ function ManageUsers() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 200);
     }
   };
 
@@ -161,7 +161,7 @@ function ManageUsers() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 500);
+      }, 200);
     }
   };  
 

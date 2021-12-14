@@ -36,7 +36,7 @@ function FindFreelancer() {
     } finally {
       setTimeout(function () {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   const history = useHistory();

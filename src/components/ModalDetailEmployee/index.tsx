@@ -52,7 +52,7 @@ export default function ModalDetailEmloyee({
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   useEffect(() => {

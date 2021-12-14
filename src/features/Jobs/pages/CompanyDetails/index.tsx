@@ -42,7 +42,7 @@ export default function CompanyDetails() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   const getReviewsFromUserToCompany = async () => {

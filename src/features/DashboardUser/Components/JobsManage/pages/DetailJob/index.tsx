@@ -86,7 +86,7 @@ export default function DetailJob() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   const getListEmployees = async (jobId: string) => {
@@ -120,7 +120,7 @@ export default function DetailJob() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   const handleGetJobName = async () => {

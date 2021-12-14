@@ -128,7 +128,7 @@ export default function ListJobs() {
     } finally {
       setTimeout(() => {
         setLoading(false);
-      }, 400);
+      }, 200);
     }
   };
   useEffect(() => {
