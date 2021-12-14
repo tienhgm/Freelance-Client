@@ -23,7 +23,7 @@ function Banner() {
     <div className="banner">
       <div className="banner__fulfil p-28">
         {/* title */}
-        <div className="flex banner__fulfil__title">
+        <div className="flex mt-16 banner__fulfil__title" >
           <div>
             <div className="font-medium lg:text-2xl md:text-xl xs:text-lg">
               Hire experts or be hired for any job, any time.
@@ -36,15 +36,14 @@ function Banner() {
         </div>
         {/* end title */}
         {/* search jobs */}
-        <div className="mt-12 banner__fulfil__form">
-          {/* <div onClick={goToFindJob} className="btn-find">Let's find a job</div> */}
+        {/* <div className="mt-12 banner__fulfil__form">
           <div className="flex items-center gap-4">
             <div className="font-medium lg:text-2xl md:text-xl xs:text-lg"> Do u wanna earn money ?</div>
             <Button type="primary" shape="round" size="large" onClick={goToFindJob}>
               Let's find a job
             </Button>
           </div>
-        </div>
+        </div> */}
         {/* end search jobs */}
         {/* statistical  */}
         <div className="flex mt-16 flex-nowrap statistical">
