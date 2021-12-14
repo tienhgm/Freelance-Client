@@ -272,7 +272,7 @@ export default function Dashboard() {
             <div className="dashboard__block">
               <div className="flex flex-col text-xl">
                 <div className="mb-1 font">Balance</div>
-                <div className="text-2xl font-bold">$ {userAnalysis && userAnalysis.totalSalary}</div>
+                <div className="text-2xl font-bold">$ {userAnalysis && userAnalysis.totalSalary.toFixed(2)}</div>
               </div>
               <div className="dashboard__icon1">
                 <ToolOutlined />
@@ -379,7 +379,7 @@ export default function Dashboard() {
                   <div className="flex gap-2">
                     <Badge color="#36c361" size="default" /> <p>Total salary earned</p>
                   </div>
-                  {userAnalysis && <div className="font-bold">{userAnalysis.totalSalary}</div>}
+                  {userAnalysis && <div className="font-bold">{userAnalysis.totalSalary.toFixed(2)}</div>}
                 </div>
                 <div className="flex justify-between px-4 text-lg">
                   <div className="flex gap-2">

@@ -11,7 +11,9 @@ export default function FindJobs() {
   const location = useLocation();
   const dispatch = useAppDispatch();
   const [listJobs, setListJobs] = useState<any>([]);
-  const [page, setPage] = useState<any>(queryString.parse(location.search).page ? queryString.parse(location.search).page : 1);
+  const [page, setPage] = useState<any>(
+    queryString.parse(location.search).page ? queryString.parse(location.search).page : 1
+  );
   const [total, setTotal] = useState(0);
   const [filters, setFilters] = useState<any>({
     title: queryString.parse(location.search).title ? queryString.parse(location.search).title : null,
@@ -43,6 +45,9 @@ export default function FindJobs() {
       }, 200);
     }
   };
+  const handleResetPage = () => {
+    setPage(1);
+  };
   const handleGetSideBar = async (values: any) => {
     setFilters(values);
   };
@@ -71,7 +76,7 @@ export default function FindJobs() {
         className="flex-shrink-0 w-full p-8 pb-0 overflow-y-auto find-job-page__sidebar md:w-60 lg:w-72"
         style={{ backgroundColor: '#fff', boxShadow: `0 0 4px rgba(0, 0, 0, 0.2)` }}
       >
-        <Sidebar filters={filters} handleGetSideBar={handleGetSideBar} />
+        <Sidebar filters={filters} handleResetPage={handleResetPage} handleGetSideBar={handleGetSideBar} />
       </div>
       <div className="w-full p-6 overflow-y-auto find-job-page__content">
         <div className="flex items-center justify-between px-4 py-2 mb-5 bg-gray-300 rounded-md content__header">

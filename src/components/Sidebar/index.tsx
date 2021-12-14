@@ -14,9 +14,10 @@ const { Option } = Select;
 const { RangePicker } = DatePicker;
 interface IProps {
   handleGetSideBar: (value: any) => any;
+  handleResetPage?: () => void;
   filters?: any;
 }
-function Sidebar({ handleGetSideBar, filters }: IProps) {
+function Sidebar({ handleGetSideBar, filters, handleResetPage }: IProps) {
   const [form] = Form.useForm();
   // const [selectedTags, setSelectedTags] = useState<string[]>([]);
   const [listArea, setListArea] = useState<any>([]);
@@ -47,10 +48,12 @@ function Sidebar({ handleGetSideBar, filters }: IProps) {
       values.endDate = convertDateToString(values.datePicker[1]._d);
       delete values.datePicker;
     }
-    console.log(values);
     handleGetSideBar(values);
   };
   const handleResetForm = () => {
+    if(typeof handleResetPage === "function"){
+      handleResetPage();
+    }
     form.resetFields();
     handleGetSideBar(null);
   };
