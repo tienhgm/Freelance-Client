@@ -92,28 +92,24 @@ function ManageUsers() {
   const [key, setKey] = useState<any>(
     queryString.parse(location.search).key ? queryString.parse(location.search).key : '1'
   );
-  const [role, setRole] = useState<any>(
-    queryString.parse(location.search).key ? (key - 1) : '0'
-  )
+  const [role, setRole] = useState<any>(queryString.parse(location.search).key ? key - 1 : '0');
 
   const handleTabsChange = (key: any) => {
     setKey(key);
     setRole(key - 1);
   };
 
-
   const getListAdmin = async (role: any) => {
-    let filters = { ...filtersAdmin, page: 1}
-    const data = {role, filters};
-    
+    let filters = { ...filtersAdmin, page: 1 };
+    const data = { role, filters };
+
     try {
       setLoading(true);
       const { payload } = await dispatch(handleGetAdmin(data));
       if (payload) {
-        const { totalRecords, users} = payload;
-        setTotalAdmin(totalRecords)
-        setListAdmin(users)
-        
+        const { totalRecords, users } = payload;
+        setTotalAdmin(totalRecords);
+        setListAdmin(users);
       }
     } catch (error) {
     } finally {
@@ -124,17 +120,16 @@ function ManageUsers() {
   };
 
   const getListCompanies = async (role: any) => {
-    let filters = { ...filtersCompany, page}
-    const data = {role, filters};
-    
+    let filters = { ...filtersCompany, page };
+    const data = { role, filters };
+
     try {
       setLoading(true);
       const { payload } = await dispatch(handleGetCompanies(data));
       if (payload) {
-        const { totalRecords, users} = payload;
-        setTotalCompanies(totalRecords)
-        setListCompanies(users)
-        
+        const { totalRecords, users } = payload;
+        setTotalCompanies(totalRecords);
+        setListCompanies(users);
       }
     } catch (error) {
     } finally {
@@ -145,17 +140,16 @@ function ManageUsers() {
   };
 
   const getListFreelancer = async (role: any) => {
-    let filters = { ...filtersFreelancer, page, records: totalFreelancer}
-    const data = {role, filters};
-    
+    let filters = { ...filtersFreelancer, page, records: totalFreelancer };
+    const data = { role, filters };
+
     try {
       setLoading(true);
       const { payload } = await dispatch(handleGetFreelancer(data));
       if (payload) {
-        const { totalRecords, users} = payload;
-        setTotalFreelancer(totalRecords)
-        setListFreelancer(users)
-        
+        const { totalRecords, users } = payload;
+        setTotalFreelancer(totalRecords);
+        setListFreelancer(users);
       }
     } catch (error) {
     } finally {
@@ -163,7 +157,7 @@ function ManageUsers() {
         setLoading(false);
       }, 200);
     }
-  };  
+  };
 
   useEffect(() => {
     history.push({
@@ -171,20 +165,19 @@ function ManageUsers() {
     });
 
     if (key === '1') {
-      getListAdmin(role)
+      getListAdmin(role);
     }
     if (key === '2') {
       getListCompanies(role);
     }
     if (key === '3') {
-      getListFreelancer(role)
+      getListFreelancer(role);
     }
   }, [key, totalFreelancer]);
 
-
   return (
     <div
-      className="manage-users w-full p-6 shadow-xl bg-white overflow-y-auto relative"
+      className="relative w-full p-6 overflow-y-auto bg-white shadow-xl manage-users"
       style={{ height: 'calc(100vh - 112px)' }}
     >
       <Tabs size="large" defaultActiveKey={key} onChange={handleTabsChange}>
@@ -192,7 +185,7 @@ function ManageUsers() {
           <TableAdmin columns={columns} data={listAdmin} load={loading} />
         </TabPane>
         <TabPane tab="COMPANY" key="2">
-          <TableCompany columns={columns} data={listCompanies} load={loading} />
+          <TableCompany data={listCompanies} load={loading} />
         </TabPane>
         <TabPane tab="FREELANCE" key="3">
           <TableFreelance columns={columns} data={listFreelancer} load={loading} />
