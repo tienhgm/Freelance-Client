@@ -1,5 +1,6 @@
 import { sendGet, sendPost, sendDelete, sendPut } from '../axios';
 export const getJobs = (filters?: any) => sendGet('jobs', filters ? filters : '');
+export const getJobCandidatesSuggest = (id: string, filters?: any) => sendGet(`jobs/${id}/candidates`, filters ? filters : '');
 export const getJobCandidates = (id: string, filters?: any) => sendGet(`jobs/${id}/candidates`, filters ? filters : '');
 export const getJobEmployees = (id: string, filters?: any) => sendGet(`jobs/${id}/employees`, filters ? filters : '');
 export const getDetailJob = (id?: any) => sendGet(`jobs/${id}`);

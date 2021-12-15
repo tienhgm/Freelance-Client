@@ -336,9 +336,7 @@ function FreelancerProfile() {
                 </div>
               </div>
             </Skeleton>
-            {curUser.id === freelancerId || !isUserLogin ? (
-              <></>
-            ) : (
+            {(curUser.role !== 0 && curUser.id !== freelancerId) &&
               <Skeleton active loading={loading} paragraph={{ rows: 1, width: '100%' }}>
                 <div className="mt-6 button-make">
                   <div
@@ -350,7 +348,7 @@ function FreelancerProfile() {
                   </div>
                 </div>
               </Skeleton>
-            )}
+            }
             <Skeleton active loading={loading} paragraph={{ rows: 2, width: '100%' }}>
               <div className="mt-8 skills">
                 <h4 className="text-xl font-medium">Languages</h4>

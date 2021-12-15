@@ -1,3 +1,4 @@
+// @ts-nocheck
 import './index.scss';
 import { Tabs, Input, Select, Tag, Button, Tooltip } from 'antd';
 import TableCandidates from './components/tableCandidates';
@@ -19,6 +20,7 @@ import queryString from 'query-string';
 import { getJobStatus } from 'helpers/Dashboard';
 import { CheckOutlined } from '@ant-design/icons';
 import { handleUpdateReviewByCompany } from 'app/slices/userSlice';
+import { getJobCandidatesSuggest } from 'apis/jobModule';
 const { TabPane } = Tabs;
 const { Option } = Select;
 export default function DetailJob() {
@@ -38,6 +40,7 @@ export default function DetailJob() {
   }
   const [listJobCandidates, setListJobCandidates] = useState<any>([]);
   const [listJobEmployees, setListJobEmployees] = useState<any>([]);
+  const [isGetSuggest, setIsGetSuggest] = useState<any>([]);
   const [filtersCandidate, setFiltersCandidate] = useState<any>({
     name: '',
     applyStatus: null,
@@ -123,13 +126,49 @@ export default function DetailJob() {
       }, 200);
     }
   };
+  const getSuggestList = async (jobId: string) => {
+    let listFilter = { ...filtersCandidate, page: 1, records: 999 };
+    for (const key in listFilter) {
+      if (listFilter[key] === undefined || listFilter[key] === null || listFilter[key] === '') {
+        delete listFilter[key];
+      }
+    }
+    const data = [jobId, listFilter];
+    try {
+      setLoading(true);
+      const payload = await getJobCandidatesSuggest(jobId, listFilter);
+      console.log(data)
+      if (payload) {
+        setInfoNeed((prev: any) => ({
+          ...prev,
+          maxEmployees: payload.maxEmployees,
+          totalEmployees: payload.totalEmployees,
+          jobStatus: payload.jobStatus,
+        }));
+        setJobStatus(payload.jobStatus);
+        let candidates = payload.candidates.map((item: any) => {
+          return {
+            ...item,
+            fullName: item.user.firstName + ' ' + item.user.lastName,
+            key: Math.random(),
+          };
+        });
+        setListJobCandidates(candidates);
+      }
+    } catch (error) {
+    } finally {
+      setTimeout(() => {
+        setLoading(false);
+      }, 200);
+    }
+  };
   const handleGetJobName = async () => {
     try {
       const { payload } = await dispatch(handleGetDetailJob(route.params.id));
       if (payload) {
         setJobName(payload.jobDetail.title);
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   const handleSearchNameEmployee = (e: any) => {
     setFiltersEmployee((prev: any) => ({ ...prev, name: e.target.value }));
@@ -146,17 +185,17 @@ export default function DetailJob() {
   const handleUpdateApplyStatus = async (data: any) => {
     try {
       await dispatch(handleChangeApplyStatus(data));
-    } catch (error) {}
+    } catch (error) { }
   };
   const handleDeleteEmployee = async (data: any) => {
     try {
       await dispatch(handleDeleteEmployeeFromJob(data));
-    } catch (error) {}
+    } catch (error) { }
   };
   const handlePostReview = async (data: any) => {
     try {
       await dispatch(handlePostAReview(data));
-    } catch (error) {}
+    } catch (error) { }
   };
   const handleUpdateReviewCompany = async (data: any) => {
     delete data.review.isEdit;
@@ -165,7 +204,7 @@ export default function DetailJob() {
       if (data.reviewId) {
         await dispatch(handleUpdateReviewByCompany(data));
       }
-    } catch (error) {}
+    } catch (error) { }
   };
   const handleDoneJob = async () => {
     await dispatch(handleFinishJob(jobId));
@@ -176,13 +215,15 @@ export default function DetailJob() {
       pathname: `/dashboard/jobs-manage/${jobId}`,
       search: `?key=${key}`,
     });
-    if (key === '2') {
+    if (key === '2' && isGetSuggest) {
+      getSuggestList(jobId)
+    } else if (key === '2') {
       getListCandidates(jobId);
     }
     if (key === '1') {
       getListEmployees(jobId);
     }
-  }, [jobId, key, filtersCandidate, filtersEmployee]);
+  }, [jobId, key, filtersCandidate, filtersEmployee, isGetSuggest]);
   useEffect(() => {
     if (key === '2') {
       setFiltersEmployee({ name: '', jobEmployeeStatus: null, joinedAt: '' });
@@ -204,7 +245,7 @@ export default function DetailJob() {
       <div className="candidate">
         <div>
           <div className="flex justify-between gap-3 px-6">
-            {jobStatus.length > 0 ? (
+            {jobStatus?.length > 0 ? (
               <div className="flex items-center gap-2">
                 {jobStatus !== 'Done' && key === '1' && (
                   <div>
@@ -269,6 +310,11 @@ export default function DetailJob() {
                         </Option>
                       ))}
                     </Select>
+                  </div>
+                  <div style={{ width: 'calc(160px)' }}>
+                    <Button onClick={() => setIsGetSuggest(!isGetSuggest)}>
+                      {isGetSuggest ? "View all" : "Suggest"}
+                    </Button>
                   </div>
                 </>
               )}

@@ -223,9 +223,7 @@ export default function JobDetails() {
           </div>
         </div>
         <div className="flex flex-col w-full gap-8 px-8 content__sidebar lg:w-1/3">
-          {userRole === 1 || !isUserLogin ? (
-            <></>
-          ) : (
+          {userRole === 2 &&
             <>
               {listCanApply.includes(jobDetail.status) && (
                 <Skeleton active loading={loading} paragraph={{ rows: 1 }}>
@@ -235,7 +233,7 @@ export default function JobDetails() {
                 </Skeleton>
               )}
             </>
-          )}
+          }
           <ModalFormApply
             title={'Apply job'}
             okText={'Apply'}
