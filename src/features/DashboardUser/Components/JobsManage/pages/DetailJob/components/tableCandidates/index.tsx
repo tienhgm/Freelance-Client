@@ -68,8 +68,7 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
       key: 'point',
       render: (point: any) => (
         <div className="font-medium">
-          {point && <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>}{' '}
-          {!point && <div>-</div>}
+          {point && <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>} {!point && <div>-</div>}
         </div>
       ),
     },

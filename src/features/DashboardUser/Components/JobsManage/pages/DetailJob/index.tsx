@@ -214,7 +214,7 @@ export default function DetailJob() {
       getListEmployees(jobId);
     }
   }, [jobId, key, filtersCandidate, filtersEmployee, isGetSuggest]);
- 
+
   useEffect(() => {
     if (key === '2') {
       setFiltersEmployee({ name: '', jobEmployeeStatus: null, joinedAt: '' });
@@ -223,11 +223,18 @@ export default function DetailJob() {
       setFiltersCandidate({ name: '', applyStatus: null, appliedAt: '' });
     }
   }, [key]);
+  const goToDetailJob = (jobId: any) => {
+    window.open(`/find-jobs/${jobId}`, '_blank');
+  };
   return (
     <div className="h-full candidate-manage">
       <div className="flex gap-2 mb-4 text-lg font-medium">
         <Link to="/dashboard/jobs-manage">Manage jobs</Link> {' > '}
-        {route.params && route.params.id && <div>{jobName + ' >'}</div>}
+        {route.params && route.params.id && (
+          <div style={{ color: '#1892ff', cursor: 'pointer' }} onClick={() => goToDetailJob(jobId)}>
+            {jobName + ' >'}
+          </div>
+        )}
         <div>
           {key === '1' && 'Manage employees'}
           {key === '2' && 'Manage candidates'}
@@ -280,28 +287,32 @@ export default function DetailJob() {
               )}
               {key === '2' && (
                 <>
-                  <div style={{ width: 'calc(160px)' }}>
-                    <Input
-                      value={filtersCandidate.name}
-                      onChange={handleSearchNameCandidate}
-                      placeholder="Search by name..."
-                    />
-                  </div>
-                  <div style={{ width: 'calc(160px)' }}>
-                    <Select
-                      placeholder="Apply status"
-                      allowClear
-                      style={{ width: 150 }}
-                      value={filtersCandidate.applyStatus}
-                      onChange={handleApplyStatus}
-                    >
-                      {applyStatus.map((item) => (
-                        <Option value={item} key={item}>
-                          {item}
-                        </Option>
-                      ))}
-                    </Select>
-                  </div>
+                  {!isGetSuggest && (
+                    <>
+                      <div style={{ width: 'calc(160px)' }}>
+                        <Input
+                          value={filtersCandidate.name}
+                          onChange={handleSearchNameCandidate}
+                          placeholder="Search by name..."
+                        />
+                      </div>
+                      <div style={{ width: 'calc(160px)' }}>
+                        <Select
+                          placeholder="Apply status"
+                          allowClear
+                          style={{ width: 150 }}
+                          value={filtersCandidate.applyStatus}
+                          onChange={handleApplyStatus}
+                        >
+                          {applyStatus.map((item) => (
+                            <Option value={item} key={item}>
+                              {item}
+                            </Option>
+                          ))}
+                        </Select>
+                      </div>
+                    </>
+                  )}
                   <div style={{ width: 'calc(160px)' }}>
                     <Button onClick={() => setIsGetSuggest(!isGetSuggest)}>
                       {isGetSuggest ? 'View all' : 'Suggest'}
