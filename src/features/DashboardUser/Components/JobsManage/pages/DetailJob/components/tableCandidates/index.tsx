@@ -15,9 +15,8 @@ interface IProps {
   loading: boolean;
   infoNeed: InfoNeed;
   handleUpdateApplyStatus: (data: any) => void;
-  isGetSuggest: any;
 }
-export default function TableCandidates({ data, infoNeed, isGetSuggest, loading, handleUpdateApplyStatus }: IProps) {
+export default function TableCandidates({ data, infoNeed, loading, handleUpdateApplyStatus }: IProps) {
   const [record, setRecord] = useState<any>();
   const [userIdRow, setUserIdRow] = useState<any>('');
   const [openDialogAccept, setOpenDialogAccept] = useState(false);
@@ -63,6 +62,17 @@ export default function TableCandidates({ data, infoNeed, isGetSuggest, loading,
     setUserIdRow(record.user.id);
   };
   const columns = [
+    {
+      title: 'Point',
+      dataIndex: 'point',
+      key: 'point',
+      render: (point: any) => (
+        <div className="font-medium">
+          {point && <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>}{' '}
+          {!point && <div>-</div>}
+        </div>
+      ),
+    },
     {
       title: 'Avatar',
       dataIndex: ['user', 'avatar'],
@@ -139,18 +149,18 @@ export default function TableCandidates({ data, infoNeed, isGetSuggest, loading,
       ),
     },
   ];
-  if (isGetSuggest) {
-    columns.unshift({
-      title: 'Point',
-      dataIndex: 'point',
-      key: 'point',
-      render: (point: any) => (
-        <div className="font-medium">
-          <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>
-        </div>
-      ),
-    });
-  }
+  // if (isGetSuggest && data && data.point) {
+  //   columns.unshift({
+  //     title: 'Point',
+  //     dataIndex: 'point',
+  //     key: 'point',
+  //     render: (point: any) => (
+  //       <div className="font-medium">
+  //         <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>
+  //       </div>
+  //     ),
+  //   });
+  // }
   return (
     <>
       <Table

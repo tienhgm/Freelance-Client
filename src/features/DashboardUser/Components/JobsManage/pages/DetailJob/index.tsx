@@ -129,7 +129,7 @@ export default function DetailJob() {
   const getSuggestList = async (jobId: string) => {
     try {
       setLoading(true);
-      const {data} = await getJobCandidatesSuggest(jobId);
+      const { data } = await getJobCandidatesSuggest(jobId);
       if (data) {
         setInfoNeed((prev: any) => ({
           ...prev,
@@ -145,14 +145,11 @@ export default function DetailJob() {
             key: Math.random(),
           };
         });
-        console.log(candidates);
         setListJobCandidates(candidates);
       }
     } catch (error) {
     } finally {
-      setTimeout(() => {
-        setLoading(false);
-      }, 200);
+      setLoading(false);
     }
   };
   const handleGetJobName = async () => {
@@ -210,13 +207,14 @@ export default function DetailJob() {
     });
     if (key === '2' && isGetSuggest) {
       getSuggestList(jobId);
-    } else if (key === '2') {
+    } else if (key === '2' && !isGetSuggest) {
       getListCandidates(jobId);
     }
     if (key === '1') {
       getListEmployees(jobId);
     }
   }, [jobId, key, filtersCandidate, filtersEmployee, isGetSuggest]);
+ 
   useEffect(() => {
     if (key === '2') {
       setFiltersEmployee({ name: '', jobEmployeeStatus: null, joinedAt: '' });
