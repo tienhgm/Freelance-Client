@@ -15,8 +15,9 @@ interface IProps {
   loading: boolean;
   infoNeed: InfoNeed;
   handleUpdateApplyStatus: (data: any) => void;
+  isGetSuggest: any;
 }
-export default function TableCandidates({ data, infoNeed, loading, handleUpdateApplyStatus }: IProps) {
+export default function TableCandidates({ data, infoNeed, isGetSuggest, loading, handleUpdateApplyStatus }: IProps) {
   const [record, setRecord] = useState<any>();
   const [userIdRow, setUserIdRow] = useState<any>('');
   const [openDialogAccept, setOpenDialogAccept] = useState(false);
@@ -130,13 +131,26 @@ export default function TableCandidates({ data, infoNeed, loading, handleUpdateA
               </Button>
             )}
           {item.applyStatus === 'Rejected' && (
-            <Button size="small" onClick={() => errorPopup(item.rejectMessage)}>Reject reason</Button>
+            <Button size="small" onClick={() => errorPopup(item.rejectMessage)}>
+              Reject reason
+            </Button>
           )}
         </Space>
       ),
     },
   ];
-
+  if (isGetSuggest) {
+    columns.unshift({
+      title: 'Point',
+      dataIndex: 'point',
+      key: 'point',
+      render: (point: any) => (
+        <div className="font-medium">
+          <Tag color={'geekblue'}>{point.toFixed(3)}</Tag>
+        </div>
+      ),
+    });
+  }
   return (
     <>
       <Table

@@ -40,7 +40,7 @@ export default function DetailJob() {
   }
   const [listJobCandidates, setListJobCandidates] = useState<any>([]);
   const [listJobEmployees, setListJobEmployees] = useState<any>([]);
-  const [isGetSuggest, setIsGetSuggest] = useState<any>([]);
+  const [isGetSuggest, setIsGetSuggest] = useState<any>(false);
   const [filtersCandidate, setFiltersCandidate] = useState<any>({
     name: '',
     applyStatus: null,
@@ -127,32 +127,25 @@ export default function DetailJob() {
     }
   };
   const getSuggestList = async (jobId: string) => {
-    let listFilter = { ...filtersCandidate, page: 1, records: 999 };
-    for (const key in listFilter) {
-      if (listFilter[key] === undefined || listFilter[key] === null || listFilter[key] === '') {
-        delete listFilter[key];
-      }
-    }
-    const data = [jobId, listFilter];
     try {
       setLoading(true);
-      const payload = await getJobCandidatesSuggest(jobId, listFilter);
-      console.log(data)
-      if (payload) {
+      const {data} = await getJobCandidatesSuggest(jobId);
+      if (data) {
         setInfoNeed((prev: any) => ({
           ...prev,
-          maxEmployees: payload.maxEmployees,
-          totalEmployees: payload.totalEmployees,
-          jobStatus: payload.jobStatus,
+          maxEmployees: data.maxEmployees,
+          totalEmployees: data.totalEmployees,
+          jobStatus: data.jobStatus,
         }));
-        setJobStatus(payload.jobStatus);
-        let candidates = payload.candidates.map((item: any) => {
+        setJobStatus(data.jobStatus);
+        let candidates = data.candidates.map((item: any) => {
           return {
             ...item,
             fullName: item.user.firstName + ' ' + item.user.lastName,
             key: Math.random(),
           };
         });
+        console.log(candidates);
         setListJobCandidates(candidates);
       }
     } catch (error) {
@@ -168,7 +161,7 @@ export default function DetailJob() {
       if (payload) {
         setJobName(payload.jobDetail.title);
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   const handleSearchNameEmployee = (e: any) => {
     setFiltersEmployee((prev: any) => ({ ...prev, name: e.target.value }));
@@ -185,17 +178,17 @@ export default function DetailJob() {
   const handleUpdateApplyStatus = async (data: any) => {
     try {
       await dispatch(handleChangeApplyStatus(data));
-    } catch (error) { }
+    } catch (error) {}
   };
   const handleDeleteEmployee = async (data: any) => {
     try {
       await dispatch(handleDeleteEmployeeFromJob(data));
-    } catch (error) { }
+    } catch (error) {}
   };
   const handlePostReview = async (data: any) => {
     try {
       await dispatch(handlePostAReview(data));
-    } catch (error) { }
+    } catch (error) {}
   };
   const handleUpdateReviewCompany = async (data: any) => {
     delete data.review.isEdit;
@@ -204,7 +197,7 @@ export default function DetailJob() {
       if (data.reviewId) {
         await dispatch(handleUpdateReviewByCompany(data));
       }
-    } catch (error) { }
+    } catch (error) {}
   };
   const handleDoneJob = async () => {
     await dispatch(handleFinishJob(jobId));
@@ -216,7 +209,7 @@ export default function DetailJob() {
       search: `?key=${key}`,
     });
     if (key === '2' && isGetSuggest) {
-      getSuggestList(jobId)
+      getSuggestList(jobId);
     } else if (key === '2') {
       getListCandidates(jobId);
     }
@@ -313,7 +306,7 @@ export default function DetailJob() {
                   </div>
                   <div style={{ width: 'calc(160px)' }}>
                     <Button onClick={() => setIsGetSuggest(!isGetSuggest)}>
-                      {isGetSuggest ? "View all" : "Suggest"}
+                      {isGetSuggest ? 'View all' : 'Suggest'}
                     </Button>
                   </div>
                 </>
@@ -338,6 +331,7 @@ export default function DetailJob() {
                 data={listJobCandidates}
                 loading={loading}
                 infoNeed={infoNeed}
+                isGetSuggest={isGetSuggest}
               />
             </TabPane>
           </Tabs>

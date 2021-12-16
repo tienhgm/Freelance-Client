@@ -1,4 +1,4 @@
-import { Modal, Skeleton, Timeline, Tooltip } from 'antd';
+import { Badge, Modal, Skeleton, Timeline, Tooltip } from 'antd';
 import { useAppDispatch } from 'app/hooks';
 import { useEffect, useState } from 'react';
 import { handleGetDetailFreelancer } from 'app/slices/userSlice';
@@ -12,6 +12,7 @@ import {
   UserOutlined,
 } from '@ant-design/icons';
 import { formatDate, formatDateMonth, getGender } from 'helpers/generate';
+import RadioChartFreelancer from 'features/Freelancers/pages/FreelancerProfile/components/RadioChartFreelancer';
 type ModalDetail = {
   title: string;
   isVisible: boolean;
@@ -44,9 +45,9 @@ export default function ModalDetailEmloyee({
       setLoading(true);
       const { payload } = await dispatch(handleGetDetailFreelancer(id));
       if (!!payload) {
-        const { cv, jobs } = payload;
+        const { cv, jobsAnalysis } = payload;
         setFreelancerDetail(cv);
-        setJobs(jobs);
+        setJobs(jobsAnalysis);
       }
     } catch (error) {
     } finally {
@@ -65,7 +66,7 @@ export default function ModalDetailEmloyee({
     <>
       <Modal
         className="custom-modal"
-        width={1000}
+        width={1100}
         title={title}
         visible={visible}
         onOk={handleOk}
@@ -134,64 +135,112 @@ export default function ModalDetailEmloyee({
               </div>
             </div>
             <div className="right">
-              <div className="educations">
-                <div className="educations__title">
-                  <Html5Outlined /> <span>Educations</span>
-                </div>
-                <div
-                  className="educations__content"
-                  dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}
-                ></div>
-              </div>
-              <div className="skills">
-                <div className="skills__title">
-                  <ExperimentOutlined /> <span>Skills</span>
-                </div>
-                <div className="skills__content">
-                  {freelancerDetail.skills &&
-                    freelancerDetail.skills.map((item: any) => (
-                      <div className="skills__tag" key={item.id}>
-                        <Tooltip color="geekblue" title={item.experience} placement="bottom">
-                          <span style={{ cursor: 'context-menu' }}>{item.name}</span>
-                        </Tooltip>
-                      </div>
-                    ))}
-                </div>
-              </div>
-              <div className="experiences">
-                <div className="experiences__title">
-                  <SolutionOutlined /> <span>Experiences</span>
-                </div>
-                <div className="experiences__content">
-                  <Timeline>
-                    {freelancerDetail.experiences &&
-                      freelancerDetail.experiences.map((item: any) => (
-                        <Timeline.Item key={item.id}>
-                          <div key={item.id} className="flex flex-col gap-2 mt-4">
-                            {/* <div className="flex items-center gap-4">
+              <div className="flex justify-between">
+                <div>
+                  <div className="educations">
+                    <div className="educations__title">
+                      <Html5Outlined /> <span>Educations</span>
+                    </div>
+                    <div
+                      className="educations__content"
+                      dangerouslySetInnerHTML={{ __html: freelancerDetail.educations }}
+                    ></div>
+                  </div>
+                  <div className="skills">
+                    <div className="skills__title">
+                      <ExperimentOutlined /> <span>Skills</span>
+                    </div>
+                    <div className="skills__content">
+                      {freelancerDetail.skills &&
+                        freelancerDetail.skills.map((item: any) => (
+                          <div className="skills__tag" key={item.id}>
+                            <Tooltip color="geekblue" title={item.experience} placement="bottom">
+                              <span style={{ cursor: 'context-menu' }}>{item.name}</span>
+                            </Tooltip>
+                          </div>
+                        ))}
+                    </div>
+                  </div>
+                  <div className="experiences">
+                    <div className="experiences__title">
+                      <SolutionOutlined /> <span>Experiences</span>
+                    </div>
+                    <div className="experiences__content">
+                      <Timeline>
+                        {freelancerDetail.experiences &&
+                          freelancerDetail.experiences.map((item: any) => (
+                            <Timeline.Item key={item.id}>
+                              <div key={item.id} className="flex flex-col gap-2 mt-4">
+                                {/* <div className="flex items-center gap-4">
                           <ArrowRightOutlined style={{ color: '#2e3fe5' }} /> */}
-                            <div className="flex flex-col">
-                              <div className="text-lg font-medium">{item.role}</div>
-                              <div className="flex items-center gap-4">
-                                <div className="font-normal">{item.companyName} </div>
-                                <div className="flex items-center gap-2">
-                                  <MailOutlined className="mt-1" />{' '}
-                                  <div className="font-normal">{item.companyEmail}</div>
+                                <div className="flex flex-col">
+                                  <div className="text-lg font-medium">{item.role}</div>
+                                  <div className="flex items-center gap-4">
+                                    <div className="font-normal">{item.companyName} </div>
+                                    <div className="flex items-center gap-2">
+                                      <MailOutlined className="mt-1" />{' '}
+                                      <div className="font-normal">{item.companyEmail}</div>
+                                    </div>
+                                  </div>
+                                  <div style={{ color: '#2e3fe5' }}>
+                                    {formatDateMonth(item.startDate)} - {formatDateMonth(item.endDate)}
+                                  </div>
+                                  <div className="mt-1 font-medium">{item.description}</div>
+                                  {/* </div> */}
                                 </div>
                               </div>
-                              <div style={{ color: '#2e3fe5' }}>
-                                {formatDateMonth(item.startDate)} - {formatDateMonth(item.endDate)}
-                              </div>
-                              <div className="mt-1 font-medium">{item.description}</div>
-                              {/* </div> */}
-                            </div>
-                          </div>
-                        </Timeline.Item>
-                      ))}
-                  </Timeline>
+                            </Timeline.Item>
+                          ))}
+                      </Timeline>
+                    </div>
+                  </div>
+                </div>
+                <div className="pr-3 mb-4 jobAnalyst">
+                  <div className="mb-2 experiences__title">
+                    <SolutionOutlined /> <span>Job analysis</span>
+                  </div>
+                  <div
+                    style={{
+                      boxShadow: 'rgba(17, 17, 26, 0.05) 0px 4px 16px, rgba(17, 17, 26, 0.05) 0px 8px 32px',
+                      width: 'calc(400px)',
+                    }}
+                  >
+                    {jobs && <RadioChartFreelancer freelancerAnalysis={jobs} />}
+                    <div className="flex flex-col justify-center">
+                      <div className="flex justify-between px-4 mt-4 text-base">
+                        <div className="flex gap-2">
+                          <Badge color="#36c361" size="default" /> <p>Total done job</p>
+                        </div>
+                        {jobs && <div className="font-bold">{jobs.totalDoneJobs}</div>}
+                      </div>
+                      <div className="flex justify-between px-4 text-base">
+                        <div className="flex gap-2">
+                          <Badge color="#2194ff" size="default" /> <p>Total on time job</p>
+                        </div>
+                        {jobs && <div className="font-bold">{jobs.totalOnTimeJobs}</div>}
+                      </div>
+                      <div className="flex justify-between px-4 text-base">
+                        <div className="flex gap-2">
+                          <Badge color="#FA6CA4" size="default" /> <p>Current applied job</p>
+                        </div>
+                        {jobs && <div className="font-bold">{jobs.currentAppliedJobs}</div>}
+                      </div>
+                      <div className="flex justify-between px-4 text-base">
+                        <div className="flex gap-2">
+                          <Badge color="#722ed1" size="default" /> <p>Total rejected job</p>
+                        </div>
+                        {jobs && <div className="font-bold">{jobs.totalRejectedJobs}</div>}
+                      </div>
+                      <div className="flex justify-between px-4 text-base">
+                        <div className="flex gap-2">
+                          <Badge color="#cf1322" size="default" /> <p>Total time removed from job</p>
+                        </div>
+                        {jobs && <div className="font-bold">{jobs.totalTimeRemovedFromJob}</div>}
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
-              <div className="jobAnalyst"></div>
             </div>
           </div>
         </Skeleton>
